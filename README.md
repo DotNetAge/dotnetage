@@ -1,7 +1,7 @@
 # Welcome to DotNetAge
 
 ##What's new?
-Updated: 2013/12/5
+Updated: 2013/12/3
 
 ###Pluggable Module Framework
 Use to create an extension project for DotNetAge. It’s the best way to create or migrate existing ASP.NET MVC projects to DotNetAge in a short time. The following list is the features of the pluggable module framework: The way of creating and developing extension project is similar with asp.net mvc. Migrate existing ASP.NET MVC projects with few changes. 
