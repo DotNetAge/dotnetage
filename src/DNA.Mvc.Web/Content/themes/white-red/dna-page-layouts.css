@@ -1,0 +1,15 @@
+﻿.d-sitetools { border-color: #ffffff; border-bottom-width: 0em; background-color: #171717; }
+    /*.d-sitetools, .d-sitetools .d-content, .d-sitetools .d-link { color: #000000; }*/
+.d-page-nav { -webkit-box-shadow: 0 0 1px #ccc; box-shadow: 0 0 1px #ccc; background: #fff; }
+.d-page-content { background: #fff; margin-top: 10px; -webkit-box-shadow: 0 0 5px #ccc; box-shadow: 0 0 5px #ccc; }
+.d-page-content>.d-page-part>.d-layout-columns{padding-left:10px;}
+.d-page-nav > .d-widget-zone { margin: 0px; padding: 0px; }
+.d-page-nav > .d-widget-zone>.d-widget { margin: 0px; }
+
+.d-page-content > .d-widget-zone > .d-widget { margin: 20px; }
+/*.d-page-content .d-layout-columns > .d-layout-column:first-child > .d-widget-zone { margin-left: 10px; }*/
+
+.d-widget-header { line-height: normal; font-size: 1.5em; padding: 5px 0px; text-transform: uppercase; }
+    .d-widget-header > a { display: block; }
+.d-widget-page-header { color: #da2322; }
+

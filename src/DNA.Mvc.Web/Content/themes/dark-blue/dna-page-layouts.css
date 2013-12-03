@@ -1,0 +1,12 @@
+﻿.d-page-nav { border-color: #000000; background-color: #0972a5; }
+    .d-page-nav .d-widget-header { background: none; }
+.d-page-header { border-color: #000000; background-color: #000000; border-bottom: 2px solid #0e87c2; }
+.d-page-content { border-color: #000000; background-color: #0F0F0F; }
+    .d-page-content .d-widget-header { line-height: 1.8em; border-left: 2px solid #0e87c2; border-right: 2px solid #0e87c2; }
+    .d-page-content .d-widget-title-text { padding: 0 10px; }
+    .d-page-content .d-widget-title-text, .d-page-content .d-link { color: #0e87c2; }
+        .d-page-content .d-link:hover { color: #91d6f7; }
+    .d-page-content .d-widget-zone { margin-right: 5px; }
+.d-sitetools, .d-page-footer { border-top: 2px solid #0e87c2; }
+    .d-page-footer .d-widget { font-size: 1em; background-color: inherit; background: none; border: none; }
+    .d-page-footer .d-widget-header { font-size: 1.2em; background: none; }

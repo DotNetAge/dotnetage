@@ -1,0 +1,16 @@
+﻿@model ContentFieldValue
+@if (!Model.IsNull && !string.IsNullOrEmpty((string)Model.Raw))
+{
+    var args = Model.Raw.ToString().Split('|');
+    var title = "";
+    var link = args[0];
+    if (args.Length > 1)
+    {
+        title = args[1];
+    }
+    else
+    {
+        title = link;
+    }
+    <a class="d-link" href="@link" rel="nofollow" target="_blank" itemprop="mentions">@title</a>
+}

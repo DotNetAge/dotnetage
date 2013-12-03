@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified"
+    targetNamespace="http://www.dotnetage.com/XML/Schema/solution"
+    elementFormDefault="qualified"
+    xmlns:s="http://www.dotnetage.com/XML/Schema/solution"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:element name="category">
+    <xs:complexType>
+      <!--<xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:sequence>
+          <xs:element ref="s:category" />
+        </xs:sequence>
+      </xs:choice>-->
+      <xs:attribute name="name" />
+      <xs:attribute name="id" />
+      <xs:attribute name="parentId" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="solution">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="title">
+            <xs:complexType mixed="true">
+              <xs:attribute ref="xml:lang" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="description">
+            <xs:complexType mixed="true">
+              <xs:attribute ref="xml:lang" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="style" type="xs:string" maxOccurs="1" minOccurs="0" />
+          <xs:element name="defaultUri" type="xs:string" maxOccurs="1" minOccurs="0" />
+          <xs:element name="list">
+            <xs:complexType>
+              <xs:attribute name="src" />
+              <xs:attribute ref="xml:lang" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="page">
+            <xs:complexType>
+              <xs:attribute name="src" />
+              <xs:attribute ref="xml:lang" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="logo" maxOccurs="1" minOccurs="0">
+            <xs:complexType>
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="src" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="shortcutIcon"  maxOccurs="1" minOccurs="0">
+            <xs:complexType>
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="src" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="categories">
+            <xs:complexType>
+              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:sequence>
+                  <xs:element ref="s:category" />
+                </xs:sequence>
+              </xs:choice>
+              <xs:attribute ref="xml:lang" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="theme" use="optional" type="xs:string" />
+      <xs:attribute name="defaultLocale" use="optional" type="xs:language" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

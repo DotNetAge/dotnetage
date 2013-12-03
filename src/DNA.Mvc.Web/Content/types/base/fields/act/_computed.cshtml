@@ -1,0 +1,8 @@
+﻿@model ContentFieldValue
+@{
+    var field = (ComputedField)Model.Field;    
+}
+@if (!string.IsNullOrEmpty(field.DispPattern))
+{
+    @field.RenderPattern(Model.Item)
+}

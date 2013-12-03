@@ -1,0 +1,53 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType;
+    var fieldCount = Model.View.FieldRefs.Count;
+    var i = 0;
+    var optsField = Model.View.FieldRefs["options"];
+    var titleField = Model.List.GetDefaultTitleField().Name;
+}
+<ul class="d-view d-view-list @Model.CssClass">
+    @foreach (var dataItem in Model)
+    { 
+        var expired = (DateTime)dataItem["expired"];
+        var isexpired = false;
+        if (expired != null)
+        {
+            isexpired = expired < DateTime.Now;
+        }
+        <li class="d-view-item" 
+            itemscope="itemscope" 
+            @if (!string.IsNullOrEmpty(itemtype))
+            {<text>itemtype="@itemtype"</text>}>
+            <div class="d-title">@{ Html.ForView(titleField, dataItem); }@if (!isexpired)
+                                                                         {<sup>@Model.List.Package.Loc("Polling").ToLower()</sup>}</div>
+            <div><small><time itemprop="datePublished" datetime="@dataItem.Published.ToString("yyyy-MM-ddThh:mm:ss")">@dataItem.Published.ToShortDateString()</time></small></div>
+            <div @optsField.GetMicroDataAttributes() class="@optsField.GetCssClass(dataItem)">
+                @{ Html.ForView(optsField.Name, dataItem); }
+            </div>
+            <div class="d-view-fields">
+                @foreach (var field in Model.View.FieldRefs)
+                {
+                    if (field.Name.Equals(titleField) || field.Name.Equals(optsField.Name) || dataItem.IsNull(field.Name)) { continue; }
+
+                    if (!field.IsLinkToItem && !string.IsNullOrEmpty(field.ItemProp) && field.IsHidden)
+                    {
+                    <meta itemprop="@field.ItemProp" content="@dataItem[field.Name]" />
+                    }
+                    else
+                    {
+                       
+                    <div @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))" id="@dataItem.ID">
+                        @{ Html.ForView(field.Name, dataItem); }
+                    </div>
+                    }
+                }
+            </div>
+            @if (Request.IsAuthenticated && dataItem.Owner.Equals(User.Identity.Name))
+            { 
+                <a class="d-view-item-edit-link" data-icon-left="d-icon-edit" data-role="button" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" onclick="$.loading()" title="@Resources.Commons.Edit"></a>
+            }
+        </li>
+    }
+</ul>
+

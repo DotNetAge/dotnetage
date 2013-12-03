@@ -1,0 +1,140 @@
+﻿@using DNA.Web
+@using System.Web.Mvc
+@using System.Xml.Linq
+@{
+    ViewBag.Title = Resources.Commons.Categories;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var web = AppModel.Get().CurrentWeb;
+    
+
+}
+<div data-role="panel" data-closable="false" data-collapsable="false" style="margin-bottom: 10px;" data-fill="false">
+    <h3>@Resources.Commons.Edit</h3>
+    <div style="padding: 20px;">
+        <div>
+            <input type="text" id="newcat" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Name)"
+                style="width: 200px;"
+                onkeypress="if (event.keyCode==13 && $(this).val()) _addcat();"/>
+            <a data-role="button"
+                id="btnAddCat"
+                data-width="70"
+                onclick="_addcat();">@Resources.Commons.Add</a>
+        </div>
+        <div style="padding: 5px 0px;">
+            <input type="text"
+                id="editcat"
+                disabled="disabled"
+                style="width: 200px;"
+                onkeyup="$('#delcatbutton').isDisable($(this).val()==''); $('#btnReCat').isDisable($(this).val()=='')" />
+            <a data-role="button" id="btnReCat"
+                class="d-state-disable"
+                data-width="70"
+                onclick="if (!$(this).isDisable()) _rename();">@Resources.Commons.Rename</a>
+            <a data-role="button"
+                data-icon-left="d-icon-trash"
+                class="d-state-disable"
+                onclick="if (!$(this).isDisable()) _delcat();"
+                id="delcatbutton"></a>
+        </div>
+    </div>
+</div>
+@{
+
+    var el = new XElement("ul",
+        new XElement("li",
+            new XAttribute("data-id", "0"),
+            new XAttribute("data-expanded", "true"),
+            new XElement("span", string.IsNullOrEmpty(web.Title) ? web.Name : web.Title),
+            web.Categories.HtmlElement())
+        );
+
+    el.AddHtmlAttributes(new
+    {
+        data_role = "tree",
+        data_singlepath = "false",
+        data_drag_drop = "true",
+        data_unselectable = "true",
+        data_selected = "_selectCategoryNode(ui.node)",
+        data_dropped = "app.web.cats.move(ui.node.dataInt('id'), ui.targetNode.dataInt('id'));",
+        style = "padding: 10px; min-height: 200px;",
+        id = "catee"
+    });
+}
+@MvcHtmlString.Create(el.OuterXml())
+<input type="hidden" value="" name="Categories" id="Categories" />
+
+<script type="text/javascript">
+    function _selectCategoryNode(node) {
+        if (parseInt(node.data("id"))) {
+            $('#editcat').val(node.data('name'));
+            $('#editcat').taoTextbox('enable');
+            $('#btnReCat').isDisable(false);
+            $('#delcatbutton').isDisable(false);
+        } else {
+            $('#editcat').val('');
+            $('#editcat').taoTextbox('disable');
+            $('#btnReCat').isDisable(true);
+            $('#delcatbutton').isDisable(true);
+        }
+    }
+
+    function _rename() {
+        var catName = $("#editcat"),
+        selNode = $("#catee").taoTreeview("option", "selectedNode");
+
+        if (catName.val()) {
+            app.web.cats.add({ id: selNode.dataInt("id"), name: catName.val() })
+                                   .done(function (dat) {
+                                       selNode.data("name", catName.val());
+                                       selNode.children(".d-node-content").children("span").text(catName.val());
+                                   });
+        }
+    }
+
+    function _addcat(wid) {
+        var catInput = $("#newcat"),
+            val = catInput.val(),
+            selNode = $("#catee").taoTreeview("option", "selectedNode");
+
+        if (selNode == null) {
+            selNode = $($("#catee").children()[0]);
+            $("#catee").taoTreeview("select", selNode);
+        }
+
+        parentId = selNode.dataInt("id");
+
+        if (val) {
+            catInput.val("");
+            app.web.cats.add({ name: val, parentId: parentId })
+                                   .done(function (data) {
+                                       data.text = data.name;
+                                       $("#catee").taoTreeview("add", data, selNode);
+                                       $("#catee").taoTreeview("select", selNode);
+                                   });
+
+        } else
+            catInput.focus();
+    }
+
+    function _delcat() {
+        var selNode = $("#catee").taoTreeview("option", "selectedNode");
+        if (selNode != null && selNode != undefined) {
+            if (selNode.dataInt("id")) {
+                $.confirm("@(string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Commons.Category))", "@Resources.Commons.Confirm")
+                                      .done(function () {
+                                          app.web.cats.remove(selNode.dataInt("id"))
+                                                                 .done(function () {
+                                                                     //Select to parent or root node
+                                                                     var _parentNode = selNode.parent().closest("li.d-node");
+                                                                     
+                                                                     selNode.remove();
+                                                                     $("#editcat").val("").trigger("keyup").parent().isDisable(true);
+                                                                     if (_parentNode.length)
+                                                                         $("#catee").taoTreeview("select", _parentNode);
+                                                                 });
+                                      });
+            }
+        }
+    }
+</script>

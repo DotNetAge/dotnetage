@@ -1,0 +1,47 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+body, .d-ui-widget, .d-ui-widget-header, .d-ui-widget-content, .d-content-text, .ui-widget, .ui-widget-content, .d-input > input, .d-picker > input, .d-button, .d-pager, .d-checkbox, .d-radio, .d-rte textarea { font-family: 'Raleway', sans-serif; }
+.d-ui-widget, .ui-widget { -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; background-color: #cfe8e7; background-image: none; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #9cbbba; }
+.d-ui-widget, .ui-widget, .d-node-content > * { color: #3b3e3e; }
+.d-ui-widget-header, .d-ui-widget-header > a, .ui-widget-header, .ui-widget-header > a, .d-rte-panes > .d-menu.toolbar, .d-button { color: #fcfcfc; }
+.d-ui-widget-header, .ui-widget-header, .d-rte-panes > .d-menu.toolbar, .d-button { border-color: #cccccc; background-color: #525f62; background-image: none; }
+.d-overlay, .ui-overlay { background-color: #909a9d; }
+.d-input > .d-ui-widget-content, .d-picker > .d-ui-widget-content, .d-textarea.d-ui-widget-content, .d-ui-widget-content > .workspace > * { background-color: #e5f0ef; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a { color: #3e5b5a; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a, .ui-state-default { color: #3e5b5a; }
+.d-ui-widget-content, .ui-widget-content, .d-ui-widget-header.d-tabs-nav.d-state-active > a, .ui-state-default { color: #3b3e3b; }
+
+.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover { background-color: #556366; background-image: none; }
+    .d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover, .ui-state-hover > a { color: #e3e7e8; }
+
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-item.d-state-active, .d-node-content > .d-state-active, .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active, .d-tabs > .d-tabs-panel.d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active, .ui-state-active { background-color: #556366; background-image: none; }
+    .d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-ui-widget-header.d-state-active > a, .d-item.d-state-active, .d-node-content > .d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active > a, .d-tabs > .d-tabs-panel.d-state-active, .ui-state-active, .ui-state-active > a { color: #e3e7e8; }
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-item.d-state-active, .d-node-content > .d-state-active, .d-rating, .d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active, .d-tabs > .d-tabs-panel.d-state-active, .ui-state-active { border-color: #424b4d; }
+
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error, .ui-state-error { border-color: #d10000; }
+    .field-validation-error, .input-validation-error, .d-ui-widget.d-state-error, .d-ui-widget.d-state-error > .d-ui-widget-content, .input-validation-error > .d-ui-widget-content { background-color: #f9f1f3; }
+
+.d-mainmenu { font-size: 9pt; height: 80px; }
+    .d-mainmenu .d-item { text-transform: uppercase; }
+    .d-mainmenu > .d-item > a { line-height: 80px; }
+
+.d-page-content .d-widget { border-color: #9CBBBA; background-color: #9CBBBA; }
+.d-page-content .d-ui-widget-header { background-color: transparent; }
+    .d-page-content .d-ui-widget-header > a { color: #3b3e3e; }
+.d-view { border-color: #909a9d; }
+body { background-color: #9CBBBA; }
+
+.d-page { margin: auto; width: 980px; }
+.d-page-content {; width: 100%; border-color: #000000; }
+.d-page-nav { border-bottom: none; background-color: #546366; }
+    .d-page-nav, .d-page-nav .d-content, .d-page-nav .d-link { color: #ffffff; }
+.d-page-header { width: 100%; }
+.d-page-footer { width: 100%; }
+.d-sitemenu { font-size: 9pt; }
+body, .d-link { color: #3B3E3E; }
+
+@media screen and (max-width: 768px) {
+    .d-page { width: 100%; }
+    .d-page-content { width: 100%; }
+    .d-page-header > *, .d-page-nav > *, .d-page-footer > * { margin: auto; width: auto; }
+}

@@ -1,0 +1,46 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Raleway:300);
+body, .d-ui-widget, .d-ui-widget-header, .d-ui-widget-content, .d-content-text, .ui-widget, .ui-widget-content, .d-input > input, .d-picker > input, .d-button, .d-pager, .d-checkbox, .d-radio, .d-rte textarea { font-family: 'Raleway', sans-serif; font-weight: lighter; }
+
+.d-h1, h1 { font-size: 6em; line-height: 2em; }
+.d-h2, h2 { font-size: 5em; line-height: 2em; }
+.d-h3, h3 { font-size: 4.4em; line-height: 2em; }
+.d-h4, h4 { font-size: 3.6em; line-height: 2em; }
+.d-h5, h5 { font-size: 2.8em; line-height: 2em; }
+.d-h6, h6 { font-size: 2em; line-height: 2em; }
+p, .d-content { font-size: 1.2em; line-height: 1.8em; }
+
+/************************ MEDIA QUERIES ******************************/
+/* reset cols to 3-column */
+@media screen and (max-width: 768px) {
+    .d-h1, h1 { font-size: 5em; }
+    .d-h2, h2 { font-size: 4.2em; }
+    .d-h3, h3 { font-size: 3.5em; }
+    .d-h4, h4 { font-size: 3em; }
+    .d-h5, h5 { font-size: 2.4em; }
+    .d-h6, h6 { font-size: 2em; }
+    .d-title { font-size: 4.4em; }
+    .d-sitelogo { display: none; }
+    p, .d-content { font-size: 1.2em; line-height: 1.6em; }
+}
+
+@media screen and (max-width: 600px) {
+    .d-h1, h1 { font-size: 4.2em; }
+    .d-h2, h2 { font-size: 3.6em; }
+    .d-h3, h3 { font-size: 3.1em; }
+    .d-h4, h4 { font-size: 2.6em; }
+    .d-h5, h5 { font-size: 2.3em; }
+    .d-h6, h6 { font-size: 2em; }
+    .d-sitetools > .d-sitemenu { width: auto; }
+}
+
+@media screen and (max-width: 400px) {
+    .d-h1, h1 { font-size: 3em; }
+    .d-h2, h2 { font-size: 2.6em; }
+    .d-h3, h3 { font-size: 2.3em; }
+    .d-h4, h4 { font-size: 2em; }
+    .d-h5, h5 { font-size: 1.8em; }
+    .d-h6, h6 { font-size: 1.6em; }
+    p, .d-content { font-size: 1em; line-height: 1.6em; }
+    .d-footer-tools > ul > li { min-width: 30px; padding: 5px 2px; }
+        .d-footer-tools > ul > li > span { font-size: 1.5em; }
+}

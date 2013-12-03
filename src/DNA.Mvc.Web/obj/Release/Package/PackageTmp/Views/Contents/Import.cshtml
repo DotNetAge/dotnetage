@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = Resources.Contents.Import;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.ReturnUrl = AppModel.Get().CurrentWeb.ContentsSettingUrl;
+    ViewBag.ReturnText = Resources.Commons.Contents;
+    var app = AppModel.Get();
+    var types = app.ContentTypes.Packages;
+
+}
+<div data-index="1">
+    <h1>1.Select a data file</h1>
+    <p>Please select a csv,text or xml file to upload</p>
+    <p>
+        <strong>@Resources.NetDrives.File:</strong><span id="sys_upload_file"></span>
+    </p>
+    <p>
+        <a data-role="button"
+            data-rel="file"
+            data-file-to="#sys_data_file"
+            data-file-select="$('#sys_upload_file').text(file);$('#btnNextTo2').isDisable(false);"
+            data-default="true" style="width: 100px;">@Resources.Commons.Select</a>
+        <a data-role="button" id="btnNextTo2" class="d-state-disable">@Resources.Commons.Next</a>
+    </p>
+    <p class="warn">此处需要验证上传文件的类型，只能为csv,txt和xml</p>
+</div>
+<div data-index="2">
+    <h1>2.Select the base schema</h1>
+    <div>
+        <ul data-role="listview"
+            data-autohighlight="true"
+            data-selectable="true"
+            data-inline="true"
+            data-item-style="height:80px;width:80px;text-align:center;margin:5px;"
+            data-select="$('#sys_content_type').val(ui.item.data('content-type'));$('#btnNextTo3').isDisable(false);">
+            @foreach (var _type in types)
+            {
+                if (_type.Name.Equals("base"))
+                {
+                    continue;
+                }
+                var _locType = _type.Locale(UICulture);
+                var g = app.CurrentWeb.Lists.Where(l => l.Locale.Equals(Culture, StringComparison.OrdinalIgnoreCase) && l.BaseType.Equals(_type.Name)).ToList();
+                var roles = _type.Model.Roles;
+                if (!string.IsNullOrEmpty(roles))
+                {
+                    var roleArgs = roles.Split(',');
+                    if (!app.User.IsInRoles(roleArgs))
+                    {
+                        continue;
+                    }
+                }
+                <li data-content-type="@_type.Name" data-link-icon="no">
+                    <a data-rel="open"href="#contentTypeDlg" @if (!string.IsNullOrEmpty(_locType.Description))
+                                                             {<text> title="@_locType.Description"</text>}
+                        onclick="$('#contype_info').empty();$(this).children('.d-item-thumb,.d-item-heading,.d-item-desc').clone().appendTo('#contype_info');_fillvals('@_type.Name','@_locType.Title');">
+                        <img src="@Url.Content(_type.Icon)" style="width:32px;" />
+                        <div>@_locType.Title</div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <p>
+    <a data-role="button" id="btnNextTo3" data-default="true" style="width:100px;" onclick="$('#sys_schema_form').submit();">@Resources.Commons.Next</a>
+
+    </p>
+</div>
+<div data-index="3">
+    <h1>3.Custom field mappings</h1>
+    <form id="sys_schema_form" 
+        data-ajax="true" 
+        data-ajax-method="POST"
+        data-ajax-update="#sys_schema_container"
+        data-ajax-success="$('#sys_schema_container').taoUI();"
+        data-ajax-url="@Url.Action("DataFileSchema", "Contents", new { locale = Culture, website = AppModel.Get().Context.Website })">
+        <div id="sys_schema_container"></div>
+        <input type="hidden" id="sys_data_file" name="file" value="http://localhost/webshared/home/data/prices.csv"/>
+        <input type="hidden" id="sys_content_type" name="type" value="textblock"/>
+    </form>
+    
+</div>

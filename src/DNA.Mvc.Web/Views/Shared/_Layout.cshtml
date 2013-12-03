@@ -1,0 +1,138 @@
+﻿@{
+    var page = (WebPageDecorator)ViewBag.Page;
+    var dir = page != null ? page.Dir : "lrt";
+    var dirClass = string.IsNullOrEmpty(dir) ? "" : "d-" + dir;
+    var allowEdit = false;
+
+    if (Request.IsAuthenticated && page != null)
+    {
+        allowEdit = page.IsAuthorized(Context);
+    }
+
+    if (!string.IsNullOrEmpty(Request.Browser.Browser) && Request.Browser.Browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
+    {
+        var ieStr = Request.Browser.Browser.ToLower() + " " + Request.Browser.Browser.ToLower() + Request.Browser.MajorVersion;
+        if (string.IsNullOrEmpty(dirClass))
+        {
+            dirClass = ieStr;
+        }
+        else
+        {
+            dirClass += " " + ieStr;
+        }
+    }
+}
+<!DOCTYPE html>
+<html class="@(dirClass) @UICulture.ToLower()" 
+    dir="@dir" 
+    lang="@UICulture" 
+    data-root="~" 
+    itemtype="http://schema.org/WebPage" 
+    itemscope="itemscope">
+<head>
+    @if (Request.Browser.Browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
+    {
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    }
+    <title>@if (string.IsNullOrEmpty(ViewBag.Title))
+           {
+               if (page != null)
+               {
+                   if (page.Slug.Equals("default"))
+                   {<text>@AppModel.Get().CurrentWeb.Title</text>}
+                   else
+                   {<text>@page.Title</text>
+                   }
+               }
+           }
+           else
+           {
+        <text>@ViewBag.Title</text>
+           }</title>
+    @{ 
+        Html.RenderPartial("_head");
+        Html.RenderPartial("_CustomHead"); 
+    }
+
+    @Scripts.Render("~/bundles/modernizr", "~/bundles/jquery", "~/bundles/taoui", "~/bundles/dna")
+    @if (Directory.Exists(Server.MapPath("~/content/themes/" + this.Web.Theme + "/scripts")))
+    {
+        @Scripts.Render("~/bundles/themes/" + this.Web.Theme)
+    }
+    @if (allowEdit)
+    {
+        @Scripts.Render("~/bundles/design")
+        @Styles.Render("~/content/themes/base/jquery.farbtastic.css", "~/content/themes/base/dna.designers.css")
+    }
+    @if (Request.Browser.Browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
+    {
+        var ie = Request.Browser.MajorVersion;
+        if (ie < 10)
+        { 
+        <script type="text/javascript" src="@Url.Content("~/scripts/plugins/CFInstall.min.js")"></script>
+        <style type="text/css">
+            #chrome_frame_prompt { width: 100%; display: none; }
+        </style>
+        }
+    }
+    @if (Request.IsAuthenticated)
+    {
+        <script type="text/javascript">
+            $(document).data("user",@MvcHtmlString.Create(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(AppModel.Get().User.ToObject())));
+        </script>
+    }
+    @RenderSection("HeaderSection", false)
+</head>
+<body lang="@Culture.ToLower()" 
+    data-loading="@Resources.Commons.Working" 
+    data-web="@AppModel.Get().CurrentWeb.Name"
+    @if (page != null)
+    {<text> class="d-viewmode-@(((PageViewModes)page.ViewMode).ToString().ToLower())"</text>}
+    else
+    { <text>class="d-viewmode-center"</text>} 
+    data-root="@(Request.ApplicationPath)" 
+    data-id="@if (page != null)
+             {<text>@page.ID</text>}
+             else
+             {<text>0</text>}"
+    data-auth="@Request.IsAuthenticated.ToString().ToLower()">
+    @{Html.RenderPartial("_ie");}
+    @{ Html.RenderPartial("_SiteTools", page);}
+    @RenderBody()
+    <footer>
+        @{
+            var curLang = new System.Globalization.CultureInfo(UICulture);
+        }
+        <a class="d-inline d-link"
+            data-rel="panel"
+            href="@Url.Action("Languages", "Sys", new { website = AppModel.Get().Context.Website, locale = Culture, returnUrl = Request.RawUrl })"
+            data-panel-title="@Commons.Languages"
+            data-panel-pos="right"
+            data-panel-display="overlay" 
+            style="text-decoration:none;">
+            @if (!UICulture.Equals(Culture))
+            { 
+                <img src="~/content/images/flags/@(Culture).gif" alt="content-language" class="d-inline" style="margin-right:5px;"/><span class="d-inline">@(new System.Globalization.CultureInfo(Culture).NativeName)</span>
+                <span style="margin: 0 10px;">+</span>
+            }
+            <img src="~/content/images/flags/@(UICulture).gif" alt="language" class="d-inline" style="margin-right:5px;"/><span class="d-inline">@curLang.NativeName</span>
+        </a>
+
+        @RenderSection("FooterSection", false)
+        @Html.Copyright()
+    </footer>
+    @Scripts.Render("~/bundles/unobtrusive")
+    <script type="text/javascript">
+        $(function () {
+            $("body").animate({ opacity: 1 }, 1000);
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+    @if (page != null && !string.IsNullOrEmpty(page.StartupScripts))
+    { 
+        <script type="text/javascript">
+            @MvcHtmlString.Create(page.StartupScripts)
+        </script>
+    }
+</body>
+</html>

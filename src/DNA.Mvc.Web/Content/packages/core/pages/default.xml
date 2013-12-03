@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Full" slug="default" xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" target="_self" dir="ltr">
+  <title>Home</title>
+  <layout name="~/views/dynamicui/layouts/3eq_cols.cshtml" />
+  <widgets>
+    <w:widget pid="page-header" zone="HeaderZone" showIn="all">
+      <w:title><![CDATA[Page header]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="layout" value="'TitleOnly'" />
+      <w:preference name="showParent" value="true" />
+      <w:preference name="showDesc" value="false" />
+      <w:preference name="altTitle" value="''" />
+      <w:preference name="altDesc" value="''" />
+    </w:widget>
+    <w:widget pid="menu" zone="HeaderZone" showIn="all" seq="1">
+      <w:title><![CDATA[Main menu]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="type" value="'horizontal'" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="clickOnOpen" value="false" />
+      <w:preference name="showImgs" value="false" />
+      <w:preference name="showEffect" value="'slide'" />
+      <w:preference name="hideEffect" value="'slide'" />
+      <w:preference name="opacity" value="100" />
+      <w:preference name="duration" value="200" />
+      <w:preference name="dataType" value="2" />
+      <w:preference name="pages" value="''" />
+      <w:preference name="class" value="'mainmenu'" />
+      <w:preference name="csstext" value="''" />
+    </w:widget>
+    <w:widget pid="contact-detail" zone="FooterCenterZone" showIn="all">
+      <w:title><![CDATA[Contact detail]]></w:title>
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="true" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="company" value="'Replace your contacts name'" />
+      <w:preference name="address_line1" value="'Replace your contact address'" />
+      <w:preference name="address_line2" value="''" />
+      <w:preference name="telephone" value="'555-555-555'" />
+      <w:preference name="cellphone" value="'555-555-555'" />
+      <w:preference name="fax" value="'555-555-555'" />
+      <w:preference name="zipcode" value="''" />
+      <w:preference name="email" value="'email@mail.com'" />
+    </w:widget>
+    <w:widget pid="follow-us" zone="FooterRightZone" showIn="all">
+      <w:title><![CDATA[Follow us]]></w:title>
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="true" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="facebook" value="'dotnetage'" />
+      <w:preference name="twitter" value="'dotnetage'" />
+      <w:preference name="gplus" value="''" />
+      <w:preference name="dribbble" value="''" />
+      <w:preference name="github" value="''" />
+      <w:preference name="tumblr" value="'dotnetage'" />
+      <w:preference name="delicious" value="''" />
+    </w:widget>
+    <w:widget pid="links" zone="FooterLeftZone" showIn="all">
+      <w:title><![CDATA[Links]]></w:title>
+      <w:preference name="type" value="''" />
+      <w:preference name="data" value="'[{&quot;url&quot;:&quot;{app_path}{web_name}/en-US/contact-us.html&quot;,&quot;text&quot;:&quot;Contact us&quot;,&quot;title&quot;:&quot;&quot;,&quot;target&quot;:&quot;_self&quot;},{&quot;url&quot;:&quot;{app_path}{web_name}/en-US/privacy-policy.html&quot;,&quot;text&quot;:&quot;Privacy policy&quot;,&quot;title&quot;:&quot;&quot;,&quot;target&quot;:&quot;_self&quot;},{&quot;url&quot;:&quot;{app_path}{web_name}/en-US/terms-of-use.html&quot;,&quot;text&quot;:&quot;Terms of use&quot;,&quot;title&quot;:&quot;&quot;,&quot;target&quot;:&quot;_self&quot;}]'" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="true" />
+      <w:preference name="transparent" value="true" />
+    </w:widget>
+  </widgets>
+</page>

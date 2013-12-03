@@ -1,0 +1,21 @@
+﻿@model  ContentDataItemDecorator
+@if (Model.Parent.DetailForm.IsAjax || Request.IsAjaxRequest())
+{
+    @Model.Parent.DetailForm.StyleSheets()
+    <div id="@(Model.Parent.DetailForm.FormTypeString + "-form-" + Model.ID.ToString().Substring(0, 8))" class="d-form @Model.Parent.DetailForm.CssClass">
+        <div class="d-form-section d-form-section-body">
+            @Html.RenderForm(Model.Parent.DetailForm, Model)
+        </div>
+    </div>
+    @Model.Parent.DetailForm.Scripts()
+}
+else
+{  
+    @section HeaderSection{
+        @Model.Parent.DetailForm.StyleSheets()
+    }
+    @section Scripts{
+        @Model.Parent.DetailForm.Scripts()
+    }   
+    Html.RenderPartial("~/views/dynamicui/index.cshtml");
+}

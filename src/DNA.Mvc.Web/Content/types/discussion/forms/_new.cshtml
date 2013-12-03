@@ -1,0 +1,39 @@
+﻿@model ContentFormDecorator
+
+@if (!string.IsNullOrEmpty(Request.QueryString["parentId"]))
+{
+    var pkg = Model.Parent.Package;
+    var parentItem = Model.Parent.GetItem(Guid.Parse(Request.QueryString["parentId"]));
+    Context.Items[Model.Parent.Name + "-newform-caption"] = pkg.Loc("Re") + parentItem.GetDefaultTitleValue();
+    <blockquote style="max-height: 10em; overflow: auto;">
+        <div>
+            @{ Html.ForDisp("body", parentItem, false); }
+        </div>
+    </blockquote>
+    <a data-role="button" onclick="quote()">@Resources.Commons.Quote</a>
+    <input type="hidden" name="title" value="@(pkg.Loc("Re"))@parentItem.Value("title").Raw" />
+               Html.ForNew(Model.Fields["body"]);
+    <script type="text/javascript">
+        function quote() {
+            var quoteText = "";
+            if (window.getSelection) {
+                var sel = window.getSelection().getRangeAt(0);
+                quoteText = sel.toString();
+            }
+            else {
+                if (document.selection) {
+                    var range = document.selection.createRange();
+                    quoteText = range.text;
+                }
+            }
+
+            if (quoteText)
+                $("[data-role=editor][name=body]").taoEditor("insertHtml", "<blockQuote><div class=\"d-title\">@parentItem.Owner:</div><div>" + quoteText + "</div></blockQuote>");
+        }
+
+    </script>
+}
+else
+{
+    Html.RenderFields(Model);
+}

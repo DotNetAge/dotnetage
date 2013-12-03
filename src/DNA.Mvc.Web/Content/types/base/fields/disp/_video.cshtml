@@ -1,0 +1,77 @@
+﻿@model ContentFieldValue
+
+@if (!string.IsNullOrEmpty((string)Model.Raw))
+{
+    var field = Model.Field as VideoField;
+    var src = Model.Raw.ToString();
+    var urls = src.Split(',');
+    try
+    {    
+    var webFile = new DNA.Web.WebResourceInfo(urls[0]);
+        var isFlash = webFile.Url.ToString().StartsWith(".swf");
+        var isYoutube = webFile.Url.ToString().StartsWith("http://www.youtube.com", StringComparison.OrdinalIgnoreCase) || webFile.Url.ToString().StartsWith("http://youtu.be", StringComparison.OrdinalIgnoreCase);
+        var isWmv = webFile.ContentType.StartsWith("video/x-ms-");
+        var isSilverlight = webFile.Url.ToString().StartsWith(".xap");
+        var width = field.Width;
+        var height = field.Height;
+        if (width == 0) { width = 640; }
+        if (height == 0) { height = 390; }
+
+    <div class="d-video-player-wrapper">
+        @if (isYoutube || isFlash)
+        {
+            if (isFlash)
+            {
+            @Video.Flash(webFile.Url.ToString(), width: width + "px", height: height + "px", play: true, windowMode: "transparent", scale: "exactfit", quality: "medium");
+            }
+            else
+            {
+                var yurl = webFile.Url;
+                var _url = webFile.Url.ToString();
+                if (_url.StartsWith("http://youtu.be", StringComparison.OrdinalIgnoreCase))
+                {
+                    var path = yurl.LocalPath;
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        path = path.Substring(1);
+                    }
+                    _url = "https://www.youtube.com/v/" + path + "?version=3";
+                }
+            <object width="@width" height="@height">
+                <param name="movie" value="@_url"></param>
+                <param name="allowFullScreen" value="true"></param>
+                <param name="allowScriptAccess" value="always"></param>
+                <embed src="@_url" type="application/x-shockwave-flash" 
+                    allowfullscreen="true" 
+                    allowscriptaccess="always" width="@width" height="@height"></embed>
+            </object>
+            }
+        }
+        else
+        {
+            if (isWmv)
+            { 
+            @Video.MediaPlayer(webFile.Url.ToString(), width: width + "px", height: height + "px")
+            }
+            else
+            {
+                if (isSilverlight)
+                { 
+            @Video.Silverlight(webFile.Url.ToString(), width: width + "px", height: height + "px")
+                }
+                else
+                {
+            <video controls="controls"
+                autoplay="autoplay"
+                preload="auto"
+                onloadedmetadata="if ($(this).width()>$(this).parent().width()) $(this).width($(this).parent().width()) ;">
+                <source type="@webFile.ContentType" src="@webFile.Url.ToString()" />
+            </video>}
+            }
+        }
+    </div>
+    }
+    catch { 
+    
+    }
+}

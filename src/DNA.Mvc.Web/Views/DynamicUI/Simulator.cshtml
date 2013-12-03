@@ -1,0 +1,189 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Resources.Designs.Simulator</title>
+    <style>
+        .d-simulator-tools { top: 0px; left: 0px; background: #000; }
+            .d-simulator-tools > ul { list-style: none; padding: 0px; margin: auto; display: block; width: 140px; margin-top: 20px; }
+            .d-simulator-tools li { list-style: none; display: inline-block; vertical-align: middle; cursor: pointer; }
+                .d-simulator-tools li img { width: 32px; }
+        #preview_frame { position: absolute; margin: auto; z-index: 1; width: 100%; height: 100%; border: 0px; background-position: top left; background-repeat: no-repeat; }
+        body { background: #000; height: 100%; width: 100%; position: relative; padding: 0px; margin: 0px; }
+    </style>
+    <script type="text/javascript" src="~/scripts/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="~/scripts/jquery-ui-1.8.11.js"></script>
+    <script type="text/javascript">
+        var viewMode = "landscape", device = "ipad";
+
+        function change_device(name, mode) {
+            if (name == "ipad") {
+                if (mode == "portrait") {
+                    $("#preview_frame").css({
+                        "padding-top": "138px",
+                        "padding-left": "42px",
+                        "padding-right": "42px",
+                        "padding-bottom": "42px",
+                        "height": "929px",
+                        "width": "768px",
+                        "margin": "auto",
+                        "top": "0px",
+                        "left": "0px",
+                        "background-image": "url(/content/images/ipad-portrait.png)",
+                        "background-color": "#000"
+                    }).position({
+                        of: $("body"),
+                        at: "center top",
+                        my: "center top",
+                        offset: "0 50px"
+                    }).css("top","60px");
+                }
+                else {
+                    $("#preview_frame").css({
+                        "padding-top": "138px",
+                        "padding-left": "42px",
+                        "padding-right": "42px",
+                        "padding-bottom": "42px",
+                        "width": "1024px",
+                        "height": "672px",
+                        "margin": "auto",
+                        "background-image": "url(/content/images/ipad-landscape.png)",
+                        "background-color": "#000"
+                    }).position({
+                        of: $("body"),
+                        at: "center top",
+                        my: "center top",
+                        offset: "0 60px"
+                    }).css("top", "60px");
+                    //$("#designer_toolbar").animate({ "margin-left": "0px" });
+                }
+
+                //$("body").css({ "background-color": "#000" });
+            }
+
+            if (name == "iphone") {
+                if (mode == "portrait") {
+                    $("#preview_frame").css({
+                        "padding-top": "198px",
+                        "padding-left": "24px",
+                        "padding-right": "22px",
+                        "padding-bottom": "161px",
+                        "height": "357px",
+                        "width": "320px",
+                        "margin": "auto",
+                        "top": "0px",
+                        "left": "0px",
+                        "background-image": "url(/content/images/iphone-portrait.png)",
+                        "background-color": "#000"
+                    }).position({
+                        of: $("body"),
+                        at: "center top",
+                        my: "center top",
+                        offset: "0 60px"
+                    }).css("top", "60px");
+                    //$("#designer_toolbar").animate({ "margin-left": "0px" });
+                }
+                else {
+                    $("#preview_frame").css({
+                        "padding-top": "101px",
+                        "padding-left": "118px",
+                        "padding-right": "116px",
+                        "padding-bottom": "56px",
+                        "width": "480px",
+                        "height": "208px",
+                        "margin": "auto",
+                        "background-image": "url(/content/images/iphone-landscape.png)",
+                        "background-color": "#000"
+                    }).position({
+                        of: $("body"),
+                        at: "center top",
+                        my: "center top",
+                        offset: "0 60px"
+                    }).css("top", "60px");
+                    //$("#designer_toolbar").animate({ "margin-left": "0px" });
+                }
+            }
+
+            if (name == "iphone5") {
+                if (mode == "portrait") {
+                    $("#preview_frame").css({
+                        "padding-top": "183px",
+                        "padding-left": "53px",
+                        "padding-right": "42px",
+                        "padding-bottom": "161px",
+                        "height": "458px",
+                        "width": "320px",
+                        "margin": "auto",
+                        "top": "0px",
+                        "left": "0px",
+                        "background-image": "url(/content/images/iphone5-portrait.png)",
+                        "background-color": "#000"
+                    }).position({
+                        of: $("body"),
+                        at: "center top",
+                        my: "center top",
+                        offset: "0 60px"
+                    }).css("top", "60px");
+                    //$("#designer_toolbar").animate({ "margin-left": "0px" });
+                }
+                else {
+                    $("#preview_frame").css({
+                        "padding-top": "34px",
+                        "padding-left": "121px",
+                        "padding-right": "115px",
+                        "padding-bottom": "56px",
+                        "width": "570px",
+                        "height": "320px",
+                        "margin": "auto",
+                        "background-image": "url(/content/images/iphone5-landscape.png)",
+                        "background-color": "#000"
+                    }).position({
+                        of: $("body"),
+                        at: "center top",
+                        my: "center top",
+                        offset: "0 60px"
+                    }).css("top", "60px");
+                    //$("#designer_toolbar").animate({ "margin-left": "0px" });
+                }
+            }
+            device = name;
+            viewMode = mode;
+        }
+
+        function switchMode() {
+            if (viewMode == "landscape")
+                viewMode = "portrait";
+            else
+                viewMode = "landscape";
+            change_device(device,viewMode);
+        }
+
+        $(function () {
+            $("body").height(window.innerHeight);
+            change_device(device, viewMode);
+            window.addEventListener("resize", function () {
+                $("body").height(window.innerHeight);
+                change_device(device, viewMode);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="d-simulator-tools">
+        <ul>
+            <li onclick="switchMode()">
+                <img src="~/content/images/img-rotate.png" /></li>
+            <li onclick="change_device('iphone',viewMode)">
+                <img src="~/content/images/img-iphone.png" /></li>
+            <li onclick="change_device('iphone5',viewMode)">
+                <img src="~/content/images/img-iphone5.png" /></li>
+            <li  onclick="change_device('ipad',viewMode)">
+                <img src="~/content/images/img-ipad.png" /></li>
+        </ul>
+    </div>
+    <iframe src="@(!string.IsNullOrEmpty(ViewBag.Url)? Url.Content((string)ViewBag.Url) : Url.Content("~/"))" id="preview_frame" onload="$('.d-simulator-link',this.contentWindow.document).remove();"></iframe>
+</body>
+</html>

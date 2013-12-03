@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="creative-text">
+  <name short="CreativeText">Creative text</name>
+  <name short="CreativeText" xml:lang="zh-cn">图形文本</name>
+  <icon src="default.png" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="photo" value="''" />
+  <preference name="url" value="''" />
+  <preference name="title" value="'Title text'" />
+  <preference name="description" value="'The description text'" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

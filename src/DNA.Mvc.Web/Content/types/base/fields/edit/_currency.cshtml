@@ -1,0 +1,8 @@
+﻿@model ContentFieldValue
+@{
+    var field = (CurrencyField)Model.Field;
+}
+<input type="number"
+    onfocus="$(this).select();"  
+    data-speech="false" @field.GetAttributes(Model.Raw) @field.GetValidationAttributes()/><span>@field.Symbol</span>
+@Html.ValidationMessage(field)

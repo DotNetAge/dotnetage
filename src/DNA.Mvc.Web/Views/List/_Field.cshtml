@@ -1,0 +1,678 @@
+﻿@model ContentField
+@{
+    var typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField},
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField},
+    new SelectListItem(){ Value=ContentFieldTypes.Boolean.ToString(),Text=Resources.Contents.BooleanField},
+    new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField},
+    new SelectListItem(){ Value=ContentFieldTypes.Number.ToString(),Text=Resources.Contents.NumberField},
+    new SelectListItem(){ Value=ContentFieldTypes.Currency.ToString(),Text=Resources.Contents.CurrencyField},
+    new SelectListItem(){ Value=ContentFieldTypes.Integer.ToString(),Text=Resources.Contents.IntegerField},
+    new SelectListItem(){ Value=ContentFieldTypes.DateTime.ToString(),Text=Resources.Contents.DateTimeField},
+    new SelectListItem(){ Value=ContentFieldTypes.Lookup.ToString(),Text=Resources.Contents.LookupField },
+    new SelectListItem(){ Value=ContentFieldTypes.Image.ToString(),Text=Resources.Contents.ImageField },
+    new SelectListItem(){ Value=ContentFieldTypes.Video.ToString(),Text=Resources.Contents.VideoField },
+    new SelectListItem(){ Value=ContentFieldTypes.User.ToString(),Text=Resources.Contents.UserField }
+    }, "Value", "Text", Model != null ? Model.FieldType.ToString() : Resources.Contents.TextField);
+
+    if (Model != null)
+    {
+        switch ((ContentFieldTypes)Model.FieldType)
+        {
+            case ContentFieldTypes.Image:
+                typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField },
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField },
+    new SelectListItem(){ Value=ContentFieldTypes.Image.ToString(),Text=Resources.Contents.ImageField},
+        new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField }
+    }, "Value", "Text", Model.FieldType.ToString());
+                break;
+            case ContentFieldTypes.Boolean:
+                typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField },
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField },
+    new SelectListItem(){ Value=ContentFieldTypes.Boolean.ToString(),Text=Resources.Contents.BooleanField },
+        new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField }
+    }, "Value", "Text", Model.FieldType.ToString().ToLower());
+                break;
+            case ContentFieldTypes.DateTime:
+                typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField },
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField },
+    new SelectListItem(){ Value=ContentFieldTypes.DateTime.ToString(),Text=Resources.Contents.DateTimeField },
+        new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField }
+    }, "Value", "Text", Model.FieldType.ToString().ToLower());
+                break;
+            case ContentFieldTypes.Currency:
+                typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField},
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField },
+    new SelectListItem(){ Value=ContentFieldTypes.Currency.ToString(),Text=Resources.Contents.CurrencyField },
+    new SelectListItem(){ Value=ContentFieldTypes.Number.ToString(),Text=Resources.Contents.NumberField },
+        new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField }
+    }, "Value", "Text", Model.FieldType.ToString());
+                break;
+            case ContentFieldTypes.Number:
+                typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField },
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField },
+    new SelectListItem(){ Value=ContentFieldTypes.Currency.ToString(),Text=Resources.Contents.CurrencyField },
+    new SelectListItem(){ Value=ContentFieldTypes.Number.ToString(),Text=Resources.Contents.NumberField },
+        new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField}
+    }, "Value", "Text", Model.FieldType.ToString());
+                break;
+            case ContentFieldTypes.Integer:
+                typeList = new SelectList(new List<SelectListItem>() {
+    new SelectListItem(){ Value=ContentFieldTypes.Text.ToString(),Text=Resources.Contents.TextField },
+    new SelectListItem(){ Value=ContentFieldTypes.Note.ToString(),Text=Resources.Contents.NoteField },
+        new SelectListItem(){ Value=ContentFieldTypes.Integer.ToString(),Text=Resources.Contents.IntegerField},
+    new SelectListItem(){ Value=ContentFieldTypes.Currency.ToString(),Text=Resources.Contents.CurrencyField },
+    new SelectListItem(){ Value=ContentFieldTypes.Number.ToString(),Text=Resources.Contents.NumberField},
+        new SelectListItem(){ Value=ContentFieldTypes.Choice.ToString(),Text=Resources.Contents.ChoiceField }
+    }, "Value", "Text", Model.FieldType.ToString());
+                break;
+        }
+    }
+}
+<div id="fieldsettings">
+    <form action="#" id="baseForm" class="d-fields">
+        <ul data-role="listview" data-display="mobile-list" data-inset="true">
+            <li data-role="fieldcontain">
+                <label>@Resources.Contents.FieldType (*)</label>
+                <select id="fieldselector"
+                    data-role="combobox"
+                    data-drop-style="dropdownlist"
+                    style="width: 190px;"
+                    name="FieldType"
+                    data-select="_changeFieldType(ui.dataItem.value);">
+                    @foreach (var t in typeList)
+                    {
+                        <option value="@t.Value" @if (Model != null && ((ContentFieldTypes)Model.FieldType).ToString().Equals(t.Value))
+                                                 {<text>selected="selected"</text>}>@t.Text</option>
+                    }
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                @Html.LabelFor(m => m.Title, Resources.Commons.Title + " (*)")
+                @Html.TextBoxFor(m => m.Title, new
+                   {
+                       placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Title),
+                       data_val = "true",
+                       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.Title),
+                       onkeyup = string.IsNullOrEmpty(Model.Name) ? "$('#Name').val($(this).val().slug('_'))" : ""
+                   })
+                @{ Html.ValidateFor(m => m.Title);}
+            </li>
+            @if (string.IsNullOrEmpty(Model.Name))
+            {
+                <li data-role="fieldcontain">
+                    @Html.LabelFor(m => m.Name, Resources.Commons.Name + " (*)")
+                    @Html.TextBoxFor(m => m.Name, new
+                   {
+                       placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Name),
+                       data_val = "true",
+                       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.Name),
+                       data_val_regex = string.Format(Resources.Validations.LetterAndNumRegex_Format, Resources.Commons.Name),
+                       data_val_regex_pattern = "^[A-Za-z0-9_]+$"
+                   })
+                    @{ Html.ValidateFor(m => m.Name);}
+                </li>
+            }
+            else
+            {
+                <li data-role="fieldcontain">
+                    <label>@Resources.Commons.Name</label>
+                    <input type="text" readonly="true" class="d-state-disable" name="Name" value="@Model.Name" />
+                </li>
+                
+            }
+            <li data-role="fieldcontain">
+                @Html.LabelFor(m => m.Description, Resources.Commons.Desc)
+                @Html.TextAreaFor(m => m.Description, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Desc) })
+            </li>
+            <li data-role="fieldcontain">
+                @Html.LabelFor(m => m.Placeholder, Resources.Contents.PlaceHolder, new { style = "width:100%;" })
+                @Html.TextBoxFor(m => m.Placeholder, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contents.PlaceHolder), style = "width:100%;" })
+            </li>
+            <li data-role="fieldcontain">
+                <input type="checkbox"  name="IsRequired" data-label = "@Resources.Contents.IsRequired" value="@(Model != null ? Model.IsRequired : false)" 
+                    @if (Model != null && Model.IsRequired)
+                    { <text>checked="checked"</text>} />
+            </li>
+            <li data-role="fieldcontain">
+                <input type="checkbox"  name="IsLinkToItem" data-label = "@Resources.Contents.LinkToItem" value="@(Model != null ? Model.IsLinkToItem : false)" 
+                    @if (Model != null && Model.IsLinkToItem)
+                    { <text>checked="checked"</text>} />
+            </li>
+            @if (Model != null && Model.FieldType == (int)ContentFieldTypes.Text)
+            {
+                <li data-role="fieldcontain">
+                    <input type="checkbox" name="IsSlug" data-label="Is slug" value="@Model.IsSlug" @if (Model.IsSlug)
+                                                                                                    {<text>checked="checked"</text>}  />
+                </li>
+            }
+
+        </ul>
+    </form>
+    <div id="field_options" @if (Model != null)
+                            {<text>class="@Model.FieldTypeString"</text>}>
+        <form class="d-fields d-Text-field">
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DefaultValue</label>
+                    <input type="text" name="DefaultValue" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Contents.DefaultValue)" value="@Model.DefaultValue" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.MaxLen</label>
+                    @{ var textField = Model as TextField;}
+                    <input data-width = "100" 
+                        type="text"
+                        data-val = "true"
+                        data-val-digits = "@Resources.Validations.MaxLenVal",
+                        name="MaxLength"
+                        value="@(textField != null ? textField.MaxLength : 0)"
+                        />
+                </li>
+
+            </ul>
+        </form>
+        <form class="d-fields d-Boolean-field">
+            @{ var boolField = Model as BooleanField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DefaultValue</label>
+                    <div data-role="radios" data-inline="true" data-value="false">
+                        <input type="radio" data-label="@Resources.Contents.Yes" value="true" />
+                        <input type="radio" data-label="@Resources.Contents.No" value="false" />
+                    </div>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="txt_YES">@Resources.Contents.YesText</label>
+                    <input type="text" id="txt_YES" data-width="100" value="@(boolField != null ? boolField.YesText : Resources.Contents.Yes)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="txt_NO">@Resources.Contents.NoText</label>
+                    <input type="text" id="txt_NO" data-width="100" value="@(boolField != null ? boolField.NoText : Resources.Contents.No)" />
+                </li>
+            </ul>
+        </form>
+        <form action="#" class="d-fields d-Choice-field">
+            @{var choiceField = Model as ChoiceField; }
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label style="width: 100%;">@Resources.Contents.ChoiceItems</label>
+                    <textarea class="d-textarea" placeholder="@Resources.Contents.ChoiceFieldHolder" name="Choices">@if (choiceField != null && !string.IsNullOrEmpty(choiceField.Choices))
+                                                                                                                    {<text>@(string.Join("\r\n", choiceField.ChoiceValues))</text>}</textarea>
+                </li>
+                <li data-role="fieldcontain">
+                    <input type="checkbox" 
+                            data-label="@Resources.Contents.FillInChoice" 
+                            name="FillInChoice" @if (choiceField != null && choiceField.FillInChoice)
+                                                {<text>checked="checked"</text>} />
+                </li>
+                <li data-role="fieldcontain">
+                    <input type="checkbox" 
+                            data-label="@Resources.Contents.AllowMultiChoice" 
+                            name="AllowMultiChoice" @if (choiceField != null && choiceField.AllowMultiChoice)
+                                                    {<text>checked="checked"</text>} data-change="$('[data-disp-as]').isVisible(!ui.checked)"/>
+                </li>
+                <li data-role="divider" data-disp-as="1" @if (choiceField != null && choiceField.AllowMultiChoice)
+                                                         {<text>style="display:none;"</text> }>@Resources.Contents.DisplayAs:</li>
+                <li data-readonly="true" data-disp-as="1"  @if (choiceField != null && choiceField.AllowMultiChoice)
+                                                           {<text>style="display:none;"</text> }>
+                    <div>
+                        <input type="radio" 
+                            name="DropdownFormat" 
+                            value="@((int)ChoiceFieldFormats.DropDownList)" 
+                            data-label="@Resources.Contents.DropDownlist" 
+                             @if (choiceField == null)
+                             {<text>checked="checked"</text>}
+                            @if (choiceField != null && choiceField.DropdownFormat == (int)ChoiceFieldFormats.DropDownList)
+                            {<text>checked="checked"</text>}
+                            />
+                        <input type="radio" 
+                            name="DropdownFormat" 
+                            value="@((int)ChoiceFieldFormats.RadioButtons)" 
+                            @if (choiceField != null && choiceField.DropdownFormat == (int)ChoiceFieldFormats.RadioButtons)
+                            {<text>checked="checked"</text>}
+                            data-label="@Resources.Contents.RadioButtons"/>
+                    </div>
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Note-field">
+            @{var noteField = Model as NoteField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label for="NumLines">@Resources.Contents.NumLines</label>
+                    <input type="text"  data-width = 100 name="NumLines" id="NumLines" value="@(noteField != null ? noteField.NumLines : 5)"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <div>
+                        <input type="checkbox" data-label = "@Resources.Contents.AllowHtml" name="IsHtml" @if (noteField != null && noteField.IsHtml)
+                                                                                                          {<text>value="True" checked="checked"</text>}
+                                                                                                          else
+                                                                                                          {<text>value="False"</text>} />
+                    </div>
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-DateTime-field">
+            @{var dateField = Model as DateField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label for="FormatString">@Resources.Contents.Format</label>
+                    <input type="text" data-width = "150" placeholder="@(System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.FullDateTimePattern)" value="@(dateField != null ? dateField.FormatString : "")" name="FormatString" id="FormatString"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <div>
+                        <input type="checkbox" data-label = "Show time" name="ShowTime" @if (dateField != null && dateField.ShowTime)
+                                                                                        {<text>value="True" checked="checked"</text>}
+                                                                                        else
+                                                                                        {<text>value="False"</text>} />
+                    </div>
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Image-field">
+            @{var imgField = Model as ImageField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DefaultValue</label>
+                    <input type="text" name="DefaultValue" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Contents.DefaultValue)" value="@Model.DefaultValue" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Width">@Resources.Designs.Width</label>
+                    <input type="text"
+                            data-width="100"
+                            name="Width"
+                            id="Width"
+                            placeholder="100"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            value="@(imgField != null ? imgField.Width : 0)"
+                    />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Height">@Resources.Designs.Height</label>
+                    <input type="text" id="Height" 
+                            data-width="100" 
+                            name="Height"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            placeholder="100"
+                            value="@(imgField != null ? imgField.Height : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="ThumbnailWidth">@Resources.Contents.ThumbnailWidth</label>
+                    <input type="text"
+                            data-width="100"
+                            name="ThumbnailWidth"
+                            id="ThumbnailWidth"
+                            placeholder="100"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            value="@(imgField != null ? imgField.ThumbnailWidth : 0)"
+                    />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="ThumbnailHeight">@Resources.Contents.ThumbnailHeight</label>
+                    <input type="text" 
+                            data-width="100" 
+                            id="ThumbnailHeight"
+                            name="ThumbnailHeight"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            placeholder="100"
+                            value="@(imgField != null ? imgField.ThumbnailHeight : 0)" />
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Integer-field">
+            @{var intField = Model as IntegerField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DefaultValue</label>
+                    <input type="text" 
+                            name="DefaultValue" 
+                            placeholder="0"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            value="@(Model != null ? Model.DefaultValue : "")"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Int_MinimumValue">@Resources.Contents.Minimum</label>
+                    <input type="text" 
+                        data-width = 100
+                        data-val = "true" 
+                        data-val-digits = "@Resources.Validations.IntVal"
+                        name="MinimumValue"
+                        id="Int_MinimumValue"
+                        value="@(intField != null ? intField.MinimumValue : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Int_MaximumValue">@Resources.Contents.Maximum</label>
+                    <input type="text" 
+                        data-width = 100
+                        data-val = "true" 
+                        data-val-digits = "@Resources.Validations.IntVal"
+                        name="MaximumValue"
+                        id="Int_MaximumValue"
+                        value="@(intField != null ? intField.MaximumValue : 0)" />
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Number-field">
+            @{var numField = Model as NumberField;}
+
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DefaultValue</label>
+                    <input type="text"
+                            name="DefaultValue"
+                            data-val="true"
+                            data-val-number="@Resources.Validations.NumVal" 
+                            placeholder="0"
+                            value="@(numField != null ? numField.DefaultValue : "0")"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Num_MinimumValue">@Resources.Contents.Minimum</label>
+                    <input type="text"
+                            data-width = 100
+                            data-val = "true"
+                            data-val-number = "@Resources.Validations.NumVal"
+                            name="MinimumValue"
+                            id="Num_MinimumValue"
+                            placeholder="0"
+                            value="@(numField != null ? numField.MinimumValue : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Num_MaximumValue">@Resources.Contents.Maximum</label>
+                    <input type="text" 
+                        data-width = 100
+                        data-val = "true" 
+                        data-val-number = "@Resources.Validations.NumVal"
+                        name="MaximumValue"
+                        id="Num_MaximumValue"
+                        value="@(numField != null ? numField.MaximumValue : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <input type="checkbox" 
+                            data-label = "@Resources.Contents.ShowAsPercentage" 
+                            name="ShowAsPercentage" @if (numField != null && numField.ShowAsPercentage)
+                                                    {<text>value="True" checked="checked"</text>}
+                                                    else
+                                                    {<text>value="False"</text>} />
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Currency-field">
+            @{var currencyField = Model as CurrencyField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DefaultValue</label>
+                    <input type="text"
+                            name="DefaultValue"
+                            placeholder="0"
+                            data-val="true"
+                            data-val-number="@Resources.Validations.NumVal"
+                            value="@(currencyField != null ? currencyField.DefaultValue : "")"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Currency_MinimumValue">@Resources.Contents.Minimum</label>
+                    <input type="text" 
+                            placeholder="0"
+                            data-width = "100"
+                            data-val = "true"
+                            data-val-number = "@Resources.Validations.NumVal"
+                            name="MinimumValue"
+                            id="Currency_MinimumValue"
+                            value="@(currencyField != null ? currencyField.MinimumValue : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Currency_MaximumValue">@Resources.Contents.Maximum</label>
+                    <input type="text"
+                            data-width = 100
+                            data-val = "true"
+                            data-val-number = "@Resources.Validations.NumVal"
+                            name="MaximumValue"
+                            id="Currency_MaximumValue"
+                            value="@(currencyField != null ? currencyField.MaximumValue : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Currency_Symbol">@Resources.Contents.Symbol</label>
+                    <input type="text"
+                            data-width = "100"
+                            name="Symbol"
+                            id="Currency_Symbol"
+                            placeholder="@System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencySymbol"
+                            value="@(currencyField != null ? currencyField.Symbol : System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencySymbol)"  />
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Lookup-field">
+            @{var lookupField = Model as LookupField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.List</label>
+                    <select data-role="combobox" 
+                            data-input="false"
+                            data-height="200" 
+                            style="width:200px;" 
+                            name="ListName"
+                            id="lookuplist"
+                            data-select = "$('#viewsrc').taoDataSource('read', { url: '@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/views")', data: { id: ui.dataItem.value } });">
+                        @{ 
+                            var lists = AppModel.Get().CurrentWeb.Lists;
+                            var firstName = lists.Count() > 0 ? lists.FirstOrDefault().Name : "";
+                        }
+                        @foreach (var list in lists)
+                        {
+                            <option @if (lookupField != null && !string.IsNullOrEmpty(lookupField.ListName) && lookupField.ListName.Equals(list.Name))
+                                    {<text>selected="selected"</text>} value="@list.Name">@(string.IsNullOrEmpty(list.Title) ? list.Name : list.Title)</option>
+                        }
+                    </select>
+                </li>
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.View</label>
+                    <input data-role="combobox"
+                        data-input="false"
+                        data-height="200"
+                        style="width: 200px;"
+                        name="ViewName"
+                        data-autobind="true"
+                        data-valuefield="name"
+                        data-textfield="title"
+                        data-source="viewsrc"
+                        data-select="$('#fieldssrc').taoDataSource('read',{url:'@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/viewfields")',data:{name: $('#lookuplist').val(), slug: ui.dataItem.name}})"
+                            @if (lookupField != null && !string.IsNullOrEmpty(lookupField.ListName) && !string.IsNullOrEmpty(lookupField.ViewName))
+                            {
+                                <text>value="@lookupField.ViewName"</text>
+                            }
+                             />
+                    <div data-role="datasource" id="viewsrc">
+                        <div data-action="read" data-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/views")">
+                            <div data-name="id" data-value="@firstName"></div>
+                        </div>
+                    </div>
+                </li>
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.Field</label>
+                    <div style="max-height: 220px; border: 1px solid #ccc; overflow: auto;">
+                        <input data-role="listbox" 
+                            data-source="fieldssrc" 
+                            data-autobind="false"  
+                            name="FieldName"
+                            data-textfield="title" 
+                            data-valuefield="name"
+                             @if (lookupField != null && !string.IsNullOrEmpty(lookupField.ListName) && !string.IsNullOrEmpty(lookupField.ViewName) && !string.IsNullOrEmpty(lookupField.FieldName))
+                             {
+                                <text>value="@lookupField.FieldName"</text>
+                             }
+                            style="height:200px;"
+                             />
+                    </div>
+                    <div data-role="datasource" id="fieldssrc"></div>
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-User-field">
+            @{var userField = Model as UserField;}
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Contents.DisplayStyle</label>
+                    <select name="DisplayStyle" data-role="combobox" data-drop-style="menu" style="width: 70%;">
+                        <option @if (userField != null && userField.DisplayStyle == UserDisplayStyles.PhotoOnly)
+                                {<text>selected="selected"</text>} value="PhotoOnly">@Resources.Contents.PhotoOnly</option>
+                        <option  @if (userField != null && userField.DisplayStyle == UserDisplayStyles.PhotoAndName)
+                                 {<text>selected="selected"</text>}value="PhotoAndName">@Resources.Contents.PhotoAndName</option>
+                        <option @if (userField != null && userField.DisplayStyle == UserDisplayStyles.NameOnly)
+                                {<text>selected="selected"</text>} value="NameOnly">@Resources.Contents.NameOnly</option>
+                    </select>
+                </li>
+            </ul>
+        </form>
+        <form class="d-fields d-Video-field">
+            @{ var videoField = Model as VideoField; }
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label for="video_Width">@Resources.Contents.PlayerWidth</label>
+                    <input type="text"
+                            data-width="100"
+                            name="Width"
+                            id="video_Width"
+                            placeholder="100"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            value="@(videoField != null ? videoField.Width : 0)"
+                    />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="video_Height">@Resources.Contents.PlayerHeight</label>
+                    <input type="text" 
+                            id="video_Height" 
+                            data-width="100" 
+                            name="Height"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            placeholder="100"
+                            value="@(videoField != null ? videoField.Height : 0)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="video_ThumbnailWidth">@Resources.Contents.ThumbnailWidth</label>
+                    <input type="text"
+                            data-width="100"
+                            name="ThumbnailWidth"
+                            id="video_ThumbnailWidth"
+                            placeholder="100"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            value="@(videoField != null ? videoField.ThumbnailWidth : 0)"
+                    />
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="video_ThumbnailHeight">@Resources.Contents.ThumbnailHeight</label>
+                    <input type="text" 
+                            data-width="100" 
+                            id="video_ThumbnailHeight"
+                            name="ThumbnailHeight"
+                            data-val="true"
+                            data-val-digits="@Resources.Validations.IntVal"
+                            placeholder="100"
+                            value="@(videoField != null ? videoField.ThumbnailHeight : 0)" />
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+
+<div style="padding: 0px 10px;">
+    @if (string.IsNullOrEmpty(Model.Name))
+    {
+        <button data-inline="false" onclick="_createNewField();" data-default="true">@Resources.Commons.Create</button>
+    }
+    else
+    {
+        <button data-inline="false" onclick="_submitChanges();" data-default="true">@Resources.Commons.Save</button>
+        <button data-inline="false" onclick="_deleteField();">@Resources.Commons.Delete</button>
+    }
+</div>
+
+
+<script type="text/javascript">
+    function _changeFieldType(val) {
+        $("#field_options").attr("class", "").addClass(val);
+    }
+
+    function _submitChanges() {
+        var postData = _getPostData();
+        if (postData) {
+            $.loading();
+            $.post("@Url.Content(string.Format("~/api/" + AppModel.Get().CurrentWeb.Name + "/lists/update_field/{0}", (int)ViewBag.List.ID))", postData, function (data) {
+                $.loading("hide");
+                var fieldEle = $("[data-field='@Model.Name']");
+                $(".title", fieldEle).text(data.title+" ["+data.name+"]");
+                //$(".type", fieldEle).text(data.type);
+                $(".d-item-counter", fieldEle).text(data.type + " | " + (data.required ? "@Resources.Contents.Required" : "@Resources.Contents.Optional"));
+                var _icon = "d-icon-font-2";
+
+                for (var i = 0; i < icons.length; i++) {
+                    if (icons[i].name == data.name)
+                    {
+                        _icon = icons[i].value;
+                        break;
+                    }
+                }
+               // console.log($("[class*='d-icon-']:first", fieldEle));
+                $("[class*='d-icon-']:first", fieldEle).attr("class",_icon + " d-inline");
+                $.closePanels();
+            });
+        }
+    }
+
+    function _getPostData() {
+        if ($("#baseForm").valid()) {
+            var valueArgs = $("#baseForm").serializeArray(),
+            curForm = $("#field_options>.d-" + $("#fieldselector").val() + "-field");
+            if (curForm.valid()) {
+                var curArgs = curForm.serializeArray();
+                return valueArgs.concat(curArgs);
+            }
+        }
+        return null;
+    }
+
+    function _createNewField() {
+        var postData = _getPostData();
+        if (postData) {
+            $.loading("@(Resources.Contents.CreatingField) ...")
+            $.post("@Url.Content(string.Format("~/api/" + AppModel.Get().CurrentWeb.Name + "/lists/add_field/{0}", (int)ViewBag.List.ID))", postData, function (data) {
+                $.loading("hide");
+                var li = $("#field_list").taoListview("addItem", data);
+                li.mobilelistItem();
+                li.taoUI();
+                $.closePanels();
+            });
+        }
+    }
+
+    function _deleteField() {
+        $.confirm("@(string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Contents.Field))? ", "@Resources.Commons.Confirm")
+          .done(function () {
+              $.loading("@(Resources.Contents.DeletingField) ...")
+              $.post("@Url.Content(string.Format("~/api/" + AppModel.Get().CurrentWeb.Name + "/lists/delete_field/{0}?name={1}", (int)ViewBag.List.ID, Model.Name))", function (data) {
+                  $.loading("hide");
+                  $("[data-field='@Model.Name']").remove();
+                  $.closePanels();
+              });
+          });
+      }
+
+      $(function () {
+          if ($.validator.unobtrusive) {
+              if ($.isFunction($.validator.unobtrusive.parse)) {
+                  $.validator.unobtrusive.parse($("#fieldsettings"));
+              }
+          }
+      });
+</script>

@@ -1,0 +1,125 @@
+﻿@model ContentDataItemDecorator
+@{
+    var list = Model.Parent;
+    var fields = list.Fields;
+    var titleVal = Model.Value("title");
+    var page = (WebPageDecorator)ViewBag.Page;
+    var profile = AppModel.Get().Users[Model.Owner].DefaultProfile;
+    var authorName = Model.Owner;
+    var children = Model.Descendant().OrderBy(d => d.Pos).ToList();
+    var pkg = list.Package;
+}
+<div class="d-ui-widget" style="margin-bottom: 10px;">
+    <div class="d-ui-widget-content" style="position: relative;">
+        <div style="position: absolute; left: 0px; top: 10px;">
+            @SocialNetworks.UserAvatar(Model.Owner, 100)
+        </div>
+        <div style="margin-left: 110px; min-height: 100px;">
+            <div class="d-h4" style="line-height: 1em;">
+                @UIHelper.PersonLink(Model.Owner)
+            </div>
+            <div>
+                @if (!string.IsNullOrEmpty(profile.Signature))
+                {@profile.Signature}
+            </div>
+            <div>
+                <a role="link">@(pkg.Loc("TotalThreads")):@list.GetItems(i => i.Owner.Equals(authorName, StringComparison.OrdinalIgnoreCase) && i.ParentItemID == Guid.Empty).Count()</a>
+                <a role="link">@(pkg.Loc("TotalPosts")):@list.GetItems(i => i.Owner.Equals(authorName, StringComparison.OrdinalIgnoreCase) && i.ParentItemID != Guid.Empty).Count()</a>
+                <a role="link" href="#replies_holder">@(Resources.Social.Replies) :@(children.Count)</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-h5">
+    <span class="d-inline" style="margin-right: 10px;">#0</span>
+    <span class="d-inline">@Model.Published</span>
+</div>
+
+<div style="padding: 5px;">
+    @{ Html.RenderFields(list.DetailForm, Model); }
+</div>
+<div style="padding: 10px;">
+    <a data-role="button" data-icon-left="d-icon-export" data-default="true" href="@(Url.Content(list.GetNewItemUrl() + "?parentId=" + Model.ID.ToString() + "&returnUrl=" + Request.Url.ToString()))">@Resources.Social.Reply</a>
+    @if (Request.IsAuthenticated && (list.IsModerator(User.Identity.Name) || Model.Owner.Equals(User.Identity.Name) || User.IsAdministrator()))
+    {
+        <a data-role="button" data-icon-left="d-icon-edit" href="@Url.Content(list.GetEditItemUrl(Model) + "?returnUrl=" + Request.Url.ToString())" title="@Resources.Commons.Edit"></a>
+        <a data-role="button" data-icon-left="d-icon-cross-3" 
+            href="javascript:void(0);" 
+            title="@Resources.Commons.Delete"  
+            onclick="$.confirm('@(string.Format(Resources.Messages.ConfirmDelete_Format, pkg.Loc("Post")))','@Resources.Commons.Confirm').done(function(){ $('#delitemform').submit(); });"></a>
+    }
+</div>
+<div id="@(Model.Slug + "-attachs")"></div>
+<div id="@(Model.Slug + "-tags")"></div>
+<div id="@(Model.Slug + "-ratings")"></div>
+
+<div id="replies_holder" class="d-h4">
+    @if (children.Count > 0)
+    {<text>@Resources.Social.Replies (@children.Count)</text>}
+</div>
+<!-- Sub item view -->
+
+@foreach (var c in children)
+{
+    var child = AppModel.Get().Wrap(c);
+    var replier = AppModel.Get().Users[child.Owner].DefaultProfile;
+    var replier_name = child.Owner;
+    <div class="d-ui-widget" style="margin-bottom: 10px;">
+        <div class="d-ui-widget-content" style="position: relative; min-height: 80px;">
+            <div style="position: absolute; left: 10px; top: 10px;">
+                @SocialNetworks.UserAvatar(child.Owner, 60)
+            </div>
+            <div style="margin-left: 80px;">
+                <div class="d-h5" style="line-height: 1em;">
+                    @UIHelper.PersonLink(child.Owner)
+                </div>
+                <div>@child.Published</div>
+            </div>
+            <div style="position:absolute;right:5px;top:0px;" class="d-h4" id="@child.Slug">#@(child.Pos + 1)</div>
+        </div>
+    </div>
+    <div>
+        @{ Html.RenderFields(list.DetailForm, AppModel.Get().Wrap(c)); }
+    </div> 
+    <div style="padding: 10px;">
+        <a data-role="button" data-icon-left="d-icon-export" data-default="true" href="@(Url.Content(list.GetNewItemUrl() + "?parentId=" + child.ID.ToString() + "&returnUrl=" + Request.Url.ToString()))">@Resources.Social.Reply</a>
+        @if (Request.IsAuthenticated && (list.IsModerator(User.Identity.Name) || Model.Owner.Equals(User.Identity.Name) || User.IsAdministrator()))
+        {
+            <a data-role="button" 
+                data-icon-left="d-icon-edit" 
+                href="@Url.Content(list.GetEditItemUrl(child) + "?returnUrl=" + Request.Url.ToString())" 
+                title="@Resources.Commons.Edit"></a>
+            <a data-role="button" 
+                data-icon-left="d-icon-cross-3" 
+                href="javascript:void(0);" 
+                title="@Resources.Commons.Delete"  
+                onclick=""></a>
+        }
+    </div>
+
+}
+
+<script type="text/javascript">
+    $(function () {
+        var _form = $("#@(Model.Parent.DetailForm.FormTypeString.ToLower())-form-@(Model.ID.ToString().Substring(0, 8))"),
+            default_ratings = $(".d-form-section-ratings", _form),
+            default_attachs = $(".d-form-section-attachs", _form),
+                default_tags = $(".d-form-section-tags", _form);
+
+        if (default_ratings.length) {
+            default_ratings.children().appendTo($("#@(Model.Slug + "-ratings")"));
+            default_ratings.hide();
+        }
+
+        if (default_attachs.length) {
+            default_attachs.children().appendTo($("#@(Model.Slug + "-attachs")"));
+            default_attachs.hide();
+        }
+
+        if (default_tags.length) {
+            default_tags.children().appendTo($("#@(Model.Slug + "-tags")"));
+            default_tags.hide();
+        }
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6 lte9 lte8 lte7 no-js"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7 no-js"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 lte9 lte8 no-js"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 lte9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="notie no-js @Culture.ToLower()">
+<!--<![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    @Styles.Render("~/Content/themes/base/css", "~/Content/css/setup.css")
+    @Scripts.Render("~/bundles/modernizr","~/bundles/jquery","~/bundles/taoui")
+    @RenderSection("HeaderSection", false)
+</head>
+<body style="margin:0px;padding:0px;" data-loading="@Resources.Commons.Loading" >
+    <h1 style="text-align: center; background: #f3f3f3; -webkit-box-shadow: 0 0 10px #ccc inset; box-shadow: 0 0 10px #ccc inset;">
+        <img src="~/content/images/logo_48.png" alt="logo" style="margin-right: 5px;" class="d-inline"/>
+        <span class="d-inline">@ViewBag.Title</span></h1>
+    <div class="d-page-content">@RenderBody()</div>
+        @Scripts.Render("~/bundles/unobtrusive")
+</body>
+</html>

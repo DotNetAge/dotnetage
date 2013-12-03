@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="contact-us">
+  <name short="Contactmail">Contact us</name>
+  <name short="Contactmail" xml:lang="zh-cn">联系我们</name>
+  <description></description>
+  <icon src="default.png" />
+  <preference name="receiver" value="''" />
+  <preference name="subject" value="''" />
+  <preference name="postbackmsg" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

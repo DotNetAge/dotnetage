@@ -1,0 +1,6 @@
+﻿.post { float: left; width: 400px; height: 160px; padding: 20px; border: 1px solid #efefef; box-shadow: 0 0 5px #efefef; margin: 5px; }
+    .post > h3 { margin-top: -10px; margin-bottom: 10px; text-overflow: ellipsis; -o-text-overflow: ellipsis; -ms-text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+        .post > h3 > a { font-size: 18pt; max-width: 400px; }
+    .post .thumb { float: left; border:1px solid #efefef;}
+    .post .summary { float: left; width: 228px; margin-left: 20px; overflow: hidden; text-overflow: ellipsis; }
+    .post footer { clear: left; color: #808080; font-size: 8pt; padding-top: 5px; }

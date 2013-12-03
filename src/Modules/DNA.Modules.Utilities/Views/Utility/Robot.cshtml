@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "robots.txt ";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+<p><small>@Resources.Glossary.Robot</small></p>
+
+@using (Html.BeginForm())
+{
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        <li data-role="divider">@Resources.Managements.SpecifyRules</li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.Action</label>
+            <select id="cbOperations" data-role="combobox" style="width: 150px;" data-drop-style="menu">
+                <option>Allow</option>
+                <option>Disallow</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label>User-agent</label>
+            <select data-role="combobox" id="cbUserAgents" data-height="200">
+                <option value="*">All</option>
+                <option value="Googlebot">Googlebot</option>
+                <option value="Googlebot-Mobile">Googlebot-Mobile</option>
+                <option value="Mediapartners-Google">Mediapartners-Google</option>
+                <option value="Adsbot-Google">Adsbot-Google</option>
+                <option value="Baiduspider">Baiduspider</option>
+                <option value="Bloglines subscriber">Bloglines subscriber</option>
+                <option value="Charlotte 0.9t">Charlotte 0.9t</option>
+                <option value="Charlotte 1.1">Charlotte 1.1",</option>
+                <option value="DotBot 1.1">DotBot 1.1</option>
+                <option value="eCairn Grabber 1.0">eCairn Grabber 1.0</option>
+                <option value="FeedFetcher-Google">FeedFetcher-Google</option>
+                <option value="LinkWalker">LinkWalker</option>
+                <option value="LiteFinder 1.0">LiteFinder 1.0</option>
+                <option value="msnbot 1.1">msnbot 1.1</option>
+                <option value="msnbot-media 1.0">msnbot-media 1.0</option>
+                <option value="msnbot-media 1.1">msnbot-media 1.1</option>
+                <option value="msnbot/2.0b">msnbot/2.0b</option>
+                <option value="QihooBot">QihooBot</option>
+                <option value="Sogou head spider 3.0">Sogou head spider 3.0</option>
+                <option value="Sogou web spider 4.0">Sogou web spider/4.0</option>
+                <option value="Sosoimagespider">Sosoimagespider</option>
+                <option value="Sosospider">Sosospider</option>
+                <option value="Sosospider+">Sosospider+</option>
+                <option value="Speedy Spider">Speedy Spider</option>
+                <option value="Superdownloads Spiderman">Superdownloads Spiderman</option>
+                <option value="WebAlta Crawler 2.0">WebAlta Crawler 2.0</option>
+                <option value="Yahoo! Slurp">Yahoo! Slurp</option>
+                <option value="Yahoo! Slurp 3.0">Yahoo! Slurp 3.0</option>
+                <option value="Yahoo! Slurp China">Yahoo! Slurp China</option>
+                <option value="Yeti 1.0">Yeti 1.0</option>
+                <option value="YodaoBot 1.0">YodaoBot 1.0</option>
+                <option value="YoudaoBot 1.0">YoudaoBot 1.0</option>
+            </select>
+        </li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.DirsAndFiles</label>
+            <input type="text" id="txtVPath" name="txtVPath" />
+            <small>@MvcHtmlString.Create(Resources.Managements.DirsAndFilesNotes)</small>
+        </li>
+        <li data-readonly="true" data-link-icon="no" style="padding: 10px;"><a onclick="_addRule();void(0);" data-role="button" data-icon-left="d-icon-angle-down">@Resources.Managements.AddRule</a></li>
+        <li data-role="divider">robot.txt</li>
+        <li data-role="fieldcontain">
+            <textarea id="Rules" name="Rules" style="width: 98%;" rows="10"
+                onchange="$('#btnSave').isDisable(false)">@ViewBag.Rules</textarea></li>
+    </ul>
+    <p>
+        <button data-inline="false" id="btnSave" class="d-state-disable">@Resources.Commons.Save</button>
+    </p>
+}
+<script type="text/javascript">
+    function _addRule() {
+        var _o = $("#cbOperations").val(),
+        _ua = $("#cbUserAgents").val(),
+        _path = $("#txtVPath").val();
+
+        if (_o == "") { $("#cbOperations").focus(); return; }
+        if (_ua == "") { $("#cbUserAgents").focus(); return; }
+        if (_path == "") { $("#txtVPath").focus(); return; }
+
+        var _r = $("#Rules").val(),
+            _newRule = "User-agent:" + _ua + "\t\n" + _o + ":" + _path;
+
+        if (_r)
+            $("#Rules").val(_r + "\t\n" + _newRule);
+        else
+            +$("#Rules").val(_newRule);
+
+        $("#Rules").trigger("change");
+
+    }
+</script>

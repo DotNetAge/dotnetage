@@ -1,0 +1,29 @@
+﻿@{
+    var cultures = AppModel.Get().SupportedCultures;
+}
+<div>
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-inset="true">
+        @foreach (var lang in cultures)
+        { 
+            <li lang="@lang.Name" 
+                @if (lang.Name.Equals(UICulture, StringComparison.OrdinalIgnoreCase))
+                {<text>
+                        data-link-icon="d-icon-checkmark-2"
+                        class="d-state-disable"
+                        </text>}
+                else
+                {<text>data-link-icon="no"</text>}
+                @if (lang.Name.Equals(Culture, StringComparison.OrdinalIgnoreCase)){
+                <text> style="text-decoration:underline;font-weight:bold;" data-counter="@Resources.Contents.Current" </text>
+                }>
+                <a style="-ms-text-overflow:ellipsis;-o-text-overflow:ellipsis;text-overflow:ellipsis;overflow:hidden;max-width:215px;"
+                    href="@Url.Action("SelectLang", "Sys", new { website = AppModel.Get().CurrentWeb.Name, locale = lang.Name ,returnUrl=ViewBag.ReturnUrl})">
+                    <img src="@Url.Content("~/content/images/flags/" + lang.Name + ".gif")" alt="@lang.Name"  
+                        style="position:relative;" />@lang.NativeName
+                </a>
+            </li>
+        }
+    </ul>
+</div>

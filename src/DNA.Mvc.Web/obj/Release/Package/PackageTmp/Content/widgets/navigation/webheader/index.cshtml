@@ -1,0 +1,66 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var settings = item.GetUserPreferences();
+  LogoLayouts layout = (LogoLayouts)Enum.Parse(typeof(LogoLayouts), settings.layout);
+}
+<div>
+    <label>@Resources.Pages.Layout</label>
+    <select name="layout" data-role="listbox">
+        <option value="@LogoLayouts.TitleOnly.ToString()" @if (layout == LogoLayouts.TitleOnly)
+                                                          {<text>selected="selected"</text>}>@Resources.Designs.TitleOnly</option>
+        <option value="@LogoLayouts.LogoOnly.ToString()" @if (layout == LogoLayouts.LogoOnly)
+                                                         {<text>selected="selected"</text>}>@Resources.Designs.LogoOnly</option>
+        <option value="@LogoLayouts.LogoAndTitle.ToString()" @if (layout == LogoLayouts.LogoAndTitle)
+                                                             {<text>selected="selected"</text>}>@Resources.Designs.LogoAndTitle</option>
+        @*   <option value="@LogoLayouts.LogoWithTitleRightBottom.ToString()" @if (layout == LogoLayouts.LogoWithTitleRightBottom)
+                                                                         {<text>selected="selected"</text>}>@Resources.Widget_Common.LogoLayouts_LogoWithRB</option>
+        <option value="@LogoLayouts.LogoWithTitleRightTop.ToString()" @if (layout == LogoLayouts.LogoWithTitleRightTop)
+                                                                      {<text>selected="selected"</text>}>@Resources.Widget_Common.LogoLayouts_LogoWithRT</option>
+        <option value="@LogoLayouts.LogoWithTitleBlow.ToString()" @if (layout == LogoLayouts.LogoWithTitleBlow)
+                                                                  {<text>selected="selected"</text>}>@Resources.Widget_Common.LogoLayouts_LogoWithTitleBelow</option>*@
+    </select>
+</div>
+</text>).Design(@<text>
+@{var web = AppModel.Get().CurrentWeb;
+  var settings = item.GetUserPreferences();
+  LogoLayouts layout = (LogoLayouts)Enum.Parse(typeof(LogoLayouts), settings.layout);
+}
+<h1><a href="javascript:void(0);" class="d-link" onclick="$(this).closest('.d-widget').click();">
+    @if ((layout == LogoLayouts.LogoAndTitle || layout == LogoLayouts.LogoOnly) && (!string.IsNullOrEmpty(web.LogoImageUrl)))
+    {
+        <img src="@web.LogoImageUrl" class="d-inline" alt="logo"/>
+    }
+    @if ((layout == LogoLayouts.LogoAndTitle || layout == LogoLayouts.TitleOnly))
+    {
+        <span class="d-inline"
+    @if (AppModel.Get().User.IsAuthorized<DNA.Web.Controllers.SysController>("SiteSettings"))
+    {<text>
+    contenteditable="true" 
+    ondblclick="event.stopPropagation();" 
+    onchange="$.post('@(Url.Action("SiteSettings", "Sys", new { Area = "", locale = Culture }))',{title:$(this).text()})"
+@*    onchange="$.post('@(Url.Content("~/api/pages/edit/"))'+$('body').data('id')+'?locale=@Culture',{title:$(this).text()})"*@
+    onkeydown="if (event.keyCode==27) {$(this).text('@web.Title');} if (event.keyCode==13) { event.preventDefault(); if ($(this).text()!='@web.Title') $(this).trigger('change'); }"
+    </text>}
+    >
+            @web.Title
+        </span>
+    }</a>
+</h1>
+
+</text>).Content(@<text>
+@{
+    var web = AppModel.Get().CurrentWeb;
+    var settings = item.GetUserPreferences();
+    LogoLayouts layout = (LogoLayouts)Enum.Parse(typeof(LogoLayouts), settings.layout);
+}
+<h1><a href="@Url.Content(web.Url)" title="@web.Description" class="d-link">
+
+    @if ((layout == LogoLayouts.LogoAndTitle || layout == LogoLayouts.LogoOnly) && (!string.IsNullOrEmpty(web.LogoImageUrl)))
+    {
+        <img src="@Url.Content(web.LogoImageUrl)" class="d-inline" alt="logo"/>
+    }
+    @if ((layout == LogoLayouts.LogoAndTitle || layout == LogoLayouts.TitleOnly))
+    {
+        <span class="d-inline">@web.Title</span>
+    }</a>
+</h1>
+</text>).GetHtml()

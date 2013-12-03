@@ -1,0 +1,32 @@
+﻿@model ContentQueryResult
+
+@{
+    var itemtype = Model.List.ItemType; 
+}
+@if (Model.Count() > 0)
+{
+    <div class="d-view d-view-slider @Model.CssClass" 
+        data-item-width="235" 
+        style="height:300px;"
+        data-role="content-slider" 
+        data-nav="bottom" 
+        data-buttons="true">
+        @foreach (var dataItem in Model)
+        {
+            <div class="@dataItem.CssClass" id="@dataItem.ID" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                          {<text>itemtype="@itemtype"</text>}>
+                @foreach (var field in Model.View.FieldRefs)
+                {
+                    if (field.IsHidden) { continue; }
+                    <div title="@field.Title" @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))">
+                        @{ Html.ForView(field.Name, dataItem); }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>@Resources.Messages.NoItemFound</div>
+}

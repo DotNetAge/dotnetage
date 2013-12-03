@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="new-form" version="1.0">
+  <name short="NewForm">New form</name>
+  <icon src="default.png" />
+  <preference name="listName" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

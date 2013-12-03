@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="about" 
+      xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" target="_self" dir="ltr">
+  <title>About</title>
+  <layout name="~/views/dynamicui/layouts/3eq_cols.cshtml" />
+  <pages>
+    <page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="contact-us" target="_self" dir="ltr">
+      <title>Contact us</title>
+      <layout name="~/views/dynamicui/layouts/2eq_cols.cshtml" />
+      <widgets>
+        <w:widget pid="googlemap" zone="ContentZone" showIn="parent">
+          <w:title><![CDATA[Where we are]]></w:title>
+          <w:style>
+            <w:box><![CDATA[height:300px;]]></w:box>
+            <w:body><![CDATA[height:300px;]]></w:body>
+          </w:style>
+          <w:preference name="zoom" value="16" />
+          <w:preference name="lon" value="-119.2854524" />
+          <w:preference name="lat" value="46.3059867" />
+          <w:preference name="static" value="false" />
+          <w:preference name="title" value="'I am here'" />
+          <w:preference name="contentString" value="''" />
+        </w:widget>
+        <w:widget pid="contact-detail" zone="LeftZone" showIn="parent">
+          <w:title><![CDATA[Contact detail]]></w:title>
+          <w:style>
+            <w:box><![CDATA[height:270px;]]></w:box>
+            <w:body><![CDATA[height:270px;]]></w:body>
+          </w:style>
+          <w:preference name="company" value="'Replace your company name'" />
+          <w:preference name="address_line1" value="'Replace your address'" />
+          <w:preference name="address_line2" value="''" />
+          <w:preference name="telephone" value="'555-555-555'" />
+          <w:preference name="cellphone" value="'555-555-555'" />
+          <w:preference name="fax" value="'555-555-555'" />
+          <w:preference name="zipcode" value="'CA'" />
+          <w:preference name="email" value="'sales@domain.com'" />
+          <w:preference name="cached" value="true" />
+        </w:widget>
+        <w:widget pid="contact-us" zone="RightZone" showIn="parent">
+          <w:title><![CDATA[Contact us]]></w:title>
+          <w:style>
+            <w:box><![CDATA[height:270px;]]></w:box>
+            <w:body><![CDATA[height:270px;]]></w:body>
+          </w:style>
+          <w:preference name="receiver" value="'contacts@domain.com'" />
+          <w:preference name="subject" value="''" />
+          <w:preference name="postbackmsg" value="''" />
+        </w:widget>
+        <w:widget pid="intro-content" zone="NavigationZone" showIn="parent">
+          <w:title><![CDATA[Contact band]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="cached" value="true" />
+          <w:preference name="src" value="'{app_path}webshared/{web_name}/images/contact-us.png'" />
+          <w:preference name="link" value="''" />
+          <w:preference name="alt" value="'contact-20us'" />
+          <w:preference name="target" value="'_self'" />
+          <w:preference name="pos" value="'top'" />
+          <w:preference name="title" value="'What can i do for you?'" />
+          <w:preference name="linkText" value="''" />
+          <w:preference name="summary" value="'Leave me some message and tell us what you want'" />
+          <w:preference name="size" value="0" />
+          <w:preference name="width" value="290" />
+          <w:preference name="height" value="290" />
+        </w:widget>
+      </widgets>
+    </page>
+    <page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="privacy-policy" target="_self" dir="ltr">
+      <title>Privacy Policy</title>
+      <widgets>
+        <w:widget pid="html-file" zone="ContentZone" showIn="parent">
+          <w:title><![CDATA[privacypolicy.html]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="src" value="'{app_path}webshared/{web_name}/html/privacypolicy.html'" />
+        </w:widget>
+      </widgets>
+    </page>
+    <page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="terms-of-use" target="_self" dir="ltr">
+      <title>Terms of use</title>
+      <widgets>
+        <w:widget pid="html-file" zone="ContentZone" showIn="parent">
+          <w:title><![CDATA[termsofuse.html]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="src" value="'{app_path}webshared/{web_name}/html/termsofuse.html'" />
+        </w:widget>
+      </widgets>
+    </page>
+  </pages>
+  <widgets>
+    <w:widget pid="html-block" zone="ContentZone" showIn="parent">
+      <w:title><![CDATA[Who we are]]></w:title>
+      <w:preference name="content" value="'&lt;div class=&quot;d-title&quot; style=&quot;padding:20px;&quot;&gt;Quick start : Replace some text here to introduce yourself/your company&lt;/div&gt;&#xA;&#xA;&#xA;&#xA;&#xA;'" />
+      <w:preference name="cached" value="true" />
+    </w:widget>
+    <w:widget pid="intro-content" zone="NavigationZone" showIn="parent">
+      <w:title><![CDATA[Show us]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/about-us.png'" />
+      <w:preference name="link" value="''" />
+      <w:preference name="alt" value="'aboutus-us'" />
+      <w:preference name="target" value="'_self'" />
+      <w:preference name="pos" value="'left'" />
+      <w:preference name="title" value="'About us'" />
+      <w:preference name="linkText" value="''" />
+      <w:preference name="summary" value="'Place your text here to describe about you'" />
+      <w:preference name="size" value="0" />
+      <w:preference name="width" value="525" />
+      <w:preference name="height" value="283" />
+    </w:widget>
+    <w:widget pid="creative-text" zone="LeftZone" showIn="parent">
+      <w:title><![CDATA[Creative text]]></w:title>
+      <w:style>
+        <w:box><![CDATA[height:305px;]]></w:box>
+        <w:body><![CDATA[height:305px;]]></w:body>
+      </w:style>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="photo" value="'{app_path}webshared/{web_name}/images/what-we-do.jpg'" />
+      <w:preference name="url" value="''" />
+      <w:preference name="title" value="'WHAT WE DO'" />
+      <w:preference name="description" value="'Quick start:Place some text here to describe what you done or what you can be done.'" />
+    </w:widget>
+    <w:widget pid="creative-text" zone="MidZone" showIn="parent">
+      <w:title><![CDATA[Our services]]></w:title>
+      <w:style>
+        <w:box><![CDATA[height:305px;]]></w:box>
+        <w:body><![CDATA[height:305px;]]></w:body>
+      </w:style>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="photo" value="'{app_path}webshared/{web_name}/images/our-services.jpg'" />
+      <w:preference name="url" value="''" />
+      <w:preference name="title" value="'OUR SERVICES'" />
+      <w:preference name="description" value="'Quick start: Place some text the features of your services.'" />
+    </w:widget>
+    <w:widget pid="creative-text" zone="RightZone" showIn="parent">
+      <w:title><![CDATA[Why us?]]></w:title>
+      <w:style>
+        <w:box><![CDATA[height:305px;]]></w:box>
+        <w:body><![CDATA[height:305px;]]></w:body>
+      </w:style>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="photo" value="'{app_path}webshared/{web_name}/images/why-us.jpg'" />
+      <w:preference name="url" value="''" />
+      <w:preference name="title" value="'WHY CHOICE US'" />
+      <w:preference name="description" value="'Quick start: Tell your customers the benefits  for choosing your service.'" />
+    </w:widget>
+  </widgets>
+</page>

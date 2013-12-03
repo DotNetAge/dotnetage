@@ -1,0 +1,149 @@
+﻿@using System.ServiceModel.Syndication;
+@model SyndicationFeed
+@{
+    ViewBag.Title = Resources.Commons.Search;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var web = AppModel.Get().CurrentWeb;
+    var searchers = AppModel.Get().Searcher.Sources.ToList();
+    var query = (SearchQuery)ViewBag.Query;
+}
+@section HeaderSection{
+    <style type="text/css">
+        .d-search-menu li.d-item.d-state-active { border: none; font-weight: bold; }
+        .feeditem { margin: 15px 0px; }
+    </style>
+}
+<div class="d-page" data-role="layout">
+    <div data-role="layout" data-label="Header" class="d-page-header">
+        @Html.Zone("HeaderZone", "Header zone").GetHtml()
+    </div>
+    <div data-role="layout" data-label="Navigation" class="d-page-nav">
+        @Html.Zone("NavigationZone", "Navigator zone").GetHtml()
+    </div>
+    <div data-role="layout" data-label="Content" class="d-page-content">
+        <div id="StaticContent_Zone" class="d-widget-zone">
+            <div class="d-widget noborder d-transparent">
+                <div class="d-widget-body">
+                    <div style="padding: 20px 0px">
+                        <ul data-inline="true" data-role="listview" class="d-search-menu">
+                            @foreach (var s in searchers)
+                            { 
+                                <li @if (s.Name.Equals(query.Source, StringComparison.OrdinalIgnoreCase))
+                                    {<text>class="d-state-active"</text>}><a href="~/@web.Name/@Culture/search/@s.Name">@s.Title</a></li>
+                            }
+                        </ul>
+                        <form action="~/@web.Name/@Culture/search/@query.Source">
+                            <input type="text" 
+            data-width="320" 
+            name="terms" 
+            value="@query.Terms" 
+            autocomplete="off"
+            placeholder="Enter something to search for"
+            onkeypress="if (event.keyCode==13 && $(this).val()) $(this).closest('form').submit()"
+            data-autocomplete="@Url.Content(string.Format("~/search-suggest/{0}/{1}", Culture, query.Source))"
+            data-autocomplete-param="term"
+            data-autocomplete-select="$(this).closest('form').submit()"
+                @if (Request.Browser.IsBrowser("Chrome"))
+                { 
+                    <text>
+                x-webkit-speech="" 
+                x-webkit-grammar="builtin:translate" 
+                onwebkitspeechchange="$(this).closest('form').submit();" 
+                    </text>
+                } 
+             />
+                            <button>@Resources.Commons.Search</button>
+                        </form>
+                        @if (!string.IsNullOrEmpty(query.Terms))
+                        {
+                            <p>
+                                <span>Results found @query.TotalItems for <strong>@query.Terms</strong></span><a href="@(Request.Url.ToString() + "&format=rss")" target="_blank" class="d-inline" style="margin-left:10px;" title="Results in rss"><img src="~/content/images/rss.png" /></a>
+                            </p>
+                        }
+                        @if (query != null && query.TotalItems > 0)
+                        {
+
+                            if (query.TotalItems > 0)
+                            {
+                            <div style="margin-top: 20px;">
+                                <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        var link = item.Links.First();
+                                        var summary = "";
+                                        if (item.Content != null)
+                                        {
+                                            var content = item.Content as TextSyndicationContent;
+                                            summary = content != null ? content.Text : "";
+                                        }
+                                        var title = item.Title != null ? item.Title.Text : "no title";
+                                        <li>
+                                            <a href="@link.Uri">
+                                                <h4>
+                                                    @if (title.Contains(query.Terms))
+                                                    {
+                                                        var formatted = title.Replace(query.Terms, string.Format("<mark>{0}</mark>", query.Terms));
+                                                        @MvcHtmlString.Create(formatted);
+                                                    }
+                                                    else
+                                                    {
+                                                        @title
+                                                    }
+                                                </h4>
+                                                @if (!string.IsNullOrEmpty(summary))
+                                                {
+                                                    var orgSummary = TextEngine.Text(summary);
+                                                    if (orgSummary.Length > 0)
+                                                    {
+                                                        if (orgSummary.Length > 100)
+                                                        {
+                                                            orgSummary = orgSummary.Substring(0, 100) + "...";
+                                                        }
+                                                    <p>
+                                                        @if (orgSummary.Contains(query.Terms))
+                                                        {
+                                                            var formatted = orgSummary.Replace(query.Terms, string.Format("<mark>{0}</mark>", query.Terms));
+                                                            @MvcHtmlString.Create(formatted);
+                                                        }
+                                                        else
+                                                        {
+                                                            @orgSummary
+                                                        }
+                                                    </p>
+                                                    }
+                                                }
+                                                <p>@link.Uri</p>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            }
+                            else
+                            {
+                            <p>@Resources.Messages.NoItemFound</p>
+                            }
+                            if (query.TotalPages > 1)
+                            {
+                            @Html.Pager(query, new { style = "margin-top:30px;" })
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Zone("ContentZone", "Main zone").GetHtml()
+    </div>
+    <div data-role="layout" data-label="Footer" class="d-page-footer">
+        <div class="d-page-part" data-cols="3" data-label="33.3% 33.3% 33.3%" data-role="layout" id="footer-columns">
+            <div class="d-layout-columns d-layout-columns-3">
+                <div class="d-layout-column">@Html.Zone("FooterLeftZone", "FooterLeftZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterLeftZone }).GetHtml()</div>
+                <div class="d-layout-column">@Html.Zone("FooterCenterZone", "FooterCenterZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterCenterZone}).GetHtml()</div>
+                <div class="d-layout-column">@Html.Zone("FooterRightZone", "FooterRightZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterRightZone }).GetHtml()</div>
+            </div>
+        </div>@Html.Zone("FooterZone", "FooterZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterZone}).GetHtml()
+    </div>
+</div>
+
+
+

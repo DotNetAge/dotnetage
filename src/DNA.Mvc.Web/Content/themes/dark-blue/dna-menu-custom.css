@@ -1,0 +1,5 @@
+﻿.d-mainmenu.d-menu { padding: 2px; background-color: #0f0f0f; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+    .d-mainmenu.d-menu > .d-item > a { line-height: 50px; }
+    .d-mainmenu.d-menu .d-item > a { color: #c9c9c9; }
+    .d-mainmenu.d-menu .d-item.d-state-active > a { color: #fff; }
+.d-mainmenu.d-menu, .d-menu .d-items-wrapper { border-color: #4d4d4d; }

@@ -1,0 +1,24 @@
+﻿<div class="d-page" data-role="layout">
+    <div data-role="layout" data-label="Header" class="d-page-header">
+        @Html.Zone("HeaderZone", "Header zone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.HeaderZone }).GetHtml()
+    </div>
+    <div data-role="layout" data-label="Navigation" class="d-page-nav">
+        @Html.Zone("NavigationZone", "Navigator zone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.NavigationZone }).GetHtml()
+    </div>
+    <div data-role="layout" class="d-page-part" id="layout1">
+        @Html.Zone("Zone0").Attrs(new { @class = "d-widget-zone", data_label = "Zone0" }).GetHtml()
+    </div>
+
+    <div data-role="layout" class="d-page-part" id="layout2">
+        @Html.Zone("Zone1").Attrs(new { @class = "d-widget-zone", data_label = "Zone1" }).GetHtml()
+    </div>
+    <div data-role="layout" class="d-page-part" id="layout3">
+        @Html.Zone("Zone2").Attrs(new { @class = "d-widget-zone", data_label = "Zone2" }).GetHtml()
+    </div>
+    <div data-role="layout" data-label="Content" class="d-page-part">
+        @Html.Zone("ContentZone", "Main zone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.ContentZone }).GetHtml()
+    </div>
+    <div data-role="layout" data-label="Footer" class="d-page-footer">
+        @Html.Zone("FooterZone", "FooterZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterZone }).GetHtml()
+    </div>
+</div>

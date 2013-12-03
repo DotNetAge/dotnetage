@@ -1,0 +1,558 @@
+﻿@{
+    if (Request.IsAjaxRequest())
+    {
+        Layout = "";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Dashboard.cshtml";
+    }
+    var web = AppModel.Get().CurrentWeb;
+    ViewBag.Title = web.Name;
+    var folderPath = AppModel.Get().Context.AppUrl.ToString() + "webshared/" + web.Name;
+}
+@section HeaderSection{
+    <link rel="stylesheet" href="@Url.Content("~/content/css/netdrive.css")" type="text/css" />}
+@section LeftNavs{
+    <a data-icon-left="d-icon-chevron-left" 
+      data-role="button" 
+      style="display:none;" id="sys_btn_goback" onclick="goUpperFolder();" title="@Resources.NetDrives.Up"></a>
+}
+@section Navs{
+    <a data-rel="open" data-icon-left="d-icon-plus-2" data-role="button" href="#newfolderDlg" title="@Resources.NetDrives.Newfolder"></a>
+    <a data-rel="open" data-icon-left="d-icon-cloud-upload" data-role="button" href="#upload_panel" title="@Resources.NetDrives.Upload"></a>
+}
+
+<div data-role="panel"
+    data-display="overlay"
+    data-pos="right"
+    data-position="fixed"
+    id="upload_panel">
+    <h3>@Resources.NetDrives.Upload</h3>
+    <div>
+        <div id="dropfile_container"
+            style="margin: 10px; margin-bottom: 0px; height: 150px; outline: 1px dashed #ccc; line-height: 150px; text-align: center;"
+            class="d-ui-widget-content">@Resources.NetDrives.DropFileToUpoad
+        </div>
+        <div style="padding: 10px;">
+            <a data-role="button" data-inline="false">
+                <input type="file" multiple="multiple" onchange="_uploadFileHandler(event.target.files);" style="opacity: 0; position: absolute; left: 0px; top: 0px; height: 45px; width: 258px;" />
+                @Resources.Commons.Browse</a>
+        </div>
+    </div>
+</div>
+<div id="detail_panel" data-role="panel" data-pos="right" data-display="overlay" data-position="fixed">
+    <h3>@Resources.Commons.Details</h3>
+    <div id="detail_container"></div>
+</div>
+<input type="hidden" value="" id="selectedFilePath" />
+<script type="text/x-jquery-tmpl" id="detailTmpl">
+    <div>
+        <ul data-role="listview" data-display="mobile-list" data-inset="true">
+            <li data-role="divider">@Resources.NetDrives.Location</li>
+            <li data-link-icon="no" data-readonly="true">
+                <a target="_blank" href="javascript:void(0);" 
+                data-rel="folder"
+                data-folder-title="@Resources.NetDrives.SelectFolderToMove"
+                data-folder-select="_moveToNewFolder(url,'${url}');"
+                data-folder-readonly="true"
+                data-url="${url}" 
+                id="current_fileInfo_url">${path}</a>
+            </li>
+            <li data-role="fieldcontain">
+                <label>@Resources.Commons.Name</label>
+                <input type="text" 
+                value="${name}" 
+                placeholder="{{if type=="file"}}@(string.Format(Resources.InputHolders.Format, Resources.NetDrives.FileName)){{else}}@(string.Format(Resources.InputHolders.Format, Resources.NetDrives.FolderName)){{/if}}"
+                onchange="$('#rename_item').show();"
+                id="newfile_name"
+                 />
+            </li>
+            <li id="rename_item" style="display: none;" data-link-icon="no" data-readonly="true">
+                <a href="javascript:void(0);" onclick="_doRename();" data-icon-left="d-icon-disk" data-inline="false" data-role="button">@Resources.Commons.Rename</a>
+            </li>
+            <li data-role="divider">@Resources.Commons.Details</li>
+            {{if type=="file"}}
+          <li data-readonly="true">
+              <div>
+                  <label class="d-inline">@Resources.NetDrives.FileType:</label>
+                  <label class="d-inline">${contentType}</label>
+              </div>
+          </li>
+            {{else}}
+          <li data-readonly="true">
+              <div>
+                  <label class="d-inline">@Resources.NetDrives.Folders:</label>
+                  <label class="d-inline">${totalPaths}</label>
+              </div>
+          </li>
+            <li data-readonly="true">
+                <div>
+                    <span class="d-inline">@Resources.NetDrives.Files:</span>
+                    <span class="d-inline">${totalFiles}</span>
+                </div>
+            </li>
+            {{/if}}
+        <li data-readonly="true">
+            <div>
+                <span class="d-inline">@Resources.NetDrives.FileSize:</span>
+                <span class="d-inline">{{= $.formatSize(size).toUpperCase()}}</span>
+            </div>
+        </li>
+            <li data-readonly="true">
+                <div>
+                    <label class="d-inline">@Resources.Commons.LastModified:</label>
+                    <label class="d-inline">{{= $.friendlyDate(updated)}}</label>
+                </div>
+            </li>
+        </ul>
+        {{if exif}}
+        <div data-role="panel" data-closable="false" data-collapsed="true">
+            <h3>EXIF</h3>
+            <div>
+                <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                    {{each exif}}
+             {{if $value }}
+                 <li data-readonly="true">
+                     <div>
+                         <span class="d-inline">${$index}:</span>
+                         <span class="d-inline">${$value}</span>
+                     </div>
+                 </li>
+                    {{/if}}
+          {{/each}}
+                </ul>
+            </div>
+        </div>
+        {{/if}}
+ <div style="padding: 10px;">
+     {{if type=="path"}}
+              <a data-icon-left="d-icon-cancel"
+                  data-role="button"
+                  data-inline="false"
+                  onclick="_delwebres('${url}',function() {_delCurrentListItem('${url}'); $.closePanels(); });">@Resources.NetDrives.DeleteFolder</a>
+
+     {{else}}
+            <a data-icon-left="d-icon-cancel"
+                data-role="button"
+                data-inline="false"
+                onclick="_delwebres('${url}',function() { _delCurrentListItem('${url}');$.closePanels(); });">@Resources.Commons.Delete</a>
+     {{/if}}
+     <a href="#sys_url_textarea_dlg"
+         data-rel="dialog" 
+         data-icon-left="d-icon-copy"
+         data-role="button"
+         data-inline="false"
+         onclick="$('#sys_url_textarea_dlg textarea').val($(this).data('url'))" data-url="${url}">@Resources.Commons.Copy</a>
+ </div>
+    </div>
+</script>
+<script type="text/x-jquery-tmpl" id="fileInfoTmpl">
+    {{if type=="path"}}
+     <li {{if totalPaths}}data-counter="${totalPaths} @Resources.NetDrives.Folders.ToLower()"{{/if}} data-url="${url}" data-link-icon="d-icon-folder-open">
+         <a onclick="openFolder('${url}','${name}');">
+             <img src="@Url.Content("~/content/images/folder_yellow.png")" />
+             <h4>${name} (${totalFiles})</h4>
+             <p>{{= $.formatSize(size).toUpperCase()}} {{= $.friendlyDate(updated)}}</p>
+         </a>
+         <a onclick="_viewDetail($(this).parent().data('dataItem'));$('#detail_panel').taoPanel('open');" data-icon="d-icon-reorder"></a>
+     </li>
+    {{else}}
+        <li data-type="${contentType}" data-url="${url}" data-link-icon="d-icon-cloud-download"><a onclick="_openFile('${url}','${contentType}');">{{if contentType.startsWith("image")}}
+              <img src="${url}?h=80&w=80" data-size="48" />
+            {{else}}
+              <img src="@Url.Content("~/webfiles/mimeicon")?extension=${extension}"  data-size="48"/>
+            {{/if}}
+            <h4>${name}</h4>
+            <p>{{= $.formatSize(size).toUpperCase()}} {{= $.friendlyDate(updated)}}</p>
+        </a><a onclick="_viewDetail($(this).parent().data('dataItem'));$('#detail_panel').taoPanel('open');" data-icon="d-icon-reorder"></a>
+        </li>
+    {{/if}}
+</script>
+<ul data-role="listview"
+    data-display="mobile-list"
+    data-inset="true"
+    data-empty="nodata"
+    data-item-created="$(ui.item).mobilelistItem()"
+    id="infolist"
+    data-tmpl="prev"
+    data-source="next"
+    data-scroller="#sys_ui_container">
+</ul>
+<div data-role="datasource" 
+    data-read-url="@folderPath" 
+    id="filesrc" 
+    data-server-paging="true" 
+    data-cache="false"
+    data-pagesize="10"
+    data-progress="$('#data_loader').show();"
+    data-complete="$('#data_loader_helper').isVisible(false); if ($('#filesrc').taoDataSource('option','pageIndex')==$('#filesrc').taoDataSource('totalPages')) $('#data_loader_helper').hide();"
+    >
+    <div data-action="read" data-url="@folderPath"></div>
+</div>
+<div style="padding: 10px 0px;" id="data_loader_helper">
+    <div data-inline="false"
+        data-role="button"
+        data-icon-left="d-icon-cycle"
+        onclick="$('#filesrc').taoDataSource('nextPage');">@Resources.Commons.LoadMore
+    </div>
+</div>
+<div style="display: none;" id="nodata">
+    <li class="d-item d-ui-widget-header d-list-divider d-empty-holder">
+        <div>@Resources.NetDrives.FolderEmpty</div>
+    </li>
+</div>
+<div data-role="panel"
+    id="newfolderDlg"
+    data-display="overlay"
+    data-pos="right"
+    data-position="fixed"
+    data-open="$('#folderName').val('');$('#newfolderform').data('ajax-url',folderStack[folderStack.length - 1].url);">
+    <h3>@Resources.NetDrives.Newfolder</h3>
+    <div>
+        <form id="newfolderform"
+            data-ajax-method="post"
+            data-ajax-loading="loader"
+            data-ajax-success="_onfoldercreated"
+            data-ajax-url="@folderPath" 
+            data-ajax="true"
+            class="d-form"
+            >
+            <div class="d-field">
+                <label for="folderName">@Resources.NetDrives.FolderName</label>
+                <input data-role="textbox" id="folderName"
+                        name="sub"
+                        placeholder="@Resources.NetDrives.FolderNameHolder"
+                        required="required"
+                        data-val="true"
+                        data-val-required="@Resources.NetDrives.FolderNameHolder" />
+            </div>
+            <div>
+                <button data-role="button" data-default="true" data-inline="false">@Resources.Commons.Create</button>
+                <a data-role="button" data-rel="close" href="#newfolderDlg" data-inline="false">@Resources.Commons.Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var folderStack = [{ name: '@web.Name', url: '@folderPath' }];
+    $(function () {
+        $("#dropfile_container").fileDroppable({
+            drop: function (files) {
+                _uploadFileHandler(files);
+            }
+        });
+    });
+
+    function _onfoldercreated(data) {
+        $("#infolist").find(".d-empty-holder").remove();
+        $("#folderName").val("");
+        $("#newfolderDlg").taoPanel("close");
+        openFolder(data.url, data.name);
+    }
+
+    function goUpperFolder() {
+        if (folderStack.length > 1)
+            folderStack.pop();
+
+        var p = folderStack.length > 1 ? folderStack[folderStack.length - 1] : folderStack[0];
+        loadFilesInFolder();
+        $.closePanels();
+
+        $("#filesrc").taoDataSource("option", "pageIndex", 1)
+        $("#filesrc").taoDataSource("read", p.url).done(function (dat) {
+            $("#sys_header_title").text(p.name).attr("title", p.url);
+            $("#sys_btn_goback").isVisible(folderStack.length > 1);
+        });
+    }
+
+    function loadFilesInFolder() {
+        $("#infolist").empty();
+    }
+
+    function openFolder(url, name) {
+        loadFilesInFolder();
+        $("#filesrc").taoDataSource("option", "pageIndex", 1);
+        $("#filesrc").taoDataSource("read", url).done(function (dat) {
+            $("#newfolderform").attr("data-ajax-url", url);
+            $("#btngoback").show();
+            folderStack.push({ name: name, url: url });
+            $("#selectedFilePath").val(url);
+            $("#sys_header_title").text(name).attr("title", url);
+            $("#sys_btn_goback").isVisible(folderStack.length > 1);
+        });
+    }
+
+    function _uploadFileHandler(files) {
+        var fileArgs = [];
+
+        if (files.length == 0)
+            return;
+
+        for (var i = 0; i < files.length; i++)
+            fileArgs.push(files.item(i));
+
+        var uplist = $("#uploadlist_tmpl").tmpl(fileArgs);
+        $("#infolist").children().first().after(uplist);
+
+        uplist.each(function (i, uitem) {
+            $(uitem).mobilelistItem();
+        });
+
+        $("[data-role=progress]", uplist).taoProgressbar();
+
+        $.closePanels();
+        var curFolder = folderStack[folderStack.length - 1];
+        _uploadFiles(curFolder.url, files);
+    }
+
+    function _uploadFiles(url, files, _params) {
+        var boundary = '------multipartformboundary' + (new Date).getTime(),
+            _getBuilder = function (filename, filedata, boundary) {
+                var dashdash = '--', crlf = '\r\n', builder = '';
+
+                if (_params) {
+                    for (var p in _params) {
+                        var _val;
+
+                        if ($.isFunction(_params[p]))
+                            _val = _params[p]();
+                        else
+                            _val = _params[p];
+
+                        builder += dashdash;
+                        builder += boundary;
+                        builder += crlf;
+                        builder += 'Content-Disposition: form-data; name="' + p + '"';
+                        builder += crlf;
+                        builder += crlf;
+                        builder += _val;
+                        builder += crlf;
+                    }
+                }
+
+                builder += dashdash;
+                builder += boundary;
+                builder += crlf;
+                builder += "Content-Disposition: form-data; name=\"file\"";
+                builder += '; filename="' + filename + '"';
+                builder += crlf;
+
+                builder += 'Content-Type: application/octet-stream';
+                builder += crlf;
+                builder += crlf;
+
+                builder += filedata;
+                builder += crlf;
+
+                builder += dashdash;
+                builder += boundary;
+                builder += dashdash;
+                builder += crlf;
+                return builder;
+            },
+            _send = function (evt) {
+                var dashdash = '--',
+                crlf = '\r\n',
+                xhr = new XMLHttpRequest(),
+                upload = xhr.upload,
+                file = files[evt.target.index],
+                index = evt.target.index,
+                start_time = new Date().getTime(),
+                _fileName = file.name,
+                builder = _getBuilder(encodeURIComponent(_fileName), evt.target.result, boundary);
+
+                upload.index = index;
+                upload.file = file;
+                upload.downloadStartTime = start_time;
+                upload.start = start_time;
+                upload.progress = 0;
+                upload.startData = 0;
+
+                upload.addEventListener("progress", function (e) {
+                    if (e.lengthComputable) {
+                        var percentage = Math.round((e.loaded * 100) / e.total),
+                            ele = $("[data-name=\"" + file.name + "\"]");
+                        if (ele.length) {
+                            var progress = ele.find("[data-role=progress]");
+                            progress.taoProgressbar("val", percentage);
+                        }
+                    }
+                }, false);
+
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader('content-type', 'multipart/form-data; boundary=' + boundary);
+                xhr.onload = function (event) {
+                    var ele = $("[data-name=\"" + file.name + "\"]");
+                    if (ele.length) {
+                        if (xhr.status >= 400) {
+                            ele.remove();
+                            $.err(xhr.statusText);
+                            return;
+                        }
+
+                        /* If we got an error display it. */
+                        var result = xhr.responseText;
+                        if (result) {
+                            result = $.parseJSON(result);
+                            if (result.error) {
+                                ele.remove();
+                                $.err(xhr.statusText);
+                                return;
+                            } else {
+                                var realItem = $("#infolist").taoListview("addItem", result);
+                                realItem.mobilelistItem();
+                                var emptyHolder = $("#infolist").find(".d-empty-holder");
+                                if (emptyHolder.length) emptyHolder.remove();
+                                ele.remove();
+                                return;
+                            }
+                        }
+
+                        ele.remove();
+                    }
+                };
+                xhr.sendAsBinary(builder);
+
+            };
+
+        for (var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            reader.index = i;
+            reader.onloadend = _send;
+            reader.readAsBinaryString(files[i]);
+        }
+    }
+
+    function _moveToNewFolder(dest, url) {
+        if (dest && url) {
+            if (dest != url) {
+                $.loading("@Resources.NetDrives.Moving ...");
+                    $.ajax({
+                        type: "PUT",
+                        url: url,
+                        data: { path: dest }
+                    }).fail(function (jqXHR, status, error) { $.err(error); })
+                      .done(function () {
+                          var curItem = $("#infolist").find("[data-url=\"" + url + "\"]");
+                          if (curItem.length)
+                              curItem.remove();
+
+                          if ($("#infolist").children().length === 0)
+                              $("#infolist").append($("#nodata").children());
+
+                          $.closePanels();
+                      }).always(function () { $.loading("hide"); });
+                }
+            }
+        }
+
+        function _openFile(url, type) {
+            if (type.startsWith("image")) {
+                var viewerHolder = $("<div/>").hide().appendTo("body"),
+                urls = [], cur = 0;
+
+                $("[data-type^='image']").each(function (i, n) {
+                    var uri = $(n).data("url");
+                    if (uri == url) { cur = i; }
+                    urls.push(uri);
+                });
+
+                viewerHolder.taoPhotoViewer({
+                    items: $("[data-type^='image']"),
+                    itemAttr: "data-url",
+                    index: cur,
+                    close: function () {
+                        viewerHolder.remove();
+                    }
+                });
+
+            } else
+                window.open(url);
+        }
+
+        function _delwebres(_url, callback) {
+            var curFolder = folderStack[folderStack.length - 1],
+                url = _url ? _url : curFolder.url;
+
+            if (_url) {
+                var _segs = url.split("/");
+                $.confirm("Are you sure delete \"" + _segs[_segs.length - 1] + "\"", "@Resources.Commons.Question", "@Resources.Commons.OK", "@Resources.Commons.Cancel")
+              .done(function () {
+                  $.loading();
+                  $.ajax({
+                      type: "DELETE",
+                      url: _url,
+                      complete: function () { $.loading("hide"); },
+                      success: function () {
+                          if ($.isFunction(callback))
+                              callback();
+                          //goUpperFolder();
+                      },
+                      error: function (jqXHR, status, error) {
+                          $.err("@(Resources.Messages.CanNotDeleteWebRes)", error);
+                          //$.close()
+                      }
+                  });
+              });
+              }
+          }
+
+          function _doRename() {
+              var input = $("#newfile_name"),
+                  _url = $("#current_fileInfo_url").attr("data-url");
+
+              if (input.val()) {
+                  var curItem = $("#infolist").find("[data-url=\"" + _url + "\"]");
+                  $.ajax({
+                      type: "PUT",
+                      url: _url,
+                      data: { name: input.val() }
+                  })
+                    .done(function (data) {
+                        if (curItem.length) {
+                            var itemEle = $("#infolist").taoListview("updateItem", curItem, data);
+                            $(itemEle).mobilelistItem();
+                            _viewDetail(data);
+                        }
+                        $.closePanels();
+                    });
+
+              } else {
+                  input.focus();
+              }
+          }
+
+          function _delCurrentListItem(_url) {
+              //var _url = $("#current_fileInfo_url").attr("href");
+              if (_url) {
+                  var item = $("#infolist").find("[data-url=\"" + _url + "\"]");
+                  if (item.length)
+                      item.remove();
+
+                  if ($("#infolist").children().length === 0) 
+                      $("#infolist").append($("#nodata").children());
+              }
+          }
+
+          function _viewDetail(dat) {
+              if (dat) {
+                  var _info = $('#detailTmpl').tmpl(dat);
+                  _info.taoUI();
+                  //_info.taoListview().mobilelist();
+                  $('#detail_container').empty().append(_info);
+              }
+          }
+
+</script>
+<script type="text/x-jquery-tmpl" id="uploadlist_tmpl">
+    <li class="d-item" data-link-icon="d-icon-loading" data-name="${name}" data-counter="{{= $.formatSize(size).toUpperCase()}}">
+        <a>
+            <h4>${name}</h4>
+            <div data-role="progress" style="height: 15px; width: 150px;"></div>
+        </a>
+    </li>
+</script>
+<div data-role="dialog" id="sys_url_textarea_dlg" title="@Resources.Commons.Url" data-opened="false" data-width="250" data-height="110" style="padding:2px;">
+    <textarea style="width: 234px; height: 100px;" readonly="readonly" onfocus="$(this).select();"></textarea>
+</div>

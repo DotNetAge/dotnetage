@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType name="contact" xmlns="http://www.dotnetage.com/XML/Schema/contents"
+             allowAttachs="true" defaultLocale="en-us" version="1.0.0" 
+             itemtype="http://schema.org/Person" 
+             id="contacts">
+  <title resKey="Contacts" />
+  <fields>
+    <field type="Computed" name="Name" linkToItem="true" itemprop="name">
+      <title resKey="FullName" />
+      <dispPattern>
+        <col name="givenName" />
+        <html><![CDATA[&nbsp;]]></html>
+        <col name="familyName" />
+      </dispPattern>
+    </field>
+    <field type="Text" name="FirstName" itemprop="givenName">
+      <title resKey="FirstName" />
+      <placeHolder resKey="FirstName_Holder"/>
+      <description resKey="FirstName_Desc" />
+    </field>
+    <field type="Text" name="LastName" itemprop="familyName">
+      <title resKey="LastName"/>
+      <placeHolder resKey="LastName_Holder" />
+      <description resKey="LastName_Desc" />
+    </field>
+    <field type="Image" name="Photo" itemprop="image" height="160" width="160" thumbHeight="80" thumbWidth="80" linkToItem="true" default="~/content/images/no-avatar.gif">
+      <title resKey="Photo"/>
+    </field>
+    <field type="DateTime" name="BirthDate" itemprop="birthdate">
+      <title resKey="BirthDate" />
+    </field>
+    <field type="Choice" name="Gender" itemprop="gender">
+      <title resKey="Gender" />
+      <choices>
+        <option value="Male"/>
+        <option value="Female"/>
+        <option value="Other" selected="true"/>
+      </choices>
+    </field>
+    <field type="Text" name="TaxID" itemprop="taxID">
+      <title>Tax id</title>
+    </field>
+    <field type="Text" name="PaymentAccount">
+      <title>Payment account</title>
+    </field>
+    <field type="Text" name="Tel" itemprop="telephone">
+      <title resKey="Tel"/>
+      <placeHolder resKey="Tel_Holder"/>
+    </field>
+    <field type="Text" name="Fax" itemprop="faxNumber">
+      <title resKey="Fax" />
+      <placeHolder resKey="Fax_Holder"/>
+    </field>
+    <field type="Text" name="Mobile">
+      <title resKey="Mobile"/>
+      <placeHolder resKey="Mobile_Holder" />
+    </field>
+    <field type="Text" name="Email" itemprop="email">
+      <title resKey="Email"/>
+      <placeHolder resKey="Email_Holder" />
+    </field>
+    <field type="Text" name="HomePage" itemprop="sameAs">
+      <title resKey="HomePage"/>
+    </field>
+    <field type="Text" name="AddressCountry" itemprop="addressCountry" newTmpl="_new_country.cshtml" editTmpl="_edit_country.cshtml">
+      <title resKey ="Country" />
+    </field>
+    <field type="Text" name="AddressState" itemprop="addressLocality">
+      <title resKey="State" />
+      <placeHolder resKey="State_Holder" />
+    </field>
+    <field type="Text" name="AddressCity" itemprop="addressRegion">
+      <title resKey="City" />
+      <placeHolder resKey="Region_Holder" />
+    </field>
+    <field type="Text" name="AddressZip" itemprop="postalCode">
+      <title resKey="ZipCode" />
+      <placeHolder resKey="ZipCode_Holder" />
+    </field>
+    <field type="Text" name="AddressStreet" itemprop="streetAddress">
+      <title>Street</title>
+      <placeHolder resKey="Address_Holder"/>
+    </field>
+    <field type="Text" name="worksFor" itemprop="worksFor">
+      <title resKey="WorksFor" />
+      <description resKey="WorksFor_Desc"/>
+    </field>
+    <field type="Text" name="workLocation" itemprop="workLocation">
+      <title resKey="WorkLocation"/>
+      <description resKey="WorkLocation_Desc" />
+      <placeHolder resKey="WorkLocation_Holder"/>
+    </field>
+    <field type="Text" name="jobTitle" itemprop="jobTitle">
+      <title resKey="JobTitle"/>
+      <description resKey="JobTitle_Desc" />
+    </field>
+    <field type="Note" name="Remarks" itemprop="description">
+      <title resKey="Remarks"/>
+    </field>
+  </fields>
+  <views>
+    <view name="defaultView">
+      <title resKey="DefaultView"/>
+      <paging allow="true" />
+      <fields>
+        <fieldRef name="image" />
+        <fieldRef name="fullName" />
+        <fieldRef name="familyName" hidden="true" />
+        <fieldRef name="givenName" hidden="true" />
+        <fieldRef name="worksFor" />
+        <fieldRef name="email" />
+        <fieldRef name="telephone" />
+        <fieldRef name="mobile" />
+        <fieldRef name="homePage" />
+      </fields>
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New"/>
+    </form>
+    <form name="editForm" type="Edit">
+      <title resKey="Edit"/>
+    </form>
+    <form name="dispForm" type="Display">
+      <title resKey="Disp"/>
+    </form>
+  </forms>
+</contentType>

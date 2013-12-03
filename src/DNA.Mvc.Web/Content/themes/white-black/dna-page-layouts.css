@@ -1,0 +1,14 @@
+﻿.d-sitetools { border-color: #ffffff; border-bottom-width: 0em; background-color: #171717; }
+    /*.d-sitetools, .d-sitetools .d-content, .d-sitetools .d-link { color: #000000; }*/
+.d-page-nav { -webkit-box-shadow: 0 0 1px #ccc; box-shadow: 0 0 1px #ccc; background: #fff; }
+/*.d-page-nav, .d-page-nav .d-content, .d-page-nav .d-link { color: #365020; }*/
+.d-page-content { background: #fff; margin-top: 10px; -webkit-box-shadow: 0 0 1px #ccc; box-shadow: 0 0 1px #ccc; }
+/*.d-page-content, .d-page-content .d-content, .d-page-content .d-link { color: #545454; }*/
+.d-widget-header { line-height: normal; font-size: 1.5em; padding: 5px 0px; }
+    .d-widget-header > a { display: block; color: #fff; }
+.d-page-header > .d-widget-zone { margin-right: 0px; padding-bottom:0px;}
+
+.d-page-nav > .d-widget-zone { margin: 0px; padding: 0px; }
+.d-page-content > .d-widget-zone > .d-widget { margin: 20px; }
+.d-page-content .d-layout-columns > .d-layout-column:first-child > .d-widget-zone { margin-left: 10px; }
+.d-page-content, .d-page-header { padding: 0px; margin:0px;}

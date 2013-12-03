@@ -1,0 +1,154 @@
+﻿@using Resources;
+@Html.Widget().Content(@<text>
+@{
+    var src = item.GetString("url");
+}
+@_RenderFlow(item)
+</text>).UserPreferences(@<text>
+@{
+    var defaultWidths = new int[] { 150, 200, 300 };
+    var src = item.GetString("url");
+    @item.Hidden("url", new { onchange = "var segs=$(this).val().split('/');$('#" + item.GetID("loc") + "').text(segs[segs.length-1])" })
+   
+}
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="divider">@Resources.Commons.Location</li>
+    <li data-readonly="true">
+        <div>
+            <span class="d-icon-hdd d-inline" style="margin-right: 10px;"></span>
+            <span data-inline="true" id="@item.GetID("loc")">@if (!string.IsNullOrEmpty(src))
+                                                             {
+                                                                 var info = new WebResourceInfo(src);
+                @info.Name    }
+            </span>
+        </div>
+    </li>
+    <li data-readonly="true">
+        <div style="padding: 0 5px;">
+            <a data-role="button" data-inline="false" href="javascript:void(0);" 
+                data-rel="folder" 
+                data-folder-title="@string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.Folder)" 
+                data-folder-to="#@item.GetID("url")">@Resources.Commons.Change</a>
+        </div>
+    </li>
+    <li data-role="divider">@Resources.Designs.Sizing</li>
+    <li data-role="fieldcontain">
+        <label>@Resources.Designs.ImageSize</label>
+        <select data-role="combobox" 
+                    style="width:180px;"
+                    data-drop-style="menu"
+                    data-select="var v=ui.dataItem.value; if (v) $('#@(item.GenerateFieldID("width"))').val(v);$('#@item.GenerateFieldID("width_holder")').isVisible(v==0);">
+            <option value="150">@item.Loc("SmallSize")</option>
+            <option value="200">@item.Loc("MediumSize")</option>
+            <option value="300">@item.Loc("LargeSize")</option>
+            <option value="0">@item.Loc("CustomSize")</option>
+        </select>
+    </li>
+    <li data-role="fieldcontain" id="@item.GenerateFieldID("width_holder")" @if (defaultWidths.Contains(item.GetInt("width")))
+                                                                            {<text>style="display:none;"</text>} >
+        <label>@Resources.Designs.Width</label>
+        @item.TextBox("width", new { data_width = "80" })<span>px</span>
+    </li>
+    <li data-role="divider">@Resources.Commons.Preformance</li>
+    <li data-role="fieldcontain">
+        <label>@item.Loc("LoadingCount")</label>
+        <select data-role="combobox"
+            style="width:180px;"
+            name="rows"
+            data-drop-style="menu"
+            data-value="@item.GetInt("rows")">
+            <option value="0">@item.Loc("LoadAtOnce")</option>
+            <option value="10">@item.Loc("VeryFast")</option>
+            <option value="20">@item.Loc("Fast")</option>
+            <option value="30">@item.Loc("Normal")</option>
+            <option value="50">@item.Loc("Slow")</option>
+        </select>
+        <small>@item.Loc("SetPhotoCount")</small>
+    </li>
+</ul>
+
+
+</text>).Design(@<text>
+@{var src = item.GetString("url");}
+@if (string.IsNullOrEmpty(src))
+{
+    <div style="text-align: center;cursor:pointer;" onclick="event.preventDefault();event.stopPropagation();$.folderDialog('@string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.Folder)').done(function(folder){ $('#@item.ClientID').widget('prefs',{url:folder}) });" >
+        <div class="d-inline">
+            <img src="@Url.Content(item.IconUrl)" style="width:64px;height:64px;"/>
+            <div>@string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.Folder)</div>
+        </div>
+    </div>
+}
+else
+{    
+    @_RenderFlow(item, true)
+}
+</text>).GetHtml()
+
+@helper _RenderFlow(WidgetHelper widget, bool design = false)
+{
+    var src = widget.GetString("url");
+    var width = widget.GetInt("width");
+    if (!string.IsNullOrEmpty(src))
+    {
+    <style>
+        .@(widget.GenerateFieldID("d-pic")) { width: @(width)px; border: 1px solid #ccc; border-top-color: #f2f2f2; border-left-color: #f2f2f2; margin: 5px; padding: 0px; }
+    </style>
+    <script src="@Url.Content(widget.ResovleUrl("jquery.wookmark.min.js"))"></script>
+    <script type="text/x-jquery-tmpl">
+        <img src="${url}?w=@(width)&h=1024" style="width:@(width)px;"
+                data-src="${url}" 
+                data-viewer="@((!design).ToString().ToLower())" 
+            @if (design)
+            {<text>onclick="$(this).closest('.d-widget').click();"</text>}
+                data-items="@widget.GenerateFieldID("photos_container") img"
+                data-src-attr="data-src"
+                data-loading-text="@Resources.Commons.Loading"
+                data-close-text="@Resources.Commons.Close"
+                />
+    </script>
+    <ul data-source="next" 
+        data-tmpl="prev" 
+        data-role="listview" 
+        data-item-class="@widget.GenerateFieldID("d-pic")" 
+        data-scroller="win"
+        data-empty="@widget.GenerateFieldID("empty")"
+        id="@widget.GenerateFieldID("photos_container")"
+        data-item-created="var ratio=ui.data.exif.height/ui.data.exif.width; $(ui.item).height(ratio*@width);"
+        data-items-added="__applyphotolayouts_@(widget.Model.ID)()"
+        style="min-height:300px;position:relative;overflow:visible;"
+        >
+    </ul>
+    <div data-role="datasource" 
+        @if (widget.GetInt("rows") > 0)
+        {<text>
+        data-server-paging="true" 
+        data-pagesize="@widget.GetInt("rows")"</text>}
+        data-onprocess="$('#@widget.GenerateFieldID("loading")').fadeIn();"
+        data-oncomplete="$('#@widget.GenerateFieldID("loading")').fadeOut();">
+        <div data-action="read" data-url="@src">
+            <div data-name="match" data-value=".*"></div>
+            <div data-role="mapper" data-filter="if (dataItem.contentType.startsWith('image')) { output=dataItem;return true; } return false;"></div>
+        </div>
+    </div>
+    <div style="text-align: center;" id="@widget.GenerateFieldID("loading")">
+        <img src="@Url.Content("~/content/images/img_loading.gif")" />
+        <div>@Resources.Commons.Loading ...</div>
+    </div>
+    <div style="display:none;" id="@widget.GenerateFieldID("empty")">
+        <div style="text-align: center; line-height: 50px;">@widget.Loc("Empty")</div>
+    </div>
+    <script type="text/javascript">
+        function __applyphotolayouts_@(widget.Model.ID)() {
+            $("#@widget.GenerateFieldID("photos_container") .@widget.GenerateFieldID("d-pic")").wookmark({
+                autoResize: true,
+                align:"center",
+                offset: 10,
+                resizeDelay:50,
+                itemWidth: @(width),
+                container:$("#@widget.GenerateFieldID("photos_container")")
+            });
+        }
+    </script>
+    }
+}

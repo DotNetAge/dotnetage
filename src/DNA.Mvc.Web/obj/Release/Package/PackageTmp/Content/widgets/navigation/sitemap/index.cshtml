@@ -1,0 +1,33 @@
+﻿@Html.Widget().Content(@<text>
+@_RenderSitemap(item)
+</text>).Design(@<text>
+@_RenderSitemap(item)
+</text>).UserPreferences(@<text>
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        @item.Label("class", Resources.Designs.ClsName)
+        @item.TextBox("class", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Designs.ClsName) })
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("columns", Resources.Designs.Columns)
+        @item.Hidden("columns") @{var cols = item.GetInt("columns");}
+        <select data-role="combobox" data-drop-style="menu" style="width:80px"
+        data-select="$('#@(item.GenerateFieldID("columns"))').val(ui.dataItem.value)">
+            <option value="3" @if (cols == 3)
+                              {<text>selected="selected"</text>}>3</option>
+            <option value="4" @if (cols == 4)
+                              {<text>selected="selected"</text>}>4</option>
+            <option value="5" @if (cols == 5)
+                              {<text>selected="selected"</text>}>5</option>
+            <option value="6" @if (cols == 6)
+                              {<text>selected="selected"</text>}>6</option>
+        </select>
+    </li>
+</ul>
+</text>).GetHtml()
+
+@helper _RenderSitemap(WidgetHelper item)
+{
+    var _params = item.GetUserPreferences();
+    @Sitemaps.GetHtml(issitemap: true, htmlAttributes: new { @class = "d-sitemap", style = string.Format("column-count:{0};-moz-column-count: {0};-webkit-column-count: {0};", _params.columns) })
+}

@@ -1,0 +1,14 @@
+﻿.d-photo-viewer { position: fixed; top: 0px; left: 0px; z-index: 600; overflow: hidden; width: 100%; height: 100%; background: #333; }
+.d-photo-viewer-header { padding: 5px; height: 25px; background: #000; color: #fff; text-indent: 10px; }
+    .d-photo-viewer-header > a { display: inline-block; float: right; color: #fff; -webkit-text-shadow: none; text-shadow: none; cursor: pointer; }
+.d-photo-container { overflow: hidden; }
+    /*.d-photo-container > img { border: 5px solid #fff; -webkit-box-shadow: 0 0 5px #ccc; box-shadow: 0 0 5px #ccc; }*/
+.d-photo-loader { background: url("/content/images/loading_gear.gif") no-repeat center 35%; color: #fff; text-align: center; -webkit-text-shadow: none; text-shadow: none; font-size: 50px; }
+.d-photo-viewer .d-photo-nav-left,
+.d-photo-viewer .d-photo-nav-right { position: absolute; top: 50%; margin-top: -30px; border: 1px solid #000; background-color: #000; color: #fff; text-align: center; font-size: 2em; line-height: 60px; opacity: .5; cursor: pointer; }
+    .d-photo-viewer .d-photo-nav-left:hover,
+    .d-photo-viewer .d-photo-nav-right:hover { opacity: 1; }
+.d-photo-viewer .d-photo-nav-left { -webkit-border-bottom-right-radius: 5px; -moz-border-radius-bottomright: 5px; -moz-border-radius-topright: 5px; left: 0px; -webkit-border-top-right-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
+.d-photo-viewer .d-photo-nav-right { -webkit-border-bottom-left-radius: 5px; -moz-border-radius-bottomleft: 5px; -moz-border-radius-topleft: 5px; right: 0px; -webkit-border-top-left-radius: 5px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+    .d-photo-viewer .d-photo-nav-left > span,
+    .d-photo-viewer .d-photo-nav-right > span { cursor: pointer; }

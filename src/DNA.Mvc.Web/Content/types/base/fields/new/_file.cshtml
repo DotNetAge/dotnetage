@@ -1,0 +1,17 @@
+﻿@model FileField
+<input  id="@(Model.ClientID)" 
+            name="@Model.Name" 
+            type="text" 
+            @Model.GetAttributes() 
+            @if (Model.IsRequired)
+            {
+            <text>
+            data-val="true"
+            data-val-required="@string.Format(Resources.Validations.Required_Format, Model.Title)"
+            </text>
+            }
+          />
+<div style="padding: 5px 0px 5px 154px; width: 312px; text-align: right;">
+    <a data-role="button" onclick="$.fileDialog({title:'@(string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.File))',input:$('#@(Model.ClientID)'),url:'@(Url.Action("Explorer", "WebFiles"))'});" style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+</div>
+@Html.ValidationMessage(Model)

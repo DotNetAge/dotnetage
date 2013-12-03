@@ -1,0 +1,25 @@
+﻿@using DNA.Web;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wait for audit</title>
+    <style type="text/css">
+        blockquote { border-left: 15px solid #cccccc; background-color: #eeeeee; padding: 5px; }
+    </style>
+</head>
+<body>
+    <p>
+       Here is someone post a new commnet on your article .</p>
+    <p>
+        Posted by : {author} - {title}</p>
+    <blockquote>
+        <p>
+            {summary}</p>
+    </blockquote>
+    <p>
+        View the complete topic at : <a href="{permalink}">{permalink}</a></p>
+</body>
+</html>

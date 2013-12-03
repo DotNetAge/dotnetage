@@ -1,0 +1,22 @@
+﻿<div style="padding:10px;">
+<p>
+    @Resources.Installations.InstallTmplToWeb
+    </p>
+@UIHelper.Solutions("$('#btnInstallSol').isDisable(ui.item.dataBool('installed'))", AppModel.Get().CurrentWeb.GetInstalledSolutions())
+
+<button id="btnInstallSol" data-inline="false" 
+    class="d-state-disable" onclick="if (!$(this).isDisable()) _install_solution();">@Resources.Installations.Install</button>
+    </div>
+<script type="text/javascript">
+    function _install_solution() {
+        $.loading();
+        var selectedItem = $("#solutionBox").children(".d-state-active"),
+            solName = selectedItem.data("val"),
+            installed = selectedItem.dataBool("installed");
+
+        $.post("@(Url.Action("InstallSolution", "DynamicUI"))", { name: solName, locale: "@Culture" }, function () {
+            $.loading("hide");
+            location.reload();
+        });
+    }
+</script>

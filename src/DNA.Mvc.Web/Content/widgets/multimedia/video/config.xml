@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="video">
+  <name short="Video">Video</name>
+  <name short="Video" xml:lang="zh-cn">视频</name>
+  <description xml:lang="zh-cn"></description>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="src" value="''" />
+  <preference name="autoplay" value="false" />
+  <preference name="width" value="0" />
+  <preference name="height" value="0" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

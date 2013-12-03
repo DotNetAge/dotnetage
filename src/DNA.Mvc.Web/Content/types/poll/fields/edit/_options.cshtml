@@ -1,0 +1,56 @@
+﻿@model ContentFieldValue
+@{
+    var optStr = (string)Model.Raw;
+    var options = string.IsNullOrEmpty(optStr) ? null : (IEnumerable<dynamic>)Json.Decode(optStr);
+}
+@*<div>*@
+<input type="hidden" value="@Model.Raw" name="@Model.Field.Name" id="@(Model.Field.Name)_options_field" />
+<ul class="d-items" style="display: inline-block;" id="@(Model.ParentList.Name)_options">
+    @foreach (var opt in options)
+    {
+        <li class="d-item">
+            <input type="text" name="@opt.name" value="@opt.title" data-users="@opt.users" /></li>
+    }
+    <li class="d-item">
+        <a href="javascript:void(0);" onclick="__addoption(this);" role="link" data-icon-left="d-icon-plus-4">@Model.ParentList.Package.Loc("MoreOption")</a>
+    </li>
+</ul>
+@*</div>*@
+
+<script type="text/javascript">
+    $(function () {
+        $("#@(Model.ParentList.Name)_options input").on("change", function () {
+            __saveoptions();
+        });
+    });
+
+    function __saveoptions() {
+        var optInputs = $("#@(Model.ParentList.Name)_options input"), opts = [];
+        optInputs.each(function (i, n) {
+            if ($(n).val()) {
+                opts.push({
+                    title: $(n).val(),
+                    name: $(n).attr("name"),
+                    value: $(n).attr("data-users") ? $(n).attr("data-users").split(",").length : 0,
+                    users: $(n).attr("data-users")
+                });
+            }
+        });
+
+        if (opts.length)
+            $("#@(Model.Field.Name)_options_field").val(JSON.stringify(opts));
+    }
+
+    function __addoption(el) {
+        var inputs = $("#@(Model.ParentList.Name)_options input"),
+            counter = inputs.length + 1,
+        opt = $("<li/>").addClass("d-item"),
+                optInput = $("<input name='option" + counter + "' type='text'/>").appendTo(opt).bind("change", function () {
+                    __saveoptions();
+                });;
+
+        $(el).parent().before(opt);
+        optInput.taoTextbox();
+        optInput.focus();
+    }
+</script>

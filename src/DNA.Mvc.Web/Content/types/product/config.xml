@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" itemtype="http://schema.org/Product"
+             allowComments="true"
+             versioning="false"
+             name="product"
+             allowAttachs="true"
+             allowVotes="true"
+             allowResharing="true"
+             allowCategoriesAndTags="true" defaultLocale="en-us" activity="true" id="product">
+  <title resKey="Product"/>
+  <description resKey="Product_Desc"/>
+  <fields>
+    <field type="Text" name="Name" linkToItem="true" required="true" itemprop="name" slug="true">
+      <title resKey="Name"/>
+      <placeHolder resKey="Name_Holder"/>
+    </field>
+    <field type="Text" name="Number" linkToItem="true" itemprop="productID" >
+      <title resKey="Code"/>
+      <description resKey="Code_Desc"/>
+      <placeHolder resKey="Code_Holder"/>
+    </field>
+    <field type="Text" name="Brand" itemprop="brand">
+      <title resKey="Brand"/>
+      <description resKey="Brand_Desc"/>
+      <placeHolder resKey="Brand_Holder"/>
+    </field>
+    <field type="Boolean" name="Promoted" hideInDispForm="true">
+      <title resKey="Promoted"/>
+      <description resKey="Promoted_Desc"/>
+    </field>
+    <field type="Currency" name="Discount">
+      <title resKey="Discounted" />
+      <numberFormat digits="1" />
+    </field>
+    <field type="Image" name="Poster" linkToItem="true"  itemprop="image" sortable="false">
+      <title resKey="Poster" />
+      <description resKey="Poster_Desc"/>
+    </field>
+    <field type="Image" name="ImageUrl" linkToItem="true" thumbHeight="200" thumbWidth="200" itemprop="image">
+      <title resKey="MainPhoto"/>
+    </field>
+    <field type="Image" name="Thumb1">
+      <title resKey="Photo2" />
+    </field>
+    <field type="Image" name="Thumb2">
+      <title resKey="Photo3" />
+    </field>
+    <field type="Image" name="Thumb3">
+      <title resKey="Photo4" />
+    </field>
+    <field type="Image" name="Thumb4">
+      <title resKey="Photo5" />
+    </field>
+    <field type="Image" name="Thumb5">
+      <title resKey="Photo6" />
+    </field>
+    <field type="Currency" name="Price" default="0.00">
+      <title resKey="Price" />
+      <numberFormat digits="1" />
+    </field>
+    <field type="Text" name="Slogan" itemprop="description" hideInDispForm="true">
+      <title resKey="Slogan" />
+      <placeHolder resKey="Slogan_Holder" />
+    </field>
+    <field type="Note" name="Description" isHtml="true" itemprop="text">
+      <title resKey="Desc" />
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true">
+      <title resKey="DefaultView"/>
+      <fields>
+        <fieldRef name="ImageUrl" />
+        <fieldRef name="Name" />
+        <fieldRef name="Price" showLabel="true">
+          <tmpl src="_price.cshtml"></tmpl>
+        </fieldRef>
+        <fieldRef name="Discount" />
+      </fields>
+      <paging allow="true" size="50" />
+      <styleSheet src="default.css" />
+      <body src="_float.cshtml" />
+    </view>
+    <view name="promotions" filter="Promoted=true" nopage="true">
+      <title resKey="Promotions" />
+      <fields>
+        <fieldRef name="Poster" />
+        <fieldRef name="Name" />
+        <fieldRef name="Slogan" />
+        <fieldRef name="Price">
+          <tmpl src="_discounted_price.cshtml"></tmpl>
+        </fieldRef>
+        <fieldRef name="Discount" hidden="true" />
+        <fieldRef name="Promoted" hidden="true" />
+      </fields>
+      <paging allow="true" size="10" />
+      <styleSheet src="default.css" />
+      <body src="_slideshow.cshtml" />
+    </view>
+    <view name="special_offers" filter="Discount>0" nopage="true">
+      <title resKey="Spec_offers"/>
+      <fields>
+        <fieldRef name="Imageurl" />
+        <fieldRef name="Name" />
+        <fieldRef name="Price" showLabel="true">
+          <tmpl src="_price.cshtml"></tmpl>
+        </fieldRef>
+        <fieldRef name="Discount"/>
+      </fields>
+      <paging allow="true" size="20" />
+      <styleSheet src="default.css" />
+      <body src="_slider.cshtml" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New" />
+      <styleSheet src="default.css" />
+      <body src="forms/_new.cshtml" />
+    </form>
+    <form name="editForm" type="Edit">
+      <title resKey="Edit" />
+      <body src="forms/_edit.cshtml" />
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Details" />
+      <body src="forms/_detail.cshtml" />
+      <styleSheet src="default.css" />
+      <fields>
+        <field name="Name" caption="true" showLabel="true"/>
+        <field name="Number"  showLabel="true"/>
+        <field name="Brand"  showLabel="true"/>
+        <field name="Price"  showLabel="true">
+          <tmpl src="_price_field.cshtml" />
+        </field>
+        <field name="Discount"  showLabel="true"></field>
+        <field name="ImageUrl"/>
+        <field name="Thumb1"/>
+        <field name="Thumb2"/>
+        <field name="Thumb3"/>
+        <field name="Thumb4"/>
+        <field name="Thumb5"/>
+        <field name="Description"/>
+      </fields>
+    </form>
+    <form name="actForm" type="Activity" anonymous="true">
+      <title resKey="Activity" />
+      <styleSheet src="default.css" />
+    </form>
+  </forms>
+</contentType>

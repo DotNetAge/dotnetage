@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget version="3.0.0" xmlns="http://www.w3.org/ns/widgets" id="adsense" defaultlocale="en-us">
+  <name short="AdSense">AdSense</name>
+  <name xml:lang="zh-cn" short="AdSense">AdSense广告栏</name>
+  <description>Google Ad sense</description>
+  <description xml:lang="zh-cn">Google AdSense 广告栏</description>
+  <icon height="36" width="36" src="images/icon_google_36.png" />
+  <icon height="16" width="16" src="images/icon_google_16.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="AdWidth" value="300" />
+  <preference name="SlotID" value="''" />
+  <preference name="ClientCode" value="''" />
+  <preference name="AdHeight" value="250" />
+  <content src="index.cshtml" type="application/x-ms-aspnet" />
+</widget>

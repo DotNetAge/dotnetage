@@ -1,0 +1,64 @@
+﻿@using DNA.Web.ServiceModel.Tasks;
+@model IEnumerable<WorkItem>
+@{
+    ViewBag.Title = "Task Scheduler";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@section Navs{
+    @if (Scheduler.IsRunning)
+    {
+        <a href="@Url.HostAction("TaskManager", "Create", "Scheduler")" title="@Html.Global("Create")"
+        data-role="button" 
+        data-icon-left="d-icon-plus-4"
+        data-rel="panel"
+        data-panel-title="Create task"
+        data-panel-pos="right"
+        data-panel-display="overlay"></a>
+        <a data-role="button"
+            data-icon-left="d-icon-stop"
+            data-ajax="true"
+            data-ajax-url="@Url.Action("Stop", "Scheduler")"
+            data-ajax-confirm="Are you sure stop all running task and scheduled task service?"
+            data-ajax-method="post"
+            data-ajax-begin="$.loading()"
+            data-ajax-success="location.reload();"
+            title="Stop scheduled task service."></a>
+    }
+}
+@if (Scheduler.IsRunning)
+{
+    <div style="text-align: center; margin: 10px 0px;">
+        <ul id="tasklist" data-role="listview" data-display="button-list" data-inline="true" data-selectable="true" data-item-style="width:80px;"
+            data-select="$('#listHolder').loading();$('#listHolder').load(ui.item.data('ref') ,function(){$(this).loading('hide'); $(this).taoUI();});">
+            <li data-ref="@Url.Action("List", "Scheduler", new { state = TaskStates.Ready })" class="d-state-active">Ready</li>
+            <li data-ref="@Url.Action("List", "Scheduler", new { state = TaskStates.Stop })">Stop</li>
+        </ul>
+    </div>
+    <div id="listHolder">
+        @{ Html.RenderAction("List", "Scheduler", new { state = TaskStates.Ready }); }
+    </div>
+    <script type="text/javascript">
+        function reloadTasks() {
+            var _url = $("#tasklist").children(".d-state-active").data('ref');
+            $('#listHolder').loading();
+            $('#listHolder').load(_url, function () {
+                $(this).loading('hide');
+                $(this).taoUI();
+            });
+        }
+    </script>
+}
+else
+{
+    <p style="text-align: center;">
+        <a style="font-size:10em;border-radius:120px;width:214px;display:inline-block;cursor:pointer;" class="d-ui-widget"
+          data-ajax="true"
+          data-ajax-url="@Url.Action("Start", "Scheduler")"
+          data-ajax-method="post"
+          data-ajax-begin="$.loading()"
+          data-ajax-success="location.reload();"
+          ><span class="d-icon-play-2"></span></a>
+        <br />
+        <span class="d-title">Start</span>
+    </p>
+}

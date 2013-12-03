@@ -1,0 +1,141 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+@{
+    var data = string.IsNullOrEmpty(item.GetString("data")) ? "[]" : item.GetString("data");
+}
+
+@item.Hidden("data")
+@try
+{
+    <div id="@item.GetID("listviewHolder")">
+        <a data-role="button" onclick="$.editImages('@(Resources.Designs.OrganizeImages)',eval($('#@item.GetID("data")').val()),function(imgs){ $('#@item.GetID("data")').val(JSON.stringify(imgs)).trigger('change'); } )" data-inline="false">@Resources.Designs.OrganizeImages</a>
+        <ul data-role="listview" data-display="mobile-list" data-inset="true">
+            <li data-role="fieldcontain">
+                <label style="width: 45%;">@Resources.Designs.ImageScaling</label>
+                <select name="scaling" data-role="combobox" style="width: 80px;" data-drop-style="menu">
+                    <option value="normal" @if (item.GetString("scaling") == "normal")
+                                           {<text>selected="selected"</text>}>@Resources.Designs.Scaling_Normal</option>
+                    <option value="cover" @if (item.GetString("scaling") == "cover")
+                                          {<text>selected="selected"</text>}>@Resources.Designs.Scaling_Full</option>
+                    <option value="contain" @if (item.GetString("scaling") == "contain")
+                                            {<text>selected="selected"</text>}>@Resources.Designs.Scaling_Fit</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@item.Checkbox("buttons", "Show navigation buttons")</div>
+            </li>
+            <li data-role="fieldcontain">
+                <label>@(Resources.Designs.Margin)(px)</label>
+                <div style="padding: 10px;">
+                    <input type="hidden" data-role="slider" name="margin" value="@item.GetInt("margin")" data-slide=" $('#@item.ClientID').find('.d-item').css('margin',ui.value+'px')" />
+                </div>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@Resources.Commons.Item @Resources.Designs.Width.ToString() (px)</div>
+                <div style="padding: 10px;">
+                    <input data-role="slider" name="width" type="hidden" value="@item.GetInt("width")" data-slide=" $('#@item.ClientID').find('.d-content-slider-item').width(ui.value)" data-min="10"  data-max="500"/>
+                </div>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@Resources.Commons.Item @Resources.Designs.Height.ToString() (px)</div>
+                <div style="padding: 10px;">
+                    <input data-role="slider" name="height" type="hidden" value="@item.GetInt("height")" data-slide=" $('#@item.ClientID').height(ui.value).find('.d-content-slider-viewport').height(ui.value);$('#@item.ClientID').find('.d-content-slider-item').height(ui.value)" data-max="500" />
+                </div>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@Resources.Designs.WhenClickOnImage</div>
+                <div>
+                    <select name="clickAction" data-role="combobox" style="width: 90%;" data-drop-style="menu">
+                        <option value="" @if (item.GetString("clickAction") == "")
+                                         {<text>selected="selected"</text>}>@Resources.Designs.DoNothing</option>
+                        <option value="image" @if (item.GetString("clickAction") == "image")
+                                              {<text>selected="selected"</text>}>@Resources.Designs.OpenImageViewer</option>
+                        <option value="link" @if (item.GetString("clickAction") == "link")
+                                             {<text>selected="selected"</text>}>@Resources.Designs.GoToLink</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+}
+catch (Exception e)
+{
+    <div class="d-state-error">@e.Message</div>
+}
+</text>).Content(@<text>
+@{
+    var data = string.IsNullOrEmpty(item.GetString("data")) ? "[]" : item.GetString("data");
+}
+@if (!string.IsNullOrEmpty(data) && data != "[]")
+{
+    @_RenderItems(data, item)
+}
+</text>).Design(@<text>
+@{
+    var data = string.IsNullOrEmpty(item.GetString("data")) ? "[]" : item.GetString("data");
+}
+@if (!string.IsNullOrEmpty(data) && data != "[]")
+{
+    @_RenderItems(data, item)
+}
+else
+{
+    @item.DesignModeHolder(Resources.Designs.AddImages)
+}
+</text>).GetHtml()
+
+
+@helper _RenderItems(string data, WidgetHelper item)
+{
+    var dataItems = Json.Decode(data);
+
+    if (dataItems != null && dataItems.Length > 0)
+    {
+    <div id="@item.GetID("slider")" 
+        data-role="content-slider" 
+        data-item-width="@item.GetInt("width")"
+        data-buttons="@item.GetBool("buttons").ToString().ToLower()"
+        style="height:@(item.GetInt("height"))px;"
+            @if (item.GetString("clickAction") == "image" && !Request.IsAjaxRequest())
+            {<text>
+            data-viewer="true"
+            data-items="#@(item.GetID("slider")) .d-content-slider-item"
+            data-src-attr="data-img"</text>}>
+        @if (dataItems.Length > 0)
+        {
+            foreach (var dataItem in dataItems)
+            {
+                var style = "height:" + ((item.GetInt("height") > 200 && (item.GetInt("width") == 0 || item.GetInt("width") > 150) && !string.IsNullOrEmpty(dataItem.title)) ? ((item.GetDecimal("height") * (decimal)0.7).ToString()) : item.GetString("height")) + "px;background:url(" + dataItem.image + ") no-repeat; position: relative;";
+
+                if (item.GetString("scaling") != "normal")
+                {
+                    if (item.GetString("scaling") == "contain")
+                    {
+                        style += "background-size:" + item.GetString("scaling") + ";background-position:center center;";
+                    }
+                    else
+                    {
+                        style += "background-size:100% 100%;background-position:center center;";
+                    }
+                }
+            <a data-img="@dataItem.image" 
+                title="@dataItem.title"
+                @if (!string.IsNullOrEmpty(dataItem.link) && item.GetString("clickAction") != "image")
+                {<text>href="@dataItem.link" @Html.Preload()</text>}
+                else
+                {<text>href="javascript:void(0);" onclick="$(this).closest('[data-viewer=true]').attr('data-index',$(this).index())"</text>}
+                style="display:inline-block;margin: @(item.GetInt("margin"))px;margin-right:0px;height:@(item.GetInt("height"))px;width:@(item.GetInt("width"))px;padding:0px;position:relative;overflow:hidden;">
+                <div style="@style"></div>
+                @if (item.GetInt("height") > 200 && (item.GetInt("width") == 0 || item.GetInt("width") > 150) && !string.IsNullOrEmpty(dataItem.title))
+                {
+                    <div style="padding: 5px;">
+                        <div class="d-h5">@dataItem.title</div>
+                        <div class="d-notes">@dataItem.desc</div>
+                    </div>
+                }
+            </a>
+            }
+        }
+    </div>
+    }
+}

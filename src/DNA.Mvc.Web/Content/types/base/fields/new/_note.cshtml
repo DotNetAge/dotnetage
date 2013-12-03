@@ -1,0 +1,20 @@
+﻿@model NoteField
+@if (Model.IsHtml)
+{
+    @UIHelper.EditorToolbars(Model.ClientID)
+}
+<textarea  id="@(Model.ClientID)" name="@Model.Name" placeholder="@Model.Placeholder"
+    data-select="console.log(ui);"
+            @if (Model.IsHtml)
+            {<text> data-role="editor"  
+    data-encoded="false"
+        data-toolbar=".@(Model.ClientID)"
+    data-text-html="@Resources.Commons.Design"
+    data-text-code="@Resources.Commons.Html"
+    </text>}
+            else
+            {<text> @Model.GetValidationAttributes() </text>}
+            @if (Model.NumLines > 0)
+            {<text>rows="@Model.NumLines" style="height:@(Model.NumLines * 20)px;width:100%;"</text>}
+            >@if (Model.DefaultValue != null){<text>@((string)Model.DefaultValue)</text>}</textarea>
+

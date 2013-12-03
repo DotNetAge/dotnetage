@@ -1,0 +1,51 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var m = item.GetUserPreferences();}
+<div id="@item.GetID("listSelector")">
+    <div>@string.Format(Resources.Messages.SelectFormat, Resources.Contents.List)</div>
+    @item.Hidden("listName")
+    @UIHelper.ContentLists(item.GetString("listName"), "var n=ui.item.data('name');$('#" + item.GetID("listName") + "').val(n).trigger('change');")
+</div>
+<div class="d-field">
+    <label>Return rows</label>
+    <select name="rows" data-role="combobox" data-drop-style="menu" style="width: 150px;">
+        <option @if (item.GetInt("rows") == 20)
+                {<text>selected="selected"</text>}>20</option>
+        <option @if (item.GetInt("rows") == 30)
+                {<text>selected="selected"</text>}>30</option>
+        <option @if (item.GetInt("rows") == 50)
+                {<text>selected="selected"</text>}>50</option>
+        <option @if (item.GetInt("rows") == 80)
+                {<text>selected="selected"</text>}>80</option>
+    </select>
+</div>
+</text>).Content(@<text>
+@{var m = item.GetUserPreferences();
+  var listname = item.GetString("listName");
+  ContentListDecorator list = !string.IsNullOrEmpty(listname) ? AppModel.Get().CurrentWeb.Lists[listname] : null;
+}
+<div style="padding: 10px;">
+    @if (list != null)
+    {
+        if (list.Tags.Count() > 0)
+        {
+            var rows = item.GetInt("rows");
+            var tags = list.Tags.Take(rows > 0 ? rows : 30);
+            var website = AppModel.Get().CurrentWeb.Name;
+
+            foreach (var tag in tags)
+            {
+                var size = "d-link";
+                if (tag.Ratio > (decimal)2 && tag.Ratio <= (decimal)4) { size = "d-h6"; }
+                if (tag.Ratio > (decimal)4 && tag.Ratio <= (decimal)6) { size = "d-h5"; }
+                if (tag.Ratio > (decimal)6 && tag.Ratio <= (decimal)10) { size = "d-h4"; }
+        <a class="d-float @(size)" href="@Url.Content(tag.Url)" style="line-height:1.1em;" title="@tag.Name">@tag.Name</a>
+            }
+        }
+        else
+        {
+        <p>( @Resources.Contents.Empty )</p>
+        }
+    }
+</div>
+
+</text>).GetHtml()

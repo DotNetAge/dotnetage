@@ -1,0 +1,9 @@
+﻿.d-page { width: 100%; background-color: #ececec; }
+    .d-page > [class^="d-page"] > .d-widget-zone,
+    .d-page > [class^="d-page"] > .d-page-part > .d-layout-columns { margin: auto; width: 980px; }
+
+@media screen and (max-width: 768px) {
+    .d-page { width: 100%; }
+        .d-page > [class^="d-page"] > .d-widget-zone,
+        .d-page > [class^="d-page"] > .d-page-part > .d-layout-columns { width: auto; }
+}

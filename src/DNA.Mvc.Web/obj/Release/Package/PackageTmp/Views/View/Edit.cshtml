@@ -1,0 +1,673 @@
+﻿@model ContentViewDecorator
+@{ 
+    var view = Model;
+    var list = Model.Parent;
+    if (ViewBag.Page == null)
+    {
+        Layout = "~/Views/Shared/_Dashboard.cshtml";
+    }
+    ViewBag.Title = view.Title + " : " + Resources.Managements.ViewSettings;
+    var sortingExpr = Model.Sort;
+    var sortingFields = new List<ContentField>();
+    var sortingJson = "";
+    if (!string.IsNullOrEmpty(sortingExpr))
+    {
+        var fieldArgs = sortingExpr.Split(',').Select(f => { var expr = f.Split(' '); return new { val = expr[0], dir = expr[1] }; });
+        sortingJson = Json.Encode(fieldArgs.Select(s => new { title = list.Fields[s.val] != null ? list.Fields[s.val].Title : s.val, val = s.val, dir = s.dir }));
+    }
+    //  var scripts = view.StartupScripts;
+    var bodyTmpl = Model.Body;
+    var web = AppModel.Get().CurrentWeb.Name;
+    ViewBag.ReturnUrl = list.SettingUrl + "#" + Model.Name;
+    ViewBag.ReturnText = list.Title;
+    //var viewTmpls = //System.IO.Directory.GetFiles(Server.MapPath("~/content/types/base/views/"), "*.cshtml");
+    
+}
+@section Navs{
+    @if (!string.IsNullOrEmpty(view.Url))
+    {
+<a data-role="button" data-icon-left="d-icon-eye" href="@Url.Content(view.Url)" target="_blank" title="@Resources.Commons.Open"></a>
+    }
+<a data-icon-left="d-icon-trash" data-role="button"  title="@Resources.Commons.Delete"
+    onclick="$.confirm('@(string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Contents.View))','@(Resources.Commons.Confirm)').done(function() { $.loading(); $('#delViewForm').submit(); })"> 
+  <form action="@Url.Content(string.Format("~/{0}/{1}/view/delete/{2}", web, Culture, view.ID))" method="post" id="delViewForm" data-inline="true" style="display:none;"></form>
+</a>
+<a href="#options_panel" title="@Resources.Managements.ViewSettings"
+    data-role="button" data-icon-left="d-icon-settings" 
+    data-rel="open"></a>
+}
+<div data-role="panel" data-pos="right" data-display="overlay" id="options_panel" style="position: fixed;">
+    <h3>@Resources.Contents.Details</h3>
+    <div>
+        @using (Ajax.BeginForm(new AjaxOptions()
+            {
+                Url = Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/views/save/" + Model.ID.ToString()),
+                OnBegin = "$.loading()",
+                OnComplete = "$.loading('hide')",
+                OnSuccess = "$('#sys_header_title').text($('#model_title_val').val());$.closePanels();"
+            }))
+        {
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label>@Resources.Commons.Title</label>
+                    <input type="text" value="@view.Title" id="model_title_val" name="title" 
+                        placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Title)"/>
+                </li>
+                <li data-role="fieldcontain">
+                    <label>@Resources.Commons.Desc</label>
+                    <textarea placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Desc)" 
+                        name="desc">@view.Description</textarea>
+                </li>
+                <li data-readonly="true">
+                    <div>
+                        @Html.CheckBoxFor(m => m.IsDefault, new
+                   {
+                       data_label = Resources.Commons.SetAsDefault,
+                       data_change = "$('#options_form').submit();"
+                   })
+                    </div>
+                </li>
+                <li data-readonly="true" style="border: none;">
+                    <div>
+                        @Html.CheckBoxFor(m => m.AllowPaging, new
+               {
+                   data_label = Resources.Contents.AllowPaging,
+                   data_change = "$('#pagingHolder').isVisible(ui.checked);$('#options_form').submit();"
+               })
+                    </div>
+                </li>
+                <li data-readonly="true"  id="pagingHolder" @if (!Model.AllowPaging)
+                                                            {<text>style="display:none;"</text>}>
+                    <div>
+                        <label>@Resources.Contents.DefaultPagingSize : </label>
+                        <select name="size" 
+                                data-role="combobox"
+                                data-val="@Model.PageSize"
+                                data-input="false"
+                                data-select="console.log(ui);" style="width:60px;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </li>
+                <li data-readonly="true" style="border: none;">
+                    <button data-inline="false" data-icon-left="d-icon-disk">@Resources.Commons.Save</button>
+                </li>
+            </ul>
+        }
+    </div>
+</div>
+
+<form id="fields_form" 
+    method="post" 
+    action="@Url.Content(string.Format("~/{0}/{1}/view/setfields?name={2}&slug={3}", web, Culture, Model.Parent.Name, Model.Name))"
+    style="margin-bottom:10px;">
+    <ul data-role="listview"
+        data-inset="true"
+        data-display="mobile-list"
+        id="viewfields_list">
+        <li data-role="divider">@Resources.Contents.ViewFields</li>
+        <li id="d_btn_viewfields" style="display: none;" data-readonly="true">
+            <span class="d-inline">@Resources.Messages.ViewFieldsChanged</span>
+            <div data-role="button" data-inline="true" onclick="_submitChanges();" id="btnsave_viewfieds">@Resources.Commons.Save</div>
+        </li>
+        @{
+            var viewFields = Model.FieldRefs;
+            var viewIFieldNames = viewFields.Select(f => f.Name).ToArray();
+            var hiddenFields = Model.Parent.Fields.Where(f => !viewIFieldNames.Contains(f.Name)).ToList();
+        }
+        @foreach (var f in viewFields)
+        {
+            <li data-link-icon="d-icon-resize-vertical" @if (f.IsHidden)
+                                                        {<text>data-counter="hidden"</text>}>
+                <a>
+                    <input type="checkbox" value="@f.Name" name="Fields" checked="checked" 
+                            data-label="@f.Title"
+                            data-bool="false"
+                            data-change = "_setFieldsChanged();"/>
+                </a>
+                <a data-rel="panel"
+                    href="@Url.Content(string.Format("~/{0}/{1}/view/editfield?name={2}&slug={3}&field={4}", web, Culture, Model.Parent.Name, Model.Name, f.Name))"
+                    data-panel-pos="right"
+                    data-panel-display="overlay"
+                    data-panel-title="@Resources.Managements.FieldSettings">
+                </a>
+            </li>
+        }
+        @if (hiddenFields != null && hiddenFields.Count > 0)
+        {
+            foreach (var f in hiddenFields)
+            {
+            <li data-link-icon="d-icon-resize-vertical">
+                <a>
+                <input type="checkbox"
+                            data-label="@f.Title"
+                            value="@f.Name"
+                            data-bool="false"
+                            name="Fields" 
+                            data-change = "_setFieldsChanged();"/></a>
+            </li>
+            }
+        }
+    </ul>
+</form>
+
+<ul data-role="listview"
+    data-inset="true"
+    data-display="mobile-list" 
+    data-link-icon="no" style="margin-bottom:10px;">
+    <li data-icon="d-icon-insert-template"><a data-rel="open" href="#layout_panel">@Resources.Designs.Layout</a></li>
+    <li data-icon="d-icon-sort" @if (!string.IsNullOrEmpty(Model.Sort))
+                                {<text>data-counter="@Resources.Contents.Defined"</text>}><a data-rel="open" href="#sorting_panel">@Resources.Contents.Sorting</a></li>
+    <li data-icon="d-icon-filter" @if (!string.IsNullOrEmpty(Model.Filter))
+                                  {<text>data-counter="@Resources.Contents.Defined"</text>}><a data-rel="open" href="#filter_panel">@Resources.Contents.Filter</a></li>
+    <li id="roles_item" data-icon="d-icon-users" @if (Model.AllowAnonymous)
+                                                 {<text>data-counter="@Resources.Contents.All"</text>}
+                                                 else
+                                                 {<text>data-counter="@String.Join(",", Model.Roles)"</text>}><a data-rel="open" href="#security_panel">@Resources.Commons.Roles</a></li>
+
+</ul>
+
+<ul data-role="listview"
+    data-inset="true"
+    data-display="mobile-list" 
+    data-link-icon="no"  style="margin-bottom:10px;">
+   <li data-icon="d-icon-code">
+       <a href="@Url.Content(string.Format("~/{0}/{1}/view/code?name={2}&slug={3}", web, Culture, Model.Parent.Name, Model.Name))"
+           data-rel="dialog"
+           data-dialog-title="@Resources.Contents.Code" 
+           data-dialog-fullscreen="true"
+           data-dialog-cache="true"
+           data-dialog-padding="0px">@Resources.Contents.EditSrc</a>
+   </li>
+    <li data-icon="d-icon-css3">
+        <a href="@Url.Content(string.Format("~/{0}/{1}/view/EditCss?name={2}&slug={3}", web, Culture, Model.Parent.Name, Model.Name))"
+            data-rel="dialog"
+            data-dialog-title="@Resources.Designs.EditCss"
+            data-dialog-fullscreen="true"
+            data-dialog-cache="true"
+            data-dialog-padding="0px">@Resources.Designs.EditCss</a>
+    </li>
+</ul>
+
+<div data-role="panel"
+    data-pos="right"
+    data-display="overlay"
+    id="layout_panel">
+    <h3>@Resources.Contents.StyleAndLayout</h3>
+    <div>
+        <form data-ajax="true" 
+            data-ajax-url="@Url.Content(string.Format("~/{0}/{1}/view/SetStyle?name={2}&slug={3}", web, Culture, Model.Parent.Name, Model.Name))"
+            data-ajax-method="post"
+            data-ajax-begin="$.loading();"
+            data-ajax-complete="$.loading('hide')"
+            data-ajax-failure="$.err(error)"
+            data-ajax-success="$.closePanels();"
+            >
+            <input type="hidden" name="style" id="view_style_val" value="@(bodyTmpl != null ? bodyTmpl.Source : "")" />
+            <ul data-role="listview"
+                data-select="$('#view_style_val').val(ui.item.data('style'));$(this).closest('form').find('.d-button').isDisable(false);"
+                data-selectable="true"
+                data-autohighlight="true" 
+                data-display="mobile-list" data-inset="true">
+                <li data-style="custom" data-link-icon="no">
+                    <a><span data-icon="insert-template" data-size="large" data-inline="true"></span><span data-inline="true">@Resources.Commons.Custom</span></a>
+                </li>
+                @foreach (var v in AppModel.Get().ContentViewLayouts)
+                {
+                    var title = v.Title;
+                    var desc = v.Description;
+                    if (!string.IsNullOrEmpty(v.ResKey))
+                    {
+                        title = AppModel.GetResourceString("Contents", v.ResKey);
+                    }
+
+                    if (!string.IsNullOrEmpty(v.DescResKey))
+                    {
+                        desc = AppModel.GetResourceString("Contents", v.DescResKey);
+                    }
+
+                      <li data-style="@v.Name" 
+                          data-link-icon="no"  
+                          @if (!string.IsNullOrEmpty(v.Icon))
+                          {<text>data-icon="@v.Icon"</text>}
+                          @if (!bodyTmpl.IsEmpty && !string.IsNullOrEmpty(bodyTmpl.Source) && bodyTmpl.Source.Equals(v.Name, StringComparison.OrdinalIgnoreCase))
+                          { <text> class="d-state-active"</text>}>
+                    <a title="@desc">@title</a>
+                      </li>
+                }
+            </ul>
+            <div style="padding:0px 10px;">
+                <a  data-role="button" class="d-state-disable" data-inline="false" onclick="$(this).closest('form').submit();">@Resources.Commons.Save</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div data-role="panel"
+    data-pos="right"
+    data-display="overlay"
+    id="sorting_panel">
+    <h3>@Resources.Contents.Sorting</h3>
+    <div>
+        <ul data-role="listview" data-display="mobile-list" data-inset="true" id="sortingFieldsView" data-tmpl="sortingTmpl">
+            <li data-role="fieldcontain">
+                <label>@Resources.Contents.Fields:</label>
+                <select data-role="combobox" data-input="false" style="width: 70%;" id="cbFields" data-height="200">
+                    @foreach (var vf in view.FieldRefs)
+                    {
+                        <option value="@vf.Name">@vf.Title</option>
+                    }
+                    <option value="@DataNames.Pos">@Resources.Contents.Position</option>
+                    <option value="@DataNames.Created">@Resources.Contents.DateCreated</option>
+                    <option value="@DataNames.Modified">@Resources.Commons.LastModified</option>
+                    <option value="@DataNames.Published">@Resources.Contents.Published</option>
+                    <option value="@DataNames.IsPublished">@Resources.Contents.IsPublished</option>
+                    <option value="@DataNames.State">@Resources.Contents.ModerateState</option>
+                    <option value="@DataNames.Modifier">@Resources.Contents.Modifier</option>
+                    <option value="@DataNames.Owner">@Resources.Commons.Owner</option>
+                    <option value="@DataNames.Reads">@Resources.Commons.Reads</option>
+                    <option value="@DataNames.Tags">@Resources.Commons.Tags</option>
+                    <option value="@DataNames.Categories">@Resources.Commons.Categories</option>
+                    <option value="@DataNames.TotalAttachs">@Resources.Contents.TotalAttachs</option>
+                    <option value="@DataNames.TotalComms">@Resources.Contents.TotalComms</option>
+                    <option value="@DataNames.TotalShares">@Resources.Contents.TotalReshares</option>
+                    <option value="@DataNames.TotalVotes">@Resources.Contents.TotalVotes</option>
+                </select>
+            </li>
+            <li data-readonly="true">
+                <div><div data-role="radios" data-inline="true" data-value="asc" id="rbSorts">
+                    <input type="radio" name="SortExpr" value="asc" data-label="@Resources.Contents.Asc" />
+                    <input type="radio" name="SortExpr" value="desc" data-label="@Resources.Contents.Desc" />
+                </div>
+                <div data-role="button" data-icon-left="d-icon-plus" onclick="_addSort();">@Resources.Commons.Add</div></div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div data-role="panel"
+    data-pos="right"
+    data-display="overlay"
+    id="filter_panel">
+    <h3>@Resources.Contents.Filter</h3>
+    <div>
+        <ul data-role="listview" id="expr_list" data-tmpl="filterTmpl" data-display="mobile-list">
+            <li data-readonly="true">
+                <form 
+                        id="filterForm" 
+                        method="post" 
+                        data-ajax="true"
+                        data-ajax-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/views/save/" + Model.ID.ToString())"
+                        data-ajax-complete="$('#filter_unsave').slideUp();$.validator.unobtrusive.parse($('#filterForm'));" 
+                        >
+                    <div>
+                    <div>@Resources.Contents.Expression</div>
+                    <input name="Filter" id="Filter" value="@Model.Filter" type="text"
+                            data-original="@Model.Filter"
+                            placeholder="@string.Format(Resources.InputHolders.Format, Resources.Contents.Filter)"
+                            data-val="true"
+                            data-val-remote="@Resources.Validations.ViewFilter"
+                            data-val-remote-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/views/ValidateFilter/" + Model.ID.ToString())"
+                            onchange="$('#filter_unsave').slideDown();" style="width:99%;"/>
+                    <div>
+                        @Html.ValidationMessage("Filter")
+                    </div>
+                        </div>
+                </form>
+            </li>
+            <li data-readonly="true" @if (string.IsNullOrEmpty(Model.Filter))
+                                     {<text>style="display:none;"</text>} id="logic_holder">
+                <div> 
+                    <select data-role="combobox" data-input="false" style="width: 100%;" id="logic_cnn">
+                    <option value="AND">@Resources.Contents.And</option>
+                    <option value="OR">@Resources.Contents.Or</option>
+                    <option value="NOT">@Resources.Contents.Not</option>
+                </select></div>
+            </li>
+            <li data-readonly="true"><div>
+                <input data-role="dropdown" data-target="next" data-input="false" data-width="200" id="filterFields" style="width: 100%;" data-height="200" />
+                <ul data-role="listbox" data-select="_onfilterfield_change(ui.item)">
+                    @{
+                        IEnumerable<ContentField> _vfs = view.FieldRefs.Count > 0 ? view.FieldRefs.Select(f => (ContentField)f).ToList() : list.Fields.Select(f => f).ToList();
+                        var filterableFields = _vfs.Where(v => v.IsFilterable);
+                    }
+                    @foreach (var vf in filterableFields)
+                    {
+                        <li data-val="@vf.Name" data-type="@(((ContentFieldTypes)vf.FieldType).ToString().ToLower())">@vf.Title</li>
+                    }
+                    <li data-val="@DataNames.Categories" data-type="category">@Resources.Commons.Categories</li>
+                    <li data-val="@DataNames.Tags" data-type="text">@Resources.Commons.Tags</li>
+                    <li data-val="@DataNames.IsPublished" data-type="@ContentFieldTypes.Boolean.ToString().ToLower()">@Resources.Contents.IsPublished</li>
+                    <li data-val="@DataNames.State" data-type="state">@Resources.Contents.ModerateState</li>
+                    <li data-val="@DataNames.Modifier" data-type="text">@Resources.Contents.Modifier</li>
+                    <li data-val="@DataNames.Owner" data-type="text">@Resources.Commons.Owner</li>
+                    <li data-val="@DataNames.Reads" data-type="integer">@Resources.Commons.Reads</li>
+                </ul>
+                </div>
+            </li>
+            <li data-readonly="true" style="display: none;" id="num_container">
+                <div>
+                    <select data-role="combobox"
+                        data-input="false"
+                        style="width: 100%;"
+                        id="num_operators"
+                        data-select="_operator=ui.dataItem.value">
+                        <option value="{0}={1}">@Resources.Contents.Eq</option>
+                        <option value="{0}>{1}">@Resources.Contents.Gt </option>
+                        <option value="{0}<{1}">@Resources.Contents.Lt</option>
+                        <option value="{0}>={1}">@Resources.Contents.Ge</option>
+                        <option value="{0}<={1}">@Resources.Contents.Le </option>
+                        <option value="{0}<>{1}">@Resources.Contents.Neq</option>
+                    </select>
+                </div>
+            </li>
+             <li data-readonly="true" style="display: none;" id="note_container"> <div>
+                    <select data-role="combobox"
+                        data-input="false"
+                        style="width: 100%;"
+                        id="note_operators"
+                        data-select="_operator=ui.dataItem.value">
+                        <option value="{0} LIKE '{1}%'">@Resources.Contents.Startswith</option>
+                        <option value="{0} LIKE '%{1}'">@Resources.Contents.Endswith</option>
+                        <option value="{0} LIKE '%{1}%'">@Resources.Contents.Contains</option>
+                        <option value="{0} NOT LIKE '%{1}%'">@Resources.Contents.NotContains</option>
+                    </select>
+                </div></li>
+            <li data-readonly="true"style="display: none;" id="oper_container"><div>     
+                <select data-role="combobox" data-input="false"
+                        data-select="_operator=ui.dataItem.value"
+                        style="width: 100%;" id="operators">
+                        <option value="{0}='{1}'">@Resources.Contents.Eq</option>
+                        <option value="{0}<>'{1}'">@Resources.Contents.Neq</option>
+                        <option value="{0} LIKE '{1}%'">@Resources.Contents.Startswith</option>
+                        <option value="{0} LIKE '%{1}'">@Resources.Contents.Endswith</option>
+                        <option value="{0} LIKE '%{1}%'">@Resources.Contents.Contains</option>
+                        <option value="{0} NOT LIKE '%{1}%'">@Resources.Contents.NotContains</option>
+                    </select></div></li>
+            <li data-readonly="true"id="bool_container" style="display: none;"><div><span data-role="radios" data-value="true" data-inline="true" id="boolVal">
+                        <input type="radio" value="true" data-label="@Resources.Contents.Yes" checked="checked" />
+                        <input type="radio" value="false" data-label="@Resources.Contents.No" />
+                    </span></div></li>
+            <li data-readonly="true" id="category_container" style="display: none;"><div>   <input data-role="dropdown" id="category_selector" data-target="cat_tree" data-input="false" style="width: 150px;" data-height="200" />
+                    @MvcHtmlString.Create(AppModel.Get().CurrentWeb.Categories.ToHtmlString(new { id = "cat_tree", data_role = "tree", data_selected = "$('#category_selector').taoDropdown('set',$(ui.node).data('name'))" }))
+</div></li>
+            <li data-readonly="true"id="state_container" style="display: none;">
+                <div>
+                <select data-role="combobox" id="state_selector" data-drop-style="menu" style="width: 100%;">
+                        <option value="@((int)ModerateStates.Pending)" >@Resources.Contents.Pending</option>
+                        <option value="@((int)ModerateStates.Approved)" >@Resources.Commons.Approved</option>
+                        <option value="@((int)ModerateStates.Rejected)" >@Resources.Contents.Rejected</option>
+                        <option value="@((int)ModerateStates.Notset)" >@Resources.Contents.NotSet</option>
+                    </select></div></li>
+            <li data-readonly="true"> 
+                <div> <input type="text" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Contents.Filter)" id="filterVal" name="value" style="width:100%;"/></div>
+            </li>
+            <li data-readonly="true">
+                <div style="text-align:center;">
+                <div data-role="button" onclick="_addExpr();" style="width:40%;">@Resources.Commons.Add</div>
+                <div data-role="button" onclick="$('#Filter').val('');$('#logic_holder').hide();$('#filter_unsave').slideDown();" style="width:40%;">@Resources.Contents.Clear</div>
+                      </div>
+                    </li>
+        </ul>
+        <div id="filter_unsave" class="ui-state-highlight" style="padding: 0px 10px; display: none;">
+           <div data-role="button" data-inline="false" onclick="$('#filterForm').submit();$.closePanels();">@Resources.Commons.Save</div>
+           <div data-role="button" data-inline="false" onclick="$('#Filter').val($('#Filter').data('original'));$('#filter_unsave').slideUp();">@Resources.Commons.Cancel</div>
+      </div>
+    </div>
+</div>
+
+<div data-role="panel"
+    data-pos="right"
+    data-display="overlay"
+    id="security_panel">
+    <h3>@Resources.Commons.Roles</h3>
+    <div>
+        <form id="roles_form" style="padding:10px;" class="d-form">
+            @{
+                var allRoles = AppModel.Get().Roles.GetAllRoles();
+            }
+            <div class="d-field">
+                <input type="checkbox" 
+                    @if (view.AllowAnonymous)
+                    {<text>checked="checked"</text>}
+                    value="@view.AllowAnonymous.ToString()"
+                    name="AllowAnonymous" 
+                    data-label="@Resources.Security.AllowAnonymous" 
+                    data-change="_toggle_anonymous(ui.checked);"
+                    @if (view.AllowAnonymous)
+                    {<text>checked="checked"</text>}
+                     />
+            </div>
+            <div id="view_roles_holder"  @if (view.AllowAnonymous)
+                                         {<text> style="display:none;"</text>} class="d-form">
+                @foreach (var r in allRoles)
+                { 
+                    <div  class="d-field" onclick="$(this).children('span').click();" style="margin-left: 30px;">
+                        <input type="checkbox" 
+                            data-label="@r.Name" 
+                            value="@r.Name" 
+                            data-bool="false"
+                            data-change="$(this).closest('form').find('.d-button').isDisable(false);"
+                            name="Roles" @if (view.Roles.Contains(r.Name))
+                                         {<text>checked="checked"</text>} />
+                    </div>
+                }
+            </div>
+            <div>
+                <a data-role="button" data-rel="close" href="javascript:void(0);" onclick="_saveRoles()" data-default="true" data-inline="false" class="d-state-disable">@Resources.Commons.Save</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+<script type="text/x-jquery-tmpl" id="sortingTmpl">
+    <a data-val="${val}" data-dir="${dir}" href="javascript:void(0);" style="margin-right: 40px; position: relative;">
+        ${title}
+        <span class="{{if dir=="asc"}}d-icon-sort-up{{else}}d-icon-sort-down{{/if}} d-link-icon" 
+            onclick="event.preventDefault();event.stopPropagation(); _changeDir(this);"></span>
+    </a>
+    <a onclick="event.preventDefault();event.stopPropagation();$(this).closest('li').remove();_savesorting();" 
+        href="javascript:void(0);" 
+        class="d-item-spliter">
+        <span class="d-icon-minus-4"></span></a>
+</script>
+<script type="text/javascript">
+    var _operator="{0}='{1}'", _fieldForSearch="",_typeForSearch="",
+        _titleForSearch="",_filterType="text";
+    
+    function _toggle_anonymous(val){
+        $("#view_roles_holder").isVisible(!val);
+        $("#roles_form").find(".d-button").isDisable(false);
+        //_saveRoles();
+    }
+
+    function _onfilterfield_change(_item) {
+        var _type=$(_item).data("type"),
+            _name=$(_item).data("val");
+        _filterType=_type;
+        
+        // try{
+        //$('#filterFields').taoDropdown();
+        $('#filterFields').taoDropdown('value',_name,$(_item).text()).taoDropdown("close");
+        //}
+        //catch(e){
+        //    console.log(e);
+        //}
+        var numTypes=["currency","integer","number"];
+        
+        _fieldForSearch=_name;
+        _typeForSearch=_type;
+        _titleForSearch=$(_item).text();
+        
+        $("#oper_container").hide();
+        $("#note_container").hide();
+        $("#bool_container").hide();
+        $("#category_container").hide();
+        $("#state_container").hide();
+        $("#num_container").hide();
+        $("#filterVal").parent().show();
+        if ($.inArray(_type,numTypes)>-1){
+            $("#num_container").show();
+        } else{
+            switch (_type)
+            {
+                case "note":
+                    $("#note_container").show();
+                    break;
+                case "category":
+                    $("#category_container").show();
+                    $("#filterVal").parent().hide();
+                    _operator="{0} LIKE '%{1}%'";
+                    break;
+                case "state":
+                    $("#state_container").show();
+                    _operator="{0}={1}";
+                    $("#filterVal").parent().hide();
+                    break;
+                case "boolean":
+                    $("#bool_container").show();
+                    _operator="{0}={1}";
+                    $("#filterVal").parent().hide();
+                    break;
+                default:
+                    $("#oper_container").show();
+                    break;
+            }
+        }
+    }
+    
+    function _addExpr(){
+        var _val=$("#filterVal").val(),_format=_operator,logic=$("#logic_cnn").val(),_filter=$("#Filter").val();
+        
+        if (_filterType=="category")
+            _val=$("#category_selector").val();
+        
+        if (_filterType=="state")
+            _val=$("#state_selector").val();
+
+        if (_filterType=="boolean")
+            _val=$("#boolVal").taoRadios("option","value");
+
+        if (_filter)
+            $("#Filter").val(_filter+" "+logic+" "+$.format(_format,_fieldForSearch,_val));
+        else {
+            $("#Filter").val($.format(_format,_fieldForSearch,_val));
+        }
+        
+        if ($("#Filter").val()){
+            $("#logic_holder").show();
+            $('#filter_unsave').slideDown();
+            $("#filterVal").val("");
+        }
+    }
+
+    function _initSortings(){
+        var sorts=@MvcHtmlString.Create(string.IsNullOrEmpty(sortingJson) ? "\"\"" : sortingJson);
+        //console.log($("#sortingFieldsView").attr("class"));
+        if (sorts)
+            $("#sortingFieldsView").taoListview("addItem",sorts);
+    }
+
+    function _savesorting(){
+        var sortingFields=$("[data-val]",$("#sortingFieldsView")),_exprArgs=[];
+        sortingFields.each(function(i,n){
+            _exprArgs.push($(n).attr("data-val")+" "+$(n).attr("data-dir"));
+        });
+        var expr="";
+        if (_exprArgs.length)
+            expr=_exprArgs.join(",");
+        
+        $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/views/save/" + view.ID.ToString())",{sort:expr});
+    }
+
+    function _changeDir(el)
+    {
+        var a=$(el).closest("a");
+        if (a.attr('data-dir')=='asc') {
+            a.attr('data-dir','desc');
+            $(el).attr("title","@Resources.Contents.Desc");
+        } 
+        else {
+            a.attr('data-dir','asc');
+            $(el).attr("title","@Resources.Contents.Asc");
+        }
+        $(el).toggleClass("d-icon-sort-up").toggleClass("d-icon-sort-down");
+        _savesorting();
+    }
+
+    function _saveRoles() {
+        var postData=$("#roles_form").serializeArray();
+        $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/views/setroles/" + view.ID.ToString())",postData,function(){
+            
+            if ($("#roles_form").find("[name=AllowAnonymous]:checked").length) {
+                $("#roles_item").find(".d-item-counter").text("@Resources.Contents.All");
+            } else {
+                var assigned=$("#roles_form").find("[name=Roles]:checked");
+                if (assigned.length){
+                    var _args=[];
+                    assigned.each(function(i,ar){
+                        _args.push( $(ar).val());
+                    });
+                    $("#roles_item").find(".d-item-counter").text(_args.join(","));
+                }
+            }
+        });
+    }
+
+    function _addSort(){
+        var selField=$("#cbFields").val(),
+            dir=$("#rbSorts").taoRadios("option","value"),
+            obj={title:$("#cbFields").taoComboBox("option","text"),val:selField,dir:dir};
+        console.log(obj);
+        if ($("[data-val='"+selField+"']",$("#sortingFieldsView")).length)
+            alert(selField+" already added.");
+        else
+            $("#sortingFieldsView").taoListview("addItem",obj);
+        _savesorting();
+    }
+
+    var fieldsChanged=false;
+    
+    function _setFieldsChanged(){
+        $('#d_btn_viewfields').slideDown();
+        fieldsChanged=true;
+    }
+    
+    function _submitChanges(){
+        fieldsChanged=false;
+        //$('body').blockUI(); 
+        $.loading();
+        $('#fields_form').submit();
+    }
+
+    $(function(){
+        if (window.ace == undefined) {
+            $("<script>").attr("src", "@Url.Content("~/scripts/ace/ace.js")").attr("type", "text/javascript").attr("async", "true").appendTo("head");
+            $("<script>").attr("src", "@Url.Content("~/scripts/ace/mode-html.js")").attr("type", "text/javascript").attr("async", "true").appendTo("head");
+            $("<script>").attr("src", "@Url.Content("~/scripts/ace/theme-chrome.js")").attr("type", "text/javascript").attr("async", "true").appendTo("head");
+        }
+
+        _initSortings();
+
+        $("#viewfields_list").sortable({
+            forceHelperSize: true,
+            forcePlaceholderSize: true,
+            placeholder: "placeholder",
+            cancel: ".d-state-disable,.ui-state-highlight",
+            opacity: .5,
+            update: function (ui) {
+                _setFieldsChanged();
+            }
+        });
+
+        $(window).bind("beforeunload", function () {
+            if (fieldsChanged)
+                return "You have not save the settings yet,are you sure to leave?";
+        });
+    })
+</script>
+ }

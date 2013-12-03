@@ -1,0 +1,227 @@
+﻿@model WebPageDecorator
+@{  
+    var website = AppModel.Get().Context.Website;
+    
+    <div class="d-sitetools d-tran-fast">
+        @if (AppModel.Settings.EnableSitemenu)
+        {
+            <div class="d-sitemenu">
+                <a href="~/home/@Culture" class="d-sitelogo">
+                    <img src="~/content/images/logo.png" class="d-inline" alt="logo" style="margin-right: 10px;" /></a>
+                @Sitemaps.SiteMenu(new { data_role = "menubar", @class = "d-inline", data_more_text = "More" })
+            </div>
+        }
+        else
+        {
+            <a data-role="button" role="link" data-icon-left="d-icon-house" style="margin-top: 5px;" href="~/"></a>
+        }
+        <div style="position: absolute; right: 10px; top: 50%; margin-top: -12px;">
+            @if (Model != null && Request.IsAuthenticated)
+            {
+                if (Model.IsOwner(Context))
+                {
+                    if (!Request.IsMobileRequest())
+                    {
+                <a role="link" title="Simulator" class="d-simulator-link" target="_blank" data-role="button" data-icon-left="d-icon-mobile" href="@Url.Action("Simulator", "DynamicUI", new { locale = Culture, website = website, url = Request.RawUrl })"></a>}
+                <a data-role="button" role="link" href="javascript:void(0);"
+                    data-icon-left="d-icon-edit"
+                    data-design-button="true"
+                    onclick="$('[data-mode=d]').show();$('[data-design-button=true]').hide();$('body').page('design',true);" 
+                    title="@Commons.Design"></a>
+                <a data-rel="open"
+                    data-icon-left="d-icon-plus-2"
+                    data-role="button"
+                    onclick="$('.d-widget').widget('closeTools');"
+                    data-mode="d"
+                    role="link"
+                    href="#addwidget_panel" 
+                    style="display: none;"
+                    title="@Commons.Add"></a>
+                }
+                <a data-icon-left="d-icon-cog"
+                    data-rel="open"
+                    data-role="button"
+                    onclick="$('.d-widget').widget('closeTools');"
+                    role="link"
+                    href="#pagetools_pane"></a>
+            }
+            else
+            {
+                <a data-role="button" 
+                    role="link" 
+                    href="javascript:void(0);"
+                    data-icon-left="d-icon-user"
+                    onclick="$.login('@Resources.Commons.Login').done(function(){ $.loading('@(Resources.Commons.Reloading)...');location.reload(); });" 
+                    title="@Commons.Login"></a>
+
+            }
+        </div>
+
+    </div>
+    if (Model != null && Request.IsAuthenticated)
+    {
+        if (Model.IsOwner(Context))
+        {
+    <div data-role="panel"
+        data-display="push"
+        data-auto-load="false"
+        data-position="fixed"
+        data-url="@Url.Action("Explorer", "Widget", new { Area = "", locale = Culture, website = website })" 
+        id="addwidget_panel">
+        <h3>@Resources.Pages.AddContent</h3>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("body").page({ id:@Model.ID });
+        });
+
+        var res = {
+            "widget-settings": "@Commons.Settings",
+            "refresh": "@Commons.Refresh",
+            "settings": "@Commons.Settings",
+            "design": "@Commons.Design",
+            "save": "@Commons.Save",
+            "cancel": "@Commons.Cancel",
+            "edit": "@Commons.Edit",
+            "header": "@Widgets.Header",
+            "box": "@Widgets.Box",
+            "body": "@Widgets.Body",
+            "add": "@Commons.Add",
+            "to": "@(Commons.To.ToString().ToLower())",
+            "dellayoutconfirm": "@Messages.Confirm_LayoutDelete",
+            "design-layout": "@Pages.DesignLayout",
+            "apply": "@Commons.Apply",
+            "del": "@Commons.Delete",
+            "move": "@Commons.Move",
+            "toggle": "@Widgets.Toggle",
+            "prefs": "@Widgets.Preferences",
+            "AddingWidget": "@Widgets.AddingWidget"
+        };
+    </script>
+    <div data-role="panel"
+        data-display="overlay"
+        data-pos="right"
+        data-position="fixed"
+        id="layouttools_panel"
+        data-panel-return="#pagetools_pane"
+        data-close="$('body>.d-state-design').remove();">
+        <h3>@Pages.Layout</h3>
+        <div style="padding: 10px;">
+            <div style="margin: 10px 0px;">
+                @Pages.DragDropToAddLayout
+            </div>
+            <ul data-role="listview" id="layout-list" data-item-class="d-layout-tmpl" data-item-style="cursor:move;">
+                <li data-title="100%" data-cols="1" data-class="full">
+                    <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAjElEQVRYw2NgmHmGYSjj////gzHDqEeGgEd8hwiWxekRvvkX9uutvfFhKGDe+ee/gDyDyyNnmq+8+7/55e9Bj9VWXXsPdLPLqEdGPTLqkVGPjHpk1COjHhn1yKhHRj0y6pFRj4x6ZNQjI8UjtRff/h8KGK9H2Oacmwj0zKGhgHnnn98yOtI46hE6eAQAE8qc+hZI1xIAAAAASUVORK5CYII=" />
+                    <span class="d-inline">100%</span>
+                </li>
+                <li data-title="39.2%+61.8%" data-cols="2" data-class="sl">
+                    <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAoUlEQVRYw2NgmHmGYSjj////gzHDqEcGuUd8ScSU6qcUY3qEb/6F/Xprb3wgBSN7hhz9lGKQ/dg8cqb5yrv/m1/+JgpHHnz8H6ivgVz9lGKY/aMeGfXIqEdGPTLqkVGPjHpk1COjHhn1yKhHRj0y6pFRj4wEj9RefPufWIzNI6TopxTj9AjbnHMTgY45RAoG6hOjRD+lGGT/6EjjqEdo7BEAeTQnRW+wKQAAAAAASUVORK5CYII=" />
+                    <span class="d-inline">39.2%+61.8%</span>
+                </li>
+                <li data-title="61.8%+39.2%" data-cols="2" data-class="sr">
+                    <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAq0lEQVRYw2NgmHmGYSDx////UTC5+hlGPTIEPOJLT7z55W8GGCZDP3aP8M2/sF9v7Y0P9MQwz5BjN0gvLo+cab7y7j/QYLrgyIOP/wPtbYB6hCS7YXpHPTLqkVGPjHpk1COjHhn1yKhHRj0y6pFRj4x6ZNQjox4ZKR6pvfj2P70wukfI0YvVI2xzzk0EGniInhhorxjII+TYDdI7aAbokMe1oGNboyONw8IjAFjOawHGKwWXAAAAAElFTkSuQmCC" />
+                    <span class="d-inline">61.8%+39.2%</span>
+                </li>
+                <li data-title="50%+50%" data-cols="2">
+                    <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAo0lEQVRYw2NgmHmG4f///wOGQfZTguHmjHpksHpk88vfYAzk+1ILw8ykhdl4PcI3/8J+vbU3PlALg8yDeYIWZuPzyJnmK+/+A9kUY5A5IPOQPEJ1s0c9MuqRUY+MemTUI6MeGfXIqEdGPTLqkVGPjHpk1COjHhlJHqm9+PY/tTC6R6htNk6PsM05NxGo4BC1MMg8mEdoYTbecS1649GRxuHqEQDiEIHepePdpwAAAABJRU5ErkJggg==" />
+                    <span class="d-inline">50%+50%</span>
+                </li>
+                <li data-title="33.3%+33.3%+33.3%" data-cols="3">
+                    <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAkklEQVRYw2NgmHmGYSjj////gzHDqEcGuUd8ScQDrh/DI3zzL+zXW3vjAykY2TEDpR+bR840X3n3f/PL30ThyIOP/wP1NQy0/lGPjHpk1COjHhn1yKhHRj0y6pFRj4x6ZNQjox4Z9cioR0aCR2ovvv1PLMbmkIHQj+ERtjnnJgINO0QKBuoTG2j9oyONox6hsUcAtspzWhFELScAAAAASUVORK5CYII=" alt="">
+                    <span class="d-inline">33.3%+33.3%+33.3%</span>
+                </li>
+                <li data-title="25%+25%+25%+25%" data-cols="4">
+                    <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAmklEQVRYw2P4//8/w3DADKMeGYwe2fzyNxgzzDzjiw+D1AxG9Sge4Zt/Yb/e2hsf8GGQ5sGoHt0jZ5qvvPsPZGPFkQcf/wdqbBiM6kc9MuqRUY+MemTUI6MeGfXIqEdGPTLqkVGPjHpk1COjHhnuHqm9+PY/LozNosGiHsUjbHPOTQRqPoQPAzWKDUb1GONaxODBqH50yHQwYgBndY5kN0XkvAAAAABJRU5ErkJggg==" />
+                    <span class="d-inline">25%+25%+25%+25%</span>
+                </li>
+            </ul>
+            <a data-role="button" data-inline="false" @if (!string.IsNullOrEmpty(Model.ViewData) || !string.IsNullOrEmpty(Model.ViewName))
+                                                      {<text>class="d-state-disable"</text> } title="@Commons.Reset" onclick="$.confirm('@Resources.Messages.Confirm_PageReset ?','@Commons.Confirm').done(function(){ $('body').page('reset'); });">@Commons.Reset</a>
+            <button onclick="$('body').page('saveLayouts');" data-inline="false">@Commons.Save</button>
+            @*<button onclick="$('body').page('cancelLayouts');" data-inline="false">@Commons.Cancel</button>*@
+        </div>
+    </div>
+        }
+    <div data-role="panel" data-display="overlay"
+        data-pos="right" id="pagetools_pane" data-position="fixed">
+        <h3>@Managements.TaskPane</h3>
+        <div style="padding: 10px;">
+            <ul data-role="listview" data-display="mobile-list" data-inset="true" style="margin-bottom: 10px;">
+                @if (User.Identity.Name.Equals(AppModel.Settings.Administrator))
+                {
+                    <li data-icon="d-icon-cogs">
+                        <a data-rel="panel"
+                            href="@Url.Action("Menus", "Sys", new { Area = "", type = 1, locale = Culture })"
+                            data-panel-pos="right"
+                            data-panel-display="overlay"
+                            data-panel-return="#pagetools_pane"
+                            data-panel-title="@Managements.AdminDashboard">@Managements.AdminDashboard</a></li>
+                }
+                @if (Model.IsOwner(Context) && Dashboard.SiteGroups.Count() > 0)
+                {  
+                    <li data-icon="d-icon-settings">
+                        <a data-rel="panel" href="@Url.Action("Menus", "Sys", new { Area = "", type = 0, localized = false, website = website, locale = Culture })" 
+                            data-panel-pos="right" 
+                            data-panel-display="overlay" 
+                            data-panel-return="#pagetools_pane"
+                            data-panel-title="@Managements.WebSiteSettings">@Managements.WebSiteSettings</a>
+                    </li>
+                }
+                <li data-icon="d-icon-user-3">
+                    <a data-rel="panel" 
+                        href="@Url.Action("Menus", "Sys", new { Area = "", type = 2, locale = Culture })" 
+                        data-panel-pos="right" 
+                        data-panel-display="overlay" 
+                        data-panel-return="#pagetools_pane"
+                        data-panel-title="@Managements.PersonalSettings">@Managements.PersonalSettings</a>
+                </li>
+                <li data-icon="d-icon-off" data-link-icon="no"><a href="~/logout">@Commons.Logout</a></li>
+            </ul>
+            @if (Model.IsOwner(Context))
+            {
+                <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                    <li data-icon="d-icon-file-3" data-link-icon="no">
+                        <a data-rel="panel" href="@Url.Action("Create", "DynamicUI", new { locale = Culture, website = website })" 
+                        data-panel-title="@Resources.Pages.Add"
+                        data-panel-pos="left" 
+                        data-panel-display="overlay">@Resources.Pages.Add</a></li>
+                    <li data-icon="d-icon-edit" data-link-icon="no">
+                        <a data-rel="panel" 
+                        href="@Url.Content("~/editpage/" + Model.ID)?locale=@(Culture)&designModel=true&website=@website"
+                        data-panel-title="@Resources.Pages.Properties" 
+                        data-panel-pos="left" 
+                        data-panel-display="overlay">@Resources.Pages.Properties</a></li>
+                    <li data-icon="d-icon-edit" data-link-icon="no">
+                        <a data-rel="panel"
+                            href="@Url.Action("Layouts", "DynamicUI", new { website = website, locale = Culture, id = Model.ID })"
+                            data-panel-title="@Resources.Pages.ChangeLayout" 
+                            data-panel-return="#pagetools_pane"
+                            data-panel-pos="right" 
+                            data-panel-display="overlay">@Resources.Pages.ChangeLayout</a></li>
+                    <li data-icon="d-icon-paint-format" data-link-icon="no">
+                        <a data-rel="panel"
+                            href="@Url.Action("Explorer", "Theme", new { id = Model.ID, website = website, locale = Culture })"
+                            data-panel-title="@Resources.Pages.ChangeTheme"
+                            data-panel-pos="right"
+                            data-panel-return="#pagetools_pane"
+                            data-panel-display="overlay">@Resources.Pages.ChangeTheme</a></li>
+                    @if (Model != null)
+                    {
+                        <li data-icon="d-icon-tools" data-link-icon="no" data-design-button="true">
+                            <a href="javascript:void(0);"
+                                onclick="$('[data-mode=d]').show();$('[data-design-button=true]').hide();$('body').page('design',true);">@Resources.Pages.Design</a></li>
+                        <li data-mode="d" style="display: none;" data-icon="d-icon-insert-template" data-link-icon="no">
+                            <a href="#" onclick="$('body').page('designLayouts')">@Resources.Pages.DesignLayout</a></li>
+                        <li data-mode="d" style="display: none;" data-icon="d-icon-plus-2" data-design="true" data-link-icon="no">
+                            <a data-rel="open" href="#addwidget_panel">@Resources.Pages.AddContent</a></li>
+                        <li data-mode="d" style="display: none;" data-icon="d-icon-checkmark" data-design="true" data-link-icon="no">
+                            <a href="javascript:void(0);" onclick="location.reload();">@Resources.Commons.Done</a></li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+    }
+
+}

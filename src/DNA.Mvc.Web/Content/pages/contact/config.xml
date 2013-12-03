@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page target="_self"
+      anonymous="true"
+      showInMenu="true"
+      showInSitemap="true"
+      static="false"
+      shared="false"
+      href="~/sites/{website}/contact.html"
+      xmlns="http://www.dotnetage.com/XML/Schema/page">
+  <title>Contact</title>
+  <description>The page that contains your contact information</description>
+  <image src ="icon_profile_48.gif" />
+</page>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="heading">
+  <name short="Heading">Heading</name>
+  <name short="Heading" xml:lang="zh-cn">标题文本</name>
+  <icon src="default.png" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="align" value="'left'" />
+  <preference name="tag" value="'h2'" />
+  <preference name="title" value="'Heading text'" />
+  <preference name="description" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+  </widget>

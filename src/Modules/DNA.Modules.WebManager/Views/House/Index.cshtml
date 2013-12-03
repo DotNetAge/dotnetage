@@ -1,0 +1,74 @@
+﻿@model DNA.Web.WebCollection
+@{
+    ViewBag.Title = "Web manager";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@section Navs{
+    <a href="@Url.Action("CreateWeb", "DynamicUI", new { locale = Culture, Area = "" })" 
+        title="@Html.Global("Create")"
+        data-role="button" 
+        data-icon-left="d-icon-plus-4"
+        data-rel="panel"
+        data-panel-title="Create web"
+        data-panel-pos="right"
+        data-panel-display="overlay"></a>
+}
+<div style="text-align: center; padding: 10px;">
+    <ul data-role="listview" data-display="button-list" data-inline="true" data-selectable="true" data-item-style="width:80px;">
+        <li class="d-state-active"><a href="javascript:void(0);">@Resources.Commons.Webs</a></li>
+        <li><a href="@Url.HostAction("WebMan", "Templates", "House")">@Resources.Commons.Templates</a></li>
+    </ul>
+</div>
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    @foreach (var web in Model)
+    { 
+        <li data-counter="@web.Owner" data-webid="@web.Id">
+            <a href="@Url.HostAction("WebMan", "Detail", "House", new { id = web.Name })"
+                 data-rel="panel"
+                data-panel-title="@Resources.Commons.Detail"
+                data-panel-pos="right"
+                data-panel-display="overlay"
+                data-panel-padding="20"
+                data-panel-open="$('#webname').val('@web.Name')"
+                >
+                <h4><span style="margin-right: 10px;">@web.Title</span><span>(@web.Name)</span></h4>
+                <p>@web.Description</p>
+            </a>
+        </li>
+    }
+</ul>
+<div id="website_exporter" data-role="panel" data-opened="false" data-display="overlay" data-pos="right" title="@Resources.Commons.Export">
+    <form class="d-form"
+        data-ajax="true"
+        data-ajax-method="post"
+        data-ajax-url="@Url.Action("Export","House")"
+        data-ajax-begin="$.loading('Exporting ...')"
+        data-ajax-success="location='@Url.HostAction("WebMan","Templates","House")';"
+        data-ajax-complete="$.loading('hide');"
+        >
+        <input type="hidden" name="web" id="webname"/>
+        <div class="d-field">
+            <label>@Resources.Commons.Name</label>
+            <input type="text" name="name" tabindex="0"
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Template + " " + Resources.Commons.Name)"  
+                data-val="true"
+                data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Name)"
+                />
+        </div>
+        <div class="d-field">
+            <label>@Resources.Commons.Desc</label>
+            <textarea name="desc" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Template + " " + Resources.Commons.Desc)" tabindex="1"></textarea>
+        </div>
+        <div>
+            <a data-role="button" data-inline="false" onclick="$(this).closest('form').submit();">@Resources.Commons.Submit</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(document).bind("webcreated", function (event, data) {
+            $.loading();
+            window.location.reload();
+        });
+    });
+</script>

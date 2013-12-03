@@ -1,0 +1,12 @@
+﻿.d-grid { margin-bottom: 5px; }
+    .d-grid table { width: 100%; border-collapse: collapse; border-width: 0; table-layout: fixed; empty-cells: show; }
+.d-grid-header-wrap, .d-grid-footer-wrap { position: relative; overflow: hidden; width: 100%; }
+.d-grid th, .d-grid td { position: relative; overflow: hidden; margin: 0px; padding: 5px 10px; border-style: solid; border-color: #ccc; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 1px; border-left-width: 1px; vertical-align: middle; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap; }
+    .d-grid th:first-child, .d-grid td:first-child { border-left-width: 0px; }
+.d-grid tr:last-child td { border-bottom-width: 0px; }
+
+.d-grid-content table tr { background-color: inherit; }
+.d-grid .d-sorter { position: absolute; top: 50%; right: -5px; margin-top: -7px; font-size: 9pt; cursor: pointer; }
+.d-grid-content, .d-grid-content table, .d-grid-content table > tbody { -webkit-border-bottom-left-radius: inherit; -webkit-border-bottom-right-radius: inherit; -moz-border-radius-bottomleft: inherit; -moz-border-radius-bottomright: inherit; position: relative; width: 100%; border-bottom-right-radius: inherit; border-bottom-left-radius: inherit; }
+.d-grid-header, .d-grid-header table, .d-grid-header table > thead { -moz-border-radius-topleft: inherit; -moz-border-radius-topright: inherit; position: relative; -webkit-border-top-left-radius: inherit; border-top-left-radius: inherit; -webkit-border-top-right-radius: inherit; border-top-right-radius: inherit; }
+    .d-grid-header th > a { position: relative; display: block; padding: 5px; }

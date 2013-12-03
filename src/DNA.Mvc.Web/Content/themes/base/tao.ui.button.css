@@ -1,0 +1,22 @@
+﻿/*******************************************************Button base*******************************************************************/
+.d-button { position: relative; overflow: hidden; margin-right: .1em; padding: 1px 6px; text-align: center; text-indent: 0; -ms-zoom: 1; zoom: 1; }
+    .d-button > .d-primary-icon { margin-right: 5px; }
+    .d-button > .d-secondary-icon { position: absolute; top: 50%; margin-top: -12px; right: 5px; }
+.d-primary-icon .d-button-text, .d-primary-icon, .d-secondary-icon { line-height: 24px; cursor: default; }
+.d-button-text { color: inherit; -webkit-text-shadow: inherit; text-shadow: inherit; }
+a.d-button.link,
+a.d-button.link.d-state-hover,
+a.d-button.link.d-state-active { border: none; background: none; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+    a.d-button.link, a.d-button.link > * { cursor: pointer; }
+.d-button.link.d-state-disable { cursor: default; }
+
+/*image button*/
+.d-button.img { display: table-cell; vertical-align: middle; text-align: center; }
+
+/*Buttons*/
+.d-buttons .d-first { -moz-border-radius: 5px 0px 0px 5px; -webkit-border-radius: 5px 0px 0px 5px; border-radius: 5px 0px 0px 5px; }
+.d-buttons .d-last { border-left: none; -moz-border-radius: 0px 5px 5px 0px; -webkit-border-radius: 0px 5px 5px 0px; border-radius: 0px 5px 5px 0px; }
+.d-button[data-inline=false] { display: block; margin: 0.5em 0px; padding: 10px; }
+    .d-button[data-inline=false] ~ .d-button[data-inline=false] { margin-top: 0px; }
+button.d-button[data-inline=false],
+input.d-button[data-inline=false] { width: 100%; }

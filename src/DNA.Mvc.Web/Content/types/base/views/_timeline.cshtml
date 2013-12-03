@@ -1,0 +1,37 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType;
+    var fieldCount = Model.View.FieldRefs.Count;
+}
+
+<ul class="d-view d-view-timeline @Model.CssClass">
+    @foreach (var dataItem in Model)
+    {
+        <li class="@dataItem.CssClass" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                      {<text>itemtype="@itemtype"</text>}>
+                                                      <time itemprop="datePublished" datetime="@dataItem.Published.ToString("yyyy-MM-ddThh:mm:ss")">
+                                                          <span>@dataItem.Published.ToString("MM-dd")</span>
+                                                          <span>@dataItem.Published.ToString("hh:mm")</span>
+                                                      </time>
+                                                      <div class="d-view-icon"></div>
+                                                      <div class="d-view-item-holder">
+            @foreach (var field in Model.View.FieldRefs)
+            {
+                if (!field.IsLinkToItem && !string.IsNullOrEmpty(field.ItemProp) && field.IsHidden)
+                {
+                <meta itemprop="@field.ItemProp" content="@dataItem[field.Name]" />
+                }
+                else
+                {
+                    <div @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))" id="@dataItem.ID">
+                        @{ Html.ForView(field.Name, dataItem); }
+                    </div>
+                }
+                if (dataItem.AllowEdit(Context))
+                { 
+                    <a class="d-view-item-edit-link" data-icon-left="d-icon-edit" data-role="button" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" onclick="$.loading()" title="@Resources.Commons.Edit"></a>
+                }
+            }</div>
+        </li>
+    }
+</ul>

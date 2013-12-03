@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = Resources.Managements.MetaTags;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+@*
+    <div style="text-align:center; margin:10px 0px;">
+        <ul data-role="listview" data-display="button-list"  data-inline="true"
+        data-selectable="true"
+        data-autohighlight="true">
+            <li>metas</li>
+            <li>links</li>
+        </ul>
+    </div>*@
+    
+    <ul data-role="listview" data-display="mobile-list" data-inset="true" style="margin-bottom:10px;">
+        <li data-role="divider">@Resources.Managements.SpecifyAdditionalMetas</li>
+        <li data-role="fieldcontain">
+            <label>Name</label>
+            <select id="meta_Name" name="meta_Name" data-role="combobox" style="width: 150px;">
+                <option value="application-name">application-name</option>
+                <option value="author">author</option>
+            </select></li>
+        <li data-role="fieldcontain">
+            <label for="meta_Content">@Resources.Commons.Content</label>
+            <input type="text" id="meta_Content" name="meta_Content" />
+        </li>
+        <li data-readonly="true" data-link-icon="no">
+            <a data-role="button" onclick="_insertMeta();" data-icon-left="d-icon-angle-down">@Resources.Commons.Add</a>
+        </li>
+    </ul>
+    
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        <li data-role="divider">@Resources.Managements.MetaTags</li>
+        <li data-role="fieldcontain">
+            <textarea id="Metas"
+                name="Metas"
+                style="width: 98%;"
+                rows="10"
+                onchange="$('#btnSave').isDisable(false)">@ViewBag.Metas</textarea></li>
+    </ul>
+    <p>
+        <button data-inline="false">@Resources.Commons.Save</button>
+    </p>
+}
+<script type="text/javascript">
+    function _insertMeta() {
+        var _metaName = $("#meta_Name").taoComboBox("option", "value"),
+        _metaContent = $("#meta_Content").val();
+        if (_metaName && _metaContent) {
+            var _val =  "<meta name=\"" + _metaName + "\" content=\"" + _metaContent + "\" />" + ($("#Metas").val() ? "\r" : "") +$("#Metas").val();
+            $("#Metas").val(_val);
+            $("#meta_Content").val("");
+            $("#meta_Name").val("").focus();
+        }
+    }
+</script>

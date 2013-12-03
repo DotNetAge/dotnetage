@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="comments">
+  <name short="Comments">Comments</name>
+  <icon src="default.png" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

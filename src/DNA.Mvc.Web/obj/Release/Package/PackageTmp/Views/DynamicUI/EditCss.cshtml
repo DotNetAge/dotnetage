@@ -1,0 +1,9 @@
+﻿@model DNA.Web.WebPage
+<div style="margin-bottom: 10px 0px;"></div>
+<textarea spellcheck="false" 
+    onchange="$(this).next().isDisable(false)" 
+    onkeypress="$(this).next().isDisable(false)" 
+    style="width: 288px; height: 500px;" id="css_textarea">@Model.CssText</textarea>
+<p>
+    <span data-role="button" data-default="true" onclick="if (!$(this).isDisable()) {var csstext=$('#css_textarea').val(); $('body').page('savestyle',csstext); $('#inpagestyle').text(csstext); _goToStart();} ">@Resources.Commons.Save</span>
+</p>

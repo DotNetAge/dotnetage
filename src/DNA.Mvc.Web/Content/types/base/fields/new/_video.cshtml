@@ -1,0 +1,50 @@
+﻿@model VideoField
+@{
+    decimal ratio = (decimal)9 / (decimal)16;
+    var thumbW = Model.ThumbnailWidth > 0 ? Model.ThumbnailWidth : 200;
+    var thumbH = Model.ThumbnailHeight > 0 ? Model.ThumbnailHeight : (thumbW * ratio);
+}
+<input type="hidden" name="@(Model.Name)" id="@Model.ClientID" />
+<div class="d-inline">
+    <div>
+        <input  id="@(Model.ClientID)_src" 
+            type="text" 
+            onchange="$('#@(Model.ClientID)').val($(this).val()+ ($('#@(Model.ClientID)_thumb').val() ? (','+$('#@(Model.ClientID)_thumb').val()) : ''))"
+            @Model.GetAttributes() 
+            @if (Model.IsRequired)
+            {
+            <text>
+            name="@(Model.ClientID)_src"
+            data-val="true"
+            data-val-required="@string.Format(Resources.Validations.Required_Format, Model.Title)"
+            </text>
+            }
+          />
+        <a data-role="button" 
+            data-rel="file"
+            data-file-to="@(Model.ClientID)_src"
+            data-file-filter="video"
+            style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+    </div>
+    <div style="min-width: 250px; text-align: center;">
+        <div style="padding: 10px 0px;">@Resources.Designs.Thumbnail</div>
+        <input  id="@(Model.ClientID)_thumb" 
+            type="hidden"
+            data-role="dropbox"
+            onchange="$(this).parent().css({'background-image':'url('+$(this).val()+')'}); "
+    @if (Model.DefaultValue != null)
+    {<text>value="@(Model.DefaultValue)"</text>}
+    style="height:@(thumbH)px;width:@(thumbW)px;"
+          />
+        <div>@Resources.Designs.Width @(thumbW)px x @Resources.Designs.Height:@((int)thumbH)px</div>
+        <div class="buttonholder" style="margin-top: 5px; text-align: center;">
+            <a data-role="button" 
+                data-rel="file"
+                data-file-to="@(Model.ClientID)_thumb"
+                data-file-filter="image"
+                title="@(Resources.Messages.SelectAnImage)"
+                style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+        </div>
+    </div>
+    @Html.ValidationMessage(Model)
+</div>

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebDecorator>
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-icon="d-icon-plus-3" data-link-icon="no">
+        <a href="@Url.Action("CreateWeb", "DynamicUI", new { locale = Culture, Area = "" })" 
+                        data-rel="panel"
+                        data-panel-pos="right"
+                        data-panel-display="overlay"
+                        data-panel-title="@Resources.Pages.CreateWeb">@Resources.Pages.CreateWeb</a>
+    </li>
+    @if (Model.Count() > 0)
+    {
+        <li data-role="divider">@Resources.Pages.AllWebs</li>
+    }
+    @foreach (var web in Model)
+    { 
+        <li><a href="@Url.Content(web.Url)">
+            @if (!string.IsNullOrEmpty(web.LogoImageUrl))
+            {
+                <img src="@Url.Content(web.LogoImageUrl)"/>
+            }
+            <h4>@web.Title</h4>
+        </a><a data-icon="d-icon-cog" href="@Url.Content(web.PageManagerUrl)"></a></li>
+    }
+</ul>

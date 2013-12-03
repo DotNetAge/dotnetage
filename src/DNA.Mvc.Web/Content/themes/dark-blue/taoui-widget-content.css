@@ -1,0 +1,4 @@
+﻿.d-input > .d-ui-widget-content, .d-picker > .d-ui-widget-content, .d-textarea.d-ui-widget-content, .d-ui-widget-content > .workspace > * { background-color: #383838; }
+.d-ui-widget.d-tooltip, .d-state-info, .d-item-counter { border-color: #3b3b3b; background-color: #0d5173; color: #ffffff; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a { color: #c9c9c9; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a, .ui-state-default { color: #c9c9c9; }

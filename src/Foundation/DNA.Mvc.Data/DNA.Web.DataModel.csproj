@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B9807B5A-5055-4455-88C2-814D0FC8A0F0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DNA.Web</RootNamespace>
+    <AssemblyName>DNA.Web.DataModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\DNA.Web.DataModel.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DNA.Patterns, Version=1.0.0.30063, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\DNA.Patterns.1.0.0\lib\DNA.Patterns.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abuse.cs" />
+    <Compile Include="Address.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="Contents\ChoiceFieldFormats.cs" />
+    <Compile Include="Contents\ContentAction.cs" />
+    <Compile Include="Contents\ContentAttachment.cs" />
+    <Compile Include="Contents\ContentDataItem.cs" />
+    <Compile Include="Contents\ContentField.cs" />
+    <Compile Include="Contents\ContentFieldFactory.cs" />
+    <Compile Include="Contents\ContentFieldTypes.cs" />
+    <Compile Include="Contents\ContentFormTypes.cs" />
+    <Compile Include="Contents\ContentTemplate.cs" />
+    <Compile Include="Contents\DataNames.cs" />
+    <Compile Include="Contents\Schemas\LookupField.cs" />
+    <Compile Include="Contents\Schemas\VideoField.cs" />
+    <Compile Include="Exceptions\ContentFieldNotFoundException.cs" />
+    <Compile Include="Contents\ContentForm.cs" />
+    <Compile Include="Contents\ContentList.cs" />
+    <Compile Include="Contents\ContentView.cs" />
+    <Compile Include="Contents\Schemas\BooleanField.cs" />
+    <Compile Include="Contents\Schemas\ChoiceField.cs" />
+    <Compile Include="Contents\Schemas\ComputedField.cs" />
+    <Compile Include="Contents\Schemas\FileField.cs" />
+    <Compile Include="Contents\Schemas\CurrencyField.cs" />
+    <Compile Include="Contents\Schemas\DateField.cs" />
+    <Compile Include="Contents\Schemas\ImageField.cs" />
+    <Compile Include="Contents\Schemas\IntegerField.cs" />
+    <Compile Include="Contents\Schemas\NoteField.cs" />
+    <Compile Include="Contents\Schemas\NumberField.cs" />
+    <Compile Include="Contents\Schemas\TextField.cs" />
+    <Compile Include="Contents\Schemas\UserField.cs" />
+    <Compile Include="EmailTemplate.cs" />
+    <Compile Include="Contents\Follow.cs" />
+    <Compile Include="IAddress.cs" />
+    <Compile Include="IDataContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InboxMessage.cs" />
+    <Compile Include="IOrganization.cs" />
+    <Compile Include="IPerson.cs" />
+    <Compile Include="Like.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MovedUrl.cs" />
+    <Compile Include="OutboxMessage.cs" />
+    <Compile Include="PageViewModes.cs" />
+    <Compile Include="Repositories\IContentDataItemRepository.cs" />
+    <Compile Include="Repositories\IPermissionRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="Tag.cs" />
+    <Compile Include="TrackStates.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="Repositories\IWebPageRepository.cs" />
+    <Compile Include="ViewModes.cs" />
+    <Compile Include="Vote.cs" />
+    <Compile Include="WebPageVersion.cs" />
+    <Compile Include="INetDriveService.cs" />
+    <Compile Include="WebTypes.cs" />
+    <Compile Include="LogoLayouts.cs" />
+    <Compile Include="Web.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="PermissionSet.cs" />
+    <Compile Include="Subscription.cs" />
+    <Compile Include="WebPage.cs" />
+    <Compile Include="Repositories\IWidgetDescriptorRepository.cs" />
+    <Compile Include="Repositories\IWidgetRepository.cs" />
+    <Compile Include="WidgetDescriptor.cs" />
+    <Compile Include="WidgetInstance.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WidgetTypes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DNA.Mvc.Infrastructure\DNA.Web.Infrastructure.csproj">
+      <Project>{DA00B217-68FC-4BDD-A39B-A4E161090BEA}</Project>
+      <Name>DNA.Web.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

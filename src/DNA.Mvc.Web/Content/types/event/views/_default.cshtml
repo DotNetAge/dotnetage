@@ -1,0 +1,27 @@
+﻿@model ContentQueryResult
+@{
+    var items = Model.Items;
+}
+<link type="text/css" href="@Url.Content(Model.List.Package.ResolveUri("css/default.css"))" rel="stylesheet" />
+@foreach (var item in items)
+{
+    <article class="post d-tran">
+        <h3>
+            @Html.AttachIcon(item)
+            @{ Html.ForView("title", item, Model.View); }@Html.DraftIcon(item)
+        </h3>
+        <div class="thumb">
+            @{ Html.ForView("cover", item, Model.View); }
+        </div>
+        <div class="summary">
+            @{ Html.ForView("body", item, Model.View); }
+        </div>
+        <footer>
+            <span>BY @(Html.UserLink(item.Owner))</span> // <span>@(item.Published)</span>
+            @if (Model.List.AllowComments)
+            {<text> // <span>@(item.TotalComments)
+                COMMENTS</span></text>}@Html.NewStatus(item)
+        </footer>
+    </article>
+}
+<div style="clear: left; display: block;"></div>

@@ -1,0 +1,46 @@
+﻿@model ContentQueryResult
+@{
+    var contentTmpl = Model.View.GetBodyTemplate();
+    var _format = "~/content/types/base/views/{0}";
+
+    if (Model.Query.Total == 0)
+    {
+    @Model.View.RenderEmptyPattern();
+    }
+    else
+    {
+        if (string.IsNullOrEmpty(contentTmpl.Source))
+        {
+            if (!string.IsNullOrEmpty(contentTmpl.Text))
+            {
+                //Render custom server view in template
+    @Html.RenderViewTemplate(Model)
+            }
+            else
+            {
+                Html.RenderPartial(string.Format(_format, "_list.cshtml"), Model);
+            }
+        }
+        else
+        {
+            if (Model.List.Package==null) 
+            {
+                <p class="warn">@Model.List.Name Package is missing</p>
+                return;
+            }
+            
+            var url = Model.List.Package.ResolveUri(contentTmpl.Source);
+
+            if (!File.Exists(Server.MapPath(url)))
+            {
+                //If view template is not found in package we will try to lookup in default views folder
+                if (File.Exists(Server.MapPath(string.Format(_format, contentTmpl.Source))))
+                {
+                    url = string.Format(_format, contentTmpl.Source);
+                }
+            }
+            //Render custom server view in file template
+            Html.RenderPartial(url, Model);
+        }
+    }
+}

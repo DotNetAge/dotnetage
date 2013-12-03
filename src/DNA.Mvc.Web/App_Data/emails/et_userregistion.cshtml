@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New user register</title>
+    <style type="text/css">
+        blockquote { border-left: 15px solid #cccccc; background-color: #eeeeee; padding: 5px; }
+    </style>
+</head>
+<body>
+    <p>
+        Hi {username}:</p>
+    <p>
+        Congratulations! You has register a new account in {title}:</p>
+    <blockquote>
+        <p>
+            <b>User:</b><i>{username}</i></p>
+        <p>
+            <b>Password:</b><i>{password}</i></p>
+    </blockquote>
+    You could use this username and password to <a href="@(DNA.Web.UrlResolver.Resolve(Context) + "/account/login")">
+        login</a> our website next time.
+</body>
+</html>

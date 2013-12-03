@@ -1,0 +1,374 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+@{ 
+    var _params = item.GetUserPreferences(); 
+}
+@if (!item.Model.IsStatic)
+{
+    <div>
+        <label>@Resources.Contents.List</label>
+        <select 
+            data-role="combobox" 
+            data-drop-style="menu" 
+            style="width:200px;" 
+            name="listName"
+            data-select = "$('#@(item.GenerateFieldID("itemlist"))').taoListbox('clear'); $('#@(item.GenerateFieldID("itemsrc"))').taoDataSource('read', { url: '@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items")', data: { name: ui.dataItem.value ,index:1,size:50} });">
+            @{ 
+    var lists = AppModel.Get().CurrentWeb.Lists;
+    var firstName = lists.Count() > 0 ? lists.FirstOrDefault().Name : "";
+            }
+            @foreach (var list in lists)
+            {
+                if (list.Name == _params.listName)
+                { 
+                <option selected="selected">@list.Name</option>
+                }
+                else
+                {
+                <option>@list.Name</option>
+                }
+            }
+        </select>
+        <div id="@(item.GenerateFieldID("itemsrc"))" 
+            data-role="datasource"
+            data-server-paging="true" 
+            data-pageindex="1" 
+            data-pagesize="50">
+        </div>
+    </div>
+    <div>
+        <label>@Resources.Contents.DataItem</label>
+        <div style="width: 300px; height: 300px; overflow: auto; border: 1px solid #efefef; display: inline-block;">
+            <input data-role="listbox" 
+                data-source="@(item.GenerateFieldID("itemsrc"))" 
+                data-scroller="parent"
+                data-valuefield="slug"
+                data-textfield="title"
+                name="slug"
+                id="@(item.GenerateFieldID("itemlist"))"
+                value="@_params.slug"/>
+        </div>
+    </div>    
+}
+else
+{
+    <input type="hidden" name="listName" value="@(item.GetString("listName"))" />
+    <input type="hidden" name="type" value="@(item.GetInt("type"))" />
+    <input type="hidden" name="slug" value="''" />
+}
+<div>
+    @item.Checkbox("showDetail", item.Loc("ShowDetail"))
+</div>
+<div>
+    @item.Checkbox("showTags", item.Loc("ShowTags"))
+</div>
+<div>
+    @item.Checkbox("showVotes", item.Loc("ShowVotesAndReads"))
+</div>
+<div>
+    @item.Checkbox("showAttachs", item.Loc("ShowAttachs"))
+</div>
+<div>
+    @item.Checkbox("showAuthor", item.Loc("ShowAuthor"))
+</div>
+<div>
+    @item.Checkbox("showComments", item.Loc("ShowComments"))
+</div>
+<div>
+    @item.Checkbox("showReshares", item.Loc("ShowReshares"))
+</div>
+@*<div>@item.Checkbox("showVersions", Widget_Common.ShowVersionList)</div>*@
+</text>).AutoSave().Design(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    var listName = (string)settings.listName;
+    var slug = (string)settings.slug;
+    var type = (int)settings.type;
+    var list = AppModel.Get().CurrentWeb.Lists[listName];
+    if (list == null)
+    {
+    @item.DesignModeHolder(string.Format(Resources.Messages.SelectFormat,Resources.Contents.Form))
+    }
+    else
+    { 
+    <div style="cursor: pointer;">
+        @if (type == (int)ContentFormTypes.Display)
+        {
+            <style type="text/css">
+                .d-form-section-holder { border: 1px dashed #ccc; height: 50px; padding: 10px; line-height: 50px; text-align: center; }
+            </style>
+            if (settings.showDetail)
+            {
+            <div class="d-ui-widget d-ui-widget-content d-form-section d-form-section-iteminfo" style="overflow: auto;">
+                <div style="width: 48%; float: left;">
+                    <div>
+                        <a title="Category" data-icon-left="d-icon-grid-alt" role="link" href="javascript:void(0);">@Resources.Commons.Category:</a>
+                        <span data-inline="true" class="d-inline">@Resources.Commons.Uncategoried</span>
+                    </div>
+                    <div itemprop="discussionUrl">
+                        <a data-icon-left="d-icon-bubbles-2" role="link" href="#comments">@Resources.Social.Comments:</a>
+                        <span class="d-inline">0</span>
+                    </div>
+                    <div>
+                        <a data-icon-left="d-icon-eye" role="link">@Resources.Commons.Reads:</a>
+                        <span class="d-inline">888888</span>
+                    </div>
+                    <div>
+                        <a title="Rating" data-icon-left="d-icon-star" role="link" href="javascript:void(0);">@Resources.Commons.Rating:0</a>
+                    </div>
+                </div>
+                <div style="width: 48%; float: left;">
+                    <div itemprop="author">
+                        <a title="Author" data-icon-left="d-icon-user" role="link">@Resources.Commons.Author:</a>
+                        <a href="#" role="link">Author name</a>
+                    </div>
+                    <div>
+                        <a data-icon-left="d-icon-calendar" role="link">@Resources.Contents.PublishDate:</a>
+                        <time class="d-inline" datetime="2013-06-05T06:38:44" itemprop="dataPublished">6/5/2013 6:38:44 PM</time>
+                    </div>
+                </div>
+            </div>
+            }
+            <div class="d-form-section d-form-section-body">
+                <div style="padding: 10px;">Field values</div>
+            </div>
+            if (settings.showAttachs)
+            {
+            <div class="d-h4">@Resources.Commons.Attachments (5)</div>
+            <div class="d-form-section d-form-section-attachs">
+                <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                    <li data-coutner="downloads:100"><a target="_blank" href="javascript:void(0);">Attachment file1</a></li>
+                    <li data-coutner="downloads:100"><a target="_blank" href="javascript:void(0);">...</a></li>
+                    <li data-coutner="downloads:100"><a target="_blank" href="javascript:void(0);">Attachment file n</a></li>
+                </ul>
+            </div>
+            }
+
+            if (settings.showTags)
+            {
+            <div class="d-form-section d-form-section-tags">
+                <span class="d-inline">@Resources.Commons.Tags :</span>
+                <input data-role="tags" data-inline="true" value="Tag1,Tag2,Tag3,Tag4,Tag5" />
+            </div>
+            }
+
+            if (settings.showAuthor)
+            {
+            <div class="d-form-section d-form-section-author" title="@Resources.Commons.Author">
+                <img src="@Url.Content("~/content/images/no-avatar.gif")" />
+                <div class="d-h4"><a href="javascript:void(0);" class="d-link">Author name</a></div>
+                <div>Something about the author</div>
+            </div>
+            }
+
+            if (settings.showReshares)
+            {
+            <h3>@Resources.Social.Followers</h3>
+            <div class="ui-state-highlight d-form-section-holder">@Resources.Social.Followers</div>
+            }
+
+            if (settings.showVotes)
+            {
+            <div class="d-form-section d-form-section-ratings">
+                <div class="d-h4">@Resources.Commons.Rating</div>
+                <div style="padding-bottom: 15px;">
+                    <div style="font-size: 1.5em;" class="d-inline">
+                        <input data-url="#" value="0" data-role="rating" style="display: none;" />
+                    </div>
+                    <span style="margin-left: 5px;" class="d-inline">@Resources.Commons.Average:</span>
+                    <span class="d-inline">0</span>
+                </div>
+                <div>
+                    <div>
+                        <span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span>
+                        <div data-max="0" data-value="0" data-role="progressbar" style="width: 150px;" class="d-inline" role="progressbar"></div>
+                        <span style="margin-left: 5px; '" class="d-inline">0</span>
+                    </div>
+                    <div>
+                        <span style="width: 16px;" class="d-inline"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span>
+                        <div data-max="0" data-value="0" data-role="progressbar" style="width: 150px;" class="d-inline" role="progressbar"></div>
+                        <span style="margin-left: 5px; '" class="d-inline">0</span>
+                    </div>
+                    <div>
+                        <span style="width: 16px;" class="d-inline"></span><span style="width: 16px;" class="d-inline"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span>
+                        <div data-max="0" data-value="0" data-role="progressbar" style="width: 150px;" class="d-inline" role="progressbar"></div>
+                        <span style="margin-left: 5px; '" class="d-inline">0</span>
+                    </div>
+                    <div>
+                        <span style="width: 16px;" class="d-inline"></span><span style="width: 16px;" class="d-inline"></span><span style="width: 16px;" class="d-inline"></span><span class="d-icon-star"></span><span class="d-icon-star"></span>
+                        <div data-max="0" data-value="0" data-role="progressbar" style="width: 150px;" class="d-inline" role="progressbar"></div>
+                        <span style="margin-left: 5px; '" class="d-inline">0</span>
+                    </div>
+                    <div>
+                        <span style="width: 16px;" class="d-inline"></span><span style="width: 16px;" class="d-inline"></span><span style="width: 16px;" class="d-inline"></span><span style="width: 16px;" class="d-inline"></span><span class="d-icon-star"></span>
+                        <div data-max="0" data-value="0" data-role="progressbar" style="width: 150px;" class="d-inline" role="progressbar"></div>
+                        <span style="margin-left: 5px; '" class="d-inline">0</span>
+                    </div>
+                </div>
+            </div>
+            }
+
+            if (settings.showComments)
+            {
+            <h3>@Resources.Social.Comments</h3>
+            <div class="ui-state-highlight d-form-section-holder">@Resources.Social.Comments</div>
+            }
+
+@*
+            if (settings.showVersions)
+            {
+            <div class="d-form-section d-form-section-versions">
+                <a data-role="button" data-inline="false" href="javascript:void(0);">@Resources.Common.VersionHistory</a>
+            </div>
+            }*@
+        }
+        else
+        {
+            <p class="d-state-highlight  d-form-section-holder">
+                @item.Loc("DataItemEditors")
+            </p>
+            <p><a data-role="button" data-default="true" onclick="return false;">@Resources.Commons.Save</a></p>
+        }
+    </div>
+    }
+}
+</text>).Header(@<text>
+<a class="d-link d-widget-title-link" href="@(string.IsNullOrEmpty(item.Model.Link) ? "javascript:void(0);" : Url.Content(item.Model.Link))">
+    @if (!string.IsNullOrEmpty(item.Model.IconUrl))
+    {
+        <img src="@Url.Content(item.Model.IconUrl)" alt="widget_icon" class="d-inline" />
+    }
+    @{
+        var tmpID = item.GetString("slug");
+        var settings = item.GetUserPreferences();
+        ContentDataItemDecorator dataItem = null;
+        var ctx = AppModel.Get().Context;
+
+        if (ctx.DataItem != null)
+        {
+            tmpID = ctx.DataItem.Slug;
+        }
+        var customHeaderText = (string)ViewData[tmpID + "-caption"];
+    }
+    <span class="d-inline d-widget-title-text">@(string.IsNullOrEmpty(customHeaderText) ? item.Model.Title : customHeaderText)</span>
+</a>
+</text>).Content(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    var listName = (string)settings.listName;
+    var slug = (string)settings.slug;
+    var type = (int)settings.type;
+    var list = AppModel.Get().CurrentWeb.Lists[listName];
+
+    if (list != null)
+    {
+        if (!item.Model.IsStatic)
+        {
+            if (!string.IsNullOrEmpty(listName) && !string.IsNullOrEmpty(slug))
+            {
+                var dataItem = list.GetItem(slug);
+                //DispForms.Tools(dataItem, Url).WriteTo(Response.Output);
+                //Response.Flush();
+
+                //User custom display form
+    @Html.RenderForm(list.DetailForm, dataItem)
+            }
+        }
+        else
+        {
+            if (Request.IsAjaxRequest())
+            {
+            }
+            else
+            {
+                //For runtime
+                //Display form or edit form page
+                var ctx = AppModel.Get().Context;
+                var dataItem = ctx.DataItem;
+
+                if (ctx.Form.FormType == 0)
+                {
+                    DispForms.Tools(dataItem, Url).WriteTo(Response.Output);
+                    Response.Flush();
+
+                    var defaultCaption = ctx.DataItem.GetDefaultTitleValue();
+                    //if (ctx.Page != null){
+                    //    ctx.Page.Title = defaultCaption;
+                    //}
+                    ViewData[ctx.DataItem.Slug + "-caption"] = defaultCaption;
+
+                    var itemType = string.IsNullOrEmpty(ctx.List.ItemType) ? "" : "itemtype=\"" + ctx.List.ItemType + "\"";
+                    Response.Write("<div id=\"" + ctx.Form.FormTypeString.ToLower() + "-form-" + ctx.DataItem.ID.ToString().Substring(0, 8) + "\" itemscope=\"itemscope\" " + itemType + " class=\"" + "d-form " + ctx.Form.CssClass + "\">");
+                    Response.Write("<meta itemprop=\"url\" content=\"" + ctx.DataItem.UrlComponent + "\" />");
+                    Response.Write("<meta itemprop=\"version\" content=\"" + ctx.DataItem.Version + "\" />");
+                    Response.Write("<meta itemprop=\"dateCreated\" content=\"" + ctx.DataItem.Created.ToString("yyyy-MM-ddThh:mm:ss") + "\" />");
+                    Response.Flush();
+
+                    if (settings.showDetail)
+                    {
+                        DispForms.Info(list, dataItem).WriteTo(Response.Output);
+                        Response.Flush();
+                    }
+                    Response.Write("<div class=\"d-form-section d-form-section-body\">");
+                    Response.Flush();
+                    Html.RenderForm(ctx.Form, dataItem).WriteTo(Response.Output);
+                    Response.Flush();
+    @MvcHtmlString.Create("</div>")
+
+                    if (settings.showAttachs)
+                    {
+    @DispForms.Attachments(dataItem)
+                    }
+
+                    if (settings.showTags)
+                    {
+    @DispForms.Tags(dataItem)
+                    }
+
+                    if (dataItem.IsPublished && dataItem.IsCurrentVersion && settings.showAuthor)
+                    {
+    @DispForms.AuthorInfo(dataItem)
+                    }
+
+                    if (settings.showReshares)
+                    {
+                        var linkback = Url.Encode(dataItem.UrlComponent);
+                        var title = Url.Encode(dataItem.GetDefaultTitleValue());
+                        if (list.AllowResharing)
+                        {
+    @SocialNetworks.ShareLinks(linkback, title)
+                        }
+                    }
+
+                    if (settings.showVotes)
+                    {
+    @DispForms.Votes(dataItem, Url)
+                    }
+
+                    if (dataItem.IsCurrentVersion && settings.showComments)
+                    {
+    @DispForms.Comments(dataItem, Url)
+                    }
+
+@* if (list.EnableVersioning && settings.showVersions && dataItem.Versions().Count() > 1)  {  @DispForms.VersionControl(dataItem, Url) } *@
+
+    @MvcHtmlString.Create("</div>")
+                }
+                else
+                {
+                    var form = list.EditForm;
+                    using (Html.BeginForm("Edit", "Contents", new { name = ctx.List.Name, returnUrl = Request.QueryString["returnUrl"] },
+                        FormMethod.Post, new
+                        {
+                            enctype = "multipart/form-data",
+                            @class = "d-reset d-form " + form.Parent.BaseType + " " + form.Parent.Name + " " + form.FormTypeString.ToLower() + " d-fields"
+                        }))
+                    {
+                        Html.RenderPartial("~/views/contents/_EditForm.cshtml", ctx.DataItem);
+                    }
+                }
+            }
+        }
+    }
+}
+</text>).GetHtml()

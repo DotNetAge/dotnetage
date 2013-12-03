@@ -1,0 +1,129 @@
+﻿@model ContentViewDecorator
+@{
+    var list = Model.Parent;
+    var view = Model;
+    var pkg = list.Package;
+    var viewFields = view.FieldRefs;
+    var tmplName = list.Name + "_" + view.Name + "_tmpl";
+    var urlformat = "~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items?name={0}&slug={1}&parentId=";
+    var popupUrl = Url.Content(string.Format(urlformat, list.Name, Model.Name));
+    var contentTmpl = Model.GetBodyTemplate();
+}
+<div data-role="datasource" 
+        id="@(list.Name + "_" + Model.Name)_datasource"
+       @if (!Model.IsHierarchy)
+       {<text>
+        data-paging="@view.AllowPaging.ToString().ToLower()" 
+        data-page-size="@view.PageSize"
+        data-page-index="@view.PageIndex"</text>}
+        >
+    <div data-action="read" data-url="@Url.Content("~/api/"+AppModel.Get().CurrentWeb.Name+"/contents/items?name=" + list.Name + "&slug=" + view.Name)"></div>
+    <div data-role="mapper" 
+        data-convert="var target=[];  
+        $.each(data, function (i, dat) { 
+        var o=dat.object;
+        o.popupUrl='@popupUrl'+dat.id; 
+        o.parentId=dat.parentId; 
+        o.id=dat.id; 
+        o.links=dat.links; 
+        target.push(o); 
+        }); return target;">
+    </div>
+    <!--Key field-->
+    <div data-field="id" data-key="true" data-type="string" data-hidden="true"></div>
+    <div data-field="parentId" data-type="string" data-hidden="true"></div>
+    @if (viewFields.Count == 0)
+    {
+        var fs = list.Fields;
+        foreach (var f in fs)
+        {
+            if (f.FieldType == (int)ContentFieldTypes.Note
+                || f.FieldType == (int)ContentFieldTypes.Image
+                || f.FieldType == (int)ContentFieldTypes.File)
+            {
+                continue;
+            } 
+        <div data-field="@f.Name" 
+                data-title="@f.Title"
+                data-desc="@f.Description"
+                data-hidden="@f.IsHidden.ToString().ToLower()"
+                >
+        </div>
+        }
+    }
+    else
+    {
+        foreach (var viewField in viewFields)
+        {
+            var f = list.Fields[viewField.Name];
+            if (f.FieldType == (int)ContentFieldTypes.Note
+                || f.FieldType == (int)ContentFieldTypes.Image
+                || f.FieldType == (int)ContentFieldTypes.File)
+            {
+                continue;
+            } 
+        <div data-field="@f.Name" 
+                data-title="@f.Title"
+                data-desc="@f.Description"
+                data-hidden="@f.IsHidden.ToString().ToLower()">
+        </div>
+        }
+    }
+</div>
+
+
+
+@if (!string.IsNullOrEmpty(contentTmpl.Source))
+{
+    var _format = "~/content/types/base/views/{0}";
+    var url = string.Format(_format, contentTmpl.Source);
+
+    if (File.Exists(Server.MapPath(pkg.ResolveUri(contentTmpl.Source))))
+    {
+        Html.RenderPartial(pkg.ResolveUri(contentTmpl.Source), Model);
+        
+    }
+    else
+    {
+        if (File.Exists(Server.MapPath(url)))
+        {
+            Html.RenderPartial(url, Model);
+        }
+        else
+        {
+            <div class="d-state-error">The specified template file not found.</div>
+        }
+    }
+    //Render custom server view in file template
+} else {
+    var url = "~/content/types/base/views/_ajax_list.cshtml";
+    Html.RenderPartial(url, Model);
+}
+
+<div id="emptyItemsHolder" style="display: none;">
+    @Model.RenderEmptyPattern()
+</div>
+
+@*@if (Model.IsHierarchy)
+{ 
+    <script type="text/x-jquery-tmpl" id="@tmplName">
+        @if (!string.IsNullOrEmpty(Model.RowTemplate))
+        {
+            @MvcHtmlString.Create(Model.RowTemplate)
+        }
+        else
+        {
+            <a>${@(Model.GetDefaultTitleField().Name)}</a>
+        }
+    </script>
+}
+else
+{
+    if (!string.IsNullOrEmpty(Model.RowTemplate))
+    { 
+    <script type="text/x-jquery-tmpl" id="@tmplName">
+        @MvcHtmlString.Create(Model.RowTemplate)
+    </script>
+    }
+}*@
+

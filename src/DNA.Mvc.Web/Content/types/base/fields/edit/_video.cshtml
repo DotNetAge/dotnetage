@@ -1,0 +1,63 @@
+﻿@model ContentFieldValue
+@{
+    var field = Model.Field as VideoField;
+    decimal ratio = (decimal)9 / (decimal)16;
+    var thumbW = field.ThumbnailWidth > 0 ? field.ThumbnailWidth : 200;
+    var thumbH = field.ThumbnailHeight > 0 ? field.ThumbnailHeight : (thumbW * ratio);
+    string[] urls = !string.IsNullOrEmpty((string)Model.Raw) ? Model.Raw.ToString().Split(',') : null;
+    var src = "";
+    var thumb = "";
+    if (urls != null && urls.Length > 0)
+    {
+        src = urls[0];
+        if (urls.Length > 1)
+        {
+            thumb = urls[1];
+        }
+    }
+}
+<input type="hidden" name="@(field.Name)" id="@field.ClientID" value="@Model.Raw"/>
+<div class="d-inline">
+    <div>
+        <input  id="@(field.ClientID)_src" 
+            type="text" 
+            value="@(src.ToString())"
+            onchange ="$('#@(field.ClientID)').val($(this).val()+ ($('#@(field.ClientID)_thumb').val() ? (','+$('#@(field.ClientID)_thumb').val()) : '') )"
+            @field.GetAttributes() 
+            @if (field.IsRequired)
+            {
+            <text>
+            name="@(field.ClientID)_src"
+            data-val="true"
+            data-val-required="@string.Format(Resources.Validations.Required_Format, field.Title)"
+            </text>
+            }
+          />
+          <a data-role="button" 
+                data-rel="file"
+                data-file-to="@(field.ClientID)_src"
+                data-file-filter="video"
+                title="@string.Format(Resources.Messages.SelectFormat,Resources.Commons.Video)"
+                style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+    </div>
+    <div style="min-width: 250px; text-align: center;">
+        <div style="padding: 10px 0px;">@Resources.Designs.Thumbnail</div>
+        <input  id="@(field.ClientID)_thumb"
+            value="@thumb"
+            type="hidden"
+            data-role="dropbox"
+            onchange="if ($('#@(field.ClientID)_src').val()) $('#@(field.ClientID)').val($('#@(field.ClientID)_src').val()+','+$(this).val()); else $('#@(field.ClientID)_src').focus();"
+            style="height:@(thumbH)px;width:@(thumbW)px;"
+          />
+        <div>@Resources.Designs.Width @(thumbW)px x @Resources.Designs.Height:@((int)thumbH)px</div>
+        <div class="buttonholder" style="margin-top: 5px; text-align: center;">
+            <a data-role="button" 
+                data-rel="file"
+                data-file-to="@(field.ClientID)_thumb"
+                data-file-filter="image"
+                title="@(Resources.Messages.SelectAnImage)"
+                style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+        </div>
+    </div>
+    @Html.ValidationMessage(field)
+</div>

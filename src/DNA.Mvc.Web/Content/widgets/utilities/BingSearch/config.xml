@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget version="2.1.0" xmlns="http://www.w3.org/ns/widgets" id="bingsearch">
+  <name short="Bing">BingSearch</name>
+  <name xml:lang="zh-cn" short="Bing">必应搜索</name>
+  <description>Passes a search to Bing. </description>
+  <description xml:lang="zh-cn">使用必应搜索引擎搜索内容 </description>
+  <icon height="48" width="48" src="images/bing.png" />
+  <icon height="16" width="16" src="images/bing.ico" />
+  <content src="index.cshtml" type="application/x-ms-aspnet" />
+</widget>

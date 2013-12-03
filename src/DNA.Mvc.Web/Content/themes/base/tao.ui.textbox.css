@@ -1,0 +1,9 @@
+﻿/***************************************************texbox*****************************************************/
+.d-watermark { color: #6d6d6d; }
+.d-textbox { vertical-align: middle; }
+    .d-textbox > input { width: 100%; }
+    .d-textbox > .d-watermark { position: absolute; top: 0px; left: 0px; padding: 5px 0px 0px 5px; text-align: left; -webkit-text-shadow: none; text-shadow: none; opacity: 0.6; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)"; filter: Alpha(Opacity=60); }
+    .d-textbox.d-state-active > .d-watermark { display: none; }
+    .d-textbox > .d-textbox-icon { position: absolute; top: 50%; left: 5px; margin-top: -8px; width: 16px; }
+        .d-textbox > .d-textbox-icon ~ input { text-indent: 24px; }
+.d-textarea { padding: 5px; min-height: 80px; width: 298px; border-width: 1px; border-style: solid; resize: none; }

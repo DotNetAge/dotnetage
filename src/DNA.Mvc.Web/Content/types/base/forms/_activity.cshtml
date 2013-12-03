@@ -1,0 +1,51 @@
+﻿@model ContentDataItemDecorator
+@{
+    var list = Model.Parent;
+    var form = list.ActivityForm;
+    var user = AppModel.Get().Users[Model.Owner];
+    var profile = user.DefaultProfile;
+    var defaultAvatar = "~/content/images/no-avatar.gif";
+    var avatar = !string.IsNullOrEmpty(user.DefaultProfile.Avatar) ? user.DefaultProfile.Avatar : defaultAvatar;
+}
+
+<div class="d-ui-widget @form.CssClass">
+    <div class="d-form-section d-form-section-user">
+        <a style="display: block; position: relative;" title="@user.DisplayName" href="javascript:void(0);">
+            <img src="@Url.Content(avatar)"  class="d-user-photo d-inline"/>
+            <span class="d-inline">
+                @user.DisplayName
+            </span>
+            <span class="d-icon-chevron-right d-link-icon"></span>
+        </a>
+    </div>
+    <div class="d-form-section d-form-section-body">
+        @{ 
+            if (!form.Body.IsEmpty)
+            {
+                Html.RenderFormTemplate(form, Model);
+            }
+            else
+            {
+                Html.RenderFields(form, Model);
+            }
+        }
+        @if (!string.IsNullOrEmpty(Model.Annotation))
+        {
+            <blockquote class="d-form-section d-form-section-annotation">
+                @Model.Annotation
+            </blockquote>
+        }
+        <div>
+            <small>
+                <time datetime="@Model.Published.Value.ToString("yyyy-MM-ddThh:mm:ss")">@Model.Published.Value</time>
+            </small>
+        </div>
+    </div>
+    <div class="d-form-section d-form-section-social">
+        <a role="link" data-icon-left="d-icon-bubbles-2" style="margin-left:10px;" title="@Resources.Social.Comments">@Model.TotalComments </a>
+        <div style="float: right; overflow: auto; zoom: 1;">
+            <a role="link" data-icon-left="d-icon-heart-empty" style="width: 20px;"></a>
+            <a role="link" data-icon-left="d-icon-share-3" style="width: 30px;"></a>
+        </div>
+    </div>
+</div>

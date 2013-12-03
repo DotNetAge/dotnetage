@@ -1,0 +1,79 @@
+﻿@Html.Widget().UserPreferences(@<text>
+<div class="d-field">
+    @item.Label("text", "Button text")
+    @item.TextBox("text", new { placeholder = "Enter the button display text" })
+</div>
+<div class="d-field">
+    @item.Label("onclick", "Script")
+    @item.TextArea("onclick", new { placeholder = "Enter the onclick event handler script" })
+</div>
+<div class="d-field">
+    @item.Label("forecolor", "Fore color")
+    <input type="color" data-role="picker" 
+        value="@item.GetString("forecolor")" 
+        name="forecolor" 
+        data-change="$('#@item.ClientID').find('button').css('color', ui.value);$(this).closest('form').trigger('change');"
+        />
+</div>
+<div class="d-field">
+    @item.Label("shadowcolor", "Shadow color")
+  <input type="color" data-role="picker" 
+        value="@item.GetString("shadowcolor")" 
+        name="shadowcolor" 
+        data-change="$('#@item.ClientID').find('button').css('box-shadow', '0 6px '+ui.value);$(this).closest('form').trigger('change');"
+        /></div>
+<div class="d-field">
+    @item.Label("bgcolor", "Background")
+<input type="color" data-role="picker" 
+        value="@item.GetString("bgcolor")" 
+        name="bgcolor" 
+        data-change="$('#@item.ClientID').find('button').css('background-color', ui.value);$(this).closest('form').trigger('change');"
+        /></div>
+<div class="d-field">
+    @item.Label("radius", "Radius")
+    @item.Hidden("radius")<div style="width:150px;" class="d-inline">
+    <input data-role="slider" type="hidden" value="@item.GetString("radius")" data-to="@item.GetID("radius")" 
+        data-slide="$('#@item.ClientID').find('button').css('border-radius', ui.value + 'px');"/></div>
+</div>
+<div class="d-field">
+     @item.Label("fontsize", Resources.Designs.FontSze)
+    @item.Hidden("fontsize")<div style="width:150px;" class="d-inline">
+    <input data-role="slider" type="hidden" value="@item.GetString("fontsize")" data-to="@item.GetID("fontsize")" 
+        data-slide="$('#@item.ClientID').find('button').css({ 'font-size': (ui.value/12) + 'em' });"/></div>
+</div>
+<div class="d-field">
+     @item.Label("w", Resources.Designs.Width)
+    @item.Hidden("w")<div style="width:150px;" class="d-inline">
+    <input data-role="slider" type="hidden" value="@item.GetString("w")" 
+        data-max="1000"
+        data-to="@item.GetID("w")" 
+        data-slide="$('#@item.ClientID').find('button').css('width', ui.value + 'px');"/></div>
+</div>
+<div class="d-field">
+     @item.Label("h", Resources.Designs.Height)
+    @item.Hidden("h")<div style="width:150px;" class="d-inline">
+    <input data-role="slider" type="hidden" value="@item.GetString("h")" 
+        data-max="1000"
+        data-to="@item.GetID("h")" 
+        data-slide="$('#@item.ClientID').find('button').css('line-height', ui.value + 'px');"/></div>
+</div>
+</text>).Content(@<text>
+@{
+    var m = item.GetUserPreferences();
+    var size = Convert.ToDecimal(item.GetInt("fontsize"))/(decimal)12;
+    var lineheight = item.GetInt("h");
+  }
+<style>
+    #@item.ClientID button{font-size:@(size)em; line-height:@(lineheight)px;box-shadow: 1px 4px @item.GetString("shadowcolor");border:none;-webkit-transition: all 0.1s;-moz-transition: all 0.1s;transition: all 0.1s;outline: none;position: relative;width:@(item.GetInt("w"))px;color:@item.GetString("forecolor");background-color:@item.GetString("bgcolor");
+    border-radius:@(item.GetInt("radius"))px;box-shadow:0 6px @item.GetString("shadowcolor");}
+    #@item.ClientID button:hover{box-shadow: 1px 6px @item.GetString("shadowcolor"); top: -2px;}
+    #@item.ClientID button:active{box-shadow: 0 2px @item.GetString("shadowcolor"); top: 2px;}
+</style>
+<div style="text-align:center;">
+    <button data-role="none" 
+        @if (!string.IsNullOrEmpty(item.GetString("onclick"))){
+        <text>onclick="@item.GetString("onclick")"</text>}
+        >@item.GetString("text")</button>
+</div>
+
+</text>).GetHtml()

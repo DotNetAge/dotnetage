@@ -1,0 +1,77 @@
+﻿@using System.Xml.Linq
+@model ContentViewFieldValue
+@{
+    var field = Model.Field.Field as NoteField;
+}
+@if (!Model.IsNull)
+{
+    if (field != null)
+    {
+        /*if (field.NumLines > 0)
+        {
+            var blockHeight = 23 * field.NumLines;
+            
+            if (field.IsHtml)
+            {
+                var htmlString="<div style=\"text-overflow:ellipsis;max-height:" + blockHeight.ToString() + "px;line-height:23px;overflow:hidden;\">" + Model.Value.ToString() + "</div>";
+                htmlString = htmlString.Replace("<br/>", "\t\n").Replace("<br>", "\t\n").Replace("<BR>", "\t\n").Replace("<hr/>", "").Replace("<hr>", "").Replace("<HR>", "");
+            }
+            else
+            {
+            }
+        }
+        else
+        {*/
+        var contentText = "";
+        if (field.IsHtml)
+        {
+            try
+            {
+                var formatValue = Model.Value.ToString().Replace("<br/>", "\t\n").Replace("<br>", "\t\n").Replace("<BR>", "\t\n").Replace("<hr/>", "").Replace("<hr>", "").Replace("<HR>", "");
+                var element = XElement.Parse("<html>" + formatValue + "</html>");
+                var firstPrg = element.Elements("p").FirstOrDefault();
+                if (firstPrg == null)
+                {
+                    firstPrg = element.Elements("div").FirstOrDefault();
+                }
+
+                if (firstPrg != null)
+                {
+                    contentText = firstPrg.Value;
+                }
+                else
+                {
+                    contentText = TextEngine.Text(Model.Value.ToString()).ToString();
+                }
+            }
+            catch
+            {
+                contentText = TextEngine.Text(Model.Value.ToString()).ToString();
+            }
+        }
+        else
+        {
+            contentText = Model.Value.ToString();
+        }
+
+        if (field.LengthLimit > 0)
+        {
+            contentText = Html.Cut(contentText, field.LengthLimit);
+        }
+    <div itemprop="@Model.FieldName.ToLower()" @field.GetAttributes()>
+        @if (field.IsHtml)
+        { 
+            @MvcHtmlString.Create(contentText)
+        }
+        else
+        {
+            @contentText
+        }
+    </div>
+        //}
+    }
+}
+else
+{  
+    @Model.Value
+}

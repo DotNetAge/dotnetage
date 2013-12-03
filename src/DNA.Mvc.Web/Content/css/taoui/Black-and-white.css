@@ -1,0 +1,32 @@
+﻿.d-ui-widget, .ui-widget, .d-node-content > * { color: #000000; }
+.d-ui-widget, .ui-widget { background-image: none; background-color: #ffffff; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #e3e3e3; }
+.d-button {border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+	
+.d-ui-widget-header, .d-ui-widget-header > a { color: #525252; font-weight: normal; text-decoration: none; text-transform: none; }
+.d-ui-widget-header { background-image: none; background-color: #e3e3e3; }.d-ui-widget-header,.ui-widget-header,.d-rte-panes>.d-menu.toolbar,.d-button {border-color:#e3e3e3;background-image:none;background-color:#f7f7f7;}
+	
+.d-ui-widget-content, .ui-widget-content, .d-ui-widget-header.d-tabs-nav.d-state-active > a, .d-checkbox, .d-radio, .d-rating { color: #000000; }
+.d-grid .d-row-alt, .d-grid-content table tr:nth-child(even) { color: #000000; }
+.d-ui-widget.d-tooltip, .d-state-info, .d-item-counter { color: rgb(0, 0, 0); background-color: #fafafa; background-image: none; border-color: #a8a8a8; }
+.d-ui-widget-content, .ui-widget-content, .d-tabs-nav.d-state-active { background-color: #ffffff; background-image: none; }
+.d-overlay, ui-overlay { background-color: #ededed; }
+.d-ui-widget.d-tooltip, .d-state-info, .d-item-counter { color: #000000; background-color: #fafafa; border-color: #dedede; }
+.d-radio,.d-checkbox,.d-rating,a.d-button.link,.ui-state-default>a,.ui-state-default {color:#424242;}
+	
+.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover { background-image: none; background-color: #fafafa; }
+    .d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover { box-shadow: 0px 0px 3px #919191 inset; -webkit-box-shadow: 0px 0px 3px #919191 inset; -moz-box-shadow: 0px 0px 3px #919191 inset; text-shadow: none; }
+	
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-ui-widget-header.d-state-active > a, .d-item.d-state-active, .d-node-content > .d-state-active { color: #000000; }
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-item.d-state-active, .d-node-content > .d-state-active, .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active, .d-tabs > .d-tabs-panel.d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active { background-image: none; background-color: #fcfcfc; }
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-item.d-state-active, .d-node-content > .d-state-active, .d-rating, .d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active, .d-tabs > .d-tabs-panel.d-state-active { border-color: #f2f2f2; }
+    .d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-ui-widget-header.d-state-active > a, .d-item.d-state-active, .d-node-content > .d-state-active, .ui-state-active { box-shadow: 0px 0px 5px #404040 inset; -webkit-box-shadow: 0px 0px 5px #404040 inset; -moz-box-shadow: 0px 0px 5px #404040 inset; text-shadow: none; }
+.d-ui-widget.d-state-active,.d-ui-widget-header.d-state-active,.d-ui-widget-header.d-state-active>a,.d-item.d-state-active,.d-node-content>.d-state-active,.ui-state-active {box-shadow:0px 0px 2px #cccccc inset;-webkit-box-shadow:0px 0px 2px #cccccc inset;-moz-box-shadow:0px 0px 2px #cccccc inset;text-shadow:none;}
+	
+.d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget.d-state-disable *, .d-ui-widget-content.d-state-disable, .d-ui-widget-content:disabled, .d-ui-widget-header.d-state-disable, .d-ui-widget-header.d-state-disable > a, .d-node.d-state-disable .d-node-content, .d-node.d-state-disable .d-node-content a, .d-checkbox.d-state-disable, .d-radio.d-state-disable { color: #8a8a8a; }
+    .d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget-header.d-state-disable, .d-ui-widget.d-state-disable .d-ui-widget-content, .d-ui-widget-content.d-state-disable { background-color: #eeeeee; background-image: none; }
+	
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error > input, .d-state-error, .input-validation-error { color: #c16767; }
+    .field-validation-error, .input-validation-error, .d-ui-widget.d-state-error, .d-ui-widget.d-state-error > .d-ui-widget-content, .input-validation-error > .d-ui-widget-content { background-color: #fbe9e9; background-image: none; }
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error { border-color: #d57272; }
+	

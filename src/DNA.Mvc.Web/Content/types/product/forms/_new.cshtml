@@ -1,0 +1,42 @@
+﻿@model ContentFormDecorator
+@{
+    var fields = Model.Fields;
+    var fieldArgs = new string[] { "Name", 
+        "Number", 
+        "Price", 
+        "ImageUrl", 
+        "Thumb1", 
+        "Thumb2", 
+        "Thumb3", 
+        "Thumb4", 
+        "Thumb5", 
+        "Description" };
+}
+<style type="text/css">
+    .photolist { display: inline-block; }
+        .photolist > * { vertical-align: middle; display: inline-block; }
+</style>
+@{ 
+    Html.ForNew(fields["Name"]);
+    Html.ForNew(fields["Number"]);
+    Html.ForNew(fields["Price"]); 
+}
+<div>
+    <label>@Resources.Commons.Photos</label>
+    <div class="photolist">
+        @{Html.ForNew(fields["ImageUrl"], false, false);}
+        @{Html.ForNew(fields["Thumb1"], false, false);}
+        @{Html.ForNew(fields["Thumb2"], false, false);}
+        @{Html.ForNew(fields["Thumb3"], false, false);}
+        @{Html.ForNew(fields["Thumb4"], false, false);}
+        @{Html.ForNew(fields["Thumb5"], false, false);}
+    </div>
+</div>
+@foreach (var f in fields)
+{
+    if (fieldArgs.Contains(f.Name)) { continue; }
+    Html.ForNew(f);
+}
+@{
+    Html.ForNew(fields["Description"]); 
+}

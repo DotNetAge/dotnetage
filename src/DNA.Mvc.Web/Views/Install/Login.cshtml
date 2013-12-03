@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "DotNetAge 3";
+    Layout = "~/Views/Install/_Layout.cshtml";
+}
+
+<h2 style="text-align: center;">@Resources.Commons.Host @Resources.Commons.Login.ToLower()</h2>
+<p>
+    @Resources.Messages.FindHostPwd 
+</p>
+<form method="post" 
+    class="d-form"  
+    action="@Url.Content("~/install/login")" style="width:400px;margin:auto;">
+    @if (IsPost)
+    {
+        <p class="d-state-error">@Resources.Messages.UsrOrPwdInCorrect</p>
+    }
+    <div class="d-field">
+        @Html.Label("UserName",Resources.Commons.UserName)
+        @Html.TextBox("UserName", "", new
+   {
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.UserName),
+       data_val = "true",
+       data_val_required =string.Format(Resources.Validations.Required_Format, Resources.Commons.UserName)
+   })
+        @Html.ValidationMessage("UserName")
+    </div>
+    <div class="d-field">
+        @Html.Label("Password", Commons.Password)
+        @Html.Password("Password", "", new
+{
+    placeholder =  string.Format(Resources.InputHolders.Format, Resources.Commons.Password),
+    data_val = "true",
+    data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.Password)
+})
+        @Html.ValidationMessage("Password")
+    </div>
+    <div style="padding: 0 10px;">
+        <button data-default="true" data-inline="false">@Resources.Commons.Login</button>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("body").animate({ opacity: 1 }, 500);
+    });
+</script>

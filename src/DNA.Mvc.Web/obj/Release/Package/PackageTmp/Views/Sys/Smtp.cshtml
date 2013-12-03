@@ -1,0 +1,125 @@
+﻿@model DNA.Web.Management.SmtpSettings
+@{
+    ViewBag.Title = Resources.Managements.SMTP_Settings;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    
+}
+@using (Ajax.BeginForm("Smtp", "Sys", null, new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnBegin = "$.loading('" + Resources.Messages.SavingSMTP + "...')",
+    OnFailure = "$.err('" + Resources.Messages.Smtp_Save_Fail + "')",
+    OnComplete = "$.loading('hide')",
+    OnSuccess = "$.info('" + Resources.Messages.Smtp_Save_Success + "'); $('#btnSave').isDisable(true);"
+},
+    new { onchange = "$('#btnSave').isDisable(false)" }))
+{
+    @AntiForgery.GetHtml()
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        @*     <li id="d_buttons" style="background: #efefef; padding: 5px; line-height: 0px; display: none;">
+            <span data-role="button" class="d-inline" onclick="$(this).closest('form').submit();" style="width: 100px;">@Dict.Save</span>
+       <span data-role="button" onclick="_testSMTP();" class="d-inline">@_Smtp_cshtml.Test</span><span class="d-inline" style="margin-left: 10px; " id="d_test_info"><span class="d-loader"></span><span id="d_info">@_Smtp_cshtml.Test</span></span>
+        </li>*@
+        <li data-role="divider">@Resources.Commons.Common</li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Host, Resources.Managements.Smtp_Server)
+            @Html.TextBoxFor(m => m.Host, new { placeHolder = Resources.InputHolders.Smtp_Server })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Port, Resources.Managements.Port)
+            @Html.TextBoxFor(m => m.Port, new
+       {
+           placeHolder = Resources.InputHolders.Smtp_Port,
+           type = "number",
+           onfocus = "$(this).select();",
+           data_width = "80"
+       })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.CheckBoxFor(m => m.EnableSsl, new { data_label = Resources.Managements.EnableSsl })
+        </li>
+        <li data-role="divider">@Resources.Commons.Security</li>
+        <li data-role="fieldcontain">
+            @Html.CheckBoxFor(m => m.DefaultCredentials, new
+                                    {
+                                        data_label = Resources.Managements.UseDefaultCredentials,
+                                        data_change = "_useDefaultCredentials(ui.checked);"
+                                    })</li>
+        <li data-role="fieldcontain" id="smtpusr_holder">
+            @Html.LabelFor(m => m.UserName, Resources.Commons.UserName)
+            @Html.TextBoxFor(m => m.UserName, new
+       {
+           placeHolder = Resources.InputHolders.Smtp_Usr
+       })
+        </li>
+        <li data-role="fieldcontain" id="smtppwd_holder">
+            @Html.LabelFor(m => m.Password, Resources.Commons.Password)
+            @Html.PasswordFor(m => m.Password, new
+       {
+           placeHolder = Resources.InputHolders.Smtp_Pwd
+       })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.From, Resources.Managements.Smtp_Sender)
+            @Html.TextBoxFor(m => m.From, new
+       {
+           placeHolder = Resources.Managements.Smtp_Sender
+       })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.DisplayName, Resources.Managements.Smtp_DispName)
+            @Html.TextBoxFor(m => m.DisplayName, new
+       {
+           placeHolder = Resources.Managements.Smtp_DispName
+       })
+        </li>
+    </ul>
+    <p>
+        <button data-inline="false" id="btnSave" class="d-state-disable" style="margin-bottom: 10px;">@Resources.Commons.Save</button>
+        <a data-role="button" data-inline="false" onclick="_testSMTP();" @if (string.IsNullOrEmpty(Model.From))
+                                                                         {<text>class="d-state-disable"</text>}>@Resources.Commons.Test</a>
+    </p>
+}
+
+<script type="text/javascript">
+    $(function () {
+        _useDefaultCredentials(@Model.DefaultCredentials.ToString().ToLower());
+    });
+
+    function _useDefaultCredentials(val) {
+        $("#smtpusr_holder").isDisable(val);
+        $("#smtppwd_holder").isDisable(val);
+
+        if (val) {
+            $("#smtpusr_holder input").taoTextbox("disable");
+            $("#smtppwd_holder input").taoTextbox("disable");
+        }
+        else {
+            $("#smtpusr_holder input").taoTextbox("enable").focus();
+            $("#smtppwd_holder input").taoTextbox("enable");
+        }
+    }
+
+    function _testSMTP() {
+        $("#d_test_info").show();
+        $.loading("Sending test email to administrator email account.");
+
+        $.ajax({
+            url: "@Url.Action("TestSmtp", "Sys")",
+            type: "post",
+            data: {
+                "__RequestVerificationToken": $("[name='__RequestVerificationToken']").val()
+            }
+        })
+        .always(function () { $.loading("hide"); })
+        .done(function (_pass) {
+            if (_pass.error)
+                $.err("@Resources.Messages.Smtp_Test_Fail : " + _pass.error);
+            else
+                $.info("@Resources.Messages.Smtp_Test_Pass");
+        })
+        .fail(function (jqXHR, textStatus, errorThrow) {
+            $.err(errorThrow);
+        });
+    }
+</script>

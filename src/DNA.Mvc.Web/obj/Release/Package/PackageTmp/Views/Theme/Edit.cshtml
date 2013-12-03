@@ -1,0 +1,74 @@
+﻿@model ThemePackage
+@{
+    var theme = Model.Locale(Culture);
+    string[] themeRoles = string.IsNullOrEmpty(theme.Roles) ? new string[0] : theme.Roles.Split(',');
+    var users = AppModel.Get().Webs.Count(w => w.Theme.Equals(Model.Model.Name));
+}
+<div style="padding: 10px;">
+    <div style="text-align: center;">
+        <div class="d-shadow-around" style="background:url(@(Url.Content(Model.ResolveUri(theme.PrimaryImage)))) top center no-repeat #fff;background-size: 250px;height:250px;width:250px;margin-left:15px;"></div>
+    </div>
+    @if (!string.IsNullOrEmpty(theme.Title))
+    {
+        <h4>@theme.Title</h4>}
+    <form class="d-form">
+        <div class="d-field">
+            <label>@Resources.Commons.Version</label><span style="margin-left: 10px;" data-inline="true">@Model.Model.Version</span>
+        </div>
+        <div class="d-field">
+            <label>@Resources.Commons.Users</label><span style="margin-left: 10px;" data-inline="true">@users</span>
+        </div>
+        <a data-role="button" data-inline="false" target="_blank" href="http://www.dotnetage.com/home/en-US/themes/locate/@(theme.Name)">@Resources.Contents.Details</a>
+        <a data-role="button"
+            data-inline="false"
+            data-ajax="true"
+            data-ajax-confirm="@string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Commons.Theme)"
+            data-ajax-url="@Url.Action("Delete", "Theme", new { Area = "", name = Model.Model.Name, locale = Culture })"
+            data-ajax-begin="$.loading()"
+            data-ajax-success="$('#@(Model.Model.Name)').remove();$.closePanels();"
+            data-ajax-error="$.err(error);"
+            data-ajax-complete="$.loading('hide');"
+         @if (users > 0)
+         {<text>class="d-state-disable"</text>}>@Resources.Commons.Delete</a>
+    </form>
+</div>
+
+@*  <div class="d-hbox">
+    <div style="width: 200px; height: 250px; margin-right:20px; line-height: 250px; color: #808080; text-align: center;">
+        @if (!string.IsNullOrEmpty(theme.PrimaryImage))
+        {
+            <img src="@()" style="line-height: 250px; max-height: 250px; max-width:200px; border: 3px solid #FFFFFF; box-shadow: 0 0 5px #CCCCCC;"/>
+        }
+        else
+        {
+              <img src="~/content/images/image_holder.png" style="line-height: 250px; max-height: 250px; max-width:200px; border: 3px solid #FFFFFF; box-shadow: 0 0 5px #CCCCCC;" /> 
+        }
+    </div>
+    <div class="d-box1">
+              <h3 style="margin: 0px;">@(string.IsNullOrEmpty(theme.Title) ? theme.Name : theme.Title)</h3>
+        <h5 style="margin: 0px;">@Dict.Desc</h5>
+        <p>
+            @if (string.IsNullOrEmpty(theme.Description))
+            {
+                <text>( @Common.Empty )</text>
+            }
+            else
+            {
+                @theme.Description
+            }
+        </p>
+        <h5 style="margin: 0px;">@Common.AccessRoles</h5>
+        @{var roles = AppModel.Get().Roles.All;}
+        <div style="height: 150px; overflow: auto;">
+            @foreach (var r in roles)
+            {
+                <div style="padding:5px;">
+                    <input type="checkbox" data-label="@r" data-bool="false" @if (themeRoles.Contains(r)){<text>checked="checked"</text>} id="@r" name="roles" value="@r"/>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<p>
+</p>
+*@

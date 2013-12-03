@@ -1,0 +1,4 @@
+﻿.d-ui-widget, .ui-widget { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; background-color: #e9e8e2; background-image: none; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #cfcec9; }
+a.d-button { color: #fff; }
+.d-ui-widget.d-panel-overlay { -webkit-box-shadow: 0 0 10px #cfcec9; box-shadow: 0 0 10px #cfcec9; }

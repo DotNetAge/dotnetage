@@ -1,0 +1,22 @@
+﻿#field_options > * { display: none; }
+#field_options.Text .d-Text-field { display: block; }
+#field_options.Note .d-Note-field { display: block; }
+#field_options.Boolean .d-Boolean-field { display: block; }
+#field_options.Choice .d-Choice-field { display: block; }
+#field_options.Number .d-Number-field { display: block; }
+#field_options.Currency .d-Currency-field { display: block; }
+#field_options.DateTime .d-DateTime-field { display: block; }
+#field_options.Integer .d-Integer-field { display: block; }
+#field_options.Image .d-Image-field { display: block; }
+#field_options.Lookup .d-Lookup-field { display: block; }
+#field_options.User .d-User-field { display:block;}
+#field_options.Video .d-Video-field { display: block; }
+ .placeholder { border: 1px dashed #ff0000; background: #ffc6c6; }
+.d-content:after {clear:left;content:"";display:block; }
+.d-content-stat { background: none repeat scroll 0 0 #EFEFEF; float: left; font-size: 250%; padding: 15px; padding-top: 5px; text-align: center; text-transform: lowercase; }
+.d-triangle-right { border-color: transparent transparent transparent #EFEFEF; border-style: solid; border-width: 5px 10px; float: left; height: 0; margin-top: 15px; width: 0; }
+.d-content-replies { font-size: 12pt; }
+.d-content-votes { }
+.d-content-stat-txt { font-size: 10pt; color: #808080; }
+.d-content > section { float: left; }
+    .d-content > section > header { font-size: 250%; }

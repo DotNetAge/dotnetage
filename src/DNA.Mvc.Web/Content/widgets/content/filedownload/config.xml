@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="file-download">
+  <name short="filedownload">File download</name>
+  <name short="filedownload" xml:lang="zh-cn">文件下载</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="src" value="''" />
+  <preference name="downloads" value="0" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

@@ -1,0 +1,4 @@
+﻿.d-scrollable { overflow: hidden; position: relative; height: 100%; }
+.d-scrollable-v { position: absolute; left: 0px; top: 0px; margin: 0px; padding: 0px; height: 100%; }
+    .d-scrollable-v > * { float: left; margin: 0px; display: inline-block; vertical-align: top; }
+.d-scrollable::after { content: ""; display: block; clear: both; }

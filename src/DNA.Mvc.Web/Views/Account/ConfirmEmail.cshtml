@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "ConfirmEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeaderSection{
+    <style type="text/css">
+        .d-page-container { width: 900px; min-height: 780px; margin: auto; padding: 20px 0px; }
+
+        @@media screen and (max-width: 600px) {
+            .d-page-container { width: 450px; min-height: 400px; }
+        }
+
+        @@media screen and (max-width: 400px) {
+            .d-page-container { width: 290px; min-height: 400px; }
+        }
+    </style>
+}
+<div class="d-page">
+    <div class="d-page-container d-ui-widget-content">
+        <div style="padding: 0px 20px;">
+            <h2>Confirm email</h2>
+            @if (ViewBag.Valid)
+            { 
+                <p>@Resources.Messages.EmailValidSuccess</p>
+            }
+            else
+            { 
+                <p>@Resources.Messages.EmailValidFail</p>
+            }
+        </div>
+    </div>
+
+</div>

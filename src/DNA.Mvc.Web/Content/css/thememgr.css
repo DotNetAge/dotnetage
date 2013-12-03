@@ -1,0 +1,11 @@
+﻿.d-theme { margin: 2px; padding: 3px; position: relative; width: 169px; height: 200px; float: left; }
+.d-theme-img-holder { display: block; height: 180px; width: 169px; text-align: center; line-height: 180px; background-position: top center; background-color: #fff; background-repeat: no-repeat; background-size: 169px 180px; }
+    .d-theme-img-holder > img { max-width: 169px; max-height: 180px; }
+.d-shadow.bend { margin-bottom: 10px; }
+    .d-shadow.bend:before, .d-shadow.bend:after { bottom: 30px; width: 80%; height: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; border-radius: 15px; -moz-box-shadow: #000 0px 0px 30px, #000 0px 0px 20px; -webkit-box-shadow: #000 0px 0px 55px, #000 0px 0px 25px; box-shadow: #000 0px 0px 30px, #000 0px 0px 20px; content: ""; }
+    .d-shadow.bend:before { right: 20px; }
+    .d-shadow.bend:after { left: 20px; }
+.d-buttons-holder { position: absolute; left: 0px; top: 50%; margin-top: -16px; text-align: center; width: 169px; font-size: 2em; display: none; }
+    .d-buttons-holder > a { text-decoration: none; }
+        .d-buttons-holder > a > span { cursor: pointer; }
+.d-state-hover .d-buttons-holder, .d-state-active .d-buttons-holder { display: block; }

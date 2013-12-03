@@ -1,0 +1,24 @@
+﻿@model ContentFieldValue
+@{
+    var field = (BooleanField)Model.Field;
+}
+@if (!string.IsNullOrEmpty(field.YesText) && !string.IsNullOrEmpty(field.NoText))
+{
+    <div id="@(field.ClientID)" 
+                data-role="radios" 
+                data-inline="true"
+                @if (field.IsReadOnly)
+                { <text>class="d-state-disable"</text>}
+                 data-value="@(Model.Raw != null ? Model.Raw : (field.DefaultValue != null ? field.DefaultValue : false))">
+        <input type="radio" value="True"  name="@field.Name" data-label="@field.YesText" />
+        <input type="radio" value="False"  name="@field.Name" data-label="@field.NoText" />
+    </div>
+}
+else
+{
+    <input  id="@(field.ClientID)" name="@field.Name" type="checkbox" data-label="@field.Title"
+   value="@(Model.Raw != null ? Model.Raw : (field.DefaultValue != null ? field.DefaultValue : false))"
+    @if (field.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+      />
+}

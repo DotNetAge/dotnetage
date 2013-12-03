@@ -1,0 +1,14 @@
+﻿<input type="hidden" value="" id="sys_selected_page" />
+<input type="hidden" value="" id="sys_selected_page_url" />
+@Sitemaps.GetHtml(withAttributes: true, issitemap: true, htmlAttributes: new {
+    id="sys_pages",
+    style="height:280px;overflow:auto;border:none;",
+    data_role="tree",
+    data_selected="var n=ui.node.children('.d-node-content').children('a');$('#sys_selected_page').val(JSON.stringify({title:n.data('title'),id:n.data('id'),url:n.data('path'),desc:n.data('desc')})).trigger('change'); $('#sys_selected_page_id').val(n.data('id')).trigger('change');$('#sys_selected_page_url').val(n.data('path')).trigger('change');"
+})
+<script type="text/javascript">
+    $(function () {
+        $("[data-shared=true]", $("#sys_pages")).closest("li").hide();
+        
+    });
+</script>

@@ -1,0 +1,174 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+    <title></title>
+<!--    <script src="https://maps.googleapis.com/maps/api/js?sensor=true&libraries=places"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript">
+        $(function () {
+            window.defaultLoc = {
+                lat: widget.preferences.getItem("lat"),
+                lon: widget.preferences.getItem("lon")
+            };
+            window.map = {};
+            window.infowindow = new google.maps.InfoWindow();
+            initialize();
+        })
+
+        function initialize() {
+            var lat = widget.preferences.getItem("lat"),
+            lon = widget.preferences.getItem("lon"),
+            zoom = widget.preferences.getItem("zoom");
+            h = $(document).height(),
+            w = $(document).width();
+
+            if (widget.preferences.getItem("static") == true)
+                showStaticMap(lat, lon, w, h, zoom);
+            else
+                showMap(lat, lon, zoom, h);
+        }
+
+        function showStaticMap(lat, lon, w, h, zoom) {
+            var locMap = $("<img id=\"map_container\"/>").attr("src", "http://maps.google.com/maps/api/staticmap?zoom=" + zoom + "&size=" + w + "x" + h + "&maptype=terrain&sensor=false&center=" + lat + "," + lon);
+            if ($("#map_container").length)
+                $("#map_container").remove();
+            //$("body").empty();
+            //$(widget.getBodyElement()).height(h);
+            locMap.appendTo("body");
+        }
+
+        function showMap(lat, lon, zoom, h) {
+            var defLoc = new google.maps.LatLng(lat, lon);
+
+            if ($("#map_container").length)
+                $("#map_container").remove();
+
+            //$("body").empty();
+            var mapEl = $("<div id=\"map_container\"/>").appendTo("body");
+            mapEl.height(h);
+            var mapOptions = {
+                zoom: zoom,
+                center: defLoc,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+
+            var map = new google.maps.Map(document.getElementById('map_container'), mapOptions);
+            var contentString = widget.preferences.getItem("contentString");
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            var marker = new google.maps.Marker({
+                position: defLoc,
+                map: map,
+                title:  widget.preferences.getItem("title")
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+
+            //mapEl.height(h);
+            //map = new google.maps.Map(mapEl[0], {
+            //    mapTypeId: google.maps.MapTypeId.ROADMAP,
+            //    center: defLoc,
+            //    zoom: zoom
+            //});
+
+            //var request = {
+            //    location: defLoc,
+            //    radius: 200,
+            //    types: ['street_address']
+            //};
+
+            //infowindow = new google.maps.InfoWindow();
+
+            //var service = new google.maps.places.PlacesService(map);
+            //service.search(request, callback);
+        }
+
+        //function callback(results, status) {
+        //    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //        for (var i = 0; i < results.length; i++) {
+        //            createMarker(results[i]);
+        //        }
+        //    }
+        //}
+
+        //function createMarker(place) {
+        //    var placeLoc = place.geometry.location;
+        //    var marker = new google.maps.Marker({
+        //        map: map,
+        //        position: place.geometry.location
+        //    });
+
+        //    google.maps.event.addListener(marker, 'click', function () {
+        //        infowindow.setContent(place.name);
+        //        infowindow.open(map, this);
+        //    });
+        //}
+
+        function _preview(lon, lat, zoom) {
+            var h = $(document).height(),
+                w = $(document).width();
+
+            if (widget.preferences.getItem("static") == true)
+                showStaticMap(lat, lon, w, h, zoom);
+            else
+                showMap(lat, lon, zoom, h);
+        }
+
+        function getCurCoords(element) {
+            $(element).isDisable(true);
+            $("<span/>").addClass("d-icon-loading").prependTo(element);
+            $.getGEOLocation().done(function (results) {
+                var _form = $(element).closest('form');
+                $("[name=lon]", _form).val(results.coords.lon);
+                $("[name=lat]", _form).val(results.coords.lat);
+                $(".d-icon-loading", element).remove();
+                $(element).isDisable(false);
+                _preview(results.coords.lon, results.coords.lat, parseInt(_form.find("[name=zoom]").val()));
+            })
+        }
+
+    </script>
+</head>
+<body>
+    <form class="d-widget-prefs d-form" data-role='widget-prefs'>
+        <input type="hidden" name="lon"/>
+        <input type="hidden" name="lat"/>
+        <div class="d-field">
+            <label>Title</label>
+            <input type="text" name="title" placeholder="The title text on the top of the marker." />
+        </div>
+        <div class="d-field">
+            <div><label>Content string (Html allowed)</label></div>
+            <textarea name="contentString" placeholder="The content info show on the map."></textarea>
+        </div>
+        <div class="d-field">
+            <label>Zoom</label>
+            <div style="padding: 10px;">
+                <input type="hidden" name="zoom" data-role="slider" data-slide="widget.parent._preview(widget.parent.defaultLoc.lon,widget.parent.defaultLoc.lat,ui.value);" data-max="30"/>
+            </div>
+        </div>
+        <div class="d-field">
+            <input type="checkbox" data-label="Show as image" name="static"/>
+        </div>
+        <div>
+            <div><label for="user_address">Find by address</label></div>
+            <input type="text" style="width:100%;"
+                placeholder="Enter the your address to locate on the map."
+                data-autocomplete="http://maps.googleapis.com/maps/api/geocode/json?sensor=true"
+                data-autocomplete-param="address"
+                data-autocomplete-select="$(this).closest('form').find('[name=lat]').val(ui.lat);$(this).closest('form').find('[name=lon]').val(ui.lng);widget.parent._preview(ui.lng,ui.lat,parseInt($(this).closest('form').find('[name=zoom]').val()) );"
+                data-autocomplete-map="return data.results;"
+                data-autocomplete-convert="return { text:data.formatted_address,lng:data.geometry.location.lng,lat:data.geometry.location.lat };"
+                />
+        </div>
+        <div>
+            <a data-role="button" data-inline="false" onclick="widget.parent.getCurCoords(this);">Load current location</a>
+        </div>
+    </form>
+</body>
+</html>

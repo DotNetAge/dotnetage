@@ -1,0 +1,20 @@
+﻿@model ContentFieldValue
+@{
+    var field = (FileField)Model.Field;
+}
+<input  id="@(field.ClientID)" 
+            name="@field.Name" 
+            type="text" 
+            @if (field.IsRequired)
+            {
+            <text>
+            data-val="true"
+            data-val-required="@string.Format(Resources.Validations.Required_Format,field.Title)"
+            </text>
+            }
+            value="@(Model.Raw != null ? Model.Raw : (field.DefaultValue != null ? field.DefaultValue : ""))"
+          />
+<div style="padding: 5px 0px 5px 154px; width: 312px; text-align: right;">
+    <a data-role="button" onclick="$.fileDialog({title:'Select a file',input:$('#@(field.ClientID)'),url:'@(Url.Action("Explorer", "WebFiles"))'});$('#@(field.ClientID)').parent().children('span').hide();" style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+</div>
+@Html.ValidationMessage(Model.Field)

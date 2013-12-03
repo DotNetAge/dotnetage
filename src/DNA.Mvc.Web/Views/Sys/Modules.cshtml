@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ModuleDescriptor>
+@{
+    ViewBag.Title = "Modules";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@section Navs{
+    <a data-role="button" 
+        data-icon-left="d-icon-off"
+        onclick="$.loading('@Resources.Installations.Restarting')"
+        href="@Url.Action("Restart", "Sys", new { returnUrl = Request.RawUrl })"
+        title="Restart"></a>
+}
+<ul data-role="listview" data-display="mobile-list" data-selectable="false" data-inset="true">
+    @foreach (var sol in Model)
+    { 
+        <li data-link-icon="no"><a>
+            <h4><span>@(string.IsNullOrEmpty(sol.Title) ? sol.Name : sol.Title)</span> <small>v@(sol.Version)</small></h4>
+            <p>@sol.Description</p>
+        </a>
+        </li>
+    }
+</ul>

@@ -1,0 +1,33 @@
+﻿@model ContentDataItemDecorator
+@{
+    var list = Model.Parent;
+    var form = list.EditForm;
+}
+@if (Request.IsAjaxRequest())
+{
+    @form.StyleSheets()
+    using (Ajax.BeginForm("Edit", "Contents", new { name = list.Name }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        Url = Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/updateitem/" + list.ID.ToString() + "?itemID=" + Model.ID.ToString()),
+        OnSuccess = "$('body').trigger('contentDataItemUpdated',{list:'" + list.Name + "',data:data});"
+    }, new
+    {
+        enctype = "multipart/form-data",
+        @class = "d-reset d-form "+form.Parent.BaseType+" "+form.Parent.Name+" "+form.FormTypeString.ToLower()+" d-fields"
+    }))
+    {
+        Html.RenderPartial("~/views/contents/_EditForm.cshtml", Model, ViewData);
+    }    
+    @form.Scripts()
+}
+else
+{  
+    @section HeaderSection{
+        @form.StyleSheets()
+    }
+    @section Scripts{
+        @form.Scripts()
+    }
+    Html.RenderPartial("~/views/dynamicui/index.cshtml");
+}

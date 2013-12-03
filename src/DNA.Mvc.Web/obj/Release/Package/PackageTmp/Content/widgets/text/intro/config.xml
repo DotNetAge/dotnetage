@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="intro-content">
+  <name short="Intro">Intro content</name>
+  <name short="Intro" xml:lang="zh-cn">介绍文字块</name>
+  <description>Show the introduction text and image</description>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="src" value="''" />
+  <preference name="link" value="''" />
+  <preference name="alt" value="''" />
+  <preference name="target" value="'_self'" />
+  <preference name="pos" value="'left'" />
+  <preference name="title" value="''" />
+  <preference name="linkText" value="''" />
+  <preference name="summary" value="''" />
+  <preference name="size" value="0" />
+  <preference name="width" value="0" />
+  <preference name="height" value="0" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

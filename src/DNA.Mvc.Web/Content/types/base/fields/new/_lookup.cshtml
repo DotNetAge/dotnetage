@@ -1,0 +1,46 @@
+﻿@model LookupField
+@{
+    var lookupList =!string.IsNullOrEmpty(Model.ListName) ? AppModel.Get().CurrentWeb.Lists[Model.ListName] : null;
+    var lookupView =!string.IsNullOrEmpty(Model.ViewName) && lookupList!=null ? lookupList.Views[Model.ViewName] : null;
+    
+    if (string.IsNullOrEmpty(Model.ViewName) && lookupList!=null)
+    {
+        lookupView = lookupList.DefaultView;
+    }
+    var lookupField = !string.IsNullOrEmpty(Model.FieldName) && lookupView != null ? lookupView.FieldRefs[Model.FieldName] : null;
+}
+
+@if (lookupList == null || lookupView == null || lookupField == null) { 
+    <div class="ui-state-error d-inline" style="padding:10px;width:250px;">@Resources.Errors.LookupFieldError</div>
+} else {
+
+    //if (lookupList.TotalItems > 100 && lookupView.AllowPaging) { } else{
+        var lookupItems = lookupView.Items();
+ <select  id="@(Model.ClientID)" 
+     name="@Model.Name" 
+     data-role="combobox"
+     data-input="false"
+     data-height="200"
+    @if (Model.IsRequired)
+    { <text>required="required"</text>}
+    @if (Model.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+    >
+        @foreach (var item in lookupItems)
+        {
+            var val =item[Model.FieldName].ToString();
+            <option value="@item.ID" @if (Model.DefaultValue != null && ((string)Model.DefaultValue) == val)
+                                 {<text>selected="selected"</text>}>@if (lookupField.FieldType == (int)ContentFieldTypes.Computed){
+                                                                        var f = lookupField.Field as ComputedField;
+                                                                        @f.RenderPattern(item)
+            }
+else {@val}</option>
+        }
+    </select>
+    <div class="d-inline" >
+        <a href="javascript:void(0);" onclick="$.ajaxDialog({title:$('#@(Model.ClientID)').taoComboBox('text'),resizable:true,width:$('body').width(),url:'@(Url.Content(string.Format("~/{0}/{1}/lists/{2}/items/", lookupList.Web.Name, lookupList.Locale, lookupList.Name)))'+$('#@Model.ClientID').val()+'.html'})" class="d-inline" style="margin:0 5px;">@Resources.Contents.ViewItems</a>
+        <a class="d-inline" rel="dialog" href="#@(Model.Name+"_"+"_newform")">@(string.IsNullOrEmpty(lookupList.NewForm.Title) ? Resources.Contents.AddItem : lookupList.NewForm.Title)</a>
+@*        @NewForms.Dialog(Model.Name + "_" + "_newform", lookupList, Url,"$('#"+Model.ClientID+"').taoComboBox('addItem',{label:data.object."+Model.FieldName+",value:data.id});$('#"+Model.ClientID+"').taoComboBox('val',data.id);$('#"+Model.Name + "_" + "_newform"+"').dialog('close');")*@
+    </div>
+
+}

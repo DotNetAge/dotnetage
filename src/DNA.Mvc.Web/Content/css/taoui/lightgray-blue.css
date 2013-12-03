@@ -1,0 +1,15 @@
+﻿.d-ui-widget, .ui-widget {background-image:none;background-color:#fcfcfc;}
+.d-ui-widget,.ui-widget,.d-separator,.d-tooltip:before, .d-tooltip:after,.d-grid th, .d-grid td,.d-item-spliter {border-color:#e8e8e8;}	
+.d-ui-widget-header,.ui-widget-header,.d-rte-panes>.d-menu.toolbar,.d-button {border-color:#a5e3f3;background-image:none;background-color:#3b99de;}
+.d-ui-widget-header, .d-ui-widget-header > a,.ui-widget-header,.ui-widget-header>a,.d-rte-panes>.d-menu.toolbar,.d-button {color:#fafafa;}
+	
+.d-ui-widget-content,.ui-widget-content,.d-ui-widget-header.d-tabs-nav.d-state-active>a,.d-checkbox, .d-radio,.d-rating,a.d-button.link,.ui-state-default,.ui-state-default>a {color:#0a0a0a;}
+.d-ui-widget-content,.ui-widget-content,.d-tabs-nav.d-state-active {background-color:#f6fcfe;}
+.d-ui-widget.d-tooltip,.d-state-info,.d-item-counter {color:#2f98b1;background-color:#ffffff;border-color:#23bde3;}
+	
+.d-ui-widget.d-state-hover,.d-ui-widget-header.d-state-hover,.d-item.d-state-hover,.d-node-content>.d-state-hover,.ui-state-hover {background-image:none;background-color:#b7e9f5;}
+.d-ui-widget.d-state-hover,.d-ui-widget-header.d-state-hover,.d-item.d-state-hover,.d-node-content>.d-state-hover,.d-rating .d-state-hover,.ui-state-hover {border-color:#23bde3;}
+	
+.d-ui-widget.d-state-active,.d-ui-widget-header.d-state-active,.d-item.d-state-active,.d-node-content > .d-state-active,.d-ui-widget-content.d-state-active,.d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active,.d-tabs > .d-tabs-panel.d-state-active,.d-accordion > .d-ui-widget-header.d-state-active,.d-accordion > .d-ui-widget-content.d-state-active,.ui-state-active {background-image:none;background-color:#64b0e7;}
+.d-ui-widget.d-state-active,.d-ui-widget-header.d-state-active,.d-ui-widget-header.d-state-active>a,.d-item.d-state-active,.d-node-content>.d-state-active,.d-accordion > .d-ui-widget-header.d-state-active,.d-accordion > .d-ui-widget-content.d-state-active,.d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active>a,.d-tabs > .d-tabs-panel.d-state-active,.ui-state-active,.ui-state-active>a {color:#ffffff;}
+	

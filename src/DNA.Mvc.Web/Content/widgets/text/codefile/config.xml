@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="code-file" defaultlocale="en-us">
+  <name short="Code file">Code file</name>
+  <name short="代码文件" xml:lang="zh-cn">格式化代码文件</name>
+  <icon src="default.png" />
+  <description>Show the code file content in html format</description>
+  <description xml:lang="zh-cn">将代码文件的内容显示为网页格式</description>
+  <preference name="showLines" value="false" />
+  <preference name="alternate" value="false" />
+  <preference name="src" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

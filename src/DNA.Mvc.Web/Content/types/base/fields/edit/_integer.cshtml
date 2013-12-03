@@ -1,0 +1,7 @@
+﻿@model ContentFieldValue
+@{
+    var field = (IntegerField)Model.Field;
+}
+<input type="number" @field.GetAttributes(Model.Raw) @field.GetValidationAttributes()  data-speech="false"/>
+@Html.ValidationMessage(field)
+

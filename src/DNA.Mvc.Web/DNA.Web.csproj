@@ -1,0 +1,1917 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F0F643DA-FD9F-4112-8FF6-91F372217AF9}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DNA.Web</RootNamespace>
+    <AssemblyName>DNA.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CSharpFormat, Version=2.5.3417.41446, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DNA.Text.2.1.0\lib\CSharpFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="DNA.Patterns, Version=1.0.0.30063, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DNA.Patterns.1.0.0\lib\DNA.Patterns.dll</HintPath>
+    </Reference>
+    <Reference Include="DNA.Text, Version=2.1.0.35010, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DNA.Text.2.1.0\lib\DNA.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Helpers.Mvc.2.0.20710.0\lib\net40\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MySql.Data.6.7.4\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MySQL.Data.Entities.6.7.4.1\lib\net40\MySql.Data.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.2.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.2.15.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\net40\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.30506.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_GlobalResources\Commons\Commons.designer.cs">
+      <DependentUpon>Commons.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Contacts\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Contacts.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Contents\Contents.designer.cs">
+      <DependentUpon>Contents.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Designs\Designs.designer.cs">
+      <DependentUpon>Designs.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Errors\Errors.designer.cs">
+      <DependentUpon>Errors.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Glossary\Glossary.Designer.cs">
+      <DependentUpon>Glossary.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\InputHolders\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InputHolders.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Installations\Installations.Designer.cs">
+      <DependentUpon>Installations.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Managements\Managements.designer.cs">
+      <DependentUpon>Managements.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Messages\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\NetDrives\NetDrives.Designer.cs">
+      <DependentUpon>NetDrives.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Pages\Pages.Designer.cs">
+      <DependentUpon>Pages.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\perms\perms.designer.cs">
+      <DependentUpon>perms.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Security\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Security.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\SEO\SEO.Designer.cs">
+      <DependentUpon>SEO.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Social\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Social.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Stores\Stores.Designer.cs">
+      <DependentUpon>Stores.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\TextFormats\TextFormats.designer.cs">
+      <DependentUpon>TextFormats.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="App_GlobalResources\Validations\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Validations.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Widgets\Design.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Widgets.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\CreateMySqlDatabaseIfNotExists.cs" />
+    <Compile Include="App_Start\ResBuilder.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\ContentsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FormController.cs" />
+    <Compile Include="Controllers\ListController.cs" />
+    <Compile Include="Controllers\SyndicationController.cs" />
+    <Compile Include="Controllers\ThemeController.cs" />
+    <Compile Include="App_Start\Bootstrapper.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DynamicUIController.cs" />
+    <Compile Include="Controllers\InstallController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\SysController.cs" />
+    <Compile Include="Controllers\ViewController.cs" />
+    <Compile Include="Controllers\WebFilesController.cs" />
+    <Compile Include="Controllers\WidgetController.cs" />
+    <Compile Include="App_Start\Consts.cs" />
+    <Compile Include="App_Start\DnaConfig.cs" />
+    <Compile Include="App_Start\InstallationGuardAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App_GlobalResources\Commons\Commons.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Commons.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Contacts\Contacts.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Contents\Contents.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Contents.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Designs\Designs.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Designs.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Errors\Errors.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Errors.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Glossary\Glossary.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Glossary.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\InputHolders\InputHolders.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Installations\Installations.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Installations.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Managements\Managements.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Managements.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Messages\Messages.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\NetDrives\NetDrives.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>NetDrives.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Pages\Pages.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Pages.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\perms\perms.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>perms.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Security\Security.resx">
+      <SubType>Designer</SubType>
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\SEO\SEO.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>SEO.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Social\Social.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Stores\Stores.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Stores.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\TextFormats\TextFormats.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>TextFormats.designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Validations\Validations.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\Widgets\Widgets.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Design.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Content\packages\Started\config.xml" />
+    <Content Include="Content\packages\Started\files\images\img-contents.jpg" />
+    <Content Include="Content\packages\Started\files\images\img-contents.png" />
+    <Content Include="Content\packages\Started\files\images\img-files.png" />
+    <Content Include="Content\packages\Started\files\images\img-pagemanager.png" />
+    <Content Include="Content\packages\Started\files\images\img-widgets.png" />
+    <Content Include="Content\packages\Started\files\images\logo-sl-white.png" />
+    <Content Include="Content\packages\Started\files\images\promoimg-blog.png" />
+    <Content Include="Content\packages\Started\files\images\visual-studio.png" />
+    <Content Include="Content\packages\Started\lists\blog.xml" />
+    <Content Include="Content\packages\Started\pages\blogs.xml" />
+    <Content Include="Content\packages\Started\pages\contacts.xml" />
+    <Content Include="Content\packages\Started\pages\default.xml" />
+    <Content Include="Content\packages\Started\pages\lists-blog-views-default.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\base\views\_timeline.cshtml" />
+    <None Include="readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\emails\et_delpost.cshtml" />
+    <Content Include="App_Data\emails\et_moderatecomment.cshtml" />
+    <Content Include="App_Data\emails\et_moderatepost.cshtml" />
+    <Content Include="App_Data\emails\et_newarticle.cshtml" />
+    <Content Include="App_Data\emails\et_newpost.cshtml" />
+    <Content Include="App_Data\emails\et_passwordchanged.cshtml" />
+    <Content Include="App_Data\emails\et_passwordvalidation.cshtml" />
+    <Content Include="App_Data\emails\et_userregistion.cshtml" />
+    <Content Include="Content\css\builder.css" />
+    <Content Include="Content\css\home.css" />
+    <Content Include="Content\css\layouts\center-middle.css" />
+    <Content Include="Content\css\layouts\center-content.css" />
+    <Content Include="Content\css\menus\curved-h.css" />
+    <Content Include="Content\css\menus\curved-v.css" />
+    <Content Include="Content\css\menus\peel-right.css" />
+    <Content Include="Content\css\menus\inner.css" />
+    <Content Include="Content\css\menus\lines-no-separator.css" />
+    <Content Include="Content\css\menus\peel-left.css" />
+    <Content Include="Content\css\menus\peel.css" />
+    <Content Include="Content\css\menus\textonly.css" />
+    <Content Include="Content\css\layouts\center-layout.css" />
+    <Content Include="Content\css\layouts\full.css" />
+    <Content Include="Content\css\taoui\44497.css" />
+    <Content Include="Content\css\taoui\black-green.css" />
+    <Content Include="Content\css\taoui\black-red.css" />
+    <Content Include="Content\css\taoui\dark-hive.css" />
+    <Content Include="Content\css\taoui\flat_black.css" />
+    <Content Include="Content\css\taoui\flat_blue.css" />
+    <Content Include="Content\css\taoui\flat_gray.css" />
+    <Content Include="Content\css\taoui\flat_green.css" />
+    <Content Include="Content\css\taoui\flat_orange.css" />
+    <Content Include="Content\css\taoui\flat_pink.css" />
+    <Content Include="Content\css\taoui\flat_purple.css" />
+    <Content Include="Content\css\taoui\flat_red.css" />
+    <Content Include="Content\css\taoui\light-blue.css" />
+    <Content Include="Content\css\taoui\light-green.css" />
+    <Content Include="Content\css\taoui\lightgray-blue.css" />
+    <Content Include="Content\css\thememgr.css" />
+    <Content Include="Content\css\webstore.css" />
+    <Content Include="Content\emails\sys_contact.xslt" />
+    <Content Include="Content\emails\sys_validatemail.xslt" />
+    <Content Include="Content\images\add_image_thumb.png" />
+    <Content Include="Content\images\app.gif" />
+    <Content Include="Content\images\chrome.png" />
+    <Content Include="Content\images\firefox.png" />
+    <Content Include="Content\images\flags\af-ZA.gif" />
+    <Content Include="Content\images\flags\am-ET.gif" />
+    <Content Include="Content\images\flags\ar-AE.gif" />
+    <Content Include="Content\images\flags\ar-SA.gif" />
+    <Content Include="Content\images\flags\as-IN.gif" />
+    <Content Include="Content\images\flags\ba-RU.gif" />
+    <Content Include="Content\images\flags\be-BY.gif" />
+    <Content Include="Content\images\flags\bg-BG.gif" />
+    <Content Include="Content\images\flags\bn-IN.gif" />
+    <Content Include="Content\images\flags\bo-CN.gif" />
+    <Content Include="Content\images\flags\br-FR.gif" />
+    <Content Include="Content\images\flags\ca-ES.gif" />
+    <Content Include="Content\images\flags\co-FR.gif" />
+    <Content Include="Content\images\flags\cs-CZ.gif" />
+    <Content Include="Content\images\flags\cy-GB.gif" />
+    <Content Include="Content\images\flags\da-DK.gif" />
+    <Content Include="Content\images\flags\de-DE.gif" />
+    <Content Include="Content\images\flags\el-GR.gif" />
+    <Content Include="Content\images\flags\en-US.gif" />
+    <Content Include="Content\images\flags\es-ES.gif" />
+    <Content Include="Content\images\flags\es-MX.gif" />
+    <Content Include="Content\images\flags\fa-IR.gif" />
+    <Content Include="Content\images\flags\fi-FI.gif" />
+    <Content Include="Content\images\flags\fo-FO.gif" />
+    <Content Include="Content\images\flags\fr-FI.gif" />
+    <Content Include="Content\images\flags\fr-FR.gif" />
+    <Content Include="Content\images\flags\gd-GB.gif" />
+    <Content Include="Content\images\flags\gl-ES.gif" />
+    <Content Include="Content\images\flags\gu-IN.gif" />
+    <Content Include="Content\images\flags\he-il.gif" />
+    <Content Include="Content\images\flags\hi-IN.gif" />
+    <Content Include="Content\images\flags\hr-HR.gif" />
+    <Content Include="Content\images\flags\hu-HU.gif" />
+    <Content Include="Content\images\flags\id-ID.gif" />
+    <Content Include="Content\images\flags\is-IS.gif" />
+    <Content Include="Content\images\flags\it-CH.gif" />
+    <Content Include="Content\images\flags\it-IT.gif" />
+    <Content Include="Content\images\flags\ja-JP.gif" />
+    <Content Include="Content\images\flags\km-KH.gif" />
+    <Content Include="Content\images\flags\kn-IN.gif" />
+    <Content Include="Content\images\flags\ko-KR.gif" />
+    <Content Include="Content\images\flags\lb-LU.gif" />
+    <Content Include="Content\images\flags\lt-LT.gif" />
+    <Content Include="Content\images\flags\lv-LV.gif" />
+    <Content Include="Content\images\flags\mk-MK.gif" />
+    <Content Include="Content\images\flags\ml-IN.gif" />
+    <Content Include="Content\images\flags\mr-IN.gif" />
+    <Content Include="Content\images\flags\ms-MY.gif" />
+    <Content Include="Content\images\flags\mt-MT.gif" />
+    <Content Include="Content\images\flags\ne-NP.gif" />
+    <Content Include="Content\images\flags\nl-BE.gif" />
+    <Content Include="Content\images\flags\nl-NL.gif" />
+    <Content Include="Content\images\flags\pa-IN.gif" />
+    <Content Include="Content\images\flags\pl-PL.gif" />
+    <Content Include="Content\images\flags\ps-AF.gif" />
+    <Content Include="Content\images\flags\pt-PT.gif" />
+    <Content Include="Content\images\flags\ro-RO.gif" />
+    <Content Include="Content\images\flags\ru-RU.gif" />
+    <Content Include="Content\images\flags\rw-RW.gif" />
+    <Content Include="Content\images\flags\sa-IN.gif" />
+    <Content Include="Content\images\flags\se-NO.gif" />
+    <Content Include="Content\images\flags\si-LK.gif" />
+    <Content Include="Content\images\flags\sk-SK.gif" />
+    <Content Include="Content\images\flags\sl-SI.gif" />
+    <Content Include="Content\images\flags\sv-SE.gif" />
+    <Content Include="Content\images\flags\tg-Cyrl-TJ.gif" />
+    <Content Include="Content\images\flags\th-TH.gif" />
+    <Content Include="Content\images\flags\tk-TM.gif" />
+    <Content Include="Content\images\flags\tr-TR.gif" />
+    <Content Include="Content\images\flags\ug-CN.gif" />
+    <Content Include="Content\images\flags\uk-UA.gif" />
+    <Content Include="Content\images\flags\vi-VN.gif" />
+    <Content Include="Content\images\flags\zh-CN.gif" />
+    <Content Include="Content\images\flags\zh-HK.gif" />
+    <Content Include="Content\images\flags\zh-TW.gif" />
+    <Content Include="Content\images\folder.gif" />
+    <Content Include="Content\images\folder_gradient.png" />
+    <Content Include="Content\images\folder_yellow.png" />
+    <Content Include="Content\images\icon-search-black.png" />
+    <Content Include="Content\images\icon_clear.png" />
+    <Content Include="Content\images\icon_color.png" />
+    <Content Include="Content\images\image_holder.png" />
+    <Content Include="Content\images\img-ipad.png" />
+    <Content Include="Content\images\img-iphone.png" />
+    <Content Include="Content\images\img-iphone5.png" />
+    <Content Include="Content\images\img-rotate.png" />
+    <Content Include="Content\images\img.gif" />
+    <Content Include="Content\images\img_css_doc.png" />
+    <Content Include="Content\images\img_glass_bg.png" />
+    <Content Include="Content\images\img_gradient_bg.png" />
+    <Content Include="Content\images\img_layout_25.png" />
+    <Content Include="Content\images\img_layout_30.png" />
+    <Content Include="Content\images\img_layout_302.png" />
+    <Content Include="Content\images\img_layout_5050.png" />
+    <Content Include="Content\images\img_layout_full.png" />
+    <Content Include="Content\images\img_layout_lr.png" />
+    <Content Include="Content\images\img_layout_rl.png" />
+    <Content Include="Content\images\img_loading.gif" />
+    <Content Include="Content\images\img_nocolor.png" />
+    <Content Include="Content\images\img_play.png" />
+    <Content Include="Content\images\img_transparent.png" />
+    <Content Include="Content\images\ipad-landscape.png" />
+    <Content Include="Content\images\ipad-portrait.png" />
+    <Content Include="Content\images\iphone-landscape.png" />
+    <Content Include="Content\images\iphone-portrait.png" />
+    <Content Include="Content\images\iphone5-landscape.png" />
+    <Content Include="Content\images\iphone5-portrait.png" />
+    <Content Include="Content\images\list.png" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\logo_48.png" />
+    <Content Include="Content\images\mask.png" />
+    <Content Include="Content\images\mime\asa.GIF" />
+    <Content Include="Content\images\mime\ascx.gif" />
+    <Content Include="Content\images\mime\aspx.gif" />
+    <Content Include="Content\images\mime\bmp.gif" />
+    <Content Include="Content\images\mime\config.gif" />
+    <Content Include="Content\images\mime\cs.gif" />
+    <Content Include="Content\images\mime\css.gif" />
+    <Content Include="Content\images\mime\csv.GIF" />
+    <Content Include="Content\images\mime\dll.gif" />
+    <Content Include="Content\images\mime\doc.GIF" />
+    <Content Include="Content\images\mime\docx.gif" />
+    <Content Include="Content\images\mime\fla.gif" />
+    <Content Include="Content\images\mime\gif.gif" />
+    <Content Include="Content\images\mime\gim.GIF" />
+    <Content Include="Content\images\mime\htm.GIF" />
+    <Content Include="Content\images\mime\ini.GIF" />
+    <Content Include="Content\images\mime\ins.GIF" />
+    <Content Include="Content\images\mime\jpeg.gif" />
+    <Content Include="Content\images\mime\jpg.gif" />
+    <Content Include="Content\images\mime\js.gif" />
+    <Content Include="Content\images\mime\m1v.GIF" />
+    <Content Include="Content\images\mime\m3u.GIF" />
+    <Content Include="Content\images\mime\maw.GIF" />
+    <Content Include="Content\images\mime\mdb.GIF" />
+    <Content Include="Content\images\mime\mid.GIF" />
+    <Content Include="Content\images\mime\mp3.gif" />
+    <Content Include="Content\images\mime\mpp.GIF" />
+    <Content Include="Content\images\mime\msc.GIF" />
+    <Content Include="Content\images\mime\pdf.gif" />
+    <Content Include="Content\images\mime\png.gif" />
+    <Content Include="Content\images\mime\ppt.GIF" />
+    <Content Include="Content\images\mime\psd.gif" />
+    <Content Include="Content\images\mime\rar.gif" />
+    <Content Include="Content\images\mime\rm.gif" />
+    <Content Include="Content\images\mime\rmvb.gif" />
+    <Content Include="Content\images\mime\swf.gif" />
+    <Content Include="Content\images\mime\tif.GIF" />
+    <Content Include="Content\images\mime\txt.GIF" />
+    <Content Include="Content\images\mime\unknow.GIF" />
+    <Content Include="Content\images\mime\URL16.GIF" />
+    <Content Include="Content\images\mime\vb.gif" />
+    <Content Include="Content\images\mime\vdx.GIF" />
+    <Content Include="Content\images\mime\vxd.GIF" />
+    <Content Include="Content\images\mime\wav.GIF" />
+    <Content Include="Content\images\mime\wma.GIF" />
+    <Content Include="Content\images\mime\wmv.gif" />
+    <Content Include="Content\images\mime\xls.GIF" />
+    <Content Include="Content\images\mime\xml.GIF" />
+    <Content Include="Content\images\mime\xml16.GIF" />
+    <Content Include="Content\images\mime\zip.GIF" />
+    <Content Include="Content\images\new.gif" />
+    <Content Include="Content\images\no-avatar.gif" />
+    <Content Include="Content\images\rss.gif" />
+    <Content Include="Content\images\rss.png" />
+    <Content Include="Content\images\rss_32.jpg" />
+    <Content Include="Content\images\Safari.png" />
+    <Content Include="Content\images\slider.png" />
+    <Content Include="Content\images\wheel.png" />
+    <Content Include="Content\packages\core\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\packages\core\lists\news.xml" />
+    <Content Include="Content\packages\core\pages\about.xml" />
+    <Content Include="Content\packages\core\pages\default.xml" />
+    <Content Include="Content\packages\core\pages\news.xml" />
+    <Content Include="Content\packages\core\pages\product.xml" />
+    <Content Include="Content\packages\core\files\html\privacypolicy.html" />
+    <Content Include="Content\packages\core\files\html\termsofuse.html" />
+    <Content Include="Content\packages\core\files\images\about-us.png" />
+    <Content Include="Content\packages\core\files\images\contact-us.png" />
+    <Content Include="Content\packages\core\files\images\news-paper.png" />
+    <Content Include="Content\packages\core\files\images\our-services.jpg" />
+    <Content Include="Content\packages\core\files\images\what-we-do.jpg" />
+    <Content Include="Content\packages\core\files\images\why-us.jpg" />
+    <Content Include="Content\themes\base\fonts\taoui.dev.svg" />
+    <Content Include="Content\themes\base\fonts\taoui.svg" />
+    <Content Include="Content\themes\base\ie-fallback.css" />
+    <Content Include="Content\themes\base\tao.ui.accordion.css" />
+    <Content Include="Content\themes\base\tao.ui.icons.css" />
+    <Content Include="Content\themes\base\tao.ui.contentslider.css" />
+    <Content Include="Content\themes\base\tao.ui.slider.css" />
+    <Content Include="Content\themes\base\tao.ui.tabs.css" />
+    <Content Include="Content\themes\default-scroll\config.xml" />
+    <Content Include="Content\themes\default-scroll\dna-font.css" />
+    <Content Include="Content\themes\default-scroll\dna-menu-custom.css" />
+    <Content Include="Content\themes\default-scroll\dna-menu-pattern.css" />
+    <Content Include="Content\themes\default-scroll\dna-page-colors.css" />
+    <Content Include="Content\themes\default-scroll\dna-page-layouts.css" />
+    <Content Include="Content\themes\default-scroll\dna-page-pattern.css" />
+    <Content Include="Content\themes\default-scroll\scripts\startup.js" />
+    <Content Include="Content\themes\default-scroll\taoui-states-active.css" />
+    <Content Include="Content\themes\default-scroll\taoui-states-disable.css" />
+    <Content Include="Content\themes\default-scroll\taoui-states-error.css" />
+    <Content Include="Content\themes\default-scroll\taoui-states-hover.css" />
+    <Content Include="Content\themes\default-scroll\taoui-widget-common.css" />
+    <Content Include="Content\themes\default-scroll\taoui-widget-content.css" />
+    <Content Include="Content\themes\default-scroll\taoui-widget-header.css" />
+    <Content Include="Content\themes\default-scroll\thumb.jpg" />
+    <Content Include="Content\themes\manifest.xml" />
+    <Content Include="Content\themes\white-purple\config.xml" />
+    <Content Include="Content\themes\white-purple\dna-font.css" />
+    <Content Include="Content\themes\white-purple\dna-menu-custom.css" />
+    <Content Include="Content\themes\white-purple\dna-menu-pattern.css" />
+    <Content Include="Content\themes\white-purple\dna-page-colors.css" />
+    <Content Include="Content\themes\white-purple\dna-page-layouts.css" />
+    <Content Include="Content\themes\white-purple\dna-page-pattern.css" />
+    <Content Include="Content\themes\white-purple\taoui-states-active.css" />
+    <Content Include="Content\themes\white-purple\taoui-states-disable.css" />
+    <Content Include="Content\themes\white-purple\taoui-states-error.css" />
+    <Content Include="Content\themes\white-purple\taoui-states-hover.css" />
+    <Content Include="Content\themes\white-purple\taoui-widget-common.css" />
+    <Content Include="Content\themes\white-purple\taoui-widget-content.css" />
+    <Content Include="Content\themes\white-purple\taoui-widget-header.css" />
+    <Content Include="Content\themes\white-purple\thumb.jpg" />
+    <Content Include="Content\themes\white-green\config.xml" />
+    <Content Include="Content\themes\white-green\dna-font.css" />
+    <Content Include="Content\themes\white-green\dna-menu-custom.css" />
+    <Content Include="Content\themes\white-green\dna-menu-pattern.css" />
+    <Content Include="Content\themes\white-green\dna-page-colors.css" />
+    <Content Include="Content\themes\white-green\dna-page-layouts.css" />
+    <Content Include="Content\themes\white-green\dna-page-pattern.css" />
+    <Content Include="Content\themes\white-green\taoui-states-active.css" />
+    <Content Include="Content\themes\white-green\taoui-states-disable.css" />
+    <Content Include="Content\themes\white-green\taoui-states-error.css" />
+    <Content Include="Content\themes\white-green\taoui-states-hover.css" />
+    <Content Include="Content\themes\white-green\taoui-widget-common.css" />
+    <Content Include="Content\themes\white-green\taoui-widget-content.css" />
+    <Content Include="Content\themes\white-green\taoui-widget-header.css" />
+    <Content Include="Content\themes\white-green\thumb.jpg" />
+    <Content Include="Content\themes\default\config.xml" />
+    <Content Include="Content\themes\default\dna-menu-custom.css" />
+    <Content Include="Content\themes\default\dna-menu-pattern.css" />
+    <Content Include="Content\themes\default\dna-page-pattern.css" />
+    <Content Include="Content\themes\default\dna-page-colors.css" />
+    <Content Include="Content\themes\default\dna-page-layouts.css" />
+    <Content Include="Content\themes\default\thumb.jpg" />
+    <Content Include="Content\themes\default\taoui-widget-common.css" />
+    <Content Include="Content\themes\default\taoui-widget-header.css" />
+    <Content Include="Content\themes\default\taoui-widget-content.css" />
+    <Content Include="Content\themes\default\taoui-states-hover.css" />
+    <Content Include="Content\themes\default\taoui-states-active.css" />
+    <Content Include="Content\themes\default\taoui-states-disable.css" />
+    <Content Include="Content\themes\default\taoui-states-error.css" />
+    <Content Include="Content\themes\default\dna-font.css" />
+    <Content Include="Content\themes\white-black\config.xml" />
+    <Content Include="Content\themes\white-black\dna-font.css" />
+    <Content Include="Content\themes\white-black\dna-menu-custom.css" />
+    <Content Include="Content\themes\white-black\dna-page-colors.css" />
+    <Content Include="Content\themes\white-black\dna-page-layouts.css" />
+    <Content Include="Content\themes\white-black\dna-page-pattern.css" />
+    <Content Include="Content\themes\white-black\taoui-states-active.css" />
+    <Content Include="Content\themes\white-black\taoui-states-disable.css" />
+    <Content Include="Content\themes\white-black\taoui-states-error.css" />
+    <Content Include="Content\themes\white-black\taoui-states-hover.css" />
+    <Content Include="Content\themes\white-black\taoui-widget-common.css" />
+    <Content Include="Content\themes\white-black\taoui-widget-content.css" />
+    <Content Include="Content\themes\white-black\taoui-widget-header.css" />
+    <Content Include="Content\themes\white-black\thumb.jpg" />
+    <Content Include="Content\themes\white-blue\config.xml" />
+    <Content Include="Content\themes\white-blue\dna-font.css" />
+    <Content Include="Content\themes\white-blue\dna-menu-custom.css" />
+    <Content Include="Content\themes\white-blue\dna-menu-pattern.css" />
+    <Content Include="Content\themes\white-blue\dna-page-colors.css" />
+    <Content Include="Content\themes\white-blue\dna-page-layouts.css" />
+    <Content Include="Content\themes\white-blue\dna-page-pattern.css" />
+    <Content Include="Content\themes\white-blue\taoui-states-active.css" />
+    <Content Include="Content\themes\white-blue\taoui-states-disable.css" />
+    <Content Include="Content\themes\white-blue\taoui-states-error.css" />
+    <Content Include="Content\themes\white-blue\taoui-states-hover.css" />
+    <Content Include="Content\themes\white-blue\taoui-widget-common.css" />
+    <Content Include="Content\themes\white-blue\taoui-widget-content.css" />
+    <Content Include="Content\themes\white-blue\taoui-widget-header.css" />
+    <Content Include="Content\themes\white-blue\thumb.jpg" />
+    <Content Include="Content\themes\white-red\config.xml" />
+    <Content Include="Content\themes\white-red\dna-font.css" />
+    <Content Include="Content\themes\white-red\dna-menu-custom.css" />
+    <Content Include="Content\themes\white-red\dna-menu-pattern.css" />
+    <Content Include="Content\themes\white-red\dna-page-colors.css" />
+    <Content Include="Content\themes\white-red\dna-page-layouts.css" />
+    <Content Include="Content\themes\white-red\dna-page-pattern.css" />
+    <Content Include="Content\themes\white-red\taoui-states-active.css" />
+    <Content Include="Content\themes\white-red\taoui-states-disable.css" />
+    <Content Include="Content\themes\white-red\taoui-states-error.css" />
+    <Content Include="Content\themes\white-red\taoui-states-hover.css" />
+    <Content Include="Content\themes\white-red\taoui-widget-common.css" />
+    <Content Include="Content\themes\white-red\taoui-widget-content.css" />
+    <Content Include="Content\themes\white-red\taoui-widget-header.css" />
+    <Content Include="Content\themes\white-red\thumb.jpg" />
+    <Content Include="Content\themes\red-blue\config.xml" />
+    <Content Include="Content\themes\red-blue\dna-menu-custom.css" />
+    <Content Include="Content\themes\red-blue\dna-menu-pattern.css" />
+    <Content Include="Content\themes\red-blue\dna-page-colors.css" />
+    <Content Include="Content\themes\red-blue\dna-page-layouts.css" />
+    <Content Include="Content\themes\red-blue\dna-page-pattern.css" />
+    <Content Include="Content\themes\red-blue\taoui-states-active.css" />
+    <Content Include="Content\themes\red-blue\taoui-states-disable.css" />
+    <Content Include="Content\themes\red-blue\taoui-states-error.css" />
+    <Content Include="Content\themes\red-blue\taoui-widget-common.css" />
+    <Content Include="Content\themes\red-blue\taoui-widget-content.css" />
+    <Content Include="Content\themes\red-blue\taoui-widget-header.css" />
+    <Content Include="Content\themes\red-blue\taoui-states-hover.css" />
+    <Content Include="Content\themes\red-blue\dna-font.css" />
+    <Content Include="Content\themes\red-blue\thumb.jpg" />
+    <Content Include="Content\themes\dark-blue\config.xml" />
+    <Content Include="Content\themes\dark-blue\dna-font.css" />
+    <Content Include="Content\themes\dark-blue\dna-menu-custom.css" />
+    <Content Include="Content\themes\dark-blue\dna-menu-pattern.css" />
+    <Content Include="Content\themes\dark-blue\dna-page-colors.css" />
+    <Content Include="Content\themes\dark-blue\dna-page-layouts.css" />
+    <Content Include="Content\themes\dark-blue\dna-page-pattern.css" />
+    <Content Include="Content\themes\dark-blue\taoui-states-active.css" />
+    <Content Include="Content\themes\dark-blue\taoui-states-disable.css" />
+    <Content Include="Content\themes\dark-blue\taoui-states-error.css" />
+    <Content Include="Content\themes\dark-blue\taoui-states-hover.css" />
+    <Content Include="Content\themes\dark-blue\taoui-widget-common.css" />
+    <Content Include="Content\themes\dark-blue\taoui-widget-content.css" />
+    <Content Include="Content\themes\dark-blue\taoui-widget-header.css" />
+    <Content Include="Content\themes\dark-blue\thumb.jpg" />
+    <Content Include="Content\themes\dark-orange\config.xml" />
+    <Content Include="Content\themes\dark-orange\dna-font.css" />
+    <Content Include="Content\themes\dark-orange\dna-menu-custom.css" />
+    <Content Include="Content\themes\dark-orange\dna-menu-pattern.css" />
+    <Content Include="Content\themes\dark-orange\dna-page-colors.css" />
+    <Content Include="Content\themes\dark-orange\dna-page-layouts.css" />
+    <Content Include="Content\themes\dark-orange\dna-page-pattern.css" />
+    <Content Include="Content\themes\dark-orange\taoui-states-active.css" />
+    <Content Include="Content\themes\dark-orange\taoui-states-disable.css" />
+    <Content Include="Content\themes\dark-orange\taoui-states-error.css" />
+    <Content Include="Content\themes\dark-orange\taoui-states-hover.css" />
+    <Content Include="Content\themes\dark-orange\taoui-widget-common.css" />
+    <Content Include="Content\themes\dark-orange\taoui-widget-content.css" />
+    <Content Include="Content\themes\dark-orange\taoui-widget-header.css" />
+    <Content Include="Content\themes\dark-orange\thumb.jpg" />
+    <Content Include="Content\themes\discovery\config.xml" />
+    <Content Include="Content\themes\discovery\dna-font.css" />
+    <Content Include="Content\themes\discovery\dna-menu-custom.css" />
+    <Content Include="Content\themes\discovery\dna-menu-pattern.css" />
+    <Content Include="Content\themes\discovery\dna-page-colors.css" />
+    <Content Include="Content\themes\discovery\dna-page-layouts.css" />
+    <Content Include="Content\themes\discovery\dna-page-pattern.css" />
+    <Content Include="Content\themes\discovery\taoui-states-active.css" />
+    <Content Include="Content\themes\discovery\taoui-states-disable.css" />
+    <Content Include="Content\themes\discovery\taoui-states-error.css" />
+    <Content Include="Content\themes\discovery\taoui-states-hover.css" />
+    <Content Include="Content\themes\discovery\taoui-widget-common.css" />
+    <Content Include="Content\themes\discovery\taoui-widget-content.css" />
+    <Content Include="Content\themes\discovery\taoui-widget-header.css" />
+    <Content Include="Content\themes\discovery\thumb.jpg" />
+    <Content Include="Content\themes\gray\config.xml" />
+    <Content Include="Content\themes\gray\dna-font.css" />
+    <Content Include="Content\themes\gray\dna-menu-custom.css" />
+    <Content Include="Content\themes\gray\dna-menu-pattern.css" />
+    <Content Include="Content\themes\gray\dna-page-colors.css" />
+    <Content Include="Content\themes\gray\dna-page-layouts.css" />
+    <Content Include="Content\themes\gray\dna-page-pattern.css" />
+    <Content Include="Content\themes\gray\taoui-states-active.css" />
+    <Content Include="Content\themes\gray\taoui-states-disable.css" />
+    <Content Include="Content\themes\gray\taoui-states-error.css" />
+    <Content Include="Content\themes\gray\taoui-states-hover.css" />
+    <Content Include="Content\themes\gray\taoui-widget-common.css" />
+    <Content Include="Content\themes\gray\taoui-widget-content.css" />
+    <Content Include="Content\themes\gray\taoui-widget-header.css" />
+    <Content Include="Content\themes\gray\thumb.jpg" />
+    <Content Include="Content\themes\white-light-green\config.xml" />
+    <Content Include="Content\themes\white-light-green\dna-font.css" />
+    <Content Include="Content\themes\white-light-green\dna-menu-custom.css" />
+    <Content Include="Content\themes\white-light-green\dna-menu-pattern.css" />
+    <Content Include="Content\themes\white-light-green\dna-page-colors.css" />
+    <Content Include="Content\themes\white-light-green\dna-page-layouts.css" />
+    <Content Include="Content\themes\white-light-green\dna-page-pattern.css" />
+    <Content Include="Content\themes\white-light-green\taoui-states-active.css" />
+    <Content Include="Content\themes\white-light-green\taoui-states-disable.css" />
+    <Content Include="Content\themes\white-light-green\taoui-states-error.css" />
+    <Content Include="Content\themes\white-light-green\taoui-states-hover.css" />
+    <Content Include="Content\themes\white-light-green\taoui-widget-common.css" />
+    <Content Include="Content\themes\white-light-green\taoui-widget-content.css" />
+    <Content Include="Content\themes\white-light-green\taoui-widget-header.css" />
+    <Content Include="Content\themes\white-light-green\thumb.jpg" />
+    <Content Include="Content\themes\medex\config.xml" />
+    <Content Include="Content\themes\medex\dna-font.css" />
+    <Content Include="Content\themes\medex\dna-menu-custom.css" />
+    <Content Include="Content\themes\medex\dna-menu-pattern.css" />
+    <Content Include="Content\themes\medex\dna-page-colors.css" />
+    <Content Include="Content\themes\medex\dna-page-layouts.css" />
+    <Content Include="Content\themes\medex\dna-page-pattern.css" />
+    <Content Include="Content\themes\medex\taoui-states-active.css" />
+    <Content Include="Content\themes\medex\taoui-states-disable.css" />
+    <Content Include="Content\themes\medex\taoui-states-error.css" />
+    <Content Include="Content\themes\medex\taoui-states-hover.css" />
+    <Content Include="Content\themes\medex\taoui-widget-common.css" />
+    <Content Include="Content\themes\medex\taoui-widget-content.css" />
+    <Content Include="Content\themes\medex\taoui-widget-header.css" />
+    <Content Include="Content\themes\medex\thumb.jpg" />
+    <Content Include="Content\types\base\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\base\views\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\blog\features.css" />
+    <Content Include="Content\types\faq\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\faq\images\icon.png" />
+    <Content Include="Content\types\document\images\icon.png" />
+    <Content Include="Content\types\manifest.xml" />
+    <Content Include="Content\types\poll\default.css" />
+    <Content Include="Content\types\poll\images\icon.png" />
+    <Content Include="Content\types\poll\poll.js" />
+    <Content Include="Content\types\poll\resources\language.resources" />
+    <Content Include="Content\types\poll\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\textblock\images\icon.png" />
+    <Content Include="Content\widgets\content\archives\config.xml" />
+    <Content Include="Content\widgets\content\archives\default.png" />
+    <Content Include="Content\widgets\content\dataform\default.png" />
+    <Content Include="Content\widgets\content\dataview\default.png" />
+    <Content Include="Content\widgets\content\listInfo\default.png" />
+    <Content Include="Content\widgets\content\newbutton\config.xml" />
+    <Content Include="Content\widgets\content\newbutton\default.png" />
+    <Content Include="Content\widgets\content\newform\default.png" />
+    <Content Include="Content\widgets\content\tags\config.xml" />
+    <Content Include="Content\widgets\content\tags\default.png" />
+    <Content Include="Content\widgets\manifest.xml" />
+    <Content Include="Content\widgets\multimedia\imagegrid\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\multimedia\imagegrid\default.png" />
+    <Content Include="Content\widgets\multimedia\pictureflow\default.png" />
+    <Content Include="Content\widgets\multimedia\slider\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\multimedia\slider\default.png" />
+    <Content Include="Content\widgets\navigation\links\default.png" />
+    <Content Include="Content\widgets\social\Comments\default.png" />
+    <Content Include="Content\widgets\social\fbComments\config.xml" />
+    <Content Include="Content\widgets\social\fbComments\default.png" />
+    <Content Include="Content\widgets\social\FollowUs\config.xml" />
+    <Content Include="Content\widgets\social\FollowUs\default.png" />
+    <Content Include="Content\widgets\social\Likes\config.xml" />
+    <Content Include="Content\widgets\social\Likes\default.png" />
+    <Content Include="Content\widgets\social\ShareLinks\default.png" />
+    <Content Include="Content\widgets\social\SyndicationFeed\default.png" />
+    <Content Include="Content\widgets\text\codefile\config.xml" />
+    <Content Include="Content\widgets\text\codefile\default.png" />
+    <Content Include="Content\widgets\text\code\config.xml" />
+    <Content Include="Content\widgets\text\code\default.png" />
+    <Content Include="Content\widgets\text\heading\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\text\creativetext\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\text\intro\default.min.css">
+      <DependentUpon>default.css</DependentUpon>
+    </Content>
+    <Content Include="Content\widgets\text\script\default.png" />
+    <Content Include="Content\widgets\text\section\config.xml" />
+    <Content Include="Content\widgets\text\section\default.css" />
+    <Content Include="Content\widgets\text\section\default.min.css">
+      <DependentUpon>default.css</DependentUpon>
+    </Content>
+    <Content Include="Content\widgets\utilities\adsense\config.xml" />
+    <Content Include="Content\widgets\utilities\adsense\images\icon_google_16.png" />
+    <Content Include="Content\widgets\utilities\adsense\images\icon_google_36.png" />
+    <Content Include="Content\widgets\utilities\BingSearch\config.xml" />
+    <Content Include="Content\widgets\utilities\BingSearch\images\bing.ico" />
+    <Content Include="Content\widgets\utilities\BingSearch\images\bing.png" />
+    <Content Include="Content\widgets\utilities\contactdetail\default.png" />
+    <Content Include="Content\widgets\utilities\contactmail\default.png" />
+    <Content Include="Scripts\ace\ace.js" />
+    <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
+    <Content Include="Scripts\ace\ext-emmet.js" />
+    <Content Include="Scripts\ace\ext-keybinding_menu.js" />
+    <Content Include="Scripts\ace\ext-modelist.js" />
+    <Content Include="Scripts\ace\ext-options.js" />
+    <Content Include="Scripts\ace\ext-searchbox.js" />
+    <Content Include="Scripts\ace\ext-settings_menu.js" />
+    <Content Include="Scripts\ace\ext-spellcheck.js" />
+    <Content Include="Scripts\ace\ext-static_highlight.js" />
+    <Content Include="Scripts\ace\ext-statusbar.js" />
+    <Content Include="Scripts\ace\ext-textarea.js" />
+    <Content Include="Scripts\ace\ext-themelist.js" />
+    <Content Include="Scripts\ace\ext-whitespace.js" />
+    <Content Include="Scripts\ace\keybinding-emacs.js" />
+    <Content Include="Scripts\ace\keybinding-vim.js" />
+    <Content Include="Scripts\ace\mode-abap.js" />
+    <Content Include="Scripts\ace\mode-actionscript.js" />
+    <Content Include="Scripts\ace\mode-ada.js" />
+    <Content Include="Scripts\ace\mode-asciidoc.js" />
+    <Content Include="Scripts\ace\mode-assembly_x86.js" />
+    <Content Include="Scripts\ace\mode-autohotkey.js" />
+    <Content Include="Scripts\ace\mode-batchfile.js" />
+    <Content Include="Scripts\ace\mode-c9search.js" />
+    <Content Include="Scripts\ace\mode-clojure.js" />
+    <Content Include="Scripts\ace\mode-cobol.js" />
+    <Content Include="Scripts\ace\mode-coffee.js" />
+    <Content Include="Scripts\ace\mode-coldfusion.js" />
+    <Content Include="Scripts\ace\mode-csharp.js" />
+    <Content Include="Scripts\ace\mode-css.js" />
+    <Content Include="Scripts\ace\mode-curly.js" />
+    <Content Include="Scripts\ace\mode-c_cpp.js" />
+    <Content Include="Scripts\ace\mode-d.js" />
+    <Content Include="Scripts\ace\mode-dart.js" />
+    <Content Include="Scripts\ace\mode-diff.js" />
+    <Content Include="Scripts\ace\mode-django.js" />
+    <Content Include="Scripts\ace\mode-dot.js" />
+    <Content Include="Scripts\ace\mode-ejs.js" />
+    <Content Include="Scripts\ace\mode-erlang.js" />
+    <Content Include="Scripts\ace\mode-forth.js" />
+    <Content Include="Scripts\ace\mode-ftl.js" />
+    <Content Include="Scripts\ace\mode-glsl.js" />
+    <Content Include="Scripts\ace\mode-golang.js" />
+    <Content Include="Scripts\ace\mode-groovy.js" />
+    <Content Include="Scripts\ace\mode-haml.js" />
+    <Content Include="Scripts\ace\mode-haskell.js" />
+    <Content Include="Scripts\ace\mode-haxe.js" />
+    <Content Include="Scripts\ace\mode-html.js" />
+    <Content Include="Scripts\ace\mode-html_ruby.js" />
+    <Content Include="Scripts\ace\mode-ini.js" />
+    <Content Include="Scripts\ace\mode-jade.js" />
+    <Content Include="Scripts\ace\mode-java.js" />
+    <Content Include="Scripts\ace\mode-javascript.js" />
+    <Content Include="Scripts\ace\mode-json.js" />
+    <Content Include="Scripts\ace\mode-jsoniq.js" />
+    <Content Include="Scripts\ace\mode-jsp.js" />
+    <Content Include="Scripts\ace\mode-jsx.js" />
+    <Content Include="Scripts\ace\mode-julia.js" />
+    <Content Include="Scripts\ace\mode-latex.js" />
+    <Content Include="Scripts\ace\mode-less.js" />
+    <Content Include="Scripts\ace\mode-liquid.js" />
+    <Content Include="Scripts\ace\mode-lisp.js" />
+    <Content Include="Scripts\ace\mode-livescript.js" />
+    <Content Include="Scripts\ace\mode-logiql.js" />
+    <Content Include="Scripts\ace\mode-lsl.js" />
+    <Content Include="Scripts\ace\mode-lua.js" />
+    <Content Include="Scripts\ace\mode-luapage.js" />
+    <Content Include="Scripts\ace\mode-lucene.js" />
+    <Content Include="Scripts\ace\mode-makefile.js" />
+    <Content Include="Scripts\ace\mode-markdown.js" />
+    <Content Include="Scripts\ace\mode-matlab.js" />
+    <Content Include="Scripts\ace\mode-mushcode.js" />
+    <Content Include="Scripts\ace\mode-mushcode_high_rules.js" />
+    <Content Include="Scripts\ace\mode-mysql.js" />
+    <Content Include="Scripts\ace\mode-objectivec.js" />
+    <Content Include="Scripts\ace\mode-ocaml.js" />
+    <Content Include="Scripts\ace\mode-pascal.js" />
+    <Content Include="Scripts\ace\mode-perl.js" />
+    <Content Include="Scripts\ace\mode-pgsql.js" />
+    <Content Include="Scripts\ace\mode-php.js" />
+    <Content Include="Scripts\ace\mode-powershell.js" />
+    <Content Include="Scripts\ace\mode-prolog.js" />
+    <Content Include="Scripts\ace\mode-properties.js" />
+    <Content Include="Scripts\ace\mode-python.js" />
+    <Content Include="Scripts\ace\mode-r.js" />
+    <Content Include="Scripts\ace\mode-rdoc.js" />
+    <Content Include="Scripts\ace\mode-rhtml.js" />
+    <Content Include="Scripts\ace\mode-ruby.js" />
+    <Content Include="Scripts\ace\mode-rust.js" />
+    <Content Include="Scripts\ace\mode-sass.js" />
+    <Content Include="Scripts\ace\mode-scad.js" />
+    <Content Include="Scripts\ace\mode-scala.js" />
+    <Content Include="Scripts\ace\mode-scheme.js" />
+    <Content Include="Scripts\ace\mode-scss.js" />
+    <Content Include="Scripts\ace\mode-sh.js" />
+    <Content Include="Scripts\ace\mode-snippets.js" />
+    <Content Include="Scripts\ace\mode-sql.js" />
+    <Content Include="Scripts\ace\mode-stylus.js" />
+    <Content Include="Scripts\ace\mode-svg.js" />
+    <Content Include="Scripts\ace\mode-tcl.js" />
+    <Content Include="Scripts\ace\mode-tex.js" />
+    <Content Include="Scripts\ace\mode-text.js" />
+    <Content Include="Scripts\ace\mode-textile.js" />
+    <Content Include="Scripts\ace\mode-tmsnippet.js" />
+    <Content Include="Scripts\ace\mode-toml.js" />
+    <Content Include="Scripts\ace\mode-twig.js" />
+    <Content Include="Scripts\ace\mode-typescript.js" />
+    <Content Include="Scripts\ace\mode-vbscript.js" />
+    <Content Include="Scripts\ace\mode-velocity.js" />
+    <Content Include="Scripts\ace\mode-verilog.js" />
+    <Content Include="Scripts\ace\mode-xml.js" />
+    <Content Include="Scripts\ace\mode-xquery.js" />
+    <Content Include="Scripts\ace\mode-yaml.js" />
+    <Content Include="Scripts\ace\theme-ambiance.js" />
+    <Content Include="Scripts\ace\theme-chaos.js" />
+    <Content Include="Scripts\ace\theme-chrome.js" />
+    <Content Include="Scripts\ace\theme-clouds.js" />
+    <Content Include="Scripts\ace\theme-clouds_midnight.js" />
+    <Content Include="Scripts\ace\theme-cobalt.js" />
+    <Content Include="Scripts\ace\theme-crimson_editor.js" />
+    <Content Include="Scripts\ace\theme-dawn.js" />
+    <Content Include="Scripts\ace\theme-dreamweaver.js" />
+    <Content Include="Scripts\ace\theme-eclipse.js" />
+    <Content Include="Scripts\ace\theme-github.js" />
+    <Content Include="Scripts\ace\theme-idle_fingers.js" />
+    <Content Include="Scripts\ace\theme-kr.js" />
+    <Content Include="Scripts\ace\theme-merbivore.js" />
+    <Content Include="Scripts\ace\theme-merbivore_soft.js" />
+    <Content Include="Scripts\ace\theme-monokai.js" />
+    <Content Include="Scripts\ace\theme-mono_industrial.js" />
+    <Content Include="Scripts\ace\theme-pastel_on_dark.js" />
+    <Content Include="Scripts\ace\theme-solarized_dark.js" />
+    <Content Include="Scripts\ace\theme-solarized_light.js" />
+    <Content Include="Scripts\ace\theme-terminal.js" />
+    <Content Include="Scripts\ace\theme-textmate.js" />
+    <Content Include="Scripts\ace\theme-tomorrow.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night_blue.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night_bright.js" />
+    <Content Include="Scripts\ace\theme-tomorrow_night_eighties.js" />
+    <Content Include="Scripts\ace\theme-twilight.js" />
+    <Content Include="Scripts\ace\theme-vibrant_ink.js" />
+    <Content Include="Scripts\ace\theme-xcode.js" />
+    <Content Include="Scripts\ace\worker-coffee.js" />
+    <Content Include="Scripts\ace\worker-css.js" />
+    <Content Include="Scripts\ace\worker-javascript.js" />
+    <Content Include="Scripts\ace\worker-json.js" />
+    <Content Include="Scripts\ace\worker-lua.js" />
+    <Content Include="Scripts\ace\worker-php.js" />
+    <Content Include="Scripts\ace\worker-xquery.js" />
+    <Content Include="Scripts\dna.mini.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\plugins\CFInstall.min.js" />
+    <Content Include="Scripts\plugins\json2.js" />
+    <Content Include="Scripts\plugins\localStorage.js" />
+    <Content Include="Scripts\taoui.mini.js" />
+    <Content Include="Scripts\taoui\dialog.js" />
+    <Content Include="Scripts\taoui\contentSlider.js" />
+    <Content Include="Views\DynamicUI\InstallSolution.cshtml" />
+    <Content Include="Views\DynamicUI\Layouts\config.xml" />
+    <Content Include="Views\Sys\Menus.cshtml" />
+    <Content Include="Views\Sys\Localize.cshtml" />
+    <Content Include="Views\Account\MyWebs.cshtml" />
+    <Content Include="Content\themes\base\tao.ui.roller.css" />
+    <Content Include="Content\widgets\content\archives\index.cshtml" />
+    <Content Include="Content\widgets\content\tags\index.cshtml" />
+    <Content Include="Content\widgets\content\newbutton\index.cshtml" />
+    <Content Include="Views\Contents\Catalog.cshtml" />
+    <Content Include="Content\widgets\social\FollowUs\index.cshtml" />
+    <Content Include="Content\widgets\social\Likes\index.cshtml" />
+    <Content Include="Content\widgets\text\creativetext\index.cshtml" />
+    <Content Include="Content\widgets\text\heading\index.cshtml" />
+    <Content Include="Views\DynamicUI\Pages.cshtml" />
+    <Content Include="Views\DynamicUI\Links.cshtml" />
+    <Content Include="Views\DynamicUI\Gallery.cshtml" />
+    <Content Include="Content\widgets\multimedia\imagegrid\index.cshtml" />
+    <Content Include="Content\widgets\multimedia\slider\index.cshtml" />
+    <Content Include="Content\types\base\views\_list.cshtml" />
+    <Content Include="Views\DynamicUI\Layouts.cshtml" />
+    <Content Include="Views\DynamicUI\LinksEditor.cshtml" />
+    <Content Include="Content\types\base\views\_slideshow.cshtml" />
+    <Content Include="Content\types\base\views\_slider.cshtml" />
+    <Content Include="Content\types\product\_price.cshtml" />
+    <Content Include="Content\types\product\_discounted_price.cshtml" />
+    <Content Include="Content\types\product\_price_field.cshtml" />
+    <Content Include="App_Code\PaymentGateways.cshtml" />
+    <Content Include="Views\Contents\Links.cshtml" />
+    <Content Include="Content\types\poll\fields\disp\_expired.cshtml" />
+    <Content Include="Views\DynamicUI\Simulator.cshtml" />
+    <Content Include="Content\widgets\social\fbComments\index.cshtml" />
+    <Content Include="Content\types\poll\_default.cshtml" />
+    <Content Include="Views\Security\CreateUser.cshtml" />
+    <Content Include="Content\types\base\views\_expandable.cshtml" />
+    <Content Include="Content\types\poll\fields\view\_options.cshtml" />
+    <Content Include="Content\widgets\utilities\adsense\index.cshtml" />
+    <Content Include="Content\widgets\utilities\BingSearch\index.cshtml" />
+    <Content Include="Content\types\blog\resources\language.resources" />
+    <Content Include="Content\types\blog\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\contact\resources\language.resources" />
+    <Content Include="Content\types\contact\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\discussion\resources\language.resources" />
+    <Content Include="Content\types\discussion\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\document\resources\language.resources" />
+    <Content Include="Content\types\document\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\event\resources\language.resources" />
+    <Content Include="Content\types\event\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\faq\resources\language.resources" />
+    <Content Include="Content\types\faq\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\product\resources\language.resources" />
+    <Content Include="Content\types\product\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\textblock\resources\language.resources" />
+    <Content Include="Content\types\textblock\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\video\resources\language.resources" />
+    <Content Include="Content\types\video\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\wiki\resources\language.resources" />
+    <Content Include="Content\types\wiki\resources\language.zh-CN.resources" />
+    <Content Include="Content\widgets\content\dataview\resources\language.resources" />
+    <Content Include="Content\widgets\content\dataview\resources\language.zh-CN.resources" />
+    <Content Include="Content\widgets\content\listInfo\resources\language.resources" />
+    <Content Include="Content\widgets\multimedia\pictureflow\resources\language.resources" />
+    <Content Include="Content\widgets\multimedia\slideshow\resources\language.resources" />
+    <Content Include="Content\widgets\navigation\menu\resources\language.resources" />
+    <Content Include="Content\widgets\navigation\pageheader\resources\language.resources" />
+    <Content Include="Content\widgets\social\fbComments\resources\language.resources" />
+    <Content Include="Content\widgets\social\SyndicationFeed\resources\language.resources" />
+    <Content Include="Content\widgets\text\codefile\resources\language.resources" />
+    <Content Include="Content\widgets\text\code\resources\language.resources" />
+    <Content Include="Content\widgets\text\css\resources\language.resources" />
+    <EmbeddedResource Include="Content\widgets\content\dataform\resources\language.resources" />
+    <EmbeddedResource Include="Content\widgets\content\dataform\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\content\listInfo\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\multimedia\pictureflow\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\multimedia\slideshow\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\navigation\menu\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\navigation\pageheader\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\social\fbComments\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\social\SyndicationFeed\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\text\codefile\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\text\code\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\text\css\resources\language.zh-CN.resources" />
+    <Content Include="Content\types\contact\_new_country.cshtml" />
+    <Content Include="Content\types\contact\_edit_country.cshtml" />
+    <Content Include="Content\themes\default-scroll\_Master.cshtml" />
+    <None Include="Content\widgets\text\html\resources\language.resources" />
+    <Content Include="Content\widgets\text\notes\resources\language.resources" />
+    <Content Include="Content\widgets\text\script\resources\language.resources" />
+    <Content Include="Content\widgets\utilities\adsense\resources\language.resources" />
+    <Content Include="Content\widgets\utilities\adsense\resources\language.zh-CN.resources" />
+    <Content Include="Content\widgets\utilities\contactmail\resources\language.resources" />
+    <Content Include="Content\widgets\text\codefile\index.cshtml" />
+    <Content Include="Content\widgets\text\code\index.cshtml" />
+    <Content Include="Content\types\base\views\_tree.cshtml" />
+    <None Include="Content\widgets\text\html\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\text\notes\resources\language.zh-CN.resources" />
+    <EmbeddedResource Include="Content\widgets\text\script\resources\language.zh-CN.resources" />
+    <Content Include="Views\Sys\Languages.cshtml" />
+    <Content Include="Views\Shared\_ie.cshtml" />
+    <Content Include="Views\Contents\Import.cshtml" />
+    <Content Include="Views\Contents\DataFileSchema.cshtml" />
+    <Content Include="Content\widgets\text\section\index.cshtml" />
+    <None Include="Schemas\task.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Shared\_Organization.cshtml" />
+    <Content Include="Views\Sys\Modules.cshtml" />
+    <None Include="Content\css\colors\manifest.json" />
+    <Content Include="Content\css\taoui\44497.css.json" />
+    <Content Include="Content\css\taoui\black-green.css.json" />
+    <Content Include="Content\css\taoui\black-red.css.json" />
+    <Content Include="Content\css\taoui\dark-hive.css.json" />
+    <Content Include="Content\css\taoui\flat_black.css.json" />
+    <Content Include="Content\css\taoui\flat_blue.css.json" />
+    <Content Include="Content\css\taoui\flat_gray.css.json" />
+    <Content Include="Content\css\taoui\flat_green.css.json" />
+    <Content Include="Content\css\taoui\flat_orange.css.json" />
+    <Content Include="Content\css\taoui\flat_pink.css.json" />
+    <Content Include="Content\css\taoui\flat_purple.css.json" />
+    <Content Include="Content\css\taoui\flat_red.css.json" />
+    <Content Include="Content\css\taoui\light-blue.css.json" />
+    <Content Include="Content\css\taoui\light-green.css.json" />
+    <Content Include="Content\css\taoui\lightgray-blue.css.json" />
+    <Content Include="Content\types\contact\default.css" />
+    <Content Include="Content\types\wiki\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\wiki\images\icon.png" />
+    <Content Include="Content\types\product\images\icon.png" />
+    <Content Include="Content\widgets\multimedia\slideshow\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\multimedia\slideshow\default.png" />
+    <Content Include="Content\widgets\navigation\menu\_designer.cshtml" />
+    <Content Include="Content\widgets\text\intro\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\text\intro\default.css" />
+    <Content Include="Content\widgets\text\intro\default.png" />
+    <Content Include="Scripts\dna\app.js" />
+    <Content Include="Scripts\dna\zone.js" />
+    <Content Include="Scripts\dna\layout.js" />
+    <Content Include="Scripts\dna\page.js" />
+    <Content Include="Scripts\dna\theme.builder.js" />
+    <Content Include="Scripts\fonts.lte-ie7.js" />
+    <Content Include="Scripts\taoui\accordion.js" />
+    <Content Include="Scripts\taoui\slider.js" />
+    <Content Include="Scripts\taoui\tabstrip.js" />
+    <Content Include="Content\css\listsettings.css" />
+    <Content Include="Content\css\menus\extra.css" />
+    <Content Include="Content\css\menus\glass-button.css" />
+    <Content Include="Content\css\menus\glass.css" />
+    <Content Include="Content\css\menus\solidcolor-button.css" />
+    <Content Include="Content\css\menus\overline.css" />
+    <Content Include="Content\css\menus\lines.css" />
+    <Content Include="Content\css\menus\solidcolor.css" />
+    <Content Include="Content\css\menus\uribbons.css" />
+    <Content Include="Content\css\setup.css" />
+    <Content Include="Content\css\sitemapmgr.css" />
+    <Content Include="Content\emails\sys_register.xslt" />
+    <Content Include="Content\emails\sys_pwd_change.xslt" />
+    <Content Include="Content\emails\sys_pwd_valid.xslt" />
+    <Content Include="Content\pages\blank\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Content\pages\contact\config.xml">
+      <SubType>
+      </SubType>
+    </None>
+    <Content Include="Content\pages\about\config.xml" />
+    <None Include="Content\pages\photos\config.xml" />
+    <None Include="Content\pages\downloads\config.xml" />
+    <Content Include="Content\css\dashboard.css" />
+    <Content Include="Content\themes\base\dna.designers.css" />
+    <Content Include="Content\themes\base\tao.ui.photoviewer.css" />
+    <Content Include="Content\themes\base\tao.ui.scrollable.css" />
+    <Content Include="Content\themes\base\tao.ui.video.css" />
+    <Content Include="Content\themes\base\dna.comments.css" />
+    <Content Include="Content\themes\base\dna.cscode.css" />
+    <Content Include="Content\themes\base\dna.widget.css" />
+    <Content Include="Content\themes\base\jquery.farbtastic.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\site.css" />
+    <Content Include="Content\themes\base\tao.css" />
+    <Content Include="Content\themes\base\tao.ui.colorpicker.css" />
+    <Content Include="Content\themes\base\tao.ui.dropbox.css" />
+    <Content Include="Content\themes\base\tao.ui.grid.css" />
+    <Content Include="Content\themes\base\tao.ui.helpers.css" />
+    <Content Include="Content\themes\base\tao.ui.listbox.css" />
+    <Content Include="Content\themes\base\tao.ui.pager.css" />
+    <Content Include="Content\themes\base\tao.ui.radio.css" />
+    <Content Include="Content\themes\base\tao.ui.rating.css" />
+    <Content Include="Content\themes\base\tao.ui.rte.css" />
+    <Content Include="Content\themes\base\tao.ui.menu.css" />
+    <Content Include="Content\themes\base\tao.ui.tag.css" />
+    <Content Include="Content\themes\base\tao.ui.textbox.css" />
+    <Content Include="Content\themes\base\tao.ui.tooltip.css" />
+    <Content Include="Content\themes\base\tao.ui.tree.css" />
+    <Content Include="Content\types\base\fields\view\_note.xslt" />
+    <Content Include="Content\types\base\fields\view\_datetime.xslt" />
+    <Content Include="Content\types\base\fields\view\_common.xslt" />
+    <Content Include="Content\types\base\fields\view\_image.xslt" />
+    <Content Include="Content\types\base\fields\view\_text.xslt" />
+    <Content Include="Content\types\base\fields\disp\_datetime.cshtml" />
+    <Content Include="Content\themes\base\tao.ui.panel.css" />
+    <Content Include="Content\themes\base\tao.ui.progress.css" />
+    <Content Include="Content\types\base\fields\new\_lookup.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_lookup.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_lookup.cshtml" />
+    <Content Include="Content\types\base\fields\view\_lookup.cshtml" />
+    <Content Include="Content\types\base\fields\view\_image.cshtml" />
+    <Content Include="Content\types\base\fields\view\_note.cshtml" />
+    <Content Include="Content\types\base\fields\view\_video.cshtml" />
+    <Content Include="Content\types\base\fields\view\_user.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_user.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_video.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_video.cshtml" />
+    <Content Include="Content\types\base\fields\new\_video.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_user.cshtml" />
+    <Content Include="Content\types\base\fields\new\_user.cshtml" />
+    <Content Include="Content\types\base\views\_mobile_list.cshtml" />
+    <Content Include="App_Code\UIHelper.cshtml" />
+    <Content Include="Content\themes\base\dna.views.css" />
+    <Content Include="Content\types\base\views\_float.cshtml" />
+    <Content Include="Content\types\base\forms\_activity.cshtml" />
+    <Content Include="Content\types\base\fields\act\_choice.cshtml" />
+    <Content Include="Content\types\base\fields\act\_common.cshtml" />
+    <Content Include="Content\types\base\fields\act\_computed.cshtml" />
+    <Content Include="Content\types\base\fields\act\_datetime.cshtml" />
+    <Content Include="Content\types\base\fields\act\_image.cshtml" />
+    <Content Include="Content\types\base\fields\act\_lookup.cshtml" />
+    <Content Include="Content\types\base\fields\act\_note.cshtml" />
+    <Content Include="Content\types\base\fields\act\_user.cshtml" />
+    <Content Include="Content\types\base\fields\act\_video.cshtml" />
+    <Content Include="Content\themes\base\fonts\taoui.eot" />
+    <Content Include="Content\themes\base\fonts\taoui.ttf" />
+    <Content Include="Content\themes\base\fonts\taoui.woff" />
+    <Content Include="Content\types\base\fields\view\_heading.cshtml" />
+    <Content Include="Content\types\base\views\_tagGroupList.cshtml" />
+    <Content Include="Content\themes\base\tao.ui.dialog.css" />
+    <Content Include="Content\types\base\views\_links.cshtml" />
+    <None Include="Content\types\base\views\_grid.cshtml" />
+    <Content Include="Content\types\blog\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\blog\images\icon.png" />
+    <Content Include="Content\types\contact\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\contact\images\icon.png" />
+    <Content Include="Content\types\product\default.css" />
+    <Content Include="Content\types\textblock\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\discussion\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\discussion\css\default.css" />
+    <Content Include="Content\types\discussion\images\icon.png" />
+    <Content Include="Content\types\document\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\document\css\default.css" />
+    <Content Include="Content\types\event\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\event\css\default.css" />
+    <Content Include="Content\types\event\css\imgallery.css" />
+    <Content Include="Content\types\event\images\icon.png" />
+    <Content Include="Content\types\event\scripts\jquery.masonry.min.js" />
+    <Content Include="Content\types\product\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\poll\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\types\video\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\themes\base\ui-designer.css" />
+    <Content Include="Content\types\video\default.css" />
+    <Content Include="Content\types\video\images\icon.png" />
+    <Content Include="Content\widgets\content\downloadlist\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\content\downloadlist\default.png" />
+    <Content Include="Content\widgets\content\filedownload\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\content\filedownload\default.png" />
+    <Content Include="Content\widgets\multimedia\image\default.png" />
+    <Content Include="Content\widgets\multimedia\pictureflow\jquery.wookmark.min.js" />
+    <Content Include="Content\widgets\multimedia\video\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\multimedia\video\default.png" />
+    <Content Include="Content\widgets\navigation\pageheader\default.png" />
+    <Content Include="Content\widgets\navigation\menu\default.png" />
+    <Content Include="Content\widgets\navigation\pagepath\default.png" />
+    <Content Include="Content\widgets\navigation\sitemap\default.png" />
+    <Content Include="Content\widgets\navigation\webheader\default.png" />
+    <Content Include="Content\widgets\text\css\default.png" />
+    <Content Include="Content\widgets\text\htmlfile\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\text\css\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\text\htmlfile\default.png" />
+    <Content Include="Content\widgets\text\html\default.png" />
+    <Content Include="Content\widgets\text\notes\default.png" />
+    <Content Include="Content\widgets\text\script\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\utilities\contactdetail\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\utilities\contactmail\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\utilities\GoogleMap\default.png" />
+    <Content Include="Content\widgets\content\listInfo\config.xml" />
+    <Content Include="Content\widgets\content\newform\config.xml" />
+    <Content Include="Content\widgets\content\dataform\config.xml" />
+    <Content Include="Content\widgets\content\dataview\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\social\SyndicationFeed\config.xml" />
+    <Content Include="Content\widgets\text\html\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\multimedia\image\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\multimedia\pictureflow\config.xml" />
+    <Content Include="Content\widgets\text\notes\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\navigation\links\config.xml" />
+    <Content Include="Content\widgets\navigation\pagepath\config.xml" />
+    <Content Include="Content\widgets\navigation\menu\css\default.css" />
+    <Content Include="Content\widgets\navigation\webheader\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\navigation\sitemap\config.xml" />
+    <Content Include="Content\widgets\navigation\pageheader\config.xml" />
+    <Content Include="Content\widgets\navigation\menu\config.xml" />
+    <Content Include="Content\widgets\social\Comments\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\social\ShareLinks\config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\utilities\GoogleMap\config.xml" />
+    <Content Include="Content\widgets\utilities\GoogleMap\index.htm" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="license.txt" />
+    <Content Include="robots.txt" />
+    <Content Include="Content\themes\Web.config" />
+    <Content Include="Scripts\dna\comments.js" />
+    <Content Include="Scripts\dna\designers.js" />
+    <Content Include="Scripts\dna\followbutton.js" />
+    <Content Include="Scripts\dna\activityStream.js" />
+    <Content Include="Scripts\dna\oauthclient.js" />
+    <Content Include="Scripts\dna\unobtrusive.js" />
+    <Content Include="Scripts\dna\widget.js" />
+    <Content Include="Scripts\doctor.js" />
+    <Content Include="Scripts\jquery-1.7.1.js" />
+    <Content Include="Scripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\jquery.mousewheel.js" />
+    <Content Include="Scripts\jquery.tmpl.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\knockout-2.0.0.debug.js" />
+    <Content Include="Scripts\knockout-2.0.0.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\plugins\jquery.jOrgChart.js" />
+    <Content Include="Scripts\taoui\autocomplete.js" />
+    <Content Include="Scripts\taoui\base.js" />
+    <Content Include="Scripts\taoui\button.js" />
+    <Content Include="Scripts\taoui\checkbox.js" />
+    <Content Include="Scripts\taoui\colorpicker.js" />
+    <Content Include="Scripts\taoui\comm.js" />
+    <Content Include="Scripts\taoui\photoviewer.js" />
+    <Content Include="Scripts\taoui\radio.js" />
+    <Content Include="Scripts\taoui\dropbox.js" />
+    <Content Include="Scripts\taoui\datasrc.js" />
+    <Content Include="Scripts\taoui\datasrcinfo.js" />
+    <Content Include="Scripts\taoui\dropdown.js" />
+    <Content Include="Scripts\taoui\editable.js" />
+    <Content Include="Scripts\taoui\form.js" />
+    <Content Include="Scripts\taoui\grid.js" />
+    <Content Include="Scripts\taoui\inputFilter.js" />
+    <Content Include="Scripts\taoui\listbox.js" />
+    <Content Include="Scripts\taoui\listview.js" />
+    <Content Include="Scripts\taoui\menu.js" />
+    <Content Include="Scripts\taoui\pager.js" />
+    <Content Include="Scripts\taoui\panel.js" />
+    <Content Include="Scripts\taoui\pickers.js" />
+    <Content Include="Scripts\taoui\rating.js" />
+    <Content Include="Scripts\taoui\richtextbox.js" />
+    <Content Include="Scripts\taoui\roller.js" />
+    <Content Include="Scripts\taoui\splitter.js" />
+    <Content Include="Scripts\taoui\switcher.js" />
+    <Content Include="Scripts\taoui\tags.js" />
+    <Content Include="Scripts\taoui\textbox.js" />
+    <Content Include="Scripts\taoui\tooltip.js" />
+    <Content Include="Scripts\taoui\treeview.js" />
+    <Content Include="Scripts\taoui\unobtrusive.js" />
+    <Content Include="Scripts\taoui\uploader.js" />
+    <Content Include="Scripts\widget-api.js" />
+    <Content Include="Views\Account\Settings.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Content\types\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Code\SocialNetworks.cshtml" />
+    <Content Include="App_Code\DispForms.cshtml" />
+    <Content Include="App_Code\EditForms.cshtml" />
+    <Content Include="App_Code\NewForms.cshtml" />
+    <Content Include="Views\DynamicUI\SiteMap.cshtml" />
+    <Content Include="Views\WebFiles\FileExplorer.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_Head.cshtml" />
+    <Content Include="Views\Shared\_SiteTools.cshtml" />
+    <Content Include="Views\Install\_Layout.cshtml" />
+    <Content Include="Content\themes\base\tao.ui.checkbox.css" />
+    <Content Include="Views\Install\Register.cshtml" />
+    <Content Include="Views\Widget\Explorer.cshtml" />
+    <Content Include="Views\Security\ManageUsers.cshtml" />
+    <Content Include="Views\Security\ManageRoles.cshtml" />
+    <Content Include="Views\Security\RoleDetail.cshtml" />
+    <Content Include="Views\Theme\Manager.cshtml" />
+    <Content Include="Views\Widget\Manager.cshtml" />
+    <Content Include="Content\packages\Web.config" />
+    <Content Include="Views\Sys\SiteSettings.cshtml" />
+    <None Include="Schemas\contentTypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Contents\Lists.cshtml" />
+    <Content Include="Views\Contents\Detail.cshtml" />
+    <None Include="Schemas\widget-data-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\widget-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Widget\_W3C.cshtml" />
+    <Content Include="Views\Widget\Settings.cshtml" />
+    <Content Include="Content\types\base\fields\new\_text.cshtml" />
+    <Content Include="Content\types\base\fields\new\_note.cshtml" />
+    <Content Include="Content\types\base\fields\new\_currency.cshtml" />
+    <Content Include="Content\types\base\fields\new\_integer.cshtml" />
+    <Content Include="Content\types\base\fields\new\_number.cshtml" />
+    <Content Include="Content\types\base\fields\new\_image.cshtml" />
+    <Content Include="Content\types\base\fields\new\_file.cshtml" />
+    <Content Include="Content\types\base\fields\new\_choice.cshtml" />
+    <Content Include="Content\types\base\fields\new\_boolean.cshtml" />
+    <Content Include="Content\types\base\fields\new\_datetime.cshtml" />
+    <Content Include="Views\Contents\New.cshtml" />
+    <Content Include="Views\Contents\Edit.cshtml" />
+    <Content Include="Content\types\base\forms\_new.cshtml" />
+    <Content Include="Content\types\base\forms\_detail.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_choice.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_file.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_image.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_note.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_common.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_text.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_number.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_boolean.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_choice.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_currency.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_datetime.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_file.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_image.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_integer.cshtml" />
+    <Content Include="Content\types\base\fields\edit\_note.cshtml" />
+    <Content Include="Content\types\base\forms\_edit.cshtml" />
+    <Content Include="Content\types\base\fields\disp\_computed.cshtml" />
+    <Content Include="Content\themes\base\tao.ui.button.css" />
+    <Content Include="Content\layouts\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Sys\GlobalSettings.cshtml" />
+    <Content Include="Content\widgets\content\dataform\index.cshtml" />
+    <Content Include="Content\widgets\content\dataview\index.cshtml" />
+    <Content Include="Content\widgets\text\notes\index.cshtml" />
+    <Content Include="Content\widgets\multimedia\image\index.cshtml" />
+    <Content Include="Content\widgets\navigation\menu\index.cshtml" />
+    <Content Include="Content\widgets\navigation\pageheader\index.cshtml" />
+    <Content Include="Content\widgets\navigation\sitemap\index.cshtml" />
+    <Content Include="Content\widgets\social\Comments\index.cshtml" />
+    <Content Include="Content\widgets\multimedia\pictureflow\index.cshtml" />
+    <Content Include="Content\widgets\navigation\webheader\index.cshtml" />
+    <Content Include="packages.config" />
+    <Content Include="Scripts\jquery.farbtastic.mini.js" />
+    <Content Include="Scripts\jquery.tmpl.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\modernizr.min.js" />
+    <Content Include="Scripts\plugins\easing.1.3.js" />
+    <Content Include="Scripts\plugins\easing.js" />
+    <Content Include="Scripts\plugins\jsdiff.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\widgets\social\ShareLinks\index.cshtml" />
+    <Content Include="Content\widgets\text\html\index.cshtml" />
+    <Content Include="Content\widgets\content\newform\index.cshtml" />
+    <Content Include="Views\Account\ViewProfile.cshtml" />
+    <Content Include="Content\types\product\forms\_detail.cshtml" />
+    <Content Include="Content\types\discussion\views\_default.cshtml" />
+    <Content Include="Content\types\discussion\views\fields\_summary.cshtml" />
+    <Content Include="Content\types\discussion\forms\_detail.cshtml" />
+    <Content Include="Content\types\poll\fields\new\_options.cshtml" />
+    <Content Include="Content\types\poll\fields\disp\_options.cshtml" />
+    <Content Include="Content\types\event\fields\disp\_members.cshtml" />
+    <Content Include="Content\types\event\fields\disp\_photos.cshtml" />
+    <Content Include="Content\types\event\fields\edit\_photos.cshtml" />
+    <Content Include="Content\types\event\fields\new\_photos.cshtml" />
+    <Content Include="Views\WebFiles\Folders.cshtml" />
+    <Content Include="Views\Contents\_ClientView.cshtml" />
+    <Content Include="Views\Contents\_ServerView.cshtml" />
+    <Content Include="Content\types\poll\fields\edit\_options.cshtml" />
+    <Content Include="Views\Account\Signup.cshtml" />
+    <Content Include="Views\Contents\_NewForm.cshtml" />
+    <Content Include="Views\Contents\_EditForm.cshtml" />
+    <Content Include="Content\widgets\content\listInfo\index.cshtml" />
+    <Content Include="Views\Shared\_Master.cshtml" />
+    <Content Include="Content\types\document\forms\_detail.cshtml" />
+    <Content Include="Content\types\product\forms\_new.cshtml" />
+    <Content Include="Content\types\product\forms\_edit.cshtml" />
+    <Content Include="Content\types\base\views\_menu.cshtml" />
+    <Content Include="Content\types\discussion\forms\_new.cshtml" />
+    <Content Include="Content\types\blog\_reference.cshtml" />
+    <Content Include="Content\widgets\navigation\links\index.cshtml" />
+    <Content Include="Content\widgets\navigation\pagepath\index.cshtml" />
+    <Content Include="Content\widgets\multimedia\video\index.cshtml" />
+    <Content Include="Content\widgets\text\css\index.cshtml" />
+    <Content Include="Content\widgets\text\script\index.cshtml" />
+    <Content Include="Content\widgets\content\filedownload\index.cshtml" />
+    <Content Include="Content\widgets\text\htmlfile\index.cshtml" />
+    <Content Include="Content\widgets\social\SyndicationFeed\index.cshtml" />
+    <Content Include="Content\widgets\content\downloadlist\index.cshtml" />
+    <Content Include="Content\widgets\utilities\contactmail\index.cshtml" />
+    <Content Include="Content\widgets\utilities\contactdetail\index.cshtml" />
+    <Content Include="Content\types\discussion\forms\_edit.cshtml" />
+    <Content Include="Content\types\video\default.cshtml" />
+    <Content Include="Content\widgets\multimedia\slideshow\index.cshtml" />
+    <Content Include="Content\widgets\text\intro\index.cshtml" />
+    <Content Include="Content\types\wiki\_default.cshtml" />
+    <Content Include="Content\types\wiki\_reference.cshtml" />
+    <Content Include="Content\types\wiki\_disp_body.cshtml" />
+    <Content Include="Content\types\wiki\_edit_body.cshtml" />
+    <Content Include="Content\types\wiki\_new_body.cshtml" />
+    <Content Include="Content\types\wiki\_act_body.cshtml" />
+    <None Include="Properties\PublishProfiles\LocalBuild.pubxml" />
+    <Content Include="Views\Install\Index.cshtml" />
+    <Content Include="Views\Error\404.cshtml" />
+    <Content Include="Views\Error\500.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\List\_Field.cshtml" />
+    <Content Include="Views\Contents\_ServerToolbar.cshtml" />
+    <Content Include="Views\View\Edit.cshtml" />
+    <Content Include="Views\List\Edit.cshtml" />
+    <Content Include="Views\Form\Edit.cshtml" />
+    <Content Include="Views\Sys\Categories.cshtml" />
+    <Content Include="Views\Sys\Smtp.cshtml" />
+    <Content Include="Views\Contents\Packages.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Theme\Edit.cshtml" />
+    <Content Include="Views\Widget\Edit.cshtml" />
+    <Content Include="Views\Contents\EditPackage.cshtml" />
+    <Content Include="Views\Form\_Editor.cshtml" />
+    <Content Include="Views\View\EditCss.cshtml" />
+    <Content Include="Views\View\_Editor.cshtml" />
+    <Content Include="Views\Form\EditCss.cshtml" />
+    <Content Include="Views\Security\UserRoles.cshtml" />
+    <Content Include="Views\Contents\Restore.cshtml" />
+    <Content Include="Views\View\Code.cshtml" />
+    <Content Include="Views\Form\Code.cshtml" />
+    <Content Include="Views\Account\Receive.cshtml" />
+    <Content Include="Views\Account\Validate.cshtml" />
+    <Content Include="Views\Shared\_MyDashboard.cshtml" />
+    <Content Include="Views\DynamicUI\CreateWeb.cshtml" />
+    <Content Include="Views\Theme\Explorer.cshtml" />
+    <Content Include="Views\DynamicUI\EditCss.cshtml" />
+    <Content Include="Views\DynamicUI\EditPro.cshtml" />
+    <Content Include="Views\WebFiles\_Explorer.cshtml" />
+    <Content Include="Views\Contents\Reshare.cshtml" />
+    <Content Include="Views\Widget\Designer.cshtml" />
+    <Content Include="Views\WebFiles\Files.cshtml" />
+    <Content Include="Views\DynamicUI\CreatePage.cshtml" />
+    <Content Include="Views\Contents\MyContents.cshtml" />
+    <Content Include="Views\Account\SendMail.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Widget\Package.cshtml" />
+    <Content Include="Views\Contents\Versions.cshtml" />
+    <Content Include="Views\Install\Login.cshtml" />
+    <Content Include="Views\Address\Detail.cshtml" />
+    <Content Include="Views\Address\Edit.cshtml" />
+    <Content Include="Views\Address\List.cshtml" />
+    <Content Include="Widgets\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\_CustomHead.cshtml" />
+    <Content Include="Views\Account\Inbox.cshtml" />
+    <Content Include="Views\Account\Outbox.cshtml" />
+    <Content Include="Views\Shared\_UnlockFullTrust.cshtml" />
+    <Content Include="Views\Jobs\SendEmailJobConfiguration.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Theme\Personal.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Address\_Form.cshtml" />
+    <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.Configuration.dll" />
+    <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.dll" />
+    <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.Interception.Configuration.dll" />
+    <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.Interception.dll" />
+    <None Include="_bin_deployableAssemblies\thirdParty\CSharpFormat.dll" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\DynamicUI\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\DynamicUI\Layouts\full.cshtml" />
+    <Content Include="Views\DynamicUI\Layouts\2eq_cols.cshtml" />
+    <Content Include="Views\DynamicUI\Layouts\3eq_cols.cshtml" />
+    <Content Include="Views\DynamicUI\Layouts\side_left.cshtml" />
+    <Content Include="Views\DynamicUI\Layouts\side_right.cshtml" />
+    <Content Include="Views\DynamicUI\Edit.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\WidgetError.cshtml" />
+    <Content Include="Views\Shared\_Dashboard.cshtml" />
+    <Content Include="Content\widgets\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Schemas\package.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\page-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\siteindex.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\sitemap.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Schemas\solution-schema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Widget\Generic.cshtml" />
+    <Content Include="unity.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\System.Data.SqlServerCe.Entity\System.Data.SqlServerCe.Entity.dll" />
+    <None Include="_bin_deployableAssemblies\EN\System.Data.SqlServerCe.xml" />
+    <None Include="_bin_deployableAssemblies\System.Data.SqlServerCe.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\tasks\" />
+    <Folder Include="App_GlobalResources\language\" />
+    <Folder Include="Content\css\fonts\" />
+    <Folder Include="Content\modules\" />
+    <Folder Include="Content\packages\core\images\" />
+    <Folder Include="Content\packages\Started\images\" />
+    <Folder Include="Content\temp\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\themes\base\page.layout.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation\DNA.Mvc.ComponentModel\DNA.Web.ComponentModel.csproj">
+      <Project>{55ea3594-e3ca-474a-928f-bdb457737cd7}</Project>
+      <Name>DNA.Web.ComponentModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Mvc.Data.Entity\DNA.Web.Data.Entity.csproj">
+      <Project>{49b18971-37db-423a-a981-26dc65aaf2ae}</Project>
+      <Name>DNA.Web.Data.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Mvc.Data\DNA.Web.DataModel.csproj">
+      <Project>{b9807b5a-5055-4455-88c2-814d0fc8a0f0}</Project>
+      <Name>DNA.Web.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Mvc.Infrastructure\DNA.Web.Infrastructure.csproj">
+      <Project>{da00b217-68fc-4bdd-a39b-a4e161090bea}</Project>
+      <Name>DNA.Web.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Mvc.ServiceModel\DNA.Web.ServiceModel.csproj">
+      <Project>{c672e308-1373-4dce-a7b6-53eaf98fd86a}</Project>
+      <Name>DNA.Web.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Mvc.WebAPIs\DNA.Web.WebAPIs.csproj">
+      <Project>{1210274d-5f5b-4129-9a99-70f9224503e5}</Project>
+      <Name>DNA.Web.WebAPIs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Xml.Solutions\DNA.Xml.Solutions.csproj">
+      <Project>{93a93c4c-3bef-4411-9b46-a9f9809b5504}</Project>
+      <Name>DNA.Xml.Solutions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Xml.Widgets\DNA.Xml.Widgets.csproj">
+      <Project>{585e30b9-e871-4cb6-b2ca-3585e663d9fd}</Project>
+      <Name>DNA.Xml.Widgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Foundation\DNA.Sitemap\DNA.Sitemap.csproj">
+      <Project>{eadfe7db-7681-4cf0-992c-a00c15bc726a}</Project>
+      <Name>DNA.Sitemap</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>20030</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:11681/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>

@@ -1,0 +1,71 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var m = item.GetUserPreferences();}
+<div class="d-field">
+    @item.Label("facebook", "Facebook")
+    @item.TextBox("facebook", new { placeholder="Enter the facebook account name."})
+</div>
+<div class="d-field">
+    @item.Label("twitter", "Twitter")
+    @item.TextBox("twitter", new { placeholder="Enter the twitter screen name."})
+</div>
+<div class="d-field">
+    @item.Label("gplus", "Google+")
+    @item.TextBox("gplus", new { placeholder="Enter g+ id eg: g101397781188388063196"})
+</div>
+<div class="d-field">
+    @item.Label("tumblr", "Tumblr")
+    @item.TextBox("tumblr")
+</div>
+<div class="d-field">
+    @item.Label("delicious", "Delicious")
+    @item.TextBox("delicious")
+</div>
+</text>).Content(@<text>
+<div>
+    <a role="link" data-icon="d-icon-facebook" href="http://www.facebook.com/@item.GetString("facebook")" target="_blank">Facebook</a>
+</div>
+<div>
+    <a role="link" data-icon="d-icon-twitter" href="http://www.twitter.com/@item.GetString("twitter")" target="_blank">Twitter</a>
+</div>
+@if (item.IsNotEmpty("gplus"))
+{
+<div>
+    <a role="link" data-icon="d-icon-google-plus" href="https://plus.google.com/@item.GetString("gplus").Replace("g","")" target="_blank">Google+</a>
+</div>
+}
+@if (item.IsNotEmpty("tumblr"))
+{
+    <div>
+        <a role="link" data-icon="d-icon-tumblr" href="http://@(item.GetString("tumblr")).tumblr.com/" target="_blank">Tumblr</a>
+    </div>}
+@if (item.IsNotEmpty("delicious"))
+{
+    <div>
+        <a role="link" data-icon="d-icon-delicious" href="http://www.delicious.com/@(item.GetString("delicious"))" target="_blank">Delicious</a>
+    </div>
+}
+</text>).Design(@<text>
+<div>
+    <a role="link" data-icon="d-icon-facebook" href="javascript:void(0);">Facebook</a>
+</div>
+<div>
+    <a role="link" data-icon="d-icon-twitter" href="javascript:void(0);">Twitter</a>
+</div>
+@if (item.IsNotEmpty("gplus"))
+{
+<div>
+    <a role="link" data-icon="d-icon-google-plus" href="javascript:void(0);">Google+</a>
+</div>
+}
+@if (item.IsNotEmpty("tumblr"))
+{
+    <div>
+        <a role="link" data-icon="d-icon-tumblr" href="javascript:void(0);">Tumblr</a>
+    </div>}
+@if (item.IsNotEmpty("delicious"))
+{
+    <div>
+        <a role="link" data-icon="d-icon-delicious" href="javascript:void(0);">Delicious</a>
+    </div>
+}
+</text>).GetHtml()

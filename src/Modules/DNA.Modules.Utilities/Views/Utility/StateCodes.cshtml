@@ -1,0 +1,29 @@
+﻿@using System.Globalization;
+@model IEnumerable<StateProvince>
+
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "States/Provinces";
+    ViewBag.ReturnUrl = Url.HostAction("Utilities", "CountryCodes", "Utility");
+    RegionInfo region = (RegionInfo)ViewBag.Region;
+}
+
+<h3>Country:@region.EnglishName</h3>
+<p class="notes"><strong style="margin-right:10px;">Summary</strong>Total:@Model.Count()</p>
+<table data-role="grid" data-sortable="true">
+    <thead>
+        <tr>
+            <td>Code</td>
+            <td>English name</td>
+            <td>Native name</td>
+        </tr>
+    </thead>
+    @foreach (var state in Model)
+    {
+        <tr>
+            <td>@state.Code</td>
+            <td>@state.EnglishName</td>
+            <td>@state.NativeName </td>
+        </tr>
+    }
+</table>

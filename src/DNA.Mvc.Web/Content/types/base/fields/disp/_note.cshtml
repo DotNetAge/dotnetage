@@ -1,0 +1,14 @@
+﻿@model ContentFieldValue
+@{
+    var field = (NoteField)Model.Field;
+}
+<p>
+    @if (field.IsHtml)
+    {
+        @MvcHtmlString.Create(Model.Formatted)
+    }
+    else
+    {
+        @Model.Formatted
+    }
+</p>

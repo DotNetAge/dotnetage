@@ -1,0 +1,3 @@
+﻿@model CurrencyField
+<input type="number" onfocus="$(this).select();"   data-speech="false" @Model.GetAttributes() @Model.GetValidationAttributes()/><span style="margin-left: 5px; font-size: 14pt;">@(string.IsNullOrEmpty(Model.Symbol) ? System.Threading.Thread.CurrentThread.CurrentUICulture.NumberFormat.CurrencySymbol : Model.Symbol)</span>
+@Html.ValidationMessage(Model)

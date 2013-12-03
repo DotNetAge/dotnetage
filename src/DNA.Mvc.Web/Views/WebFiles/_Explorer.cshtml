@@ -1,0 +1,84 @@
+﻿@{
+    var website = AppModel.Get().Context.Website;
+    var homeUrl = AppModel.Get().Context.AppUrl.ToString() + "webshared/" + website;
+}
+<h4 style="margin: 0px; margin-bottom: 10px;padding-left:5px;">
+    <span class="d-icon-angle-left" style="cursor: pointer; -moz-background-size: 24px auto; -o-background-size: 24px auto; -webkit-background-size: 24px auto; background-size: 24px auto; height: 24px; width: 24px; display: none;"
+        onclick="$(this).next().click();"></span>
+    <span style="-ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; cursor: pointer; white-space: nowrap; overflow: hidden;"
+        id="foldername" onclick="__goupper();">@website</span></h4>
+<script type="text/x-jquery-tmpl">
+    {{if type=="path"}}
+      <a data-role="widget-creator" style="padding:2px 12px;"
+          data-url="@Url.Content("~/api/"+website+"/widgets/addfile?locale="+Culture)" 
+          data-file="${url}" 
+          onclick="__openfolder('${url}','${name}');">
+               <img src="@Url.Content("~/content/images/folder_yellow.png")" style="margin-top:-15px;width:24px;"/>
+               
+    {{else}}
+       <a data-role="widget-creator" style="padding:2px 12px;"
+           data-url="@Url.Content("~/api/"+website+"/widgets/addfile?locale="+Culture)" 
+           data-file="${url}">
+                   {{if contentType.startsWith("image")}}
+               <img src="${url}?h=64&w=64" style="margin-top:-15px;max-height: 24px; max-width: 24px;"  class="d-inline"/>
+                  {{/if}}
+@*                  {{else}}<img src="@Url.Content("~/content/images/icon_full_page_48.png")" />*@
+                  
+     {{/if}}
+@*        <div style="font-size: 9pt; text-overflow: ellipsis; width: 64px; overflow: hidden; white-space: nowrap;" title="${name}">${name}</div>*@
+           <p style="margin-left:32px;display:inline-block;">${name}</p>
+               </a>
+</script>
+<ul data-role="listview" data-display="mobile-list"
+    data-tmpl="prev"
+    data-source="next"
+    class="d-descriptors"
+    data-empty="nodata"
+    data-scroller="parent"
+    id="filesexpro"
+    data-link-icon="no"
+@*  data-inline="true"  data-item-class="d-inline" data-item-style="text-align: center;height:65px;width:65px;" *@
+    data-item-created="__initcreator(ui);$(ui.item).mobilelistItem();"
+    style="height: 700px; margin-right: -10px;">
+</ul>
+<div data-role="datasource" id="expro_src" data-read-url="@(homeUrl)"></div>
+<script type="text/javascript">
+    var urlstack = [{ name: '@website', url: '@homeUrl' }];
+
+    function __goupper() {
+        if (urlstack.length > 1)
+            urlstack.pop();
+        var p = urlstack.length > 1 ? urlstack.pop() : urlstack[0];
+        __loadingfiles();
+        $("#filesexpro").empty();
+        $("#expro_src").taoDataSource("read", p.url).done(function () {
+            if (p.name == "@website")
+                $("#foldername").prev().hide();
+            $("#foldername").text(p.name);
+            $("#filesexpro").parent().css("background-image", "none");
+        });
+    }
+
+    function __loadingfiles() {
+        $("#filesexpro").parent().css("background", "url(@Url.Content("~/content/images/img_loading.gif")) center center no-repeat");
+        $("#foldername").text("@Resources.Commons.Loading");
+    }
+
+    function __openfolder(url, name) {
+        __loadingfiles();
+        $("#filesexpro").empty();
+        $("#expro_src").taoDataSource("read", url).done(function () {
+            urlstack.push({ name: name, url: url });
+            $("#foldername").prev().show();
+            $("#foldername").text(name);
+            $("#filesexpro").parent().css("background-image", "none");
+        });
+    }
+
+    function __initcreator(ui) {
+        var creator = ui.item.children("[data-role=widget-creator]");
+        if (creator.length)
+            creator.widgetDescriptor();
+
+    }
+</script>

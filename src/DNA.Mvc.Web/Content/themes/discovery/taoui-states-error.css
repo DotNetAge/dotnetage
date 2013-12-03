@@ -1,0 +1,2 @@
+﻿.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error, .ui-state-error { border-color: #d10000; }
+    .field-validation-error, .input-validation-error, .d-ui-widget.d-state-error, .d-ui-widget.d-state-error > .d-ui-widget-content, .input-validation-error > .d-ui-widget-content { background-color: #f9f1f3; }

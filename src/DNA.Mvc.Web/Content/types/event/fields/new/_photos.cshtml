@@ -1,0 +1,12 @@
+﻿@model TextField
+<input  id="@(Model.ClientID)" 
+            name="@Model.Name" 
+            type="hidden" 
+    @if (Model.DefaultValue != null)
+    {<text>value="@(Model.DefaultValue)"</text>} />
+<span class="d-inline">
+    <span></span>
+    <span data-role="button" 
+    onclick="var el=$(this);$.folderDialog('@(string.Format(Resources.Messages.SelectFormat,Resources.NetDrives.Folder))','','@Model.ClientID').done(function(url){ el.prev().text(url); });" 
+    style="position: relative; width: 100px;">@Resources.Commons.Browse</span>
+</span>

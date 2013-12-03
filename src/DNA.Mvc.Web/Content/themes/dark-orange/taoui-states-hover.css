@@ -1,0 +1,3 @@
+﻿.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover { background-color: #f9e6e1; background-image: none; }
+    .d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-node-content > .d-state-hover { color: #7c3c18; }
+.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover { background-color: #f9e6e1; background-image: none; }

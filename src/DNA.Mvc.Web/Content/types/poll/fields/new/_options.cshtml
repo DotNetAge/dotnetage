@@ -1,0 +1,57 @@
+﻿@model TextField
+@{
+    var parentList = AppModel.Get().Wrap(Model.Parent);
+    }
+<input type="hidden" value="@Model.DefaultValue" name="@Model.Name" id="@(Model.Name)_options_field" />
+<ul class="d-items" style="display: inline-block;" id="@(Model.Parent.Name)_options">
+    <li class="d-item">
+        <input type="text" name="option1" /></li>
+    <li class="d-item">
+        <input type="text" name="option2" /></li>
+    <li class="d-item">
+        <input type="text" name="option3" /></li>
+    <li class="d-item">
+        <input type="text" name="option4" /></li>
+    <li class="d-item">
+        <input type="text" name="option5" /></li>
+    <li class="d-item">
+        <a href="javascript:void(0);" onclick="__addoption(this);" role="link" data-icon-left="d-icon-plus-4">@parentList.Package.Loc("MoreOption")</a>
+    </li>
+</ul>
+<script type="text/javascript">
+    $(function () {
+        $("#@(Model.Parent.Name)_options input").on("change", function () {
+            __saveoptions();
+        });
+    });
+
+    function __saveoptions() {
+        var optInputs = $("#@(Model.Parent.Name)_options input"), opts = [];
+        optInputs.each(function (i, n) {
+            if ($(n).val()) {
+                opts.push({
+                    title: $(n).val(),
+                    name: $(n).attr("name"),
+                    value: 0,
+                    users: ""
+                });
+            }
+        });
+
+        if (opts.length)
+            $("#@(Model.Name)_options_field").val(JSON.stringify(opts));
+    }
+
+    function __addoption(el) {
+        var inputs = $("#@(Model.Parent.Name)_options input"),
+            counter = inputs.length + 1,
+        opt = $("<li/>").addClass("d-item"),
+                optInput = $("<input name='option" + counter + "' type='text'/>").appendTo(opt).bind("change", function () {
+                    __saveoptions();
+                });
+
+        $(el).parent().before(opt);
+        optInput.taoTextbox();
+        optInput.focus();
+    }
+</script>

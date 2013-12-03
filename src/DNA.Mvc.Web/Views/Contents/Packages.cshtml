@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = Resources.Contents.ContentTypes;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var types = AppModel.Get().ContentTypes.Packages;
+}
+<ul data-role="listview" 
+    data-display="mobile-list" 
+    data-selectable="true" 
+    data-inset="true" 
+    data-link-icon="no">
+    @foreach (var t in types)
+    {
+        var m = t.Locale(UICulture);
+        if (t.Name.Equals("base"))
+        {
+            continue;
+        }
+        var languages = t.GetSupportLanguages();
+        var inusingCount = AppModel.Get().DataContext.Count<ContentList>(c => c.BaseType.Equals(t.Name));
+        <li id="list_@t.Name" @if (inusingCount > 0)
+            {<text>data-counter="@inusingCount"</text>}>
+            <a data-rel="panel"
+                href="@Url.Action("EditPackage", "Contents")?locale=@Culture&name=@(t.Name)"
+                data-panel-pos="right"
+                data-panel-display="overlay"
+                data-panel-title="@Resources.Commons.Details">
+                <img  src="@Url.Content(t.Icon)" style="min-height:36px;max-width:36px;top:50%;margin-top:-18px;left:10px;"/>
+                <h4>@(m.Title)</h4>
+            </a>
+        </li>
+    }
+</ul>
+

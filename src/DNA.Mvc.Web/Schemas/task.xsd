@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="task"
+    targetNamespace="http://www.dotnetage.com/XML/Schema/task"
+    elementFormDefault="qualified"
+    xmlns="http://www.dotnetage.com/XML/Schema/task"
+    xmlns:mstns="http://www.dotnetage.com/XML/Schema/task"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="task">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="title" type="xs:string" maxOccurs="1" minOccurs="0" />
+          <xs:element name="desc" type="xs:string" maxOccurs="1" minOccurs="0" />
+          <xs:element name="state" type="xs:string" maxOccurs="1" />
+          <xs:element name="startAt" type="xs:dateTime" maxOccurs="1" />
+          <xs:element name="nextStart" type="xs:dateTime" maxOccurs ="1" />
+          <xs:element name="recurs" maxOccurs="1">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attribute name="value" type ="xs:int" use="required" />
+                  <xs:attribute name="frequency" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:token">
+                        <xs:enumeration value="OneTime"/>
+                        <xs:enumeration value="Minutely"/>
+                        <xs:enumeration value="Hourly"/>
+                        <xs:enumeration value="Daily"/>
+                        <xs:enumeration value="Weekly"/>
+                        <xs:enumeration value="Monthly"/>
+                        <xs:enumeration value="Yearly"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="daysOfWeek" type ="xs:string" use="optional" />
+                  <xs:attribute name="months" type ="xs:string" use="optional" />
+                  <xs:attribute name="daysOfMonth" type ="xs:string" use="optional" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="command" maxOccurs="1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="param" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="type" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

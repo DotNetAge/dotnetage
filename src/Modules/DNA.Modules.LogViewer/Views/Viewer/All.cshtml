@@ -1,0 +1,74 @@
+﻿@using DNA.Web.UI;
+@using DNA.Web.Logging;
+@model IEnumerable<LogEntity>
+@{
+    ViewBag.Title = "Log viewer";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var total = (int)ViewBag.Total;
+}
+@section LeftNavs{
+    <a href="#filterMenu" style="min-width: 120px;"
+        data-role="button"
+        data-icon-right="d-icon-angle-down"
+        data-rel="popup">@(ViewBag.Type == null ? "All" : ViewBag.Type.ToString())</a>
+    <ul id="filterMenu" data-role="menu" style="width: 200px;">
+        <li><a href="@Url.HostAction("Log", "All", "Viewer", new { id = "" })">All</a></li>
+        <li><a  href="@Url.HostAction("Log", "All", "Viewer", new { id = LogEntityTypes.Info })">Information</a></li>
+        <li><a href="@Url.HostAction("Log", "All", "Viewer", new { id = LogEntityTypes.Warning })">Warning</a></li>
+        <li><a href="@Url.HostAction("Log", "All", "Viewer", new { id = LogEntityTypes.Error })">Error</a></li>
+        <li><a href="@Url.HostAction("Log", "All", "Viewer", new { id = LogEntityTypes.Fatal })">Fatal</a></li>
+    </ul>
+}
+
+@section Navs{
+    <a data-role="button" 
+        data-icon-left="d-icon-trash"
+        data-ajax="true"
+        data-ajax-url="@Url.HostAction("Log", "Clear", "Viewer")"
+        data-ajax-method="post"
+        data-ajax-confirm="Are you sure clear all loggs?"
+        data-ajax-begin="$.loading();"
+        data-ajax-failure="$.loading('hide');$.err(error);"
+        data-ajax-success="location='@Url.HostAction("Log", "All", "Viewer", new { id = "" })';"
+        title="@Html.Global("Delete")"></a>
+}
+@if (Model == null || Model.Count() == 0)
+{ 
+    <p class="info">No log yet</p>
+}
+else
+{
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        @foreach (var m in Model)
+        { 
+            <li data-readonly="true" data-counter="@m.Logged">
+                <div style="padding: 10px;">
+                    @switch (m.LogEntityType)
+                    {
+                        case LogEntityTypes.Error:
+                        <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACYklEQVQ4y2P4//8/AyUYq+BjBxvuB5427vddTAvuu5rlPXCzdH6kb8ROlAG3nExzbtjov75qpP7/ip4yGF8z1vgPFHt608ksAa8Bl+1NJpw3VP9/Ukn6/0lFqd8nlWU+AfG3E4pSYLELQIOu2JvUYzXgnKNZ4Al91f8HFCT/HwIqPqyucO+il6vYaVsLgaPaqhGHVOVeHJCX+H/CQO3/eWcLBwwDDhlpXNkJtGmnktT/XUADdgHp3eoKu2Hy+y0MFXapyH7cBVRz2ETzCIoBh91tZbdpKPzfqCD1f6um0uZNyjI/NilK/98EVLxZXeHA4/ISVpC6LZrKnSA12zQVfx3zdRGEG7DZSNtitbLM/1VATRvMDbXW66o7rVIC8aX+rwJqWKOmcACkbq2msjtIzWqg3AYtJRW4ASsNtXUWAZ29CKhhubZqCEhsua6aH1gMaMAiYLgsUZVfv1xHrRDMBxqyQl9TBm7AOj8vjtlKMh9myUv+n6MqvxfmvwU66v6zgIpB4rOBGmfD2Mqyj3fnZjKhBOI0daX+SUDJyfJS/6eqKfS8nz4NrGC+ka71ZEXpj5OA4hAs+X+ahnI1RizMdHXg7lGWvdclJ/G/G6ioW1H6PpC/oFtZbjqQ/a4LKNYJlAOKXZwTG8mKNSEttjaTaFeWPdECVNwMVNwsh6BbgLZ3KMvt3ejhzI+RkJgZGPiAWI6BgUGWkYtbOU5WsrVQXupsmZzkizI5qecFclKnYmQk6xjY2OWBauSYIZgP2QBWIOYBYn4GCAYyGVgZOLj4GDi5eYFsFigWAKmBqmXFmRtJwQBZLA81qscpqAAAAABJRU5ErkJggg==" alt="Error" />
+                            break;
+                        case LogEntityTypes.Fatal:
+                        <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB3klEQVQ4y2P4//8/AyUYhXPfwdj3rp1BMy7F9+wMMu/ZGxViNeCWq1nEFQPV/5e0FP5ft9Ldgq75hp1B42Vd5f+XdZT+37A37P1/cCYj3ICrHlZcp3WU/x9XlAbjU+py/y9aIgy5bGvQeFpbCSgnBcanNBX/nzfTNoUbsJOTi/GAonTPAWWZ/2AMVHRITe7/GUvdFefsDWuOaiv+3w8Ug8srSe8/ICvBjREGO5VlencoSf/fCcQ7FKT+7wG6ZJ+W4v/tCpIQMYjc/iWaiixYAxGENwIN2QBUCMZAW9cDDYLxNypJ752vrcKKMxZgeIWS9PEVwLBAw+82mRqw4I1GEF6gKN2wUEHqDxD/R8cLFKU24jVghqJ040ygQhieAcWoYtJb/j/9jmrABFV5hokKUg0T5aX+w/AEEK0gvXmSgnTXBCRxMFaQ2jJJRY4DbkCvmgJXp7zkfzS8v1ZflQkk36Ug1duBJt+lKG2G4oUOJdnEJqDpTXKS/4H0vm8B3kzI3muWl+oGywFxi6LM9MfOVmB5BmYGMBYAUrxxkqL12dJiW7hZmA2AfB2guDEIA9kgvkKKpOjcTGnxhUC2CBDzwV0AVMQMxBzwgGFg4ATyeZExUIwHSZ4NpAdnOiAFAwC8qh8AC1WhEgAAAABJRU5ErkJggg==" alt="Fatal" />
+                            break;
+                        case LogEntityTypes.Warning:
+                        <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACKklEQVQ4y6WTTWsTURSGr/lomphMpslMQmOtbQQp+AvcuXEnLlwouBBEqSu7thuhralgU7SoWCkWSozWBLQNGgRTaeoiilUqrkV0I/maTJJJJkaT1zO1ThuaiuLAw9xznjPv4nKGAWD/Q9um+oLxtZT/RO3VgTHiSi21/7SaNPn+KkBd7hlSX/bLarIb1ecmgkFNeqGu9H1TV/aN/zGgmtgzXk34UImboMQYaqvHoL4ZRPkRo54B1YSX2DvfNkB5Ih5W4l4aNqH82IjyghVoqGg2gGK4l2pGzgAlLkJ56j27LaC8IC6VortRetiJ0nwHShEbmrU0mt8BOeSn2vDLRawUJn4qhtkuPUAOcbbiA16RQzbI94iQFfKcEY3yRzQqKqQZN+SwRXfF+06C928GzAk9hVkHCnftOtI0w4/CByKL/A0rCrO2TT+rwR3SA6QZgZNuczUCv8lfZ6h/eYb657fITRoo0IGtXrrTNdByB7kpfpWATpDuYfE4SrEzyE50oMVN8Zn8rW5zS0A26D6ZnXBhnas84USzrkB7spP9VDug+6DrUts9yASEaDogIBNwIz1ih7IcQCU1jfSoi3oamhNefx0eMO64iYXLnpu5EQ80MsMWZC6a6Syu19KYJ4rYwc5ti2RkjCN6GWN+wjt6hDu1dM4dWbsgvns/5FlLDgqL1446z5PzEX3arPbN1gAzYSecNNBFWEkZ6G3W2DhbNKfNbMyad/wb/4Wf5DSC+60KwcgAAAAASUVORK5CYII=" alt="Wranning" />
+                            break;
+                        default:
+                        <img class="d-inline" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACQUlEQVQ4y6WTXUhTYRzGj8nog7C8CiQiDKI7K8JIcG5QUAhB0Qe4iCBDg0rxRikIqrXuiqxdRFDNixitcmua22q67Wxn0314pjU3d3Ibs811VTipwHj6n6MbmTOKDvx4D+/zvL9z3sN7GADM/1By8nkstdGayJ2wJXM3iFvWZO60MT5d9VcCw+T0pV4h85lG6GNp6CIpPKXRKGS+v4h/1PxR8CSS0ugmUtCGBXTzcQl7Ogd9ZAq3QzFQLgr1JQV3+LjiXvgD1P4INIEJXBuJQDsmQLxm83l0OvxQB6MkFXCXF84uE6gDUftl3zt0cuMLeMdxkxZYU1k8CMfQwfLSXBeh9kcT7e5QWVHQ4gyta3eH863OEM4TzUNBPHw/hezcV8zMzqFjcBjnnKNSRl20ucO4yPLVRcGZwcBmlX0ETW8XUBGH+j0wJTLSFq6zARyx+Zbkp+z+fUXBUZu3onHA841AAeUrFya/5PFjfh7HzQ4cHOCKWeNrDw5buB1LvoHS7AoQEKk3OXDsjU96ejCdRY3eAmUfi0JOfNrfx8p+F5xUUCiy1ziEVnZUEoxlclBZOShIWsipe7XkOWgwuwxy8Q0IcXwUS8KansEVjkcdScU56gwf6OfKVzyJDRbffTntsZ7YaXSghthjZiGnb9Bg8RpUwJplB6mcYSqILQzDVBObtjVfaNrV/fhZre5lqLanl9+t7TFtb+tqoayK2Cp2xTW/CmTEemJDGcNUUmktsYqQLSLeryYqxc5iV7bi3/gv/ATjDq0JLvaC+AAAAABJRU5ErkJggg==" alt="Info" />
+                            break;
+                    }<span class="d-inline">@m.Message</span>
+                </div>
+                @if (!string.IsNullOrEmpty(m.MessageDetail))
+                { 
+                    <p>@m.MessageDetail</p>
+                }
+            </li>
+        }
+    </ul>
+    <p>
+        @Html.Pager((int)ViewBag.Total, Url.HostAction("Log", "All", "Viewer", new { id = ViewBag.Type == null ? "" : ViewBag.Type.ToString() }))
+    </p>
+       
+}
+

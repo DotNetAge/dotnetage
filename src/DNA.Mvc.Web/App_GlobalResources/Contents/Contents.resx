@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="YesText" xml:space="preserve">
+    <value>Yes text</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="WidgetStore" xml:space="preserve">
+    <value>Widget store</value>
+  </data>
+  <data name="WebStore" xml:space="preserve">
+    <value>Web store</value>
+  </data>
+  <data name="Views" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="ViewItems" xml:space="preserve">
+    <value>View items</value>
+  </data>
+  <data name="ViewFields" xml:space="preserve">
+    <value>View fields</value>
+  </data>
+  <data name="ViewCls" xml:space="preserve">
+    <value>View class</value>
+  </data>
+  <data name="View_ShowLabel" xml:space="preserve">
+    <value>Show label - Show the field title text on the left of the view value</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="VideoField" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="VersionHistory" xml:space="preserve">
+    <value>Version history</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="UserReviews" xml:space="preserve">
+    <value>User reviews</value>
+  </data>
+  <data name="UserField" xml:space="preserve">
+    <value>User </value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Unpublish" xml:space="preserve">
+    <value>Unpublish</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="TotalVotes" xml:space="preserve">
+    <value>Total votes</value>
+  </data>
+  <data name="TotalReshares" xml:space="preserve">
+    <value>Total reshares</value>
+  </data>
+  <data name="TotalComms" xml:space="preserve">
+    <value>Total comments</value>
+  </data>
+  <data name="TotalAttachs" xml:space="preserve">
+    <value>Total attachements</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ThumbnailWidth" xml:space="preserve">
+    <value>Thumbnail width</value>
+  </data>
+  <data name="ThumbnailHeight" xml:space="preserve">
+    <value>Thumbnail height</value>
+  </data>
+  <data name="ThemeStore" xml:space="preserve">
+    <value>Theme store</value>
+  </data>
+  <data name="TextField" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TagsViewDesc" xml:space="preserve">
+    <value>Group by item tags</value>
+  </data>
+  <data name="TagsView" xml:space="preserve">
+    <value>Tags group view</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TableViewDesc" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="TableView" xml:space="preserve">
+    <value>Table view</value>
+  </data>
+  <data name="Symbol" xml:space="preserve">
+    <value>Symbol</value>
+  </data>
+  <data name="StyleAndLayout" xml:space="preserve">
+    <value>Style and layout</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="Startswith" xml:space="preserve">
+    <value>Starts with</value>
+  </data>
+  <data name="SpliteTags" xml:space="preserve">
+    <value>Splite comma with multiple tags</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="Sortby" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="SlugIsRequired" xml:space="preserve">
+    <value>The page name is required</value>
+  </data>
+  <data name="SlugIsExists" xml:space="preserve">
+    <value>The page name is exists please choice another name</value>
+  </data>
+  <data name="SlideShowDesc" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="SlideShow" xml:space="preserve">
+    <value>Slide show</value>
+  </data>
+  <data name="SliderViewDesc" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="SliderView" xml:space="preserve">
+    <value>Slider view</value>
+  </data>
+  <data name="ShowTime" xml:space="preserve">
+    <value>Show time</value>
+  </data>
+  <data name="ShowPageInfo" xml:space="preserve">
+    <value>Show page info</value>
+  </data>
+  <data name="ShowAsPercentage" xml:space="preserve">
+    <value>Show as percentage</value>
+  </data>
+  <data name="Rows" xml:space="preserve">
+    <value>Rows</value>
+  </data>
+  <data name="Row" xml:space="preserve">
+    <value>Row</value>
+  </data>
+  <data name="Rollback" xml:space="preserve">
+    <value>Rollback</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Replies</value>
+  </data>
+  <data name="RemoveAttach" xml:space="preserve">
+    <value>Remove this attachment</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Remarks</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="RadioButtons" xml:space="preserve">
+    <value>Radio buttons</value>
+  </data>
+  <data name="PublishToActivityStream" xml:space="preserve">
+    <value>Publish to activity stream</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="PublishDate" xml:space="preserve">
+    <value>PublishDate</value>
+  </data>
+  <data name="Posts" xml:space="preserve">
+    <value>Posts</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="PlayerWidth" xml:space="preserve">
+    <value>Player width</value>
+  </data>
+  <data name="PlayerHeight" xml:space="preserve">
+    <value>Player height</value>
+  </data>
+  <data name="PlaceHolder" xml:space="preserve">
+    <value>Place holder</value>
+  </data>
+  <data name="PhotoOnly" xml:space="preserve">
+    <value>Show photo only</value>
+  </data>
+  <data name="PhotoAndName" xml:space="preserve">
+    <value>Show photo and name</value>
+  </data>
+  <data name="PendingReview" xml:space="preserve">
+    <value>Pending review</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="PasswordField" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ParentItem" xml:space="preserve">
+    <value>Parent Item</value>
+  </data>
+  <data name="PageSize" xml:space="preserve">
+    <value>Page size</value>
+  </data>
+  <data name="PageIndex" xml:space="preserve">
+    <value>Page index</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Or</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="OpenDefView" xml:space="preserve">
+    <value>Open default view</value>
+  </data>
+  <data name="NumLines" xml:space="preserve">
+    <value>Numbers of lines</value>
+  </data>
+  <data name="NumberField" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="NotSet" xml:space="preserve">
+    <value>not set</value>
+  </data>
+  <data name="NoText" xml:space="preserve">
+    <value>No text</value>
+  </data>
+  <data name="NoteField" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="NotContains" xml:space="preserve">
+    <value>Doesn't contain</value>
+  </data>
+  <data name="Not" xml:space="preserve">
+    <value>Not</value>
+  </data>
+  <data name="NoPage" xml:space="preserve">
+    <value>Don't create page for this view</value>
+  </data>
+  <data name="NoName" xml:space="preserve">
+    <value>No name</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NewView" xml:space="preserve">
+    <value>Create view</value>
+  </data>
+  <data name="NewItem" xml:space="preserve">
+    <value>New item</value>
+  </data>
+  <data name="NewField" xml:space="preserve">
+    <value>New field</value>
+  </data>
+  <data name="Neq" xml:space="preserve">
+    <value>Doesn't equal</value>
+  </data>
+  <data name="NameOnly" xml:space="preserve">
+    <value>Show user name only</value>
+  </data>
+  <data name="MyPublishedItems" xml:space="preserve">
+    <value>My published items</value>
+  </data>
+  <data name="MyPendings" xml:space="preserve">
+    <value>My pending items</value>
+  </data>
+  <data name="MyItems" xml:space="preserve">
+    <value>My items</value>
+  </data>
+  <data name="MyDrafts" xml:space="preserve">
+    <value>My drafts</value>
+  </data>
+  <data name="MyContents" xml:space="preserve">
+    <value>My contents</value>
+  </data>
+  <data name="Modifier" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Moderators" xml:space="preserve">
+    <value>Moderators</value>
+  </data>
+  <data name="ModerateState" xml:space="preserve">
+    <value>Moderate state</value>
+  </data>
+  <data name="MobileViewDesc" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="MobileView" xml:space="preserve">
+    <value>Mobile listview</value>
+  </data>
+  <data name="MinLen" xml:space="preserve">
+    <value>Min length</value>
+  </data>
+  <data name="Minimum" xml:space="preserve">
+    <value>Minimum</value>
+  </data>
+  <data name="MenuViewDesc" xml:space="preserve">
+    <value>Show the data items in a menu</value>
+  </data>
+  <data name="MenuView" xml:space="preserve">
+    <value>Menu view</value>
+  </data>
+  <data name="MaxLenVal" xml:space="preserve">
+    <value>Please enter a vaild max length value</value>
+  </data>
+  <data name="MaxLen" xml:space="preserve">
+    <value>Max length</value>
+  </data>
+  <data name="Maximum" xml:space="preserve">
+    <value>Maximum</value>
+  </data>
+  <data name="Lt" xml:space="preserve">
+    <value>Is less then</value>
+  </data>
+  <data name="LookupField" xml:space="preserve">
+    <value>Lookup</value>
+  </data>
+  <data name="LoadingPhoto" xml:space="preserve">
+    <value>Loading photo ...</value>
+  </data>
+  <data name="ListViewDesc" xml:space="preserve">
+    <value>ListViewDesc</value>
+  </data>
+  <data name="ListView" xml:space="preserve">
+    <value>List view</value>
+  </data>
+  <data name="Lists" xml:space="preserve">
+    <value>Lists</value>
+  </data>
+  <data name="List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="LinkToItem" xml:space="preserve">
+    <value>Link to item</value>
+  </data>
+  <data name="LinkListDesc" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="LinkList" xml:space="preserve">
+    <value>Link list</value>
+  </data>
+  <data name="Le" xml:space="preserve">
+    <value>Is less then or equal to</value>
+  </data>
+  <data name="ItemsCls" xml:space="preserve">
+    <value>Item class</value>
+  </data>
+  <data name="ItemFooterCls" xml:space="preserve">
+    <value>Item footer class</value>
+  </data>
+  <data name="IsRequired" xml:space="preserve">
+    <value>Is required</value>
+  </data>
+  <data name="IsPublished" xml:space="preserve">
+    <value>IsPublished</value>
+  </data>
+  <data name="IsHierarchyData" xml:space="preserve">
+    <value>Is hierarchy data</value>
+  </data>
+  <data name="IsHiddenField" xml:space="preserve">
+    <value>Is hidden - Hide output value</value>
+  </data>
+  <data name="IntegerField" xml:space="preserve">
+    <value>Integer</value>
+  </data>
+  <data name="InsertCls" xml:space="preserve">
+    <value>Insert class</value>
+  </data>
+  <data name="ImageField" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="Gt" xml:space="preserve">
+    <value>Is greater then</value>
+  </data>
+  <data name="GridViewDesc" xml:space="preserve">
+    <value>Can be use for show image items.</value>
+  </data>
+  <data name="GridView" xml:space="preserve">
+    <value>Grid view</value>
+  </data>
+  <data name="Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Ge" xml:space="preserve">
+    <value>Is greater then or equal to</value>
+  </data>
+  <data name="FormSettings" xml:space="preserve">
+    <value>Form settings</value>
+  </data>
+  <data name="Forms" xml:space="preserve">
+    <value>Forms</value>
+  </data>
+  <data name="FormCls" xml:space="preserve">
+    <value>Form class</value>
+  </data>
+  <data name="Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Form_ShowLabel" xml:space="preserve">
+    <value>Show label - Show the field title text on the left of the value/editor</value>
+  </data>
+  <data name="Form" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FillInChoice" xml:space="preserve">
+    <value>Fill in choice</value>
+  </data>
+  <data name="FileField" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FieldType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="FieldSettings" xml:space="preserve">
+    <value>Field settings</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <data name="FeedField" xml:space="preserve">
+    <value>Bind to feed (rss,atom)</value>
+  </data>
+  <data name="ExtensionField" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="Expression" xml:space="preserve">
+    <value>Expression</value>
+  </data>
+  <data name="ExpandableListDesc" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ExpandableList" xml:space="preserve">
+    <value>Expandable list</value>
+  </data>
+  <data name="Eq" xml:space="preserve">
+    <value>Equal</value>
+  </data>
+  <data name="Endswith" xml:space="preserve">
+    <value>Ends with</value>
+  </data>
+  <data name="EnableVersioning" xml:space="preserve">
+    <value>Enable versioning</value>
+  </data>
+  <data name="EnableModerate" xml:space="preserve">
+    <value>Enable moderate</value>
+  </data>
+  <data name="EnableComments" xml:space="preserve">
+    <value>Enable comments</value>
+  </data>
+  <data name="Empty" xml:space="preserve">
+    <value>Empty</value>
+  </data>
+  <data name="EditSrc" xml:space="preserve">
+    <value>Edit source code</value>
+  </data>
+  <data name="DropDownlist" xml:space="preserve">
+    <value>Dropdown list</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="DisplayStyle" xml:space="preserve">
+    <value>Display style</value>
+  </data>
+  <data name="DisplayAs" xml:space="preserve">
+    <value>Display as</value>
+  </data>
+  <data name="DisableComments" xml:space="preserve">
+    <value>Disable comments</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>Desc</value>
+  </data>
+  <data name="DeletingField" xml:space="preserve">
+    <value>Deleting field from list</value>
+  </data>
+  <data name="DeleteList" xml:space="preserve">
+    <value>Delete this list</value>
+  </data>
+  <data name="Defined" xml:space="preserve">
+    <value>Defined</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>Default value</value>
+  </data>
+  <data name="DefaultPagingSize" xml:space="preserve">
+    <value>Default paging size</value>
+  </data>
+  <data name="DateTimeFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="DateTimeField" xml:space="preserve">
+    <value>Date &amp; time</value>
+  </data>
+  <data name="DateCreated" xml:space="preserve">
+    <value>Date created</value>
+  </data>
+  <data name="DataItem" xml:space="preserve">
+    <value>Data item</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="CurrencyField" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="CreatingField" xml:space="preserve">
+    <value>Creating field</value>
+  </data>
+  <data name="ContentTypes" xml:space="preserve">
+    <value>ContentTypes</value>
+  </data>
+  <data name="ContentStore" xml:space="preserve">
+    <value>Content store</value>
+  </data>
+  <data name="Contains" xml:space="preserve">
+    <value>Contains</value>
+  </data>
+  <data name="ComputedField" xml:space="preserve">
+    <value>Cuomputed</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ChoiceItems" xml:space="preserve">
+    <value>Choice items</value>
+  </data>
+  <data name="ChoiceFieldHolder" xml:space="preserve">
+    <value>Enter the choice item(s) here.Each row holds one item.</value>
+  </data>
+  <data name="ChoiceField" xml:space="preserve">
+    <value>Choice</value>
+  </data>
+  <data name="CategoriesAndTags" xml:space="preserve">
+    <value>Categories and Tags</value>
+  </data>
+  <data name="Catalog" xml:space="preserve">
+    <value>Catalog</value>
+  </data>
+  <data name="Caption" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="BooleanField" xml:space="preserve">
+    <value>Yes/No</value>
+  </data>
+  <data name="BackupFiles" xml:space="preserve">
+    <value>Backup files</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Audit" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="Asc" xml:space="preserve">
+    <value>Asc</value>
+  </data>
+  <data name="Archives" xml:space="preserve">
+    <value>Archives</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Annotation" xml:space="preserve">
+    <value>Annotation</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>And</value>
+  </data>
+  <data name="AllowVotes" xml:space="preserve">
+    <value>Allow votes</value>
+  </data>
+  <data name="AllowSorting" xml:space="preserve">
+    <value>Allow sorting</value>
+  </data>
+  <data name="AllowReshare" xml:space="preserve">
+    <value>Allow re-share</value>
+  </data>
+  <data name="AllowPaging" xml:space="preserve">
+    <value>Allow paging</value>
+  </data>
+  <data name="AllowMultiChoice" xml:space="preserve">
+    <value>Allow multi-choice</value>
+  </data>
+  <data name="AllowHtml" xml:space="preserve">
+    <value>Allow html</value>
+  </data>
+  <data name="AllowFilter" xml:space="preserve">
+    <value>Allow filtering</value>
+  </data>
+  <data name="AllowComments" xml:space="preserve">
+    <value>Allow comments</value>
+  </data>
+  <data name="AllowCats" xml:space="preserve">
+    <value>Allow categories &amp; tags</value>
+  </data>
+  <data name="AllowAttachs" xml:space="preserve">
+    <value>Allow attachments</value>
+  </data>
+  <data name="AllFieldsCls" xml:space="preserve">
+    <value>All fields class</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="AddNewList" xml:space="preserve">
+    <value>Add new list</value>
+  </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add item</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="TimeLine" xml:space="preserve">
+    <value>TimeLine</value>
+  </data>
+  <data name="TimeLineDesc" xml:space="preserve">
+    <value>Show the view data in a timeline.</value>
+  </data>
+</root>

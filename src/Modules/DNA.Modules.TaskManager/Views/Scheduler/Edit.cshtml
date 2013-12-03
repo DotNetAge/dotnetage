@@ -1,0 +1,146 @@
+﻿@using DNA.Web.ServiceModel.Tasks;
+@using DNA.Web.Scheduling;
+@model WorkItem
+@{
+    var dtInfo = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat;
+    var jobs = Scheduler.GetAllJobs();
+    var currentJob = Model.GetJob();
+}
+<form class="d-form" id="taskForm" 
+    data-ajax="true" 
+    data-ajax-url="@Url.Action("Edit", "Scheduler", new { id=Model.Name})" 
+    data-ajax-method="post"
+    data-ajax-begin="$.loading();"
+    data-ajax-complete="$.loading('hide');"
+    data-ajax-success="$.closePanels();reloadTasks();"
+    >
+    <div class="d-field">
+        @Html.LabelFor(m => m.Title, "Task name:")
+        @Html.TextBoxFor(m => m.Title, new
+   {
+       id = "task_title",
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, "Task name"),
+       placeholder = string.Format(Resources.InputHolders.Format, "Task name")
+   })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    <div class="d-field">
+        Task type:<strong><u>@currentJob.Title</u></strong>
+        <input type="hidden" name="JobType" value="@Model.JobType.GetType().AssemblyQualifiedName" />
+    </div>
+
+    @if (currentJob != null && !string.IsNullOrEmpty(currentJob.ConfigureView))
+    {
+        <div class="d-field">Task parameters:</div>
+        <div id="action_configure_holder" class="d-form">
+            @{ Html.RenderPartial(currentJob.ConfigureView, currentJob);}
+        </div>    
+    }
+    <div class="d-field">
+        <label>Schedule:</label>
+        <select  data-role="combobox"
+            data-select="$('.trigger_option').hide();$('.'+ui.item.data('value')).show(); $('[name=Frequency]').val(ui.item.data('value'));"
+            data-input="false" 
+            style="width: 110px;" id="cbFrequency" name="Frequency">
+             <option value="@Frequencies.OneTime" @if (Model.Frequency.Equals(Frequencies.OneTime))
+                                                  {<text>selected="selected"</text>}>One time</option>
+            <option value="@Frequencies.Minutely" @if (Model.Frequency.Equals(Frequencies.Minutely))
+                                                  {<text>selected="selected"</text>}>Minutely</option>
+            <option value="@Frequencies.Hourly" @if (Model.Frequency.Equals(Frequencies.Hourly))
+                                                {<text>selected="selected"</text>}>Hourly</option>
+            <option value="@Frequencies.Daily" @if (Model.Frequency.Equals(Frequencies.Daily))
+                                               {<text>selected="selected"</text>}>Daily</option>
+            <option value="@Frequencies.Weekly" @if (Model.Frequency.Equals(Frequencies.Weekly))
+                                                {<text>selected="selected"</text>}>Weekly</option>
+            <option value="@Frequencies.Monthly" @if (Model.Frequency.Equals(Frequencies.Monthly))
+                                                 {<text>selected="selected"</text>}>Monthly</option>
+        </select>
+    </div>
+    <div class="d-field">
+        <label>Start at:</label>
+        <input data-role="datetime"
+                value="@Model.StartAt"
+            data-min="@DateTime.Today"
+                data-days="@(string.Join(",", dtInfo.DayNames))"
+                data-min-days="@(string.Join(",", dtInfo.ShortestDayNames))"
+                data-months="@(string.Join(",", dtInfo.MonthNames))"
+                data-short-months="@(string.Join(",", dtInfo.MonthGenitiveNames))"
+                data-change="$('#StartAt').val(ui.value+' '+$('#StartTime').val() )"
+                id="StartDate" 
+                style="width:110px;margin-right:5px;"/>
+        <input data-role="time" 
+                value="@Model.StartAt.ToString("HH:mm")" 
+                id="StartTime" style="width:65px;"
+                data-select="$('#StartAt').val($('#StartDate').val()+' '+ ui.dataItem.value)"
+                data-interval="1"/>
+        <input type="hidden" name="StartAt" id="StartAt" value="@Model.StartAt" />
+    </div>
+    <div class="d-field trigger_option @Frequencies.Minutely @Frequencies.Hourly @Frequencies.Daily @Frequencies.Weekly">
+        <label>Recur every:</label>
+        <input type="text" value="@Model.Recurs" style="width: 80px; margin: 0px 5px;" name="Recurs" />
+        <span  class="trigger_option @Frequencies.Minutely">minutes</span>
+        <span class="trigger_option @Frequencies.Hourly">hours</span>
+        <span  class="trigger_option @Frequencies.Daily">days</span>
+        <span class="trigger_option @Frequencies.Weekly">weeks on</span>
+    </div>
+    <div class="d-field trigger_option @Frequencies.Weekly">
+        @{
+            var cultureInfo = new System.Globalization.CultureInfo(Culture);
+            var daynames = cultureInfo.DateTimeFormat.DayNames;
+            var months = cultureInfo.DateTimeFormat.MonthNames;
+            var w = 0; var month = 0;
+            foreach (var name in daynames)
+            {
+                w++;
+            <input type="checkbox" data-label="@name" 
+                @if (Model.RecurringDaysOfWeek!=null && Model.RecurringDaysOfWeek.Contains(w)){<text>data-bool="true" checked="checked"</text>} else{<text>data-bool="false"</text>}
+                value="@w" name="RecurringDaysOfWeek" />
+            }
+        }
+    </div>
+    <div class="d-field trigger_option @Frequencies.Monthly">
+        <div><strong style="width: 80px;" class="d-inline">Months:</strong></div>
+        <div style="padding: 5px 0px;">
+            @foreach (var m in months)
+            {
+                month++;
+                <input value="@month" data-label="@m" type="checkbox" name="RecurringMonths"
+                 @if (Model.RecurringMonths != null && Model.RecurringMonths.Contains(month))
+                                    {<text>data-bool="true" checked="checked"</text>} else{<text>data-bool="false"</text>}
+                    />
+            }
+        </div>
+    </div>
+    <div class="d-field trigger_option @Frequencies.Monthly">
+        <div><strong style="width: 80px;" class="d-inline">Days:</strong></div>
+        <div>
+            @for (int i = 1; i < 32; i++)
+            {
+                <input type="checkbox" value="@i" data-label="@i" style="width:60px;" name="RecurringDaysOfMonth"
+                     @if (Model.RecurringDaysOfMonth != null && Model.RecurringDaysOfMonth.Contains(i))
+                                    {<text>data-bool="true" checked="checked"</text>} else{<text>data-bool="false"</text>}
+                    />
+            }
+        </div>
+    </div>
+    <div class="d-field">
+        <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+        <a data-role="button" data-inline="false"
+            data-ajax="true"
+            data-ajax-confirm="Are you sure delete this task ?"
+            data-ajax-begin="$.loading();"
+            data-ajax-complete="$.loading('hide');"
+            data-ajax-url="@Url.Action("Delete", "Scheduler", new { id=Model.Name })"
+            data-ajax-method="post"    
+            data-ajax-success="$.closePanels();reloadTasks();"
+            >@Resources.Commons.Delete</a>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(function () {
+        $(".trigger_option").hide();
+        $(".@Model.Frequency.ToString()").show();
+    });
+</script>

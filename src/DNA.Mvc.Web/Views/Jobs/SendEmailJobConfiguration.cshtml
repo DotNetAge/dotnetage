@@ -1,0 +1,27 @@
+﻿@model DNA.Web.ServiceModel.Jobs.SendEmailDirectily
+<div class="d-field">
+    <label for="SendEmailDirectily_Subject">Subject</label>
+    <input type="text" value="@(Model != null ? Model.Subject : "")" id="SendEmailDirectily_Subject" 
+        name="SendEmailDirectily.Subject"
+        data-val="true"
+        data-val-required="@string.Format(Resources.Validations.Required_Format, "Subject")"
+        />
+    @Html.ValidationMessage("SendEmailDirectily.Subject")
+</div>
+<div class="d-field">
+    <label for="SendEmailDirectily_To">To</label>
+    <input type="text" value="@(Model != null ? Model.To : "")"  id="SendEmailDirectily_To" name="SendEmailDirectily.To"
+        data-val="true"
+        data-val-required="@string.Format(Resources.Validations.Required_Format, "Email address")"
+        data-val-email = @string.Format(Resources.Validations.Valid_Format, Resources.Contacts.Email)
+        maxlength = 250 placeholder = "e.g:example@email.com"
+        />
+    @Html.ValidationMessage("SendEmailDirectily.To")
+</div>
+<div class="d-field">
+    <textarea name="SendEmailDirectily.Body" placeholder="Enter email body"
+        data-val="true"
+        data-val-required="@string.Format(Resources.Validations.Required_Format, "Email body")"
+        >@(Model != null ? Model.Body : "")</textarea>
+    @Html.ValidationMessage("SendEmailDirectily.Body")
+</div>

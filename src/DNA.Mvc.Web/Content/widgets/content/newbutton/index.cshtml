@@ -1,0 +1,46 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var m = item.GetUserPreferences();}
+<div id="@item.GetID("listSelector")">
+    <div>@string.Format(Resources.Messages.SelectFormat, Resources.Contents.List)</div>
+    @item.Hidden("listName")
+    @UIHelper.ContentLists(item.GetString("listName"), "var n=ui.item.data('name');$('#" + item.GetID("listName") + "').val(n).trigger('change');")
+</div>
+</text>).Content(@<text>
+@{
+    var m = item.GetUserPreferences();
+    var listname = item.GetString("listName");
+    var btnText = item.GetString("btnText");
+    ContentListDecorator list = !string.IsNullOrEmpty(listname) ? AppModel.Get().CurrentWeb.Lists[listname] : null;
+}
+@if (list != null)
+{
+    if (string.IsNullOrEmpty(btnText))
+    {
+        btnText = string.IsNullOrEmpty(list.NewForm.Title) ? Resources.Contents.AddItem : list.NewForm.Title;
+    }
+
+    if (list.NewForm != null)
+    {
+    <a data-role="button" 
+        data-default="true"
+        data-inline="false"
+        data-icon-left="d-icon-add-to-list"
+        href="@Url.Content(list.GetNewItemUrl() + "?returnUrl=" + Url.Encode(Request.RawUrl))">@btnText</a>
+    }
+}
+</text>).Design(@<text>
+@{
+    var m = item.GetUserPreferences();
+    var listname = item.GetString("listName");
+    var btnText = item.GetString("btnText");
+    ContentListDecorator list = !string.IsNullOrEmpty(listname) ? AppModel.Get().CurrentWeb.Lists[listname] : null;
+    if (string.IsNullOrEmpty(btnText)){
+        btnText="New item";
+    }
+}
+ <a data-role="button" 
+        data-default="true"
+        data-inline="false"
+        data-icon-left="d-icon-add-to-list"
+        href="javascript:void(0);">@btnText</a>
+</text>).GetHtml()

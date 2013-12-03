@@ -1,0 +1,167 @@
+﻿@using DNA.Patterns.Commands;
+@using DNA.Web.ServiceModel.Tasks;
+@using DNA.Web.Scheduling;
+
+@model TaskDescriptor
+@{
+    var dtInfo = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat;
+    var jobs = Scheduler.GetAllJobs();
+}
+
+<form class="d-form" id="taskForm" 
+    data-ajax-url="@Url.HostAction("TaskManager", "Create", "Scheduler")" 
+    data-ajax="true" 
+    data-ajax-method="post"
+    data-ajax-begin="$.loading();"
+    data-ajax-complete="$.loading('hide');"
+    data-ajax-success="$.closePanels();reloadTasks();"
+    >
+    <div class="d-field">
+        @Html.LabelFor(m => m.Title, "Task name:")
+        @Html.TextBoxFor(m => m.Title, new
+   {
+       id = "task_title",
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, "Task name"),
+       placeholder = string.Format(Resources.InputHolders.Format, "Task name")
+   })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    <div class="d-field">
+        <label>Task type:</label>
+        <input type="hidden" name="JobType" value="" />
+        <ul data-role="combobox"
+            data-selectable="true"
+            data-height="180"
+            data-select="_selectJobConfigure(ui.item.data('view'));$('[name=JobType]').val(ui.item.data('value'));"
+            data-input="false"
+            style="width: 70%; display: inline-block;">
+            @foreach (var job in jobs)
+            { 
+                <li data-view="@if (!string.IsNullOrEmpty(job.ConfigureView))
+                               {<text>@Url.SolutionAction("TaskManager", "Configure", "Scheduler", Culture, WebName, new { type = job.GetType().AssemblyQualifiedName })</text>}"
+                                data-label="@job.Title"
+                                data-value="@job.GetType().AssemblyQualifiedName" @if (!string.IsNullOrEmpty(job.Descritpion))
+                                                                                  {
+                        <text> title="@job.Descritpion"</text>
+                                                                                  }>
+                    @job.Title
+                </li>
+            }
+        </ul>
+    </div>
+    <div id="action_configure_holder" class="d-form">
+        @if (jobs != null && jobs.Count() > 0)
+        {
+            var firstJob = jobs.FirstOrDefault();
+            if (!string.IsNullOrEmpty(firstJob.ConfigureView))
+            {
+                Html.RenderPartial(firstJob.ConfigureView, firstJob);
+            }
+        }
+    </div>
+    <div class="d-field">
+        <label>Schedule:</label>
+        <input type="hidden" value="@Frequencies.OneTime.ToString()" name="Frequency" />
+        <ul data-role="combobox"
+            data-selectable="true"
+            data-select="$('.trigger_option').hide();$('.'+ui.item.data('value')).show(); $('[name=Frequency]').val(ui.item.data('value'));"
+            data-input="false"
+            style="width: 110px;">
+            <li data-value="@Frequencies.OneTime">One time</li>
+            <li data-value="@Frequencies.Minutely">Minutely</li>
+            <li data-value="@Frequencies.Hourly">Hourly</li>
+            <li data-value="@Frequencies.Daily">Daily</li>
+            <li data-value="@Frequencies.Weekly">Weekly</li>
+            <li data-value="@Frequencies.Monthly">Monthly</li>
+        </ul>
+    </div>
+    <div class="d-field">
+        <label>Start at:</label>
+        <input data-role="datetime"
+                value="@DateTime.Now"
+                data-days="@(string.Join(",", dtInfo.DayNames))"
+                data-min-days="@(string.Join(",", dtInfo.ShortestDayNames))"
+                data-months="@(string.Join(",", dtInfo.MonthNames))"
+                data-short-months="@(string.Join(",", dtInfo.MonthGenitiveNames))"
+                data-change="$('#StartAt').val(ui.value+' '+$('#StartTime').val() )"
+            data-min="@DateTime.Today"
+                id="StartDate" 
+                style="width:110px;margin-right:5px;"/>
+        <input data-role="time" 
+                value="@DateTime.Now.AddMinutes(5).ToString("HH:mm")" 
+                id="StartTime" style="width:65px;"
+                data-select="$('#StartAt').val($('#StartDate').val()+' '+ ui.dataItem.value)"
+                data-interval="1"/>
+        <input type="hidden" name="StartAt" id="StartAt" value="@DateTime.Now.AddMinutes(5)" />
+    </div>
+    <div class="d-field trigger_option @Frequencies.Minutely @Frequencies.Hourly @Frequencies.Daily @Frequencies.Weekly">
+        <label>Recur every:</label>
+        <input type="text" value="1" style="width: 80px; margin: 0px 5px;" name="Recurs" />
+        <span  class="trigger_option @Frequencies.Minutely">minutes</span>
+        <span class="trigger_option @Frequencies.Hourly">hours</span>
+        <span  class="trigger_option @Frequencies.Daily">days</span>
+        <span class="trigger_option @Frequencies.Weekly">weeks on</span>
+    </div>
+    <div class="d-field trigger_option @Frequencies.Weekly">
+        @{
+            var cultureInfo = new System.Globalization.CultureInfo(Culture);
+            var daynames = cultureInfo.DateTimeFormat.DayNames;
+            var months = cultureInfo.DateTimeFormat.MonthNames;
+            var w = 0; var month = 0;
+            foreach (var name in daynames)
+            {
+                w++;
+            <input type="checkbox" data-label="@name" data-bool="false" value="@w" name="RecurringDaysOfWeek" />
+            }
+        }
+    </div>
+    <div class="d-field trigger_option @Frequencies.Monthly">
+        <div><strong style="width: 80px;" class="d-inline">Months:</strong></div>
+        <div style="padding: 5px 0px;">
+            @foreach (var m in months)
+            {
+                month++;
+                <input value="@month" data-label="@m" type="checkbox"  data-bool="false" name="RecurringMonths"/>
+            }
+        </div>
+    </div>
+    <div class="d-field trigger_option @Frequencies.Monthly">
+        <div><strong style="width: 80px;" class="d-inline">Days:</strong></div>
+        <div>
+            @for (int i = 1; i < 32; i++)
+            {
+                <input type="checkbox" data-bool="false" value="@i" data-label="@i" style="width:60px;" name="RecurringDaysOfMonth"/>
+            }
+        </div>
+    </div>
+
+    <div class="d-field">
+        <button data-default="true" data-inline="false">@Resources.Commons.Create</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function _selectJobConfigure(view) {
+        if (view) {
+            $.loading();
+            $("#action_configure_holder").load(view, function () {
+                $.loading("hide");
+                $("#action_configure_holder").prepend($("<div/>").addClass("d-field").text("Task parameters:"));
+                $("#action_configure_holder").taoUI();
+            });
+        } else
+            $("#action_configure_holder").empty();
+    }
+
+    function _createTask() {
+        var inputs = $("#wizard").find(":input[name]");
+        $.loading();
+        $("#formHolder").append(inputs).submit();
+    }
+
+    $(function () {
+        $(".trigger_option").hide();
+    });
+</script>
+

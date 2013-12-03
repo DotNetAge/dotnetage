@@ -1,0 +1,28 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New article</title>
+    <style type="text/css">
+        blockquote { border-left: 15px solid #cccccc; background-color: #eeeeee; padding: 5px; }
+    </style>
+</head>
+<body>
+    <p>
+        {author} has posted a new article to {category} - {posted}</p>
+    <blockquote>
+        <p>
+            <b>{title}</b>
+        </p>
+        <p>
+            {summary}</p>
+    </blockquote>
+    <p>
+        Click the following link to read complete article : <a href="{permalink}">{permalink}</a></p>
+    <p>
+        Thanks
+        </p>
+</body>
+</html>

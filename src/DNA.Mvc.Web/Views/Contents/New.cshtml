@@ -1,0 +1,27 @@
+﻿@model ContentFormDecorator
+@{
+    var list = Model.Parent;
+}
+@if (Request.IsAjaxRequest())
+{
+    @Model.StyleSheets()
+    <form enctype="multipart/form-data" 
+        class="d-reset d-form @list.BaseType @list.Name @Model.FormTypeString.ToLower() d-fields"
+        method="post"
+        data-ajax="true"
+        data-ajax-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/newitem/" + list.ID.ToString())"
+        data-ajax-success="$('body').trigger('contentDataItemCreated',{list:'@list.Name',data:data});">
+        @{ Html.RenderPartial("~/views/contents/_NewForm.cshtml", Model, ViewData); }
+    </form>
+    @Model.Scripts()
+}
+else
+{   
+    @section HeaderSection{
+        @Model.StyleSheets()
+    }
+    @section Scripts{
+        @Model.Scripts()
+    }
+    Html.RenderPartial("~/views/dynamicui/index.cshtml");
+}

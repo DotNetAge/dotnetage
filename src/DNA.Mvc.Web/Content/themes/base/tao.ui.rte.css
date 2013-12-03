@@ -1,0 +1,20 @@
+﻿.d-rte { padding: 5px; border-width: 1px; border-style: solid; }
+.d-rte-panes { position: relative; overflow: visible; padding-bottom: 5px; background-color: inherit; }
+    .d-rte-panes > ul { float: left; overflow: visible; margin: 3px 0px; margin-right: 3px; padding: 0px; list-style: none; }
+        .d-rte-panes > ul:last-child { margin-right: 0px; }
+    .d-rte-panes::after { display: block; clear: both; content: ""; }
+.d-rte-editor { position: relative; min-height: 100px; border: inherit; }
+    .d-rte-editor .workspace { color: inherit; display: none; }
+        .d-rte-editor .workspace.d-state-active { display: block; }
+.d-rte-editor-html { position: relative; overflow: auto; }
+
+.d-rte-editor .workspace > * { color: inherit; }
+.d-rte-editor .workspace > textarea { display: block; margin: 0px; padding: 0px; width: 100%; border: none; background: inherit; -webkit-box-shadow: none; box-shadow: none; color: inherit; resize: none; }
+    .d-rte-editor .workspace > textarea:focus { border: none; -webkit-box-shadow: none; box-shadow: none; }
+
+.d-rte-toolbar-overlay { position: absolute; top: 0px; left: 0px; background-color: inherit; opacity: .8; }
+
+.ui-widget .d-rte .d-menu.toolbar select, .d-rte .d-menu.toolbar select { padding: 3px; height: 28px; border: 1px solid #CCCCCC; background-color: #FCFCFC; -webkit-box-shadow: 1px 1px 3px #EFEFEF inset; box-shadow: 1px 1px 3px #EFEFEF inset; font-size: 9pt; font-family: 'Segoe UI Light',Segoe UI,Tahoma Light,Arial Light,Helvetica,sans-serif; line-height: 28px; }
+
+.d-rte-tabs { margin-top: 3px; }
+    .d-rte-tabs > * { position: relative; display: inline-block; margin: 2px; padding: 5px 20px; cursor: pointer; }

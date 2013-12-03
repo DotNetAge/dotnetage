@@ -1,0 +1,24 @@
+﻿@model ContentQueryResult
+<ul class="d-view @Model.CssClass"  data-role="listview" data-display="mobile-list">
+    @foreach (var dataItem in Model)
+    {
+        <li class="d-view-item" 
+            itemscope itemtype="http://schema.org/Blog"
+            @if (!dataItem.IsPublished){<text>data-counter="draft"</text>}
+            >
+            <a href="@Url.Content(dataItem.Url)" itemprop="url">
+            @foreach (var field in Model.View.FieldRefs)
+            {
+                if (field.IsHidden) { continue; }
+                Html.ForView(field.Name, dataItem);
+            }
+@*                <p>
+                <time itemprop="datePublished" datetime="@dataItem.Published.ToString("yyyy-MM-ddThh:mm:ss")">@dataItem.Published</time></p>*@
+            </a>
+
+            @if (dataItem.AllowEdit(Context)) { 
+                <a data-icon="edit" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" onclick="$.loading()" title="@Resources.Commons.Edit"></a>
+            }
+        </li>
+    }
+</ul>

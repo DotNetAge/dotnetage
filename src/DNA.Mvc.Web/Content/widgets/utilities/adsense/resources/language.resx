@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdSize" xml:space="preserve">
+    <value>Ad size</value>
+  </data>
+  <data name="AdText" xml:space="preserve">
+    <value>Ad Text (This text will generate from google adsense.)</value>
+  </data>
+  <data name="AdTitle" xml:space="preserve">
+    <value>Ad title</value>
+  </data>
+  <data name="Banner" xml:space="preserve">
+    <value>468 x 60 - Banner</value>
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value>125 x 125 - Button</value>
+  </data>
+  <data name="ClientCode" xml:space="preserve">
+    <value>Client code</value>
+  </data>
+  <data name="ClientCodeHolder" xml:space="preserve">
+    <value>eg:pub-815xxxxxxxxxxxx</value>
+  </data>
+  <data name="HalfBanner" xml:space="preserve">
+    <value>234 x 60 - Half Banner</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Other - Horizontal</value>
+  </data>
+  <data name="HorizontalLarge" xml:space="preserve">
+    <value>728 x 15 - Horizontal Large</value>
+  </data>
+  <data name="HorizontalMedium" xml:space="preserve">
+    <value>468 x 15 - Horizontal Medium</value>
+  </data>
+  <data name="LargeRect" xml:space="preserve">
+    <value>336 x 280 - Large Rectangle</value>
+  </data>
+  <data name="LargeSkyscraper" xml:space="preserve">
+    <value>300 x 600 - Large Skyscraper</value>
+  </data>
+  <data name="Leaderboard" xml:space="preserve">
+    <value>728 x 90 - Leaderboard</value>
+  </data>
+  <data name="LinkUnits" xml:space="preserve">
+    <value>Link units - Related Topics List</value>
+  </data>
+  <data name="MediumRect" xml:space="preserve">
+    <value>300 x 250 - Medium Rectangle</value>
+  </data>
+  <data name="MobileBanner" xml:space="preserve">
+    <value>320 x 50 - Mobile Banner</value>
+  </data>
+  <data name="NotAvalidable" xml:space="preserve">
+    <value>AdSense not available on localhost.</value>
+  </data>
+  <data name="Recommended" xml:space="preserve">
+    <value>Recommended</value>
+  </data>
+  <data name="Sample" xml:space="preserve">
+    <value>Sample</value>
+  </data>
+  <data name="Skyscraper" xml:space="preserve">
+    <value>120 x 600 - Skyscraper</value>
+  </data>
+  <data name="SlotID" xml:space="preserve">
+    <value>SlotID</value>
+  </data>
+  <data name="SlotIDHolder" xml:space="preserve">
+    <value>eg:50xxxxxxxx2</value>
+  </data>
+  <data name="SmallRect" xml:space="preserve">
+    <value>180 x 150 - Small Rectangle</value>
+  </data>
+  <data name="SmallSquare" xml:space="preserve">
+    <value>200 x 200 - Small Square</value>
+  </data>
+  <data name="Square" xml:space="preserve">
+    <value>Other - Square</value>
+  </data>
+  <data name="Square2" xml:space="preserve">
+    <value>250 x 250 - Square</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Other - Vertical</value>
+  </data>
+  <data name="VerticalBanner" xml:space="preserve">
+    <value>120 x 240 - Vertical Banner</value>
+  </data>
+  <data name="VerticalLarge" xml:space="preserve">
+    <value>180 x 90 - Vertical Large</value>
+  </data>
+  <data name="VerticalMedium" xml:space="preserve">
+    <value>160 x 90 - Vertical Medium</value>
+  </data>
+  <data name="VerticalSmall" xml:space="preserve">
+    <value>120 x 90 - Vertical Small</value>
+  </data>
+  <data name="VerticalXLarge" xml:space="preserve">
+    <value>200 x 90 - Vertical X-Large</value>
+  </data>
+  <data name="WideSkyscraper" xml:space="preserve">
+    <value>160 x 600 - Wide Skyscraper</value>
+  </data>
+</root>

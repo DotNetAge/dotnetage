@@ -1,0 +1,20 @@
+﻿@model ContentDataItemDecorator
+@using (Ajax.BeginForm("Reshare", "Contents", new { id = Model.ID, locale = Culture, Area = "" }, new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnBegin = "$.loading()",
+    OnComplete = "$.loading('hide');"
+}))
+{
+    <div>
+        <textarea style="width: 450px;" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Contents.Annotation)" name="annotation"></textarea>
+    </div>
+    <div class="d-activity @Model.Parent.BaseType.ToLower() d-reshare"  style="margin:10px 0px;">
+        @Html.RenderForm(Model.Parent.ActivityForm, Model)
+    </div>
+    <div style="text-align: right;">
+        <button data-default="true">@Resources.Commons.Submit</button>
+        <span data-role="button" data-rel="close">@Resources.Commons.Cancel</span>
+    </div>
+}
+@Scripts.Render("~/bundles/jqueryval")

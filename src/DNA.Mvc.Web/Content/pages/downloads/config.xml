@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page target="_self"
+      anonymous="true"
+      showInMenu="true"
+      showInSitemap="true"
+      static="false" 
+      shared="false"
+      slug="download"
+      xmlns="http://www.dotnetage.com/XML/Schema/page">
+  <title>Downloads</title>
+  <description>Provide a download file list</description>
+</page>

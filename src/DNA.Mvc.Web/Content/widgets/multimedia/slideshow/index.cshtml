@@ -1,0 +1,207 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+@{
+    var data = string.IsNullOrEmpty(item.GetString("data")) ? "[]" : item.GetString("data");
+}
+
+@item.Hidden("data")
+@try
+{
+    <div id="@item.GetID("listviewHolder")">
+        <a data-role="button" onclick="$.editImages('@(Resources.Designs.OrganizeImages)',eval($('#@item.GetID("data")').val()),function(imgs){ console.log(imgs); $('#@item.GetID("data")').val(JSON.stringify(imgs)).trigger('change'); } )" data-inline="false">@(Resources.Designs.OrganizeImages)</a>
+        <ul data-role="listview" data-display="mobile-list" data-inset="true">
+            <li data-role="fieldcontain">
+                <label style="width: 45%;">@Resources.Designs.TextPosition</label>
+                <select name="layout" data-role="combobox" style="width: 80px;" data-drop-style="menu">
+                    <option value="1" @if (item.GetInt("layout") == 1)
+                                      {<text>selected="selected"</text>}>@Resources.Designs.Left</option>
+                    <option value="2" @if (item.GetInt("layout") == 2)
+                                      {<text>selected="selected"</text>}>@Resources.Designs.Right</option>
+                    <option value="4" @if (item.GetInt("layout") == 4)
+                                      {<text>selected="selected"</text>}>@Resources.Designs.Top</option>
+                    <option value="0" @if (item.GetInt("layout") == 0)
+                                      {<text>selected="selected"</text>}>@Resources.Designs.Bottom</option>
+                    <option value="3" @if (item.GetInt("layout") == 3)
+                                      {<text>selected="selected"</text>}>@item.Loc("BottomWithMask")</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label style="width: 45%;">@Resources.Commons.Navigatior</label>
+                <select name="navigator" data-role="combobox" style="width: 80px;" data-drop-style="menu">
+                    <option value="" @if (item.GetString("navigator") == "")
+                                     {<text>selected="selected"</text>}>@Resources.Commons.None</option>
+                    <option value="top" @if (item.GetString("navigator") == "top")
+                                        {<text>selected="selected"</text>}>@Resources.Designs.Top</option>
+                    <option value="bottom" @if (item.GetString("navigator") == "bottom")
+                                           {<text>selected="selected"</text>}>@Resources.Designs.Bottom</option>
+
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <label style="width: 45%;">@Resources.Designs.ImageScaling</label>
+                <select name="scaling" data-role="combobox" style="width: 80px;" data-drop-style="menu">
+                    <option value="normal" @if (item.GetString("scaling") == "normal")
+                                           {<text>selected="selected"</text>}>@Resources.Designs.Scaling_Normal</option>
+                    <option value="cover" @if (item.GetString("scaling") == "cover")
+                                          {<text>selected="selected"</text>}>@Resources.Designs.Scaling_Full</option>
+                    <option value="contain" @if (item.GetString("scaling") == "contain")
+                                            {<text>selected="selected"</text>}>@Resources.Designs.Scaling_Fit</option>
+                </select>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@item.Checkbox("buttons", item.Loc("ShowNav"))</div>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@item.Checkbox("autoPlay",Resources.Widgets.AutoPlay)</div>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@item.Loc("PauseBetweenImages")</div>
+                <div style="padding: 10px;">
+                    <input type="hidden" data-role="slider" name="interval" value="@item.GetInt("interval")" />
+                </div>
+            </li>
+            <li data-role="fieldcontain">
+                <label>@Resources.Designs.Offset</label>
+                <div style="padding: 10px;">
+                    <input type="hidden" data-role="slider" name="offset" value="@item.GetInt("offset")" />
+                </div>
+            </li>
+            <li data-role="fieldcontain">
+                <div>@Resources.Designs.WhenClickOnImage</div>
+                <div>
+                    <select name="clickAction" data-role="combobox" style="width: 90%;" data-drop-style="menu">
+                        <option value="" @if (item.GetString("clickAction") == "")
+                                         {<text>selected="selected"</text>}>@Resources.Designs.DoNothing</option>
+                        <option value="image" @if (item.GetString("clickAction") == "image")
+                                              {<text>selected="selected"</text>}>@Resources.Designs.OpenImageViewer</option>
+                        <option value="link" @if (item.GetString("clickAction") == "link")
+                                             {<text>selected="selected"</text>}>@Resources.Designs.GoToLink</option>
+                    </select>
+                </div>
+            </li>
+        </ul>
+    </div>
+}
+catch (Exception e)
+{
+    <div class="d-state-error">@e.Message</div>
+}
+</text>).Content(@<text>
+@{
+    var data = string.IsNullOrEmpty(item.GetString("data")) ? "[]" : item.GetString("data");
+    var dataItems = Json.Decode(data);
+    var type = item.GetInt("layout");
+}
+@if (Request.IsAjaxRequest() && data == "[]")
+{
+    @item.DesignModeHolder(Resources.Designs.AddImages)
+}
+else
+{
+    <div style="position: relative; height: inherit;">
+        <div style="height: inherit;" id="@item.GetID("slider")"
+    data-role="content-slider"
+    data-dir="@item.GetString("dir")"
+    data-autoplay="@item.GetBool("autoPlay")"
+    data-offset="@item.GetInt("offset")"
+    data-nav="@item.GetString("navigator")"
+    data-interval="@(item.GetInt("interval") * 1000)"
+        @if (Request.IsAjaxRequest())
+        {<text>data-draggable="false"</text>}
+    @if (item.GetString("clickAction") == "image" && !Request.IsAjaxRequest())
+    {<text>
+    data-viewer="true"
+    data-items="#@(item.GetID("slider")) .d-content-slider-item"
+    data-src-attr="data-img"</text>
+    }
+    >
+            @if (dataItems.Length > 0)
+            {
+                foreach (var dataItem in dataItems)
+                {
+                    var backgroundStyle = "background:url(" + dataItem.image + ") no-repeat; position: relative;";
+
+                    if (item.GetString("scaling") != "normal")
+                    {
+                        if (item.GetString("scaling") == "contain")
+                        {
+                            backgroundStyle += "-moz-background-size: " + item.GetString("scaling") + "; -o-background-size: " + item.GetString("scaling") + "; -webkit-background-size: " + item.GetString("scaling") + ";background-size:" + item.GetString("scaling") + ";background-position:center center;";
+                        }
+                        else
+                        {
+                            backgroundStyle += "background-size:100% 100%;background-position:center center;";
+                        }
+                    }
+
+                    switch (type)
+                    {
+                        case 0:
+                <div style="@(backgroundStyle)background-position:center top;" 
+        data-img="@dataItem.image" 
+        onclick="$(this).closest('[data-viewer=true]').attr('data-index',$(this).index())">
+                    <div style="position: absolute; bottom: 0px; left: 0px; width: 100%; text-align: center;">
+                        <div class="d-h3">@dataItem.title</div>
+                        <p>@dataItem.desc</p>
+                        @if (!string.IsNullOrEmpty(dataItem.buttonText))
+                        {
+                            <div><a data-default="true" data-role="button" href="@dataItem.url" style="min-width:100px;">@dataItem.buttonText</a></div>
+                        }
+                    </div>
+                </div>
+                        break;
+                        case 4:
+                <div style="@(backgroundStyle)background-position:center bottom;" data-img="@dataItem.image" onclick="$(this).closest('[data-viewer=true]').attr('data-index',$(this).index())">
+                    <div style="text-align: center;">
+                        <div class="d-h3">@dataItem.title</div>
+                        <p>@dataItem.desc</p>
+                        @if (!string.IsNullOrEmpty(dataItem.buttonText))
+                        {
+                            <div><a data-default="true" data-role="button" href="@dataItem.url" style="min-width:100px;">@dataItem.buttonText</a></div>
+                        }
+                    </div>
+                </div>
+                        break;
+                        case 3:
+                <div style="@(backgroundStyle)" data-img="@dataItem.image" onclick="$(this).closest('[data-viewer=true]').attr('data-index',$(this).index())">
+                    <div style="opacity: 0.6; position: absolute; bottom: 0px; left: 0px; height: 80px; background: #000; width: 100%;"></div>
+                    <div style="position: absolute; bottom: 0px; left: 0px; color: #fff; padding-left: 10px;">
+                        <div><strong>@dataItem.title</strong></div>
+                        <p><small>@dataItem.desc</small></p>
+                    </div>
+                </div>
+                        break;
+                        case 1:
+                <div style="@(backgroundStyle)"  data-img="@dataItem.image">
+                    <div style="margin-top: 5%; margin-left: 10%;">
+                        <div class="d-h3">@dataItem.title</div>
+                        <p>@dataItem.desc</p>
+                        @if (!string.IsNullOrEmpty(dataItem.buttonText))
+                        {
+                            <div><a data-default="true" data-role="button" href="@dataItem.url" style="min-width:100px;">@dataItem.buttonText</a></div>
+                        }
+                    </div>
+                </div>
+                        break;
+                        case 2:
+                <div style="@(backgroundStyle)" data-img="@dataItem.image">
+                    <div style="position: absolute; right: 20px; top: 10%; width: 50%; text-align: right;">
+                        <div class="d-h3">@dataItem.title</div>
+                        <p>@dataItem.desc</p>
+                        @if (!string.IsNullOrEmpty(dataItem.buttonText))
+                        {
+                            <div><a data-default="true" data-role="button" href="@dataItem.url" style="min-width:100px;">@dataItem.buttonText</a></div>}
+                    </div>
+                </div>
+                        break;
+                    }
+                }
+            }
+        </div>
+        @if (item.GetBool("buttons"))
+        {
+            <a href="javascript:void(0);" class="d-nav-prev" onclick="$('#@item.GetID("slider")').taoRoller('previous')"><span class="d-icon-arrow-left-2"></span></a>
+            <a href="javascript:void(0);" class="d-nav-next" onclick="$('#@item.GetID("slider")').taoRoller('next')"><span class="d-icon-untitled"></span></a>
+        }
+    </div>
+}
+</text>).GetHtml()

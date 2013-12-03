@@ -1,0 +1,111 @@
+﻿@model ContentDataItemDecorator
+@{var list = Model.Parent;
+  
+}
+@if (list.IsHierarchy)
+{
+    var urlformat = "~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items?name={0}&slug={1}&parentId=";
+    var popupUrl = Url.Content(string.Format(urlformat, list.Name, list.Views.Default.Name));
+    var defaultView = list.Views.Default;
+    var prefix = list.Name + "_" + defaultView.Name;
+    var tmplName = prefix + "_tmpl";
+    <div style="padding: 5px;">
+        <ul data-role="toolbar">
+            <li><a href="@Url.Content(list.GetNewItemUrl())" title="@list.NewForm.Title"><span class="d-icon-plus-3"></span></a></li>
+            <li><a href="@(Url.Content(list.GetNewItemUrl() + "?parentId=" + Model.ID.ToString()))"><span class="d-icon-add-to-list"></span></a></li>
+            <li><a title="@Resources.Commons.MoveUp" onclick="_movePos(-1)"><span class="d-icon-angle-up"></span></a></li>
+            <li><a title="@Resources.Commons.MoveDown" onclick="_movePos(1)"><span class="d-icon-angle-down"></span></a></li>
+        </ul>
+        @DNA.Web.UI.Contents.Tree(list.DefaultView.Items("parentId='00000000-0000-0000-0000-000000000000'"), Model.Path, new
+       {
+           data_source = string.Format("_list_{0}_datasrc", Model.ParentID.ToString()),
+           data_popup_attr = "popupurl",
+           data_autobind = "false",
+           data_tmpl = tmplName,
+           id = list.Name + "_tree",
+           data_drag_drop = (Request.IsAuthenticated && list.Owner.Equals(User.Identity.Name)).ToString().ToLower(),
+           data_dropped = "_move_contentitem_node(ui);",
+           style = "overflow:auto;min-height:720px;margin:0px;border:none;"
+       })
+        <div data-role="datasource" id="@(string.Format("_list_{0}_datasrc", Model.ParentID.ToString()))">
+            <div data-action="read" data-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items?name=" + list.Name + "&slug=" + list.Views.Default.Name + "&sort=pos~desc")"></div>
+            <div data-role="mapper" 
+        data-convert="var target=[];  
+        $.each(data, function (i, dat) { 
+        var o=dat.object;
+        o.popupUrl='@popupUrl'+dat.id; 
+        o.parentId=dat.parentId; 
+        o.id=dat.id; 
+        o.links=dat.links; 
+        target.push(o); 
+        }); return target;">
+            </div>
+        </div>
+        <script type="text/x-jquery-tmpl" id="@tmplName">
+            <a href="${url}">${@(list.GetDefaultTitleField().Name)}</a>
+        </script>
+    </div>
+   
+    if (Request.IsAuthenticated && list.Owner.Equals(User.Identity.Name))
+    {<text>
+    <script type="text/javascript">
+        function _move_contentitem_node(ui) {
+            var srcID = ui.node.data("id"),
+                parentID = ui.targetNode.data("id");
+
+            $.post("@(Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/move"))", {
+                name: "@(Model.Parent.Name)",
+                parentID: parentID,
+                id: srcID,
+                pos: ui.position
+            }, function () {
+                ui.node.data("parentid", parentID);
+            });
+        }
+
+        function _movePos(offset) {
+            var li = $('#@(list.Name + "_tree")').find('.d-state-active').closest("li"),
+                srcID = li.data("id"),
+                parentID = li.data("parentid"),
+                index = $('#@(list.Name + "_tree")').find('.d-state-active').closest("li").index(),
+                pos = index + offset;
+            if (pos < 0)
+                return;
+
+            $.post("@(Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/move"))", {
+                name: "@(Model.Parent.Name)",
+                parentID: parentID,
+                id: srcID,
+                pos: pos
+            }, function () {
+                var replaceTo = li.siblings().eq(pos);
+
+                if (pos == li.siblings().length) {
+                    replaceTo.after(li);
+                } else {
+                    replaceTo.before(li);
+                }
+            });
+
+        }
+
+    </script>
+    </text>}
+}
+else
+{ 
+    <div data-role="datasource"
+        data-read-url="@Url.Content("~/api/" + list.Web.Name + "/contents/items?name=" + list.Name)"
+        data-server-paging="true">
+    </div>
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-source="prev"
+        data-tmpl="next"
+        data-item-created="$(ui.item).mobilelistItem();">
+    </ul>
+    <script type="text/x-jquery-tmpl">
+        <a href="${url}" style="overflow: hidden; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap;"
+            onclick="$.loading()">${title}</a>
+    </script>
+}

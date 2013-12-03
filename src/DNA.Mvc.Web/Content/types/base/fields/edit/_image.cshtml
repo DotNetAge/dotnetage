@@ -1,0 +1,23 @@
+﻿@model ContentFieldValue
+@{
+    var field = (ImageField)Model.Field;
+}
+<div class="d-inline">
+    <div class="d-vbox">
+        <input  id="@(field.ClientID)" 
+            name="@field.Name" 
+            type="hidden" 
+            data-role="dropbox" 
+            value="@(Model.Raw != null ? Model.Raw : (field.DefaultValue != null ? field.DefaultValue : ""))"
+            data-img-size="@(field.Width == 0 ? 100 : field.Width)px"
+            style="width:@(field.Width == 0 ? 100 : field.Width)px;height:@(field.Height == 0 ? 100 : field.Height)px;"
+          />
+        <div class="buttonholder" style="margin-top: 5px; text-align: center;">
+            <a data-role="button" 
+                data-rel="file"
+                data-file-to="@(field.ClientID)"
+                title="@Resources.Messages.SelectAnImage"
+                style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+        </div>
+    </div>
+</div>

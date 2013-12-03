@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="menu">
+  <name short="Menu">Menu</name>
+  <name short="Menu" xml:lang="zh-cn">菜单</name>
+  <icon src="default.png" />
+  <preference name="type" value="'horizontal'" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="clickOnOpen" value="false" />
+  <preference name="showImgs" value="false" />
+  <preference name="showEffect" value="'slide'" />
+  <preference name="hideEffect" value="'slide'" />
+  <preference name="opacity" value="100" />
+  <preference name="duration" value="200" />
+  <preference name="dataType" value="1" />
+  <preference name="pages" value="''" />
+  <preference name="class" value="'mainmenu'" />
+  <preference name="csstext" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

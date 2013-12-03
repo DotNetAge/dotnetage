@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<solution xmlns="http://www.dotnetage.com/XML/Schema/solution" theme="white-blue" defaultLocale="en-us">
+  <title>Basic</title>
+  <description>The basic website solution that provides some necessary pages and widgets. </description>
+  <logo src="logo-64.png" />
+  <page src="pages/default.xml"/>
+  <page src="pages/product.xml"/>
+  <page src="pages/news.xml"/>
+  <page src="pages/about.xml"/>
+  <list src="lists/news.xml"/>
+</solution>

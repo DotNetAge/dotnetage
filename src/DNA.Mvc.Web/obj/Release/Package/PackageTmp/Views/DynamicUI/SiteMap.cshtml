@@ -1,0 +1,425 @@
+﻿@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = Resources.Pages.Manager;
+    var _culture = new System.Globalization.CultureInfo(Culture);
+}
+@section HeaderSection{
+    <link rel="stylesheet" href="@Url.Content("~/content/css/sitemapmgr.css")" type="text/css">
+    <script src="@Url.Content("~/scripts/plugins/jquery.jOrgChart.js")"  type="text/javascript"></script>
+    <script src="@Url.Content("~/scripts/doctor.js")"  type="text/javascript"></script>
+}
+@section Navs{
+    <a data-inline="true" href="#addNodeDlg" data-rel="open" data-role="button" data-icon-left="d-icon-plus-4" title="@Resources.Commons.Add"></a>
+    <input data-inline="true" type="checkbox" data-icon-left="d-icon-copy-2" data-role="button" onchange="_toggleAllNodes($(this).val())" />
+}
+
+<div id="addNodeDlg"
+    data-role="panel"
+    data-display="overlay"
+    data-pos="right">
+    <h3>@Resources.Pages.CreateNew</h3>
+    <div>
+        <form
+            data-ajax="true"
+            data-ajax-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/add")" 
+            data-ajax-method="post"
+            data-ajax-complete="$.loading('hide');"
+            data-ajax-begin="$.loading('@Resources.Pages.CreatingPage ...')"
+            data-ajax-failure="$.err(error)"
+            data-ajax-success="_aftercreated"
+            method="post">
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                <li data-role="fieldcontain">
+                    <label for="_title">@Resources.Commons.Title</label><input type="text" name="title" id="_title" placeholder="@string.Format(Resources.InputHolders.Format, Commons.Title)" required="required" /></li>
+                <li data-role="fieldcontain">
+                    <label for="_desc">@Resources.Commons.Desc</label><textarea name="desc" id="_desc" placeholder="@string.Format(Resources.InputHolders.Format, Commons.Desc)"></textarea></li>
+                <li data-role="fieldcontain">
+                    <label for="_keywords">@Resources.Commons.Keywords</label><textarea name="keywords" id="_keywords" placeholder="@string.Format(Resources.InputHolders.Format, Commons.Keywords)"></textarea></li>
+            </ul>
+            <input type="hidden" value="@Culture" name="locale" />
+            <input type="hidden" name="parentId" value="0" id="_parentId" />
+            <input type="hidden" name="tmpl" value="blank" id="_tmpl" />
+            <input type="hidden" name="layout" value="" id="_layout" />
+            <p style="padding: 0px 10px;">
+                <button data-inline="false">@Resources.Commons.Save</button>
+            </p>
+            <p style="padding: 0px 10px;">
+                <a data-role="button" data-inline="false" data-rel="close" href="#addNodeDlg">@Resources.Commons.Cancel</a>
+            </p>
+        </form>
+    </div>
+</div>
+<div id="chart"></div>
+<ul id="siteorg" style="display: none">
+    <li class="d-state-selected"><a href="javascript:void(0);" data-id="0" data-in-menu="true">@AppModel.Get().CurrentWeb.Title</a>
+        @Sitemaps.GetHtml(withAttributes: true)
+    </li>
+</ul>
+
+<script type="text/javascript">
+    function _createNode(data) {
+        if (!$.isPlainObject(data)) {
+            $.loading("hide");
+            $.err("Unknow data type of page data", "javascript error");
+            return;
+        }
+
+        var root = $("#siteorg [data-id='" + data.parentId + "']");
+        var $li = root.parent();
+        var container = $(">ul", $li);
+
+        if (container.length == 0)
+            container = $("<ul/>").appendTo($li);
+
+        var _page = $("<a/>").attr("data-id", data.id).text(data.title)
+                                         .attr("data-in-menu", data.isMenu)
+                                         .attr("data-parentId", data.parentId)
+                                         .attr("data-in-sitemap", data.isSitemap)
+                                         .attr("data-anonymous", data.allowAnonymous)
+                                         .attr("data-path", data.path);
+
+        $("<li/>").appendTo(container)
+                       .append(_page);
+    }
+
+    function _aftersave(_form) {
+        var _dlg = _form, _id = _dlg.data("id"), dataNode = $("#siteorg [data-id='" + _id + "']");
+        if (dataNode.length) {
+            dataNode.attr("data-in-menu", $("#ShowInMenu", _dlg).attr("checked") == "checked")
+                            .attr("data-in-sitemap", $("#ShowInSitemap", _dlg).attr("checked") == "checked")
+                            .attr("data-anonymous", $("#AllowAnonymous", _dlg).attr("checked") == "checked")
+                           // .attr("data-path",$("#Path",_dlg).val())
+                            .text($("#Title", _dlg).val());
+        }
+        _dlg.remove();
+
+        $("#chart").children().remove();
+        _buildchart();
+
+        var _parent = $("#chart [data-id='" + _id + "']").parent();
+        _parent.click();
+    }
+
+    function _aftercreated(data) {
+        //$('#addNodeDlg').dialog('close');
+        $('#addNodeDlg').find("textarea").val('');
+        $("#_title").val("");
+
+        _createNode(data);
+        $("#chart").children().remove();
+        _buildchart();
+
+        var _parent = $("#chart [data-id='" + data.id + "']").parent();
+        if ($("#_autoselect").attr("checked"))
+            _parent.click();
+        else
+            $("#chart [data-id='" + data.parentId + "']").parent().click();
+    }
+
+    function _moveToWeb(id, webID) {
+        $.loading();
+
+        var _link = $("#chart a[data-id=" + id + "]"),
+        r = $("#siteorg [data-id='" + id + "']");
+
+        $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/move/")" + id + "?locale=@Culture",
+            { parentID: 0, pos: 0, webID: webID }, function () {
+                if (r.length) {
+                    var parentLinkEl = $("#siteorg [data-id='" + _link.data("parentid") + "']");
+                    if (parentLinkEl.length)
+                        $("#_parentId").val(parentLinkEl.attr("data-id"));
+                    r.parent().remove();
+                }
+                $("#chart").children().remove();
+                _buildchart();
+                $.closePanels();
+                $.loading("hide");
+            });
+    }
+
+    function _buildchart() {
+        $("#siteorg").jOrgChart({
+            chartElement: '#chart',
+            chartClass: "d-sitemap",
+            dragAndDrop: true,
+            drop: function (ui) {
+                var srcId = ui.src.children("a").dataInt("id"), _parentId = ui.target.children("a").dataInt("id");
+                $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/move/")" + srcId + "?locale=@Culture", { parentID: _parentId, pos: ui.pos });
+            },
+            click: function (node) {
+                $("#_parentId").val($(">a", node).data("id"));
+            },
+            init: function () {
+                var links = $("#chart a[data-id]");
+                links.each(function (i, n) {
+                    var _link = $(n), _node = _link.parent();
+                    if (!_link.dataBool("in-menu")) {
+                        _link.parent().addClass("d-state-hidden");
+                    }
+                    if (_link.dataInt("id") != 0) {
+                        $("<span/>").addClass("d-cb d-tran-fast delete d-icon-cross-3")
+                                             .attr("title", "@Resources.Commons.Delete")
+                                             .appendTo(_node)
+                                             .click(function () {
+                                                 $.confirm("@Resources.Messages.Confirm_PageDelete", "@Resources.Commons.Confirm", "@Resources.Commons.OK", "@Resources.Commons.Cancel")
+                                                   .done(function () {
+                                                       $.loading();
+                                                       $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/delete/")" + _link.data("id") + "?locale=@Culture", function () {
+                                                           $.loading("hide");
+                                                           var r = $("#siteorg [data-id='" + _link.data("id") + "']");
+                                                           if (r.length) {
+                                                               //find parentID
+                                                               var parentLinkEl = $("#siteorg [data-id='" + _link.data("parentid") + "']");
+                                                               if (parentLinkEl.length)
+                                                                   $("#_parentId").val(parentLinkEl.attr("data-id"));
+
+                                                               r.parent().remove();
+                                                           }
+
+                                                           $("#chart").children().remove();
+                                                           _buildchart();
+                                                       });
+                                                   });
+                                             });
+
+                                               $("<span/>").addClass("d-cb d-tran-fast edit d-icon-edit")
+                                                                   .attr("title", "@Resources.Commons.Edit")
+                                        .appendTo(_node)
+                                        .click(function () {
+                                            $.openPanel("@Url.Content("~/editpage/")" + _link.data("id") + "?locale=@(Culture)", "@Resources.Pages.EditSettings", true);
+                                        });
+
+                                               if (!_link.dataBool("shared")) {
+                                                   $("<span/>").addClass("d-cb d-tran-fast link d-icon-new-tab")
+                                                                        .attr("title", "@Resources.Pages.OpenInNewWin")
+                                                 .appendTo(_node)
+                                                 .click(function () {
+                                                     window.open(_link.data("path"));
+                                                 });
+
+                                                   $("<span/>").addClass("d-cb d-tran-fast seo d-icon-statistics")
+                                                                        .attr("title", "@Resources.Pages.Analyze")
+                                                 .appendTo(_node)
+                                                 .click(function () {
+                                                     //window.open(_link.data("path"));
+                                                     $.loading("@(Resources.Pages.Analyzing)...");
+                                                     $.seo.analyse(_link.data("path"))
+                                                              .done(function (report) {
+                                                                  var reportContainer = $("#sec_report");
+                                                                  reportContainer.empty();
+                                                                  $.closePanels();
+                                                                  $("#seoDlg").taoPanel("open");
+                                                                  $("#reportmpl").tmpl(report).appendTo(reportContainer);
+                                                                  reportContainer.taoUI();
+                                                                  //reportContainer.mobilelist();
+                                                              }).always(function () {
+                                                                  $.loading("hide");
+                                                              });
+                                                 });
+                                               }
+                                               var nodeid = _link.dataInt("id");
+                                               $("<span/>").addClass("d-cb d-tran-fast prev d-icon-angle-left")
+                                                                                          .attr("title", "@Resources.Commons.MovePrev")
+                                        .appendTo(_node)
+                                        .click(function () {
+                                            var srcnode = $("#siteorg [data-id='" + nodeid + "']").parent();
+                                            if (srcnode.prev().length > 0) {
+                                                srcnode.prev().before(srcnode);
+                                                var pos = srcnode.parent().children().index(srcnode);
+                                                $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/move/")" + nodeid + "?locale=@Culture", { parentID: _link.dataInt("parentid"), pos: pos });
+                                                //console.log(_link.dataInt("parentid"));
+                                                $("#chart").children().remove();
+                                                _buildchart();
+                                                var _parent = $("#chart [data-id='" + nodeid + "']").parent();
+                                                _parent.click();
+                                            }
+                                        });
+
+                                        $("<span/>").addClass("d-cb d-tran-fast next d-icon-angle-right")
+                                                                            .attr("title", "@Resources.Commons.MoveNext")
+                                        .appendTo(_node)
+                                        .click(function () {
+                                            var srcnode = $("#siteorg [data-id='" + nodeid + "']").parent();
+                                            if (srcnode.next().length > 0) {
+                                                srcnode.next().after(srcnode);
+                                                var pos = srcnode.parent().children().index(srcnode);
+                                                $.post("@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/move/")" + nodeid + "?locale=@Culture", { parentID: _link.dataInt("parentid"), pos: pos });
+                                                //console.log(_link.dataInt("parentid"));
+                                                $("#chart").children().remove();
+                                                _buildchart();
+                                                var _parent = $("#chart [data-id='" + nodeid + "']").parent();
+                                                _parent.click();
+                                            }
+                                        });
+
+                                        if (!_link.dataBool("static")) {
+                                            $("<span/>").addClass("d-cb  d-tran-fast copy d-icon-copy")
+                                                                .attr("title", "@Resources.Commons.Copy").appendTo(_node)
+                        .click(function () {
+                            $.loading();
+
+                            $.ajax({
+                                url: "@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/copy/")" + nodeid + "?locale=@Culture",
+                                type: "POST",
+                                success: function (d) {
+                                    _createNode(d);
+                                    $("#chart").children().remove();
+                                    _buildchart();
+                                    var _parent = $("#chart [data-id='" + d.id + "']").parent();
+                                    _parent.click();
+                                }
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                $.err(errorThrown);
+                            })
+                               .always(function () {
+                                   $.loading("hide");
+                               });
+
+                        });
+                    }
+                        //_node.taoUI();
+                }
+                });
+            }
+        });
+}
+var proportion = 1,
+    _scale = function (ratio) {
+        $("#chart").css({
+            "transform": "scale(" + ratio + ")",
+            "-webkit-transform": "scale(" + ratio + ")",
+            "-moz-transform": "scale(" + ratio + ")",
+            "-o-transform": "scale(" + ratio + ")"
+        });
+    },
+    _toggleAllNodes = function (all) {
+        $.loading();
+        window.setTimeout(function () {
+            if (all) {
+                $("#siteorg").html($("#siteorg").data("orgHtml"));
+            } else {
+                $("#siteorg").html($("#siteorg").data("orgHtml"));
+                $("#siteorg li>a[data-in-menu=false]").parent().remove();
+            }
+            $.loading("hide");
+            $("#chart").children().remove();
+            _buildchart();
+        }, 100);
+    };
+
+
+$(function () {
+    $("#siteorg").data("orgHtml", $("#siteorg").html());
+
+    $("#siteorg li>a[data-in-menu=false]").parent().remove();
+    _buildchart();
+
+    var _setsize = function () {
+        var h = $(window).height() - $(".d-page-header").outerHeight(true) - $(".d-page-nav").outerHeight(true);
+        $(".d-page-content").height(h - 50);
+    };
+
+    _setsize();
+    window.addEventListener("resize", _setsize);
+
+    $("#chart").bind("dblclick", function () {
+        $(this).css({ left: "10px", top: "10px" });
+        _scale(1);
+    })
+                      .draggable({ cancel: ".node" })
+                      .on("mousewheel", function (event, delta, deltaX, deltaY) {
+                          proportion -= (delta / 10);
+                          _scale(proportion);
+                      });
+});
+
+</script>
+
+<script type="text/x-jquery-tmpl" id="reportmpl">
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        <li data-link-icon="{{if has_title}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}">
+            <a {{if !has_title}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if has_title}}@Resources.SEO.TitleTag{{else}}
+            <h4>@Resources.SEO.TitleTag</h4>
+                <p>@Resources.SEO.TitleTag_Unvalid</p>
+                {{/if}}
+            </a>
+        </li>
+        <li data-link-icon="{{if title_len>0 && title_len<69}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}">
+            <a {{if title_len===0 || title_len>69}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if title_len==0 || title_len>69}}
+            <h4>@Resources.SEO.TitleLen</h4>
+            <p>@string.Format(Resources.SEO.TitleLen_Sugg, "${title_len}")</p>
+            {{else}}@Resources.SEO.TitleLen{{/if}}
+        </a></li>
+        <li data-link-icon="{{if has_desc}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}">
+            <a {{if has_desc===false}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if has_desc}}@Resources.SEO.DescTag{{else}}
+              <h4>@Resources.SEO.DescTag</h4>
+            <p>@Resources.SEO.DescTag_Unvalid</p>
+            {{/if}}</a></li>
+        <li data-link-icon="{{if desc_len>10 && desc_len<151}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}" data-counter="${desc_len}">
+            <a {{if desc_len==0 || desc_len>151}}style="color: #f00;text-decoration: underline;"{{/if}}>
+                {{if desc_len>10 && desc_len<151}}@Resources.SEO.DescLen{{else}}
+                <h4>@Resources.SEO.DescLen</h4>
+            <p>@string.Format(Resources.SEO.DescLen_Sugg, "${desc_len}")</p>
+            {{/if}}
+        </a></li>
+        <li data-link-icon="{{if has_keywords}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}">
+            <a {{if has_keywords===false}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if has_keywords}}@Resources.SEO.KeywordsTag{{else}}
+            <h4>@Resources.SEO.KeywordsTag</h4>
+            <p>@Resources.SEO.Keywords_Missing</p>
+            {{/if}}</a>
+        </li>
+        <li data-link-icon="{{if keywords_len>10 && keywords_len<255}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}" data-counter="${keywords_len}">
+            <a {{if keywords_len<10 || keywords_len>255}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if keywords_len>10 && keywords_len<255}}
+            @Resources.SEO.KeywordsLen
+            {{else}}
+            <h4>@Resources.SEO.KeywordsLen</h4>
+            <p>@string.Format(Resources.SEO.Keywords_Sugg, "${keywords_len}")</p>
+            {{/if}}
+        </a></li>
+        <li data-link-icon="{{if h1_count==1}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}">
+            <a  {{if h1_count===0}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if h1_count==1}}
+            @Resources.SEO.H1
+            {{else}}
+            <h4>@Resources.SEO.H1</h4>
+            <p>@Resources.SEO.H1_Unvalid</p>
+            {{/if}}
+        </a></li>
+        <li data-link-icon="{{if h2_count >0}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}">
+            <a {{if h2_count===0}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if h2_count>0}}
+            @Resources.SEO.H2
+            {{else}}
+            <h4>@Resources.SEO.H2</h4>
+            <p>@Resources.SEO.H2_Unvalid</p>
+            {{/if}}
+        </a></li>
+        <li data-link-icon="{{if loading_time <3000}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}" 
+            data-counter=" ${loading_time} ms">
+            <a {{if loading_time >3000}}style="color: #f00;text-decoration: underline;"{{/if}}>@Resources.SEO.LoadingTime</a>
+        </li>
+        <li data-link-icon="{{if links <100}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}" data-counter="${links}">
+            <a {{if links >100}}style="color: #f00;text-decoration: underline;"{{/if}}>{{if links<100}}
+            @Resources.SEO.NumOfLinks
+            {{else}}
+            <h4>@Resources.SEO.NumOfLinks</h4>
+            <p>@Resources.SEO.NumOfLinks_Unvalid</p>
+            {{/if}}
+        </a></li>
+        <li data-link-icon="{{if no_alt_imgs==0}}d-icon-thumbs-up{{else}}d-icon-cross-3{{/if}}" data-counter="${no_alt_imgs}">
+            <a {{if no_alt_imgs >0}}style="color: #f00;text-decoration: underline;"{{/if}}>
+            {{if no_alt_imgs===0}}
+            @Resources.SEO.Alt_Missing
+            {{else}}
+            <h4>@Resources.SEO.Alt_Missing</h4>
+            <p>@Resources.SEO.Alt_Missing_Sugg</p>
+            {{/if}}
+        </a></li>
+    </ul>
+</script>
+
+<div data-role="panel"
+    data-pos="right"
+    data-display="overlay"
+    id="seoDlg">
+    <h3>@Resources.SEO.AnalysisReport</h3>
+    <div id="sec_report"></div>
+</div>

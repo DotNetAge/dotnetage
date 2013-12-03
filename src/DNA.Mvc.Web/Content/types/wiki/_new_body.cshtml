@@ -1,0 +1,10 @@
+﻿@using Resources;
+@model NoteField
+
+<textarea  id="@(Model.ClientID)" name="@Model.Name" placeholder="@Model.Placeholder"
+             @Model.GetValidationAttributes() 
+            @if (Model.NumLines > 0)
+            {<text>rows="@Model.NumLines" style="height:@(Model.NumLines * 20)px;width:100%;"</text>}else{<text>rows="20"</text>}
+            >@if (Model.DefaultValue != null)
+             {<text>@((string)Model.DefaultValue) </text>}</textarea>
+

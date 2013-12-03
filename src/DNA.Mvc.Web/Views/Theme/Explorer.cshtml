@@ -1,0 +1,57 @@
+﻿@model DNA.Web.WebPage
+@{
+    var web = AppModel.Get().CurrentWeb;
+}
+<script type="text/javascript">
+    var theme = "@web.Theme.ToLower()";
+    function _theme_tab_select(item) {
+        var ws = $("#theme_workspace_container"),
+            _id = item.data("id"), _url = item.data("url"), _target = $("#" + _id);
+        ws.children().hide();
+
+        if (_target.length)
+            _target.show();
+        else {
+            $("<div id=\"" + _id + "\"/>").appendTo(ws).load(_url, function () { $(this).taoUI(); });
+        }
+    }
+</script>
+<div id="theme_workspace_container" style="padding: 10px;">
+    <div id="theme_explorer">
+        <ul data-role="listview" 
+            data-inline="true" 
+            data-item-style="text-align:center;margin:2px;" 
+            data-selectable="true" 
+            id="dthemelist"
+            data-select="$.loading();theme=ui.item.data('name'); $('link[rel=stylesheet][href^=\'@Url.Content("/Content/themes/")\']:not([href^=\'@Url.Content("/Content/themes/base/")\']):not([href^=\'@Url.Content("/content/themes/base/")\'])').remove();$.ajax('@Url.Action("ThemeLinks", "DynamicUI")/'+theme).done(function(html){ $('head',document).append(html); $.post('@Url.Content("~/api/" + web.Name + "/themes/set?locale=" + Culture)',{name:theme});},function(){ $.loading('hide'); });"
+            >
+            @foreach (var t in AppModel.Get().Themes)
+            {
+                var theme = t.Locale(Culture);
+                if (!string.IsNullOrEmpty(theme.Roles))
+                {
+                    var user = AppModel.Get().User;
+                    var roles = theme.Roles.Split(',');
+                    var isInRole = false;
+                    foreach (var role in roles)
+                    {
+                        if (user.IsInRole(role))
+                        {
+                            isInRole = true;
+                            break;
+                        }
+                    }
+
+                    if (isInRole == false) { continue; }
+                }
+                <li data-name="@theme.Name" 
+            @if (web.Theme.Equals(theme.Name, StringComparison.OrdinalIgnoreCase))
+            {<text>class="d-state-active"</text>}>
+                    <div style="height: 110px; width: 110px; border: 1px solid #efefef; background:url('@Url.Content("~/content/themes/" + theme.Name + "/thumb.jpg")') top center no-repeat #fff;background-size:100px;">
+                    </div>
+                    <div style="-o-text-overflow: ellipsis; -ms-text-overflow: ellipsis; text-overflow: ellipsis; font-size: 9pt; width: 100px; overflow: hidden;">@(string.IsNullOrEmpty(theme.Title) ? theme.Name : theme.Title)</div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

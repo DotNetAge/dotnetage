@@ -1,0 +1,13 @@
+﻿@model ContentFieldValue
+@{
+    var countries = AppModel.Get().Countries;
+    var field = (TextField)Model.Field;
+}
+<select data-role="combobox" style="width:60%;"
+    data-input="false" 
+    data-height="200" @field.GetAttributes() @field.GetValidationAttributes()>
+    @foreach (var country in countries)
+    { 
+     <option @if(country.Name.Equals(Model.Raw)){<text>selected="selected"</text>}>@country.NativeName</option>
+    }
+</select>

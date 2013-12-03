@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="imageslider">
+  <name short="ImageSlider">Image Slider</name>
+  <name short="ImageSlider" xml:lang="zh-cn">滑动图片</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="tranparent" readonly="true" value="true" />
+  <preference name="cached" readonly="true" value="false" />
+  <preference name="data" value="''" />
+  <preference name="buttons" value="false" />
+  <preference name="autoPlay" value="false" />
+  <preference name="offset" value="50" />
+  <preference name="interval" value="5" />
+  <preference name="margin" value="5" />
+  <preference name="width" value="80" />
+  <preference name="height" value="80" />
+  <preference name="scaling" value="'normal'" />
+  <preference name="clickAction" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

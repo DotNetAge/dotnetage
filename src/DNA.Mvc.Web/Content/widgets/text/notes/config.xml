@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="notes">
+  <name short="Notes">Notes</name>
+  <name short="Notes" xml:lang="zh-cn">文本</name>
+  <description></description>
+  <description xml:lang="zh-cn">将文本内容显示为Html,可支持Wiki格式</description>
+  <icon src="default.png" />
+  <preference name="src" value="''" />
+  <preference name="content" value="''" />
+  <preference name="cached" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

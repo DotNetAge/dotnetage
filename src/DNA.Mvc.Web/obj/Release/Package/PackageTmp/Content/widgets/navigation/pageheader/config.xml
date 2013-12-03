@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="page-header">
+  <name short="PageHeader">Page header</name>
+  <name short="PageHeader" xml:lang="zh-cn">页信息</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="layout" value="'TitleOnly'" />
+  <preference name="showParent" value="true" />
+  <preference name="showDesc" value="false" />
+  <preference name="altTitle" value="''" />
+  <preference name="altDesc" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

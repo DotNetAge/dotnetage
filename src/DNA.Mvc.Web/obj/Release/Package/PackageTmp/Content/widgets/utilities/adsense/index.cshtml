@@ -1,0 +1,102 @@
+﻿@Html.Widget().Content(@<text>
+@if ((Request.Url.Authority.StartsWith("localhost", StringComparison.OrdinalIgnoreCase)) ||
+         (Request.Url.Authority.Equals("127.0.0.1", StringComparison.OrdinalIgnoreCase)))
+{
+    <div style="padding: 10px;">
+        @item.Loc("NotAvalidable")
+    </div>
+}
+else
+{
+    var prefs = item.GetUserPreferences();
+
+    if ((!string.IsNullOrEmpty(item.GetString("SlotID"))) && (!string.IsNullOrEmpty((string)prefs.ClientCode)))
+    {
+    <div style="text-align: center;">
+        <script type="text/javascript"><!--
+    google_ad_client ='@prefs.ClientCode';
+            google_ad_slot ='@prefs.SlotID';
+            google_ad_width =@prefs.AdWidth;
+            google_ad_height =@prefs.AdHeight;
+                     //-->
+        </script>
+        <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+    </div>
+    }
+}
+</text>).Design(@<text>
+<i>@item.Loc("Sample")</i>
+<table border="0" cellpadding="0" cellspacing="0" class="adc">
+    <tbody>
+        <tr>
+            <td valign="middle">
+                <a style="font-size: 13px; font-weight: bold; line-height: normal; color: Blue;" href="#" title="www.ad-url.com"><span>@item.Loc("AdTitle")</span></a>
+                <div style="color: black; font-size: 12px; line-height: normal;">
+                    <span>@item.Loc("AdText")</span>
+                </div>
+                <div style="color: green; font-size: 10px; line-height: normal; overflow: hidden; text-decoration: underline; text-overflow: ellipsis; white-space: nowrap;">
+                    <span style="color: green; font-size: 10px; line-height: normal; white-space: nowrap;" title="www.ad-url.com">www.ad-url.com</span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</text>).UserPreferences(@<text>
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        <label>@item.Loc("AdSize")</label>
+        <select id="@item.GetID("size")">
+            <optgroup label="@item.Loc("Recommended")">
+                <option value="300,250">@item.Loc("MediumRect")</option>
+                <option value="336,280">@item.Loc("LargeRect")</option>
+                <option value="728,90">@item.Loc("Leaderboard")</option>
+                <option value="160,160">@item.Loc("WideSkyscraper")</option>
+                <option value="320,50">@item.Loc("MobileBanner")</option>
+            </optgroup>
+            <optgroup label="@item.Loc("Horizontal")">
+                <option value="468,60">@item.Loc("Banner")</option>
+                <option value="234,60">@item.Loc("HalfBanner")</option>
+            </optgroup>
+            <optgroup label="@item.Loc("Vertical")">
+                <option value="120,600">@item.Loc("Skyscraper")</option>
+                <option value="120,240">@item.Loc("VerticalBanner")</option>
+                <option value="300,600">@item.Loc("LargeSkyscraper")</option>
+            </optgroup>
+            <optgroup label="@item.Loc("Square")">
+                <option value="250,250">@item.Loc("Square2")</option>
+                <option value="200,200">@item.Loc("SmallSquare")</option>
+                <option value="180,150">@item.Loc("SmallRect")</option>
+                <option value="125,125">@item.Loc("Button")</option>
+            </optgroup>
+            <optgroup label="@item.Loc("LinkUnits")">
+                <option value="728,15">@item.Loc("HorizontalLarge")</option>
+                <option value="468,15">@item.Loc("HorizontalMedium")</option>
+                <option value="200,90">@item.Loc("VerticalXLarge")</option>
+                <option value="180,90">@item.Loc("VerticalLarge")</option>
+                <option value="160,90">@item.Loc("VerticalMedium")</option>
+                <option value="120,90">@item.Loc("VerticalSmall")</option>
+            </optgroup>
+        </select>
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("ClientCode", item.Loc("ClientCode"))
+        @item.TextBox("ClientCode", new { placeholder = item.Loc("ClientCodeHolder") })
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("SlotID", item.Loc("SlotID"))
+        @item.TextBox("SlotID", new { placeholder = item.Loc("SlotIDHolder"), maxlength = 10 })
+    </li>
+</ul>
+@item.Hidden("AdWidth")
+@item.Hidden("AdHeight")
+<script type="text/javascript">
+    $(function(){
+        $("#@item.GetID("size")").bind("change",function(){
+            var whArgs=$(this).val().split(',');
+            $("#@item.GetID("AdWidth")").val(whArgs[0]);
+            $("#@item.GetID("AdHeight")").val(whArgs[1]);
+        }).val("@(item.GetInt("AdWidth")),@(item.GetInt("AdHeight"))");
+       
+    });
+</script>
+</text>).GetHtml()

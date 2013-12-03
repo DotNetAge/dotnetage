@@ -1,0 +1,17 @@
+﻿@model IEnumerable<OutboxMessage>
+@{
+    ViewBag.Title = "Outbox";
+    Layout = "~/Views/Shared/_MyDashboard.cshtml";
+}
+
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+@foreach (var msg in Model)
+{ 
+    <li>
+        <a href="#">
+            <h3>@msg.Subject</h3>
+            <p>@msg.Body</p>
+        </a>
+    </li>
+}
+</ul>

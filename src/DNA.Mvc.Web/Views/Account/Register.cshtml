@@ -1,0 +1,98 @@
+﻿@model RegisterModel
+@{
+    ViewBag.Title = Resources.Commons.Register;
+    var pwdLength = AppModel.Settings.PasswordLength;
+    var userLen = AppModel.Settings.UserNameLength;
+    ReCaptcha.PrivateKey = AppModel.Settings.ReCaptchaPrivateKey;
+    ReCaptcha.PublicKey = AppModel.Settings.ReCaptchaPublicKey;
+}
+
+<div style="width: 320px; margin: auto;">
+    <h1 style="margin: 0px; padding: 20px 0px;">@ViewBag.Title</h1>
+    @using (Html.BeginForm())
+    {
+        <div class="d-form">
+            <div class="d-field">
+                @Html.LabelFor(m => m.UserName, Resources.Commons.UserName)
+                @Html.TextBoxFor(m => m.UserName, new
+       {
+           data_val = "true",
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.UserName),
+           data_val_remote = string.Format(Resources.Validations.Exists_Format, Resources.Commons.UserName),
+           data_val_remote_url = Url.Content("~/api/accounts/validatename"),
+           data_val_regex = Resources.Validations.UserName_Regex,
+           data_val_regex_pattern = "^[A-Za-z0-9_]+$",
+           data_val_length = string.Format(Resources.Validations.UserNameLen_Format, userLen),
+           data_val_length_max = 50,
+           data_val_length_min = userLen,
+           placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.UserName),
+           maxlength = 50
+       })
+                <div style="padding-top: 5px;">
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.Email, Resources.Contacts.Email)
+                @Html.TextBoxFor(m => m.Email, new
+       {
+           placeholder = "example@email.com",
+           data_val = "true",
+           data_val_remote = Resources.Validations.EmailRegisted,
+           data_val_remote_url = Url.Content("~/api/accounts/validatemail"),
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.Email),
+           data_val_email = string.Format(Resources.Validations.Valid_Format, Resources.Contacts.Email),
+           maxlength = 250
+       })
+                <div style="padding-top: 5px;">
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.Password, Resources.Commons.Password)
+                @Html.PasswordFor(m => m.Password, new
+       {
+           data_val = "true",
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.Password),
+           data_speech = "false",
+           data_val_length = string.Format(Resources.Validations.PwdLen_Format, pwdLength),
+           data_val_length_max = 16,
+           data_val_length_min = pwdLength,
+           maxlength = 16,
+           placeholder = string.Format(Resources.Validations.PwdLen_Format, pwdLength)
+       })
+                <div style="padding-top: 5px;">
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(m => m.ConfirmPassword, Resources.Security.ConfirmPwd)
+                @Html.PasswordFor(m => m.ConfirmPassword, new
+       {
+           data_val = "true",
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Security.ConfirmPwd),
+           data_speech = "false",
+           maxlength = 16,
+           placeholder = Resources.Validations.ConfirmPwd,
+           data_val_length = string.Format(Resources.Validations.PwdLen_Format, pwdLength),
+           data_val_length_max = 16,
+           data_val_length_min = pwdLength,
+           data_val_equalto = Resources.Validations.Password_Equal,
+           data_val_equalto_other = "Password"
+       })
+                <div style="padding-top: 5px;">
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </div>
+            </div>
+            @if (AppModel.Settings.EnableReCaptchaValidation)
+            {
+                @ReCaptcha.GetHtml(Context, AppModel.Settings.ReCaptchaPublicKey)
+            }
+            <button data-default="true" data-inline="false">@Resources.Commons.Register</button>
+            <a data-role="button" href="@Url.Content("~/login")" data-inline="false">@Resources.Commons.Login</a>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

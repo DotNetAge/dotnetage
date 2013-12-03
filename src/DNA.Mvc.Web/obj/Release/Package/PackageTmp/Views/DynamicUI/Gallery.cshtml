@@ -1,0 +1,169 @@
+﻿<style>
+    .sys-img-buttons-holder { display: none; position: absolute; bottom: 0px; left: 30px; }
+    .d-item.d-state-active .sys-img-buttons-holder { display: block; }
+    #image_list li { height: 90px; margin: 5px; text-align: center; width: 120px; float: left; position: relative; }
+</style>
+<input type="hidden" id="image_objects" value="@ViewBag.ObjectString"/>
+<div id="sys_image_source"></div>
+<div data-role="content-slider"
+    data-draggable="false"
+    id="sys_img_gallery_slider"
+    style="height: 620px; width: 600px;">
+    <div>
+        <input type="hidden" id="newimage_holder" />
+        <div style="padding: 5px 0px; position: relative;">
+            <a data-role="button" data-default="true" id="sys_image_result_button" style="width: 150px;">@Commons.Done</a>
+            <div style="position: absolute; right: 5px; top: 5px;">
+                <a data-role="button" data-icon-left="d-icon-images" data-rel="folder" data-folder-select="__add_images_form_url(url);" title="@Resources.Designs.AddImages"></a>
+                <a data-role="button" data-icon-left="d-icon-image" data-rel="file" data-file-to="#newimage_holder" title="@Resources.Designs.AddImage"></a>
+            </div>
+        </div>
+        <ul data-role="listview" class="d-ui-widget" id="image_list" style="height: 490px; width: inherit; overflow: auto;"
+            data-selectable="true"
+            data-source="sys_image_source"
+            data-item-created="$(ui.item).taoUI(); $('#image_previewer').css('background-image','none')"
+            data-tmpl="next">
+        </ul>
+        <script type="text/x-jquery-tmpl">
+            <li>
+                <div title="${altText}" style="height: 80px; background: url(${image}) center center no-repeat; -moz-background-size: 80px; -o-background-size: 80px; -webkit-background-size: 80px; background-size: 80px;"></div>
+                <div class="sys-img-buttons-holder">
+                    <a data-role="button" data-icon-left="d-icon-edit" title="@Resources.Commons.Edit" onclick="$('#sys_img_gallery_slider').taoContentSlider('go', 1);"></a>
+                    <a data-role="button" data-icon-left="d-icon-cross-3" title="@Resources.Commons.Delete" onclick="__delimageitem($(this).closest('li').data('dataItem'))"></a>
+                </div>
+            </li>
+        </script>
+    </div>
+    <div>
+        <form class="d-form"
+            data-source="sys_image_source"
+            data-mode="new" id="gallery_form" style="vertical-align: top;">
+            <div style="padding: 5px 0px; position: relative;">
+                <a data-role="button" data-icon="d-icon-angle-left" onclick="$('#sys_img_gallery_slider').taoContentSlider('go', 0);">@Resources.Commons.Cancel</a>
+                <div style="position: absolute; right: 5px; top: 5px;">
+                    <a data-role="button" data-default="true" data-rel="update">@Resources.Commons.Done</a>
+                </div>
+            </div>
+            <div>
+                <input type="hidden" name="image" value="/content/images/2.png" id="image_value_holder" />
+                <div id="image_previewer" style="height: 120px; background-repeat: no-repeat; -moz-background-size: 100px; -o-background-size: 100px; -webkit-background-size: 100px; background-size: 100px; background-position: center center;"></div>
+                <div style="text-align: center; padding: 10px 0px;">
+                    <a data-role="button" data-rel="file" data-file-to="#image_value_holder">@Resources.Commons.Change</a>
+                </div>
+            </div>
+            <div class="d-field">
+                <label>@Resources.Commons.Title</label>
+                <input type="text" name="title" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Designs.ImageTitle.ToLower())" />
+            </div>
+            <div class="d-field">
+                <label>@Resources.Commons.Desc</label>
+                <textarea name="desc" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Desc)"></textarea>
+            </div>
+            <div class="d-field">
+                <label>@Resources.Commons.Alt</label>
+                <input type="text" name="altText" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Alt.ToLower())" />
+            </div>
+            <div class="d-field">
+                <label>@Resources.Commons.Link</label>
+                <input type="text" name="link" placeholder="@Resources.Pages.AddLink" id="link_value_holder" />
+            </div>
+            <div class="d-field">
+                <label></label>
+                <a data-role="button" data-rel="link" data-link-to="#link_value_holder">@Resources.Pages.AddLink</a>
+            </div>
+            <div class="d-field">
+                <label>@Resources.Commons.LinkText</label>
+                <input type="text" name="linkText" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.LinkText.ToLower())" />
+            </div>
+            @*      <div style="padding: 10px; text-align: center;">
+                <a data-role="button" data-rel="update" data-default="true" style="width: 50%;">@Dict.Save</a>
+                        <a data-role="button" data-rel="delete" style="width: 40%;">@Dict.Delete</a>
+            </div>*@
+        </form>
+    </div>
+</div>
+<div>
+</div>
+<script type="text/javascript">
+    function __delimageitem(dataItem) {
+        $("#sys_image_source").taoDataSource("remove", dataItem);
+    }
+
+    function __add_images_form_url(url) {
+        $.get(url + "?match=.&format=json")
+          .done(function (data) {
+              if (data.length > 10)
+                  $.info("@Resources.Messages.Gallery_TooManyImages");
+
+              for (var i = 0; i < data.length; i++) {
+                  var dat = data[i];
+                  if (i > 10) break;
+                  if (dat.contentType.startsWith("image")) {
+                      var dataItem = {
+                          title: dat.exif.title ? dat.exif.title : dat.name,
+                          description: dat.exif.description,
+                          altText: dat.name,
+                          link: dat.url,
+                          image: dat.url
+                      };
+                      $("#sys_image_source").taoDataSource("insert", dataItem);
+                  }
+              }
+          });
+    }
+
+    $(function () {
+        var _syncDataValues = function () {
+            //console.log($('#image_objects'));
+            $('#image_objects').val(JSON.stringify($('#sys_image_source').taoDataSource('option', 'data')));
+        };
+
+        $("#newimage_holder").bind("change", function () {
+            $('#gallery_form').taoForm('option', 'mode', 'new');
+            var imgUrl = $(this).val();
+            $('#image_value_holder').val(imgUrl).trigger('change');
+            $("#sys_img_gallery_slider").taoContentSlider("go", 1);
+            $.get(imgUrl + "?match=self&format=json")
+              .done(function (data) {
+                  if (data.exif) {
+                      $('#gallery_form [name=title]').val(data.exif.title ? data.exif.title : data.name);
+                      $('#gallery_form [name=desc]').val(data.exif.description);
+                  }
+                  $('#gallery_form [name=altText]').val(data.name);
+                  $('#gallery_form [name=link]').val(data.url);
+              });
+            //$('#image_value_holder').next().css('background-image', 'url(' + imgUrl + ')');
+        });
+
+        $("#image_value_holder").bind("change", function () {
+            $(this).next().css('background-image', 'url(' + $(this).val() + ')');
+        });
+
+        var _data = $('#image_objects').val() ? eval($('#image_objects').val()) : [];
+
+        $("#sys_image_source").taoDataSource({
+            data: _data,
+            inserted: function () {
+                _syncDataValues();
+                $("#sys_img_gallery_slider").taoContentSlider("go", 0);
+            },
+            updated: function () {
+                // console.log($('#image_objects'));
+                _syncDataValues();
+                $("#sys_img_gallery_slider").taoContentSlider("go", 0);
+            },
+            removed: function () {
+                _syncDataValues();
+            },
+            position: function (event, dataItem) {
+                $("#image_previewer").css("background-image", "url(" + dataItem.image + ")");
+                $("form").taoForm("option", "mode", "edit");
+            }
+        });
+
+        if (_data == undefined || _data.length == 0) {
+            $("#gallery_form").addClass("d-state-disable");
+        }
+    });
+</script>
+

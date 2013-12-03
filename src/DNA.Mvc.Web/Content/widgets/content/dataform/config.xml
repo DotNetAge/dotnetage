@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="dataform" version="1.0">
+  <name short="DataForm">DataForm</name>
+  <name xml:lang="zh-cn" short="DataForm">表单</name>
+  <icon src="default.png" />
+  <preference name="slug" value="''" />
+  <preference name="listName" value="''" />
+  <preference name="type" value="0" />
+  <preference name="showDetail" value="false" />
+  <preference name="showAttachs" value="false" />
+  <preference name="showComments" value="false" />
+  <preference name="showReshares" value="false" />
+  <preference name="showVersions" value="false" />
+  <preference name="showAuthor" value="false" />
+  <preference name="showTags" value="false" />
+  <preference name="showVotes" value="false" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

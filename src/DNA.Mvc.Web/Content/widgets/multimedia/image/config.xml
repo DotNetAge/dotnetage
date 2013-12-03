@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="image">
+  <name short="Image">Image</name>
+  <name short="Image" xml:lang="zh-cn">图片</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="showLinkText" readonly="true" value="'no'" />
+  <preference name="src" value="''" />
+  <preference name="link" value="''" />
+  <preference name="alt" value="''" />
+  <preference name="target" value="'_self'" />
+  <preference name="title" value="''" />
+  <preference name="size" value="0" />
+  <preference name="width" value="0" />
+  <preference name="height" value="0" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

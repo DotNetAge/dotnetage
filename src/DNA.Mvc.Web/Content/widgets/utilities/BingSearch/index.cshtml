@@ -1,0 +1,12 @@
+﻿@using Microsoft.Web.Helpers;
+@{
+    Bing.SiteUrl = AppModel.Get().Context.AppUrl.ToString();
+    Bing.SiteTitle = AppModel.Get().CurrentWeb.Title;
+    Html.Widget()
+        .Content(@<text>
+    <div style="padding: 10px;">
+        @Bing.SearchBox(boxWidth: "inherit")
+    </div>
+    </text>)
+        .Render();
+}

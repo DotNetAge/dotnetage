@@ -1,0 +1,3 @@
+﻿@model IntegerField
+<input type="number" @Model.GetAttributes() @Model.GetValidationAttributes()  data-speech="false"/>
+@Html.ValidationMessage(Model)

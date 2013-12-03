@@ -1,0 +1,50 @@
+﻿@model ContentFieldValue
+@{
+    var field = (DateField)Model.Field;
+    var dtInfo = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat;
+}
+@if (field.ShowTime)
+{
+    var dateStr = Model.Raw != null ? ((DateTime)Model.Raw).ToString("MM/dd/yyyy") : "";
+    var timeStr = Model.Raw != null ? ((DateTime)Model.Raw).ToString("HH:mm") : "";
+    <input name="@field.Name" id="@field.Name" type="hidden" value="@Model.Raw"/>
+    <input data-role="datetime" id="@(field.Name)_date" 
+        style="width:160px;" 
+        data-days="@(string.Join(",", dtInfo.DayNames))"
+        data-min-days="@(string.Join(",", dtInfo.ShortestDayNames))"
+        data-months="@(string.Join(",", dtInfo.MonthNames))"
+        data-short-months="@(string.Join(",", dtInfo.MonthGenitiveNames))"
+        value="@dateStr"
+        data-change="$('#@(field.Name)').val(ui.value+' '+$('#@(field.Name)_time').val() )"
+        data-val="true" 
+        data-val-date="@string.Format(Resources.Validations.Valid_Format, Resources.Commons.Date)"
+         @if (field.IsRequired)
+         {<text> data-val-required="@string.Format(Resources.Validations.Required_Format, field.Title)" </text>} />
+    <input data-role="time" 
+        id="@(field.Name)_time" 
+        value="@timeStr"
+        style="width:90px;" 
+        data-select="$('#@(field.Name)').val($('#@(field.Name)_date').val()+' '+ ui.dataItem.value)"
+         @if (field.IsRequired)
+         { <text>data-val="true" data-val-required="@string.Format(Resources.Validations.Required_Format, field.Title)"</text>}
+        />
+
+}
+else
+{
+    <input  type="datetime" 
+    data-role="datetime"
+    data-speech="false"
+    @field.GetAttributes(Model.Raw)
+    data-val="true"
+    data-val-date="@string.Format(Resources.Validations.Valid_Format, Resources.Commons.Date)"
+    data-days="@(string.Join(",", dtInfo.DayNames))"
+    data-min-days="@(string.Join(",", dtInfo.ShortestDayNames))"
+    data-months="@(string.Join(",", dtInfo.MonthNames))"
+    data-short-months="@(string.Join(",", dtInfo.MonthGenitiveNames))"
+             @if (field.IsRequired)
+             { <text>data-val-required="@string.Format(Resources.Validations.Required_Format, field.Title)"</text>}
+            value="@Model.Raw"
+            />
+}
+@Html.ValidationMessage(field)

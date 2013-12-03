@@ -1,0 +1,28 @@
+﻿.d-comments { overflow: visible; }
+    .d-comments .d-item { clear: left; padding: 10px 0px; border-left: 2px solid transparent; }
+        .d-comments .d-item:hover { border-left: 2px solid #f00; }
+    .d-comments > .d-item > .avatar { left: 10px; top: 10px; position: absolute; width: 48px; height: 48px; text-align: center; }
+        .d-comments > .d-item > .avatar > img { max-height: 48px; max-width: 48px; }
+
+    .d-comments > .d-item > .detail { margin-left: 64px; }
+        .d-comments > .d-item > .detail > .tools > * { margin-right: 5px; display: inline-block; vertical-align: middle; cursor: pointer; }
+        .d-comments > .d-item > .detail > .tools { font-size: .8em; color: #6d6d6d; margin: 10px 0px; }
+        .d-comments > .d-item > .detail > .names { display: block; }
+            .d-comments > .d-item > .detail > .names .dispName { font-weight: bold; font-size: 12pt; }
+            .d-comments > .d-item > .detail > .names .posted { float: right; color: #6d6d6d; font-size: 9pt; margin-right: 10px; }
+        .d-comments > .d-item > .detail > .content { clear: both; margin: 5px 0px; }
+        .d-comments > .d-item > .detail > .replies { display: none; margin-top: 5px; padding-right: 10px; }
+
+    .d-comments .d-item .d-comments { margin-top: 5px; padding-left: 0px; }
+        .d-comments .d-item .d-comments:empty { border: none; }
+        .d-comments .d-item .d-comments .d-item:first-child { margin-top: 5px; }
+        .d-comments .d-item .d-comments .d-item:last-child { margin-bottom: 5px; }
+
+
+.d-listview.d-items .d-comment-box.d-state-active { border: none; }
+
+.d-comment-box { padding-right: 10px; }
+    .d-comment-box textarea { height: 24px; min-height: initial; }
+    .d-comment-box .d-button { display: none; }
+    .d-comment-box.d-state-active .d-button { display: block; }
+    .d-comment-box.d-state-active textarea { height: 80px; }

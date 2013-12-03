@@ -1,0 +1,33 @@
+﻿/*.d-grid-header th, .d-button, .d-progress > .d-ui-widget-content.d-state-active, .d-slider-value.d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-radio.d-state-active > .d-radio-holder > span, .d-checkbox.d-state-active > .d-check-holder > span, .d-menu .d-item.d-state-active, .d-pager > a.d-state-active, .d-rte-tabs > *.d-state-active, .d-node-content > a.d-state-active, .d-node-content.d-state-active, .d-listbox .d-item.d-state-active { background-color: #cae411; }
+.d-grid-header th, .d-button, .d-picker.d-state-active, .d-textbox.d-state-active, .d-textarea:focus, .d-input.d-state-active, .d-ui-widget.d-progress, .d-ui-widget.d-slider, .d-tabs > .d-tabs-navs, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active, .d-tabs > .d-tabs-panel.d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-radio.d-state-active > .d-radio-holder > span, .d-checkbox.d-state-active > .d-check-holder > span, .d-menu .d-item.d-state-active, .d-pager > a.d-state-active, .d-rte-tabs > *.d-state-active, .d-node-content > a.d-state-active, .d-node-content.d-state-active, .d-listbox .d-item.d-state-active { border-color: #8ea202; }
+    .d-button.d-state-hover, .d-slider-handler.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-pager > a:hover, .d-picker.d-state-hover, .d-input.d-state-hover, .d-grid .d-grid-content tr:hover, .d-rte-tabs > *:hover, .d-node-content > a.d-state-hover, .d-node-content.d-state-hover, .d-pager > a.d-state-active { background-color: #f1fab3; }
+    .d-button.d-state-hover, .d-slider-handler.d-state-hover, .d-picker.d-state-hover, .d-textbox.d-state-hover, .d-textarea:hover:not([disabled=disabled]), .d-input.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-pager > a:hover, .d-picker.d-state-hover, .d-input.d-state-hover, .d-grid .d-grid-content tr:hover, .d-rte-tabs > *:hover, .d-node-content > a.d-state-hover, .d-node-content.d-state-hover, .d-pager > a.d-state-active { border-color: #cae411; }
+        .d-button.d-state-hover, .d-button.d-state-hover > .d-button-text, a.d-button.d-state-hover, a.d-button.d-state-hover > .d-button-text, .d-input.d-state-hover > input, .d-picker.d-state-hover > input, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-item.d-state-hover > a, .d-pager > a:hover, .d-picker.d-state-hover, .d-input.d-state-hover, .d-grid .d-grid-content tr:hover, .d-rte-tabs > *:hover, .d-node-content > a.d-state-hover, .d-node-content.d-state-hover { color: #4c5700; }
+.d-tooltip, .d-slider-helper { background-color: #fbfded; border-color: #cae411; }
+    .d-tooltip a { color: #41480f; }
+.d-grid-header th, .d-grid-header th a, .d-button, .d-button > .d-button-text, a.d-button, .d-accordion > .d-ui-widget-header.d-state-active > a, .d-menu .d-item.d-state-active > a, .d-pager > a.d-state-active, .d-rte-tabs > *.d-state-active, .d-node-content > a.d-state-active, .d-node-content.d-state-active, .d-listbox .d-item.d-state-active { color: #3b4205; }*/
+.d-ui-widget, .ui-widget, .d-node-content > * { color: #ffffff; }
+.d-ui-widget, .ui-widget { background-image: none; background-color: #81cd32; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #6ca92d; }
+
+.d-ui-widget-header, .d-ui-widget-header > a, .d-rte-panes > .d-menu.toolbar, .d-button { color: #1c3b1d; }
+
+    .d-ui-widget-content, .ui-widget-content, .d-ui-widget-header.d-tabs-nav.d-state-active > a, .d-checkbox, .d-radio, .d-rating, a.d-button.link { color: #000000; }
+.d-ui-widget.d-tooltip, .d-state-info, .d-item-counter { color: rgb(0, 0, 0); background-color: #f2fce9; background-image: none; border-color: #597e2a; }
+.d-overlay { background-color: #f9fae5; background-image: none; }
+.d-ui-widget-content, .ui-widget-content, .d-tabs-nav.d-state-active { background-color: #ffffff; background-image: none; }
+
+.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover { background-image: none; background-color: #c0f48b; }
+    .d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-node-content > .d-state-hover { color: #155116; }
+
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-ui-widget-header.d-state-active > a, .d-item.d-state-active, .d-node-content > .d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active > a, .d-tabs > .d-tabs-panel.d-state-active { color: #1d531e; }
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-item.d-state-active, .d-node-content > .d-state-active, .d-ui-widget-content.d-state-active, .d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active, .d-tabs > .d-tabs-panel.d-state-active, .d-accordion > .d-ui-widget-header.d-state-active, .d-accordion > .d-ui-widget-content.d-state-active { background-image: none; background-color: #e6fad1; }
+
+.d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget.d-state-disable *, .d-ui-widget-content.d-state-disable, .d-ui-widget-content:disabled, .d-ui-widget-header.d-state-disable, .d-ui-widget-header.d-state-disable > a, .d-node.d-state-disable .d-node-content, .d-node.d-state-disable .d-node-content a, .d-checkbox.d-state-disable, .d-radio.d-state-disable { color: #a8a76b; }
+    .d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget-header.d-state-disable, .d-ui-widget.d-state-disable .d-ui-widget-content, .d-ui-widget-content.d-state-disable { background-color: #c7d4a0; background-image: none; }
+
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error > input, .d-state-error, .input-validation-error { color: #f8eae3; }
+    .field-validation-error, .input-validation-error, .d-ui-widget.d-state-error, .d-ui-widget.d-state-error > .d-ui-widget-content, .input-validation-error > .d-ui-widget-content { background-color: #d67838; background-image: none; }
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error { border-color: #c01b1b; }
+	
+	

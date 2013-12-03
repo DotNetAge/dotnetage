@@ -1,0 +1,104 @@
+﻿@model ContentDataItemDecorator
+@{
+    var list = Model.Parent;
+    var fields = list.Fields;
+    var defaultField = list.GetDefaultTitleField();
+    var form = list.DetailForm;
+    var urlformat = "~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items?name={0}&slug={1}&parentId=";
+    var popupUrl = Url.Content(string.Format(urlformat, list.Name, list.Views.Default.Name));
+    var defaultView = list.Views.Default;
+    var prefix = list.Name + "_" + defaultView.Name;
+    var tmplName = prefix + "_tmpl";
+}
+
+<div id="@(list.Name)_catalog" data-role="panel" data-display="push" data-position="fixed">
+    <h3>@Resources.Contents.Catalog</h3>
+    <div style="padding:5px;">
+        @Contents.Tree(defaultView.Items("parentId='00000000-0000-0000-0000-000000000000'"), Model.Path, new
+       {
+           data_source = string.Format("_list_{0}_datasrc", Model.ParentID.ToString()),
+           data_popup_attr = "popupurl",
+           data_autobind = "false",
+           data_tmpl = tmplName,
+           id = list.Name + "_tree",
+           data_drag_drop = (Request.IsAuthenticated && list.Owner.Equals(User.Identity.Name)).ToString().ToLower(),
+           data_dropped = "_moveNode(ui);",
+           style = "overflow:auto;min-height:720px;margin:0px;border:none;"
+       })
+        <div data-role="datasource" id="@(string.Format("_list_{0}_datasrc", Model.ParentID.ToString()))">
+            <div data-action="read" data-url="@Url.Content("~/api/"+AppModel.Get().CurrentWeb.Name+"/contents/items?name=" + list.Name + "&slug=" + list.Views.Default.Name + "&sort=pos~desc")"></div>
+            <div data-role="mapper" 
+        data-convert="var target=[];  
+        $.each(data, function (i, dat) { 
+        var o=dat.object;
+        o.popupUrl='@popupUrl'+dat.id; 
+        o.parentId=dat.parentId; 
+        o.id=dat.id; 
+        o.links=dat.links; 
+        target.push(o); 
+        }); return target;">
+            </div>
+        </div>
+        <script type="text/x-jquery-tmpl" id="@tmplName">
+            <a href="${url}">${@(list.GetDefaultTitleField().Name)}</a>
+        </script>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".d-sitemappath").prepend($("<li/>").addClass("d-item d-inline").append(
+            $("<a/>").append($("<span/>").addClass("d-icon-reorder"))
+                           .attr("href","javascript:void(0);")
+                           .click(function () {
+                               $("#@(list.Name)_catalog").taoPanel("open");
+                           })
+                           ));
+    });
+</script>
+
+@DispForms.Caption(Model, Url)
+@{ 
+    Html.RenderFields(form, Model);
+        
+    @DispForms.Attachments(Model)
+    @DispForms.Tags(Model)
+    if (Model.IsPublished && Model.IsCurrentVersion)
+    {
+        if (Model.IsCurrentVersion)
+        {
+    @DispForms.Comments(Model, Url)
+        }
+    }
+    if (list.EnableVersioning)
+    {
+        if (Model.Versions().Count() > 1)
+        {
+    <h3>@Resources.Contents.VersionHistory</h3>
+    @DispForms.VersionControl(Model, Url)
+        }
+    }
+    <p>
+        @DispForms.Votes(Model, Url)
+        <span class="d-inline">@Resources.Commons.Reads:</span><span class="d-inline">@Model.Reads</span>
+    </p>
+}
+<script type="text/javascript">
+@if (Request.IsAuthenticated && list.Owner.Equals(User.Identity.Name))
+{<text>
+    function _moveNode(ui) {
+        var srcID = ui.node.data("id"),
+            parentID = ui.targetNode.data("id");
+
+        $.post("@(Url.Content("~/api/"+AppModel.Get().CurrentWeb.Name+"/contents/move"))", {
+            name: "@(Model.Parent.Name)",
+            parentID: parentID,
+            id: srcID,
+            pos: ui.position
+        }, function () {
+            ui.node.data("parentid", parentID);
+        });
+    }
+    </text>}
+
+</script>

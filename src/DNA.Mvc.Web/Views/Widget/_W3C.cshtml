@@ -1,0 +1,56 @@
+﻿@model WidgetInstance
+@{
+    Layout = null;
+    var widgetDataStr = MvcHtmlString.Create(ViewBag.WidgetJson);
+    var prefDataStr = MvcHtmlString.Create("null");
+    if (ViewBag.Data != null)
+    {
+        prefDataStr = MvcHtmlString.Create(ViewBag.Data);
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.Title</title>
+    <meta content="text/html;charset=@ViewBag.Encoding" http-equiv="Content-type">
+    @{ Html.RenderPartial("_head"); }
+    <script type="text/javascript" src="@Url.Content("~/scripts/widget-api.js")"></script>
+    <script type="text/javascript"> window.widget=new WindowWidget(@widgetDataStr,@prefDataStr); window.widget.identifier="@Model.ID"; window.__appPath="@Url.Content("~/")"; </script>
+    @Scripts.Render("~/bundles/modernizr", "~/bundles/jquery", "~/bundles/taoui", "~/bundles/dna")
+
+    @if (ViewBag.ContentHeader != null)
+    {
+        @MvcHtmlString.Create(ViewBag.ContentHeader)
+    }
+</head>
+<body dir="@ViewBag.Dir" 
+    style="overflow: hidden;opacity:0;padding:0px;margin:0px;" 
+    data-root="@Request.ApplicationPath"
+    data-taoui-unobtrusive="false"
+    data-scroll-helper="false"
+    >
+    @if (ViewBag.ContentBody != null)
+    {
+        @MvcHtmlString.Create(ViewBag.ContentBody)
+    }
+    @Scripts.Render("~/bundles/unobtrusive")
+
+    <script type="text/javascript">
+        widget._init();
+        $(function () {
+             @if (ViewBag.StartScripts != null)
+             { @MvcHtmlString.Create(ViewBag.StartScripts) }
+
+            if ($("[data-role='widget-prefs'],form.d-widget-prefs").length) {
+                var holder=$(".d-widget-content-holder,[data-role=widget-content]");
+                if (holder.length)
+                    holder.taoUI();
+            }
+            else {
+                $("body").taoUI();
+            }
+            $("body").animate({ opacity: 1 }, 300);
+        });
+    </script>
+</body>
+</html>

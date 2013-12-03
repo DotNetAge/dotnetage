@@ -1,0 +1,14 @@
+﻿.d-ui-widget, .ui-widget {background-image:none;background-color:#242424;}
+.d-ui-widget,.ui-widget, .d-node-content > * {color:#ffffff;}
+.d-ui-widget,.ui-widget,.d-separator,.d-tooltip:before, .d-tooltip:after,.d-grid th, .d-grid td,.d-item-spliter {border-color:#4a4a4a;}
+	
+.d-ui-widget-header,.ui-widget-header,.d-rte-panes>.d-menu.toolbar,.d-button {background-image:none;background-color:#000000;}
+	
+.d-radio,.d-checkbox,.d-rating,a.d-button.link,.ui-state-default>a,.ui-state-default {color:#da3610;}
+	
+.d-ui-widget.d-state-hover,.d-ui-widget-header.d-state-hover,.d-item.d-state-hover,.d-node-content>.d-state-hover,.ui-state-hover {background-image:none;background-color:#e36245;}
+.d-ui-widget.d-state-hover,.d-ui-widget-header.d-state-hover,.d-item.d-state-hover,.d-node-content>.d-state-hover,.d-rating .d-state-hover,.ui-state-hover {border-color:#f4360b;}
+	
+.d-ui-widget.d-state-active,.d-ui-widget-header.d-state-active,.d-item.d-state-active,.d-node-content > .d-state-active,.d-ui-widget-content.d-state-active,.d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active,.d-tabs > .d-tabs-panel.d-state-active,.d-accordion > .d-ui-widget-header.d-state-active,.d-accordion > .d-ui-widget-content.d-state-active,.ui-state-active {background-image:none;background-color:#df4927;}
+.d-ui-widget.d-state-active, .d-ui-widget-header.d-state-active, .d-item.d-state-active, .d-node-content > .d-state-active, .d-rating, .d-state-active,.d-accordion > .d-ui-widget-header.d-state-active,.d-accordion > .d-ui-widget-content.d-state-active,.d-tabs > .d-tabs-navs > .d-tabs-nav.d-state-active,.d-tabs > .d-tabs-panel.d-state-active,.ui-state-active {border-color:#e79583;}
+	

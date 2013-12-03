@@ -1,0 +1,27 @@
+﻿.d-poll { position: relative; }
+.d-poll-option { position: relative; }
+.d-poll-option-label { }
+.d-poll-option-progress { height: 20px; padding: 2px 40px 2px 0px; }
+    .d-poll-option-progress > span { position: absolute; right: 0px; }
+.d-poll-button-holder { padding-top: 10px; }
+    .d-poll-button-holder > label { float: right; }
+    .d-poll-button-holder:after { content: ""; clear: right; float: none; }
+
+.d-view.d-view-list.poll .d-view-fields, .d-view.d-view-list.poll .d-view-field.options { float: right; }
+.d-view.d-view-list.poll .d-view-fields { width: 60%; }
+    .d-view.d-view-list.poll .d-view-fields > .d-view-field { padding-left: 0px; }
+.d-view.d-view-list.poll .d-title > a { white-space: normal; }
+.d-view.d-view-list.poll .d-view-field.options { width: 40%; padding: 10px 0px; }
+    .d-view.d-view-list.poll .d-view-field.options > .d-poll { clear: left; float: none; }
+
+.poll .d-poll-option { overflow: auto; width: 100%; }
+.poll .d-poll-option-label { float: left; width: 35%; }
+.poll .d-poll-option-progress { float: left; width: 50%; position: relative; }
+
+@media screen and (max-width: 768px) {
+    .d-view.d-view-list.poll .d-view-fields, .d-view.d-view-list.poll .d-view-field.options { clear: right; float: none; width: 100%; overflow: auto; }
+}
+
+@media screen and (max-width: 400px) {
+    .poll .d-poll-option-label, .poll .d-poll-option-progress { float: none; clear: left; width: auto; }
+}

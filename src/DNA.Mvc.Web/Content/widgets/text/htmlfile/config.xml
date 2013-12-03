@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="html-file">
+  <name short="HtmlFile">Html file</name>
+  <name short="HtmlFile" xml:lang="zh-cn">Html 文件</name>
+  <description>Load the html content from specified html file url</description>
+  <description xml:lang="zh-cn">从设定的网页引用地址动态加载并显示页面内容</description>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="src" value="" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

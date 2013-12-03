@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" 
+             allowAttachs="true" allowCategoriesAndTags="true" 
+             name="faq" 
+             defaultLocale="en-us" activity="true" id="faq">
+  <title resKey="FAQ" />
+  <fields>
+    <field type="Text" name="title" linkToItem="true" required="true" slug="true" itemprop="name">
+      <title resKey="Title"/>
+      <placeHolder resKey="Title_Holder"/>
+    </field>
+    <field type="Note" name="body" required="true" numlines="10" isHtml="true" itemprop="text">
+      <title resKey="Content"/>
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true">
+      <title resKey="DefaultView"/>
+      <emptyPattern contentType="text/html"><![CDATA[<div style="line-height:50px;text-align:center;" class="d-title">No questions</div>]]></emptyPattern>
+      <emptyPattern contentType="text/html" xml:lang="zh-cn"><![CDATA[<div style="line-height:50px;text-align:center;" class="d-title">暂无内容</div>]]></emptyPattern>
+      <body src="_expandable.cshtml" />
+      <paging allow="true" index="1" size="20" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New"/>
+    </form>
+    <form name="editForm" type="Edit">
+      <title resKey="Edit"/>
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Details"/>
+      <fields>
+        <field caption="true" name="title" showLabel="false" />
+        <field name="body" showLabel="false" />
+      </fields>
+    </form>
+    <form name="actForm" type="Activity" anonymous="true">
+      <title resKey="Activity"/>
+    </form>
+  </forms>
+</contentType>

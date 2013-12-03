@@ -1,0 +1,29 @@
+﻿@model DNA.Web.WebPage
+@{
+    var page = AppModel.Get().Wrap(Model);
+}
+<form data-ajax="true"
+    data-ajax-url="@Url.Content("~/api/"+AppModel.Get().CurrentWeb.Name+"/pages/edit/" + page.ID.ToString() + "?locale=" + Culture)"
+    data-ajax-method="post"
+    data-ajax-begin="$.loading();"
+    data-ajax-success="$('body').trigger('change',{title:$('#Title').val(),desc:$('#Description').val(),keywords:$('#Keywords').val()});$.loading('hide');_goToStart();"
+     >
+    <div class="d-fields">
+        <div style="clear: right;">
+            @Html.LabelFor(m => m.Title, Commons.Title)
+            @Html.TextBoxFor(m => m.Title, new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Title), maxlength = "66", data_width = "270" })
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Description, Commons.Desc)
+            @Html.TextAreaFor(m => m.Description, new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Desc), maxlength = "150", style = "width:275px;" })
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Keywords, Commons.Keywords)
+            @Html.TextAreaFor(m => m.Keywords, new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Keywords), maxlength = "150", style = "width:275px;" })
+        </div>
+    </div>
+    <p>
+        <button data-default="true">@Commons.Save</button>
+    </p>
+</form>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,14 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType; 
+    }
+<ul class="d-view d-view-menu @Model.CssClass" data-role="menu">
+    @foreach (var dataItem in Model)
+    {
+        <li class="@dataItem.CssClass" id="@dataItem.ID"
+            itemscope="itemscope" 
+            @if (!string.IsNullOrEmpty(itemtype)){<text>itemtype="@itemtype"</text>}>
+            <a href="@Url.Content(dataItem.Url)">@dataItem[Model.List.GetDefaultTitleField().Name]</a>
+        </li>
+    }
+</ul>

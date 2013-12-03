@@ -1,0 +1,78 @@
+﻿@model ContentDataItemDecorator
+@{
+    var list = Model.Parent;
+    var fields = list.Fields;
+    var titleVal = Model.GetDefaultTitleValue();
+    var page = (WebPageDecorator)ViewBag.Page;
+    var form = list.DetailForm;
+}
+
+<div>
+    <div class="d-thumbs-holder">
+        @if (Model["ImageUrl"].IsNull 
+            && Model["Thumb1"].IsNull 
+            && Model["Thumb2"].IsNull 
+            && Model["Thumb3"].IsNull 
+            && Model["Thumb4"].IsNull
+            && Model["Thumb5"].IsNull)
+        { }
+        else
+        {
+            var prefix = Model.ID.ToString().Substring(5);
+            <div id="@(prefix)_holder"
+                class="d-ui-widget d-main-thumb"
+                data-viewer="true"
+                data-items="@(prefix)_imgs>li"
+                data-src-attr="data-img">
+                @UIHelper.Image((string)Model["ImageUrl"].Raw, 396, 300, prefix + "_img")
+            </div>
+            <ul class="d-items d-small-thumbs"
+                    id="@(prefix)_imgs"
+                    data-role="listview"
+                    data-item-class="d-ui-widget d-inline d-small-thumb"
+                    data-selectable="true"
+                    data-select="$('#@(prefix)_img').attr('src',ui.item.data('img')+'?w=396&h=300');$('#@(prefix)_holder').attr('data-index',$('#@(prefix)_imgs').children().index(ui.item));"
+                    >
+                @for (int i = 0; i <= 5; i++)
+                {
+                    @_thumb("thumb" + (i > 0 ? i.ToString() : ""))
+                }
+            </ul>
+        }
+    </div>
+    <div class="d-fields-holder">
+        <div>
+            @foreach (var f in form.Fields)
+            {
+                if (Model[f.Name].IsNull || f.FieldType == (int)ContentFieldTypes.Note || f.FieldType == (int)ContentFieldTypes.Image || f.FieldType == (int)ContentFieldTypes.Video)
+                { continue; }
+                
+                if (f.Name.Equals("Discount")) {
+                    if ((decimal)(Model.Value("Discount").Raw) == 0) { continue; }
+                }
+                
+                Html.ForDisp(form.Fields[f.Name], Model, true);
+            }
+        </div>
+        @if (!IsAjax) {
+        <div>@PaymentGateways.Buttons(Model,(decimal)Model.Value("Price").Raw)</div> }
+    </div>
+</div>
+
+@foreach (var f in Model.Fields)
+{
+    if (f.FieldType == (int)ContentFieldTypes.Note && !Model[f.Name].IsNull)
+    {
+    <h3 style="float:none;clear:left;">@f.Title</h3>
+        Html.ForDisp(form.Fields[f.Name], Model, false);
+    }
+}
+
+@helper _thumb(string name)
+{
+    if (Model[name] != null && !Model[name].IsNull)
+    {
+    <li data-img="@Model[name].Raw">
+        @UIHelper.Image((string)Model[name].Raw, 80, 80)
+    </li>}
+}

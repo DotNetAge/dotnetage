@@ -1,0 +1,10 @@
+﻿.d-mainmenu.d-menu { height: 30px; background-color: transparent; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.d-mainmenu.d-menu, .d-menu .d-items-wrapper { border-color: transparent; }
+    .d-mainmenu.d-menu .d-items-wrapper { background-color: #c6e81b; }
+    .d-mainmenu.d-menu .d-item.d-state-active { background-color: #8fa908; }
+    .d-mainmenu.d-menu .d-separator { border-color: #c6e81b; }
+    .d-mainmenu.d-menu .d-item.d-state-hover { background-color: #8fa908; }
+
+@media screen and (max-width: 600px) {
+    .d-mainmenu.d-menu { height: auto; }
+}

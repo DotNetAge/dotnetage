@@ -1,0 +1,30 @@
+﻿@model ContentQueryResult
+
+@{
+    var itemtype = Model.List.ItemType; 
+}
+@if (Model.Count() > 0)
+{
+    <ul class="d-view d-view-float @Model.CssClass">
+        @foreach (var dataItem in Model)
+        {
+            <li class="d-ui-widget @dataItem.CssClass" id="@dataItem.ID" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                                      {<text>itemtype="@itemtype"</text>}>
+                <div class="d-ui-widget-content" style="height:inherit;border-bottom-color:inherit;">
+                    @foreach (var field in Model.View.FieldRefs)
+                    {
+                        if (field.IsHidden) { continue; }
+                        <div title="@field.Title" @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))">
+                            @{ Html.ForView(field.Name, dataItem); }
+                        </div>
+                    }
+                 <div class="d-view-field published "><time itemprop="datePublished" datetime="@dataItem.Published.ToString("yyyy-MM-ddThh:mm:ss")">@dataItem.Published.ToShortDateString()</time></div>
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div>@Resources.Messages.NoItemFound</div>
+}

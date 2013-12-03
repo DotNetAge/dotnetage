@@ -1,0 +1,5 @@
+﻿/****************************************************listbox****************************************************/
+.d-listbox { display: block; }
+    .d-listbox.d-checkable .d-item, .d-listbox.d-checkable .d-item.d-state-hover, .d-listbox.d-checkable .d-item.d-state-active { border: none; background: none; }
+        .d-listbox.d-checkable .d-item.d-state-hover > a { text-decoration: underline; }
+        .d-listbox.d-checkable .d-item.d-state-active > a { -webkit-text-shadow: none; text-shadow: none; }

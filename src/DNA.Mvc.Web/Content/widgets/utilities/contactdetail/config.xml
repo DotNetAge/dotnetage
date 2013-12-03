@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="contact-detail">
+  <name short="ContactDetail">Contact detail</name>
+  <name short="ContactDetail" xml:lang="zh-cn">联系信息</name>
+  <description></description>
+  <icon src="default.png" />
+  <preference name="company" value="''" />
+  <preference name="address_line1" value="''" />
+  <preference name="address_line2" value="''" />
+  <preference name="telephone" value="''" />
+  <preference name="cellphone" value="''" />
+  <preference name="fax" value="''" />
+  <preference name="zipcode" value="''" />
+  <preference name="email" value="''" />
+  <preference name="cached" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

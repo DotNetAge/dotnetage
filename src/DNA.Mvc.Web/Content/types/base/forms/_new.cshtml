@@ -1,0 +1,11 @@
+﻿@model ContentFormDecorator
+@{ 
+    if (!Model.Body.IsEmpty)
+    {
+        Html.RenderFormTemplate(Model);
+    }
+    else
+    {
+        Html.RenderFields(Model);
+    }
+}

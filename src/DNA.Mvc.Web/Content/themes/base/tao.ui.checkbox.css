@@ -1,0 +1,5 @@
+﻿.d-checkbox { display: inline-block; overflow: hidden; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap; }
+    .d-checkbox > label { font-size: 100%; }
+    .d-checkbox > * { display: inline-block; vertical-align: middle; cursor: pointer; }
+    .d-checkbox::after { display: block; visibility: hidden; clear: both; height: 0; content: ""; }
+    .d-checkbox .d-check-holder { margin-right: 5px; }

@@ -1,0 +1,11 @@
+﻿.d-accordion > h3 { position: relative; cursor: pointer; }
+    .d-accordion > h3 > * { display: inline-block; vertical-align: middle; }
+.d-accordion > div { overflow: auto; }
+.d-accordion > .d-ui-widget-header { padding: 10px; border-top-width: 1px; border-top-style: solid; line-height: 1.5em; }
+    .d-accordion > .d-ui-widget-header:first-of-type { border-top-color: transparent; }
+    .d-accordion > .d-ui-widget-header > .icon { margin-right: 5px; min-width: 20px; }
+    .d-accordion > .d-ui-widget-header.d-state-active { margin: 0px; -webkit-border-bottom-left-radius: 0px; -webkit-border-bottom-right-radius: 0px; -moz-border-radius-bottomleft: 0px; -moz-border-radius-bottomright: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; }
+        .d-accordion > .d-ui-widget-header > a, .d-accordion > .d-ui-widget-header.d-state-active > a, .d-accordion > .d-ui-widget-header.d-state-hover > a { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.d-accordion > .d-ui-widget-content { padding: 10px; }
+.d-accordion > .d-ui-widget-header:first-child { -moz-border-radius-topleft: inherit; -moz-border-radius-topright: inherit; -webkit-border-top-left-radius: inherit; border-top-left-radius: inherit; -webkit-border-top-right-radius: inherit; border-top-right-radius: inherit; }
+.d-accordion > .d-ui-widget-content:last-child { -webkit-border-bottom-left-radius: inherit; -webkit-border-bottom-right-radius: inherit; -moz-border-radius-bottomleft: inherit; -moz-border-radius-bottomright: inherit; border-bottom: none; border-bottom-right-radius: inherit; border-bottom-left-radius: inherit; }

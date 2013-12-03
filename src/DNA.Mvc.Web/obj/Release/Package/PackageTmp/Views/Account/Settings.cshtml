@@ -1,0 +1,152 @@
+﻿@model UserProfile
+@{   
+    Layout = "~/Views/Shared/_MyDashboard.cshtml";
+    ViewBag.Title = Resources.Contacts.EditProfile;
+
+    var gender = "m";
+    if (!string.IsNullOrEmpty(Model.Gender))
+    {
+        gender = Model.Gender.ToLower();
+    }
+    var defaultProfile = Application.Profile;
+    var defaultAvatar = "~/content/images/no-avatar.gif";
+    var avatar = !string.IsNullOrEmpty(Profile.Avatar) ? Profile.Avatar : defaultAvatar;
+}
+<form id="sys_profile_editform" enctype="multipart/form-data" style="position:relative;"
+    data-ajax="true"
+    data-ajax-method="post"
+    data-ajax-url="@Url.Action("Settings")"
+    data-ajax-begin="$.loading('@(Resources.Commons.Saving)....')"
+    data-ajax-success="$('#btnSaveProfile').isDisable(true);"
+    data-ajax-complete="$.loading('hide');">
+    <div data-role="panel" title="@Resources.Commons.Common" style="margin:10px;">
+        <div class="d-form">
+            <div class="d-field">
+                <label>Email:</label><a href="javascript:void(0);" role="link" data-icon-left="@if (Application.User.IsVaildMail){<text>d-icon-checkmark-2</text>}else{<text>d-icon-question-2</text>}">@Application.User.Email</a>
+                @if (!Application.User.IsVaildMail){
+                <a data-role="button" data-default="true" id="BtnValEmail"
+                    data-ajax="true"
+                    data-ajax-method="post"
+                    data-ajax-url="@Url.Action("ValidateEmail", "Account", new { userName=User.Identity.Name})"
+                    data-ajax-begin="$('#BtnValEmail').isDisable(true);"
+                    data-ajax-failure="$.err('Send validate email fail!');$('#BtnValEmail').isDisable(false);"
+                    data-ajax-success="$.info('The validate mail has been sent.')">Validate</a>
+                }
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.DisplayName, Resources.Contacts.DisplayName)
+                @Html.TextBoxFor(m => m.DisplayName, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.DisplayName) })
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.FirstName, Resources.Contacts.FirstName)
+                @Html.TextBoxFor(m => m.FirstName, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.FirstName) })
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.LastName, Resources.Contacts.LastName)
+                @Html.TextBoxFor(m => m.LastName, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.LastName) })
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.Birthday, Resources.Contacts.Birthday)
+                @Html.TextBoxFor(m => m.Birthday, new
+           {
+               type = "date",
+               data_role = "datetime",
+               data_value = Model.Birthday.HasValue ? Model.Birthday.Value.ToShortDateString() : DateTime.Now.AddYears(-20).ToShortDateString(),
+               style = "width:120px;"
+           })
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.Gender, Resources.Contacts.Gender)
+                <select data-role="combobox" name="Gendar" data-drop-style="menu" style="width: 100px;">
+                    <option value="m" @if (gender == "m")
+                                      {<text> selected="selected" </text>} >@Resources.Contacts.Male</option>
+                    <option value="F" @if (gender == "f")
+                                      {<text> selected="selected" </text>} >@Resources.Contacts.Female</option>
+                    <option value="O" @if (gender == "o")
+                                      {<text> selected="selected" </text>} >@Resources.Commons.Other</option>
+                    <option value="P" @if (gender == "p")
+                                      {<text> selected="selected" </text>} >@Resources.Commons.Private</option>
+                </select>
+            </div>
+            <div class="d-field">
+                @{
+                    var selectedCurrency = Application.Profile.CurrencyCode;
+                    if (string.IsNullOrEmpty(selectedCurrency))
+                    {
+                        var locale = Application.Profile.Locale;
+                        if (string.IsNullOrEmpty(locale))
+                        {
+                            locale = Culture;
+                        }
+                        var _culture = new System.Globalization.CultureInfo(locale);
+                        var _region = new System.Globalization.RegionInfo(_culture.LCID);
+                        selectedCurrency = _region.ISOCurrencySymbol;
+                    }
+                    var countries = Application.Countries;
+                    var currencies = new List<SelectListItem>();
+                    foreach (var country in countries)
+                    {
+                        if (currencies.FirstOrDefault(c => c.Value.Equals(country.ISOCurrencySymbol)) == null)
+                        {
+                            currencies.Add(new SelectListItem() { Text = country.CurrencyEnglishName, Value = country.ISOCurrencySymbol });
+                        }
+                    }
+                }
+                @Html.LabelFor(m => m.CurrencyCode, Resources.Commons.CurrencyCode)
+                @Html.DropDownListFor(m => m.CurrencyCode,
+                    new SelectList(currencies.OrderBy(c => c.Text), "Value", "Text", selectedCurrency),
+                    new
+                    {
+                        data_role = "combobox",
+                        style = "width:50%",
+                        data_height = "200",
+                        data_input = "false",
+                        data_select = "$('#currency_text').text(ui.value);"
+                    })
+                <span id="currency_text">@selectedCurrency</span>
+            </div>
+            <div class="d-field">
+                <label></label>
+                <a data-role="button"
+                            href="@(Url.Action("ChangePassword", "Account", new { Area = "", locale = Culture }))"
+                            data-rel="dialog"
+                            data-dialog-title="@Resources.Security.ChangePwd">@Resources.Security.ChangePwd</a>
+            </div>
+            <div class="d-field">
+                @Html.LabelFor(m => m.Signature, Resources.Contacts.About)
+                @Html.TextAreaFor(m => m.Signature, new { placeholder="Enter something about you."})
+            </div>
+        </div>
+    </div>
+    <div data-role="panel" title="@Resources.Contacts.Address"  style="margin:10px;">
+        <div class="d-form" id="profile_addresses">
+            @{  Html.RenderAction("List", "Address", new { userName = User.Identity.Name });
+            //var defAddr = (Model as IAddress).ConvertTo<Address>();
+            //defAddr.ID = 0;
+            //var addresses = defaultProfile.Addresses.ToList();
+            //addresses.Insert(0,defAddr);
+            //Html.RenderPartial("~/Views/Address/List.cshtml", addresses);
+            }
+        </div>
+    </div>
+    <p style="padding: 0px 10px;">
+        <button data-default="true" data-inline="false" id="btnSaveProfile" class="d-state-disable">@Resources.Commons.Save</button>
+    </p>
+</form>
+<script type="text/javascript">
+    $(function () {
+        var _refresh = function () {
+            $("#profile_addresses").load("@(Url.Action("List", "Address", new { userName = User.Identity.Name }))", function () {
+                $("#profile_addresses").taoUI();
+            });
+        };
+
+        $("body").bind("addressCreated", _refresh)
+                        .bind("addressEdited", _refresh);
+
+        $("#sys_profile_editform").bind("change", function () {
+            $("#btnSaveProfile").isDisable(false);
+        });
+    });
+
+</script>

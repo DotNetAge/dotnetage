@@ -1,0 +1,10 @@
+﻿.d-mainmenu.d-menu { height: 30px; background-color: transparent; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.d-mainmenu.d-menu, .d-menu .d-items-wrapper { border-color: transparent; }
+    .d-mainmenu.d-menu .d-items-wrapper { background-color: #2890dc; }
+    .d-mainmenu.d-menu .d-item.d-state-active { background-color: #2890dc; }
+    .d-mainmenu.d-menu .d-separator { border-color: #a4cfef; }
+    .d-mainmenu.d-menu .d-item.d-state-hover { background-color: #2890dc; }
+
+@media screen and (max-width: 600px) {
+    .d-mainmenu.d-menu { height: auto; }
+}

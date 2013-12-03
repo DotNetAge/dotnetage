@@ -1,0 +1,19 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    Layout = "~/Views/Shared/_ErrorLayout.cshtml";
+    ViewBag.ImageUrl = "~/content/images/icon_delete_48.png";
+}
+<div style="padding: 0pt 0.7em;" class="d-state-error">
+    <p>
+        @Model.Exception.Message
+        @if (Model.Exception.InnerException != null)
+        {
+            @Model.Exception.InnerException.Message;
+        }
+    </p>
+    <p>
+        <span style="float: left; margin-right: 0.3em;" class="d-icon-remove-circle d-inline"></span>
+        <strong>
+            @Resources.Commons.Detail:</strong>@Model.Exception.StackTrace
+    </p>
+</div>

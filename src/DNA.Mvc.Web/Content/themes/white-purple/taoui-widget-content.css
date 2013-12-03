@@ -1,0 +1,4 @@
+﻿.d-ui-widget-content, .ui-widget-content, .d-tabs-nav.d-state-active { background-color: #fff; color: #000; }
+.d-ui-widget.d-tooltip, .d-state-info, .d-item-counter { border-color: #9B4F96; background-color: #ffffff; color: #551350; }
+
+.d-ui-widget-content > .d-ui-widget, .d-listbox .d-item { color: #551350; }

@@ -1,0 +1,46 @@
+﻿@model MembershipUserCollection
+@{
+    ViewBag.Title = Resources.Security.UsrMgr;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@section Navs{
+    <a data-role="button" data-icon-left="d-icon-user-add" title="@Resources.Security.CreateUsr" href="~/host/create-user"></a>
+}
+<div style="padding: 10px 0px;">
+    <input type="text" id="searchBox" style="width:100%;"
+        data-icon="d-icon-search"
+        onkeyup="$('#memberlist').empty(); $('#user_src').taoDataSource('read')" 
+        name="terms" 
+        value="" 
+        placeholder="@Resources.InputHolders.UsrSearchHolder" />
+</div>
+<script type="text/x-jquery-tmpl">
+    <li data-counter="{{= roles}}" id="sys_user_${id}" data-link-icon="{{if validated}}d-icon-ok-sign{{else}}d-icon-question-sign{{/if}}">
+        <a href="javascript:void(0);">
+            <img style="max-width: 60px; max-height: 60px; left: 0px; top: 50%; margin-top: -32px;" src="${picture}" class="d-inline" />
+            <h4 style="line-height: 1em;">${dispName}<span>@@${id}</span></h4>
+            <p>${email}</p>
+        </a>
+        <a href="@Url.Action("UserRoles", "Security", new { locale = Culture })&name=${id}" 
+            title="{{if validated}}Validated{{else}}Unvalidate{{/if}}"
+            data-rel="panel"
+            data-panel-display="overlay"
+            data-panel-pos="right"
+            data-panel-title="@Resources.Commons.Details"></a></li>
+</script>
+<ul id="memberlist"
+    class="d-ui-widget"
+    data-source="next"
+    data-tmpl="prev"
+    data-role="listview"
+    data-scroller="win"
+    data-selectable="true"
+    data-display="mobile-list"
+    data-inset="true"
+    data-items-added="$('#memberlist').mobilelist();">
+</ul>
+<div data-role="datasource" data-pagable="true" id="user_src">
+    <div data-action="read" data-url="@Url.Content("~/api/accounts/list")">
+        <div data-from="searchBox" data-name="terms"></div>
+    </div>
+</div>

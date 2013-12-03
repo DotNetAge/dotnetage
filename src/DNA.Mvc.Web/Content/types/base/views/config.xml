@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewTmpls>
+  <tmpl name="_list.cshtml" class="d-view-list" icon="d-icon-align-justify">
+    <title resKey="ListView">List view</title>
+    <desc resKey="ListViewDesc"></desc>
+  </tmpl>
+  <tmpl name="_timeline.cshtml" class="d-view-timeline" icon="d-icon-flow-cascade">
+    <title resKey="TimeLine">Timeline view</title>
+    <desc resKey="TimeLineDesc"></desc>
+  </tmpl>
+  <tmpl name="_float.cshtml" class="d-view-float" icon="d-icon-grid">
+    <title resKey="GridView">Grid view</title>
+    <desc resKey="GridViewDesc">Can be use for show image items.</desc>
+  </tmpl>
+  <tmpl name="_tagGroupList.cshtml" class="d-view-list" icon="d-icon-tags">
+    <title resKey="TagsView">Tags group view</title>
+    <desc resKey="TagsViewDesc">Group by item tags.</desc>
+  </tmpl>
+  <tmpl name="_slider.cshtml" class="d-view-slider" icon="d-icon-images">
+    <title resKey="SliderView">Slider view</title>
+    <desc resKey="SliderViewDesc"></desc>
+  </tmpl>
+  <tmpl name="_slideshow.cshtml" class="d-view-slider" icon="d-icon-images">
+    <title resKey="SlideShow">Slideshow</title>
+    <desc resKey="SlideShowDesc"></desc>
+  </tmpl>
+  <tmpl name="_grid.cshtml" class="d-view-grid" icon="d-icon-table-3">
+    <title resKey="TableView">Table view</title>
+    <desc resKey="TableViewDesc"></desc>
+  </tmpl>
+  <tmpl name="_links.cshtml" class="d-view-links" icon="d-icon-list">
+    <title resKey="LinkList">Link list</title>
+    <desc resKey="LinkListDesc"></desc>
+  </tmpl>
+  <tmpl name="_expandable" class="d-view-expandable" icon="d-icon-menu">
+    <title resKey="ExpandableList">Expandable list</title>
+    <desc resKey="ExpandableListDesc"></desc>
+  </tmpl>
+  <tmpl name="_menu.cshtml"  class="d-view-menu" icon="d-icon-menu-2">
+    <title resKey="MenuView">Menu view</title>
+    <desc resKey="MenuVIewDesc">Show the data items in a menu</desc>
+  </tmpl>
+  <tmpl name="_mobile_list.cshtml"  class="d-view-mobi" icon="d-icon-reorder">
+    <title resKey="MobileView">Mobile listview</title>
+    <desc resKey="MobileViewDesc"></desc>
+  </tmpl>
+</viewTmpls>

@@ -1,0 +1,4 @@
+﻿.mainmenu-clean { border: none; height: 35px; }
+    .mainmenu-clean .d-item { text-align: left; min-width: 100px; }
+    .mainmenu-clean > .d-item { text-align: center; }
+        .mainmenu-clean > .d-item.d-state-active { background-color: #FF0000; color: #fff; font-weight:bold;}

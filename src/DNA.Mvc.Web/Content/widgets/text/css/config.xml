@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="style-sheet">
+  <name short="css">Style sheet</name>
+  <name short="css" xml:lang="zh-cn">样式表</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="src" value="''" />
+  <preference name="content" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

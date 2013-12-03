@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = Commons.Themes;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+@section HeaderSection{
+    @Styles.Render("~/content/css/thememgr.css")
+}
+
+@{
+    var themes = AppModel.Get().Themes.Packages;
+}
+<ul data-role="listview"
+    data-item-class="d-theme d-shadow bend" data-selectable="true"  >
+    @foreach (var t in themes)
+    {
+        var m = t.Locale(Culture);
+        <li id="@m.Name" 
+            data-url="@m.Url" 
+            data-title="@(string.IsNullOrEmpty(m.Title) ? m.Name : m.Title)" 
+            data-roles="@m.Roles">
+            <a data-rel="panel"
+                href="@Url.Action("Edit", "Theme", new { Area = "", locale = Culture ,name=m.Name})"
+                data-panel-display="overlay"
+                data-panel-pos="right"
+                data-panel-title="@if (string.IsNullOrEmpty(m.Title)){<text>@m.Name</text>}else{<text>@m.Title</text>}"
+                class="d-theme-img-holder" 
+                style="background-image:url(@if (!string.IsNullOrEmpty(m.PrimaryImage))
+                                            {<text>@(Url.Content(t.ResolveUri(m.PrimaryImage)))</text>}
+                                            else
+                                            {<text>@(Url.Content("~/content/images/image_holder.png"))</text>})"></a>
+            @* <div class="d-buttons-holder">
+            <a href="#" target="_blank"><span data-icon="info-2"></span></a>
+            <a href="javascript:void(0);"  target="_blank"><span data-icon="cancel"></span></a></div>*@
+        </li>
+    }
+</ul>

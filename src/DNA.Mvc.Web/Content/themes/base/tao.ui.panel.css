@@ -1,0 +1,18 @@
+﻿/****************************************************panel****************************************************/
+.d-panel { position: absolute; overflow: hidden; }
+    .d-panel > .d-ui-widget-header { position: relative; padding: 10px; border-top-left-radius: inherit; border-top-right-radius: inherit; line-height: 1.5em; }
+        .d-panel > .d-ui-widget-header > a { position: relative; display: block; }
+            .d-panel > .d-ui-widget-header > a:after { display: block; clear: left; width: 0px; height: 0px; content: ""; }
+        .d-panel > .d-ui-widget-header .d-icon-holder { float: right; margin-right: 5px; min-width: 16px; text-align: center; font-size: 16px!important; line-height: inherit; cursor: pointer; }
+    .d-panel > .d-ui-widget-content { overflow: auto; padding: 0px; }
+    .d-panel.d-state-active > .d-ui-widget-content { border-top: none; }
+
+.d-panel-static { position: relative; }
+.d-ui-widget.d-panel-push,
+.d-ui-widget.d-panel-reveal,
+.d-ui-widget.d-panel-overlay { top: 0px; border-top: none; border-bottom: none; -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; }
+
+    .d-ui-widget.d-panel-reveal.d-panel-right { -webkit-box-shadow: 5px 0 5px rgba(0, 0, 0, 0.15) inset; box-shadow: 5px 0 5px rgba(0, 0, 0, 0.15) inset; }
+        .d-ui-widget.d-panel-reveal.d-panel-right > * { margin-left: 10px; }
+
+.d-panel-reveal.d-panel-left:after { content: ""; width: 1px; background: #fff; -webkit-box-shadow: 0px 0px 10px #000; box-shadow: 0px 0px 10px #000; position: absolute; top: 0px; right: 0px; height: inherit; }

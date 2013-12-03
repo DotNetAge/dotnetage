@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="scripts">
+  <name short="scripts">Scripts</name>
+  <name short="scripts" xml:lang="zh-cn">脚本代码</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="type" value="'text/javascript'" />
+  <preference name="src" value="''" />
+  <preference name="content" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

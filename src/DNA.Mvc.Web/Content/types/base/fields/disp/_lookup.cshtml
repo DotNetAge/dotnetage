@@ -1,0 +1,25 @@
+﻿@model ContentFieldValue
+@{
+    var field = (LookupField)Model.Field;
+    var lookupList = !string.IsNullOrEmpty(field.ListName) ? AppModel.Get().CurrentWeb.Lists[field.ListName] : null;
+    var lookupView = !string.IsNullOrEmpty(field.ViewName) && lookupList != null ? lookupList.Views[field.ViewName] : null;
+
+    if (string.IsNullOrEmpty(field.ViewName) && lookupList != null)
+    {
+        lookupView = lookupList.DefaultView;
+    }
+    var lookupField = !string.IsNullOrEmpty(field.FieldName) && lookupView != null ? lookupView.FieldRefs[field.FieldName] : null;
+}
+@if (lookupList == null || lookupView == null || lookupField == null)
+{
+}
+else
+{
+    try
+    {
+        var item = lookupList.GetItem(Guid.Parse(Model.Raw.ToString()));
+        var editor = lookupList.DetailForm.Fields[lookupField.Name];
+        Html.ForDisp(editor, item, false);
+    }
+    catch { }
+}

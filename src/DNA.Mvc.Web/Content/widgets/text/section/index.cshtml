@@ -1,0 +1,190 @@
+﻿@using Resources;
+@using DNA.Web.ServiceModel
+
+@Html.Widget().UserPreferences(@<text>
+@{var src = item.GetString("src");}
+<div style="height: 80px;margin-bottom:10px; line-height: 80px; text-align: center;@if (string.IsNullOrEmpty(src))
+                                                                                   {<text>display:none;</text>})">
+    <img src="@src" style="max-height:80px;max-width:100px;" class="d-inline" id="@item.GetID("preview")" />
+</div>
+<ul data-role="listview" data-display="mobile-list">
+    <li data-role="divider">
+        @item.Label("src", Resources.Commons.Url)
+    </li>
+    <li data-readonly="true" style="border-bottom: none; padding-bottom: 0px;">
+        <div style="padding-left: 5px;">
+            @item.TextBox("src", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Url), style = "width:100%;" })
+        </div>
+    </li>
+    <li data-readonly="true" style="padding: 10px; padding-top: 0px;">
+        @UIHelper.BrowseFor(item.GetID("src"), Resources.Messages.SelectAnImage, "image", inline: false)
+    </li>
+</ul>
+<div class="d-field">
+    @item.Label("title", Commons.Title)
+    @item.TextBox("title", new { placeholder = "Enter the heading text" })
+</div>
+<div class="d-field">
+    @item.Label("tag", TextFormats.Format)
+    <select data-role="combobox" style="width: 150px;" data-drop-style="menu" name="tag">
+        <option class="d-h1" value="h1" @if (item.GetString("tag") == "h1")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header1</option>
+        <option class="d-h2" value="h2" @if (item.GetString("tag") == "h2")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header2</option>
+        <option class="d-h3" value="h3" @if (item.GetString("tag") == "h3")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header3</option>
+        <option class="d-h4" value="h4" @if (item.GetString("tag") == "h4")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header4</option>
+        <option class="d-h5" value="h5" @if (item.GetString("tag") == "h5")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header5</option>
+        <option class="d-h6" value="h6" @if (item.GetString("tag") == "h6")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header6</option>
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("align", Resources.Designs.Alignment)
+    <select data-role="combobox" style="width: 150px;" data-drop-style="menu" name="align">
+        <option value="left" @if (item.GetString("align") == "left")
+                             {<text>selected="selected"</text>}>@Resources.Designs.Left </option>
+        <option value="right" @if (item.GetString("align") == "right")
+                              {<text>selected="selected"</text>}>@Resources.Designs.Right</option>
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("textalign", "Text align")
+    <select data-role="combobox" style="width: 150px;" data-drop-style="menu" name="textalign">
+        <option value="left" @if (item.GetString("textalign") == "left")
+                             {<text>selected="selected"</text>}>@Resources.Designs.Left </option>
+        <option value="center" @if (item.GetString("textalign") == "center")
+                               {<text>selected="selected"</text>}>@Resources.Designs.Center</option>
+        <option value="right" @if (item.GetString("textalign") == "right")
+                              {<text>selected="selected"</text>}>@Resources.Designs.Right</option>
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("description", Resources.Designs.Margin)
+    @item.Hidden("margin")
+    <input data-role="slider" type="hidden" value="@item.GetString("margin")" data-to="@item.GetID("margin")" data-slide="$('#@item.ClientID').find('.d-w-section').css('margin-top', ui.value + '%');"/>
+</div>
+<div class="d-field">
+    @item.Label("animation", "Animation")
+     <select data-role="combobox" style="width: 150px;" data-drop-style="menu" name="animation">
+        <option value="horizontal" @if (item.GetString("animation") == "horizontal")
+                             {<text>selected="selected"</text>}>@Resources.Designs.Horizontal </option>
+        <option value="vertical" @if (item.GetString("animation") == "vertical")
+                               {<text>selected="selected"</text>}>@Resources.Designs.Vertical</option>
+         <option value="fade" @if (item.GetString("animation") == "fade")
+                              {<text>selected="selected"</text>}>Fade in</option>
+        <option value="" @if (item.GetString("animation") == "")
+                              {<text>selected="selected"</text>}>None</option>
+
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("description", Commons.Desc)
+    @item.TextArea("description", new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Desc), style = "height:250px;" })
+</div>
+
+<script type="text/javascript">
+        function _loadimagemeta_@(item.IDPrefix)(url) {
+            var previewImg = $('#@item.GetID("preview")'),
+            placeHolder = $('#@item.GetID("imagesize_holder")'),
+            wEle = $("[name=width]", placeHolder),
+            hEle = $("[name=height]", placeHolder);
+
+            previewImg.attr('src', url).show();
+
+            $.get(url + "?match=self", function (data) {
+                previewImg.data("width", data.exif.width)
+                                   .data("height", data.exif.height)
+                                   .data("ratio", data.exif.width / data.exif.height);
+                var settingHolder = $('#@item.GetID("setting_holder")');
+                settingHolder.show();
+                wEle.val(data.exif.width);
+                hEle.val(data.exif.height);
+                if ($("[name=title]", settingHolder).val() == "")
+                    $("[name=title]", settingHolder).val(data.name);
+                $("[name=alt]", settingHolder).val(data.name.replace(data.extension, ""));
+            });
+        }
+
+        $(function () {
+            var previewImg = $('#@item.GetID("preview")');
+            previewImg.on("load", function () {
+                previewImg.parent().show();
+
+            }).error(function () {
+                previewImg.parent().hide();
+            });
+
+            $("#@(item.GetID("src"))").bind("change", function () {
+                _loadimagemeta_@(item.IDPrefix)($(this).val());
+            });
+
+        });
+
+    </script>
+
+</text>).Content(@<text>
+<link type="text/css" rel="stylesheet" href="@item.GetWidgetPath("default.min.css")" title="intro_css" />
+<style>
+    @if (item.GetInt("margin")>0)
+       {<text>
+#@item.ClientID .d-w-section {margin-top: @(item.GetInt("margin"))%;} 
+    </text>}
+#@item.ClientID .d-w-section article { text-align:@item.GetString("textalign");}
+@@media screen and (max-width: 768px) {
+ #@item.ClientID .d-w-section article { text-align:center;}
+}
+</style>
+
+<section itemscope="itemscope" 
+    itemtype="http://schema.org/Article" 
+    class="d-w-section d-w-section-@item.GetString("align") @(!string.IsNullOrEmpty(item.GetString("animation")) ? "animation-"+item.GetString("animation"):"")">
+    @if (item.GetString("align") == "left")
+    { 
+        @RenderArticleHtmlPart(item)
+        @RenderFigureHtmlPart(item) 
+    }
+    else
+    {
+        @RenderFigureHtmlPart(item) 
+        @RenderArticleHtmlPart(item)
+    }
+</section>
+</text>).GetHtml()
+
+@helper RenderArticleHtmlPart(WidgetHelper settings)
+{
+    var title = settings.GetString("title");
+    var desc = settings.GetString("description");
+    <article>
+        @if (!string.IsNullOrEmpty(title))
+        {
+            @MvcHtmlString.Create(string.Format("<{0}  itemprop=\"name\">{1}</{0}>", settings.GetString("tag"), title))
+        }
+        @if (!string.IsNullOrEmpty(desc))
+        {
+            if (desc.StartsWith("<p", StringComparison.OrdinalIgnoreCase))
+            {
+            @MvcHtmlString.Create(desc)
+            }
+            else
+            {
+            <p  itemprop="description">
+                @MvcHtmlString.Create(desc)
+            </p>
+            }
+        }
+    </article>
+}
+@helper RenderFigureHtmlPart(WidgetHelper settings)
+{
+    var src = settings.GetString("src");
+    if (!string.IsNullOrEmpty(src))
+    {
+    <figure>
+        <img src="@src" class="d-inline"/>
+    </figure>
+    }
+}

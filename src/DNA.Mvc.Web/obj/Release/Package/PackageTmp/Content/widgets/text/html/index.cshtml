@@ -1,0 +1,55 @@
+﻿@using Resources;
+@{
+    Html.Widget().Content(@<text>
+    @{
+        var settings = item.GetUserPreferences();
+    }
+    @if (!string.IsNullOrEmpty(settings.content))
+    {
+        @MvcHtmlString.Create(settings.content)
+    }
+    </text>).AutoSave().Design(@<text>
+    @{ 
+        var settings = item.GetUserPreferences();
+        var id = item.GetID("editor_toolbar");
+    }
+    <div class="d-ui-widget-content d-state-info">
+        <div style="padding: 5px;text-align:left;" id="@item.GetID("unchanged_info")">
+            <a data-role="button" 
+                data-icon-left="d-icon-edit"
+                title="@item.Loc("EditHtml")"
+                onclick="event.stopPropagation(); $.editCode('@item.Loc("EditHtml")',$('#@item.GetID("content_text")').html(),function(val){ $('#@item.ClientID').widget('prefs', { content: val }); return true;  })" href="javascript:void(0);"></a>
+        </div>
+@*      <span class="d-inline">@item.Loc("ClickToEdit")</span>  <div style="padding: 5px;display:none;"  id="@item.GetID("changed_info")">
+            <span class="d-inline">@item.Loc("ContentChanged")</span>
+            <a data-role="button" onclick="event.stopPropagation();$('#@item.GetID("content_text")').taoEditable('discard');$('#@item.GetID("unchanged_info")').show();$('#@item.GetID("changed_info")').hide();">@item.Loc("Discard")</a><a data-role="button" onclick="event.stopPropagation();$('#@item.ClientID').widget('prefs', { content: $('#@item.GetID("content_text")').html() });$('#@item.GetID("unchanged_info")').show();$('#@item.GetID("changed_info")').hide();">@Commons.Save</a>
+        </div>*@
+    </div>
+    <div id="@item.GetID("content_text")"
+        style="min-height:100px;"
+        >@MvcHtmlString.Create(settings.content)
+    </div>
+
+    </text>).HideUserPreferences().UserPreferences(@<text>
+    <div style="padding: 10px;">
+        <a data-role="button" 
+            data-inline="false" 
+            data-default="true" 
+            data-icon-left="d-icon-edit"
+            onclick="$.closePanels();$('#@(item.ClientID)').isActive(false);var _editor=$('#@item.GetID("content_text")'); _editor.taoEditable().focus();">@item.Loc("EditContent")</a>
+    </div>
+    <div style="padding: 0px 10px; padding-bottom: 10px;">
+        <a data-role="button" 
+            data-inline="false"
+            data-icon-left="d-icon-code" 
+            onclick="$.closePanels();$('#@item.GetID("dlg")').taoPanel('open');">@item.Loc("EditHtml")</a>
+    </div>
+    <div style="padding: 0px 10px; padding-bottom: 10px;">
+        <a data-role="button" 
+            data-inline="false"
+            data-icon-left="d-icon-settings" 
+            onclick="$('#@item.ClientID').widget('openSettings')">@Commons.Settings</a>
+    </div>
+    </text>).Render();
+}
+

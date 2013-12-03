@@ -1,0 +1,36 @@
+﻿@model ContentFormDecorator
+@{
+    var list = Model.Parent;
+}
+
+@if (Model.Parent.IsHierarchy)
+{ 
+    <input type="hidden" name="parentID" value="@(!string.IsNullOrEmpty(Request.QueryString["parentID"]) ? Request.QueryString["parentID"] : Guid.Empty.ToString())" />
+}
+
+@Html.ReturnUrlHolder()
+
+@Html.RenderForm(Model)
+
+@NewForms.Options(list)
+
+<div>
+    @NewForms.CategoriesAndTags(list, Url)
+</div>
+
+<div>
+    @NewForms.Attachements(list)
+</div>
+
+<div>
+    <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+    @if (!Request.IsAjaxRequest() && !string.IsNullOrEmpty(Request.QueryString["returnUrl"]))
+    {
+        <a href="@Request.QueryString["returnUrl"]" data-role="button" data-inline="false">@Resources.Commons.Cancel</a>
+    }
+    @if (Request.IsAjaxRequest())
+    { 
+        <a data-rel="close" data-role="button" data-inline="false">@Resources.Commons.Cancel</a>
+        <script type="text/javascript" async="async"  src="@Scripts.Url("~/scripts/jquery.validate.unobtrusive.js")"></script>
+    }
+</div>

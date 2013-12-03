@@ -1,0 +1,48 @@
+﻿<p style="padding-left:10px;">@Resources.Managements.SwitchToDefault</p>
+@{ 
+    var web = AppModel.Get().CurrentWeb;
+    var cultures = web.InstalledCultures;
+    var notInstalledCultures = AppModel.Get().SupportedCultures.Where(s => !web.InstalledLocales.Contains(s.Name.ToLower()));
+}
+<div style="padding: 10px;">
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-inset="true"
+        data-selectable="true">
+        @foreach (var c in cultures)
+        { 
+            <li data-val="@c.Name" 
+                        @if (c.Name.Equals(Culture, StringComparison.OrdinalIgnoreCase))
+                        {<text>
+                        data-link-icon="d-icon-checkmark-2"
+                        class="d-state-disable"
+                        </text>}
+                        else
+                        {<text>data-link-icon="no"</text>}
+                @if (c.Name.Equals(web.DefaultLocale,StringComparison.OrdinalIgnoreCase)){<text>style="font-weight:bold;"</text>}
+                >
+                <a href="@Url.Content(web.GetLocaleSettingUrl(c.Name))"
+                            @*@if (!c.Name.Equals(Culture, StringComparison.OrdinalIgnoreCase))
+                            {<text>
+                            onclick="app.web.switchTo('@c.Name')"
+                            </text>}*@>
+                    <img src="~/content/images/flags/@(c.Name).gif" style="position:relative;">@c.DisplayName</a></li>
+        }
+    </ul>
+    @if (notInstalledCultures.Count() > 0)
+    {
+        <p>@Resources.Managements.CreateLocCopy</p>
+        <ul data-role="listview"
+            data-display="mobile-list"
+            data-inset="true" data-link-icon="no">
+            @foreach (var c in notInstalledCultures)
+            { 
+                <li>
+                    <a href="javascript:void(0);" 
+                            onclick="app.web.localizeTo('@c.Name');">
+                        <img src="~/content/images/flags/@(c.Name).gif" style="position:relative;">@c.DisplayName</a></li>
+            }
+        </ul>
+    }
+
+</div>

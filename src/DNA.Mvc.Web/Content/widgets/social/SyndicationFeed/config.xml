@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="syndication-feed" version="1.0">
+  <name short="Feeds">Syndication feed</name>
+  <name short="Feeds" xml:lang="zh-cn">频道订阅</name>
+  <icon src="default.png" />
+  <preference name="uri" value="'http://www.zdnet.com/blog/microsoft/rss'" />
+  <preference name="synctitle" value="'false'" />
+  <preference name="channel" value="'false'" />
+  <preference name="layout" value="'list'" />
+  <preference name="cached" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

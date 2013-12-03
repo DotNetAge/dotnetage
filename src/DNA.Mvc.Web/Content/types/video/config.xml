@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" itemtype="http://schema.org/Movie" allowComments="true" allowVotes="true" allowCategoriesAndTags="true" activity="true" name="video" defaultLocale="en-us" id="videos">
+  <title resKey="Videos" />
+  <description resKey="Videos_Desc" />
+  <fields>
+    <field type="Video" width="640" height="390" thumbWidth="200" name="source" required="true" itemprop="video">
+      <title resKey="Source"/>
+      <description resKey="Source_Desc"/>
+    </field>
+    <field type="Text" name="title" linkToItem="true" required="true" itemprop="name" slug="true">
+      <title resKey="Title"/>
+      <placeHolder resKey="Title_Holder"/>
+    </field>
+    <field type="Note" name="remarks" itemprop="text">
+      <title resKey="Desc" />
+      <placeHolder resKey="Desc_Holder" />
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true">
+      <title resKey="DefaultView" />
+      <paging allow="true" index="1" size="50" />
+      <styleSheet src="default.css" />
+      <body src="default.cshtml" />
+      <fields>
+        <fieldRef name="source" />
+        <fieldRef name="title" />
+      </fields>
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New"/>
+    </form>
+    <form name="editForm" type="Edit">
+      <title resKey="Edit" />
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Disp"/>
+      <styleSheet src="default.css" />
+      <fields>
+        <field name="source" showLabel="false" />
+        <field name="title" caption="true" showLabel="false" />
+        <field name="remarks" showLabel="false" />
+      </fields>
+    </form>
+    <form name="dispForm" type="Activity" anonymous="true">
+      <title resKey="Activity"/>
+      <styleSheet src="default.css" />
+      <fields>
+        <field name="source" showLabel="false" />
+        <field name="title" caption="true" showLabel="false" />
+        <field name="remarks" showLabel="false" />
+      </fields>
+    </form>
+  </forms>
+</contentType>

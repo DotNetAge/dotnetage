@@ -1,0 +1,6 @@
+﻿@model ContentFieldValue
+
+@if (!Model.IsNull)
+{
+    @TextEngine.Wiki((string)Model.Raw);
+}

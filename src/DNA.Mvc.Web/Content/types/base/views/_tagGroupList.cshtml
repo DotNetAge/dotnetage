@@ -1,0 +1,52 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType;
+    var tags = Model.List.Tags.OrderBy(t => t.Name);
+
+}
+
+@if (Model.Count() > 0)
+{
+    foreach (var tag in tags)
+    {
+        var tagItems = Model.Items.Where(i => i.Tags.Contains(tag.Name));
+        if (tagItems.Count() == 0)
+        {
+            continue;
+        }
+    <h2>@tag.Name</h2>
+    <ul class="d-view d-view-list @Model.CssClass">
+        @foreach (var dataItem in tagItems)
+        {
+            <li class="@dataItem.CssClass" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                          {<text>itemtype="@itemtype"</text>}>
+                <div>
+                    @foreach (var field in Model.View.FieldRefs)
+                    {
+                        if (field.IsHidden) { continue; }
+
+                        if (field.IsLinkToItem && dataItem.IsNull("text"))
+                        { 
+                        <h4 class="text name">@dataItem[field.Name]</h4>
+                        }
+                        else
+                        {
+                        <div title="@field.Title" class="@field.CssClass">@{ Html.ForView(field.Name, dataItem); }</div> 
+                        }
+                    }
+                </div>
+                @if (dataItem.AllowEdit(Context))
+                { <div>
+                    <a class="d-view-item-edit-link" data-icon-left="d-icon-edit" data-role="button" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" onclick="$.loading()" title="@Resources.Commons.Edit"></a>
+                </div>
+                }
+            </li>
+        }
+    </ul>
+
+    }
+}
+else
+{
+    <div>@Resources.Messages.NoItemFound</div>
+}

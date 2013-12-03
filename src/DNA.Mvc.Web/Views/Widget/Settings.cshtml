@@ -1,0 +1,122 @@
+﻿@model WidgetInstance
+@{
+    var roles = AppModel.Get().Roles.All;
+    var assignedRoles = (string[])ViewBag.Roles;
+    var showModes = new SelectList(new List<SelectListItem>() { 
+    new SelectListItem(){Text=Resources.Widgets.ShowInOwnPage,Value="0"},
+        new SelectListItem(){Text=Resources.Widgets.ShowInAllPages,Value="1"},
+    new SelectListItem(){Text=Resources.Widgets.ShowInDescendants,Value="2"}
+    }, "Value", "Text", Model.ShowMode);
+}
+
+<form data-ajax="true"
+    data-ajax-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/widgets/save/")"
+    data-ajax-method="post"
+    data-ajax-success="$('#widget_@Model.ID').widget('setData',data);$('#btnSaveWidget_@Model.ID').isDisable(true);$.closePanels();"
+    id="widget_settings_form_@(Model.ID)">
+    <input type="hidden" name="id" value="@Model.ID.ToString()" />
+
+    <div data-role="tabs">
+        <ul>
+            <li><a href="#tab_widget_common">@Resources.Commons.Common</a></li>
+            <li><a href="#tab_widget_style">@Resources.Commons.Style</a></li>
+            <li><a href="#tab_widget_roles">@Resources.Commons.Roles</a></li>
+        </ul>
+        @*  <div data-role="content-slider" data-nav="bottom" style="height:300px;">*@
+        <div id="tab_widget_common">
+            <div class="d-form">
+                <div class="d-field">
+                    <label>@Resources.Widgets.ShowIn</label>
+                    @Html.DropDownListFor(w => w.ShowMode, showModes, new
+       {
+           data_role = "combobox",
+           data_drop_style = "menu",
+           style = "width:150px;",
+           data_select = "$(this).trigger('change');"
+       })
+                </div>
+                <div class="d-field">
+                    @Html.LabelFor(w => w.Title, Resources.Commons.Title)
+                    @Html.TextBoxFor(w => w.Title, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Title) })
+                </div>
+                <div class="d-field">
+                    @Html.LabelFor(w => w.Link, Resources.Commons.Link)
+                    @Html.TextBoxFor(w => w.Link, new { placeholder = Resources.Widgets.LinkHolder })
+                    <div style="text-align: right; padding: 10px 0px;">
+                        <a data-role="button" data-rel="link" data-link-to="#Link" style="width: 80px;">@Resources.Commons.Add</a>
+                    </div>
+                </div>
+                <div class="d-field">
+                    <label>@Resources.Widgets.Icon</label>
+                    <input type="text" placeholder="@Resources.Widgets.IconHolder" name="IconUrl" id="IconUrl" value="@Model.IconUrl"/>
+                    <div style="text-align: right; padding: 10px 0px;">
+                        @UIHelper.BrowseFor("IconUrl", Resources.Messages.SelectAnImage, "image")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab_widget_style">
+            <div class="d-form">
+                <div class="d-field">
+                    @Html.CheckBoxFor(w => w.ShowBorder, new { data_label = Resources.Widgets.ShowBorder})
+                </div>
+                <div class="d-field">
+                    @Html.CheckBoxFor(w => w.Transparent, new { data_label = Resources.Widgets.Transparent })
+                </div>
+                <div class="d-field">
+                    @Html.CheckBoxFor(w => w.ShowHeader, new { data_label = Resources.Widgets.ShowHeader })
+                </div>
+                <div class="d-field">
+                    @{
+                        var wH = 0;
+                        if (!string.IsNullOrEmpty(Model.BodyCssText))
+                        {
+                            var regex = new System.Text.RegularExpressions.Regex("height:(.+?)px;", System.Text.RegularExpressions.RegexOptions.Compiled | System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.IgnorePatternWhitespace);
+                            var match = regex.Match(Model.BodyCssText);
+                            if (match.Success)
+                            {
+                                var v = match.Result("$1");
+                                Int32.TryParse(v, out wH);
+                            }
+                        }
+                            
+                    }
+                    <div>@Resources.Designs.Height (<span id="widget_height_@(Model.ID)">@(wH)</span>px)</div>
+                    <div style="padding: 10px;">
+                        @Html.HiddenFor(m => m.BodyCssText)
+                        <input type="hidden" 
+                            data-role="slider" 
+                            data-slide="if (ui.value==0) { $('#BodyCssText').val('');$('#widget_@(Model.ID)').find('.d-widget-body').css('height','auto'); } else{ $('#BodyCssText').val('height:'+ui.value+'px;');$('#widget_@(Model.ID)').find('.d-widget-body').height(ui.value); } $('#widget_height_@(Model.ID)').text(ui.value);" 
+                            value="@wH" data-max="800"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab_widget_roles">
+            <div style="padding: 10px;">
+                <div>@Resources.Security.AccessRoles</div>
+                @foreach (var r in roles)
+                { 
+                    <p>
+                        <input type="checkbox" name="roles" value="@r" 
+                    data-bool="false" 
+                    data-label="@r" @if (assignedRoles.Contains(r))
+                                    {<text>checked="checked"</text>}/>
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 5px;">
+        <button data-inline="false" class="d-state-disable" id="btnSaveWidget_@Model.ID">@Resources.Commons.Save</button>
+        <a data-role="button" data-inline="false" data-rel="close">@Resources.Commons.Cancel</a>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#widget_settings_form_@(Model.ID)").change(function () {
+            $('#btnSaveWidget_@Model.ID').isDisable(false);
+        });
+    });
+</script>

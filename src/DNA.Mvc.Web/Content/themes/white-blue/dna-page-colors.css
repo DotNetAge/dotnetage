@@ -1,0 +1,4 @@
+﻿body { background-color: #f0f0f0; color: #333; }
+.d-link,.d-view .d-link-to-item .d-link { color: #4096EE; text-decoration: none; }
+    .d-link:hover { text-decoration: underline; color: #298bef; }
+.d-view { border-color: #e3e3e3; }

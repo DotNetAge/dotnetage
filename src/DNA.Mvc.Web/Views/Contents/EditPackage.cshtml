@@ -1,0 +1,58 @@
+﻿@model ContentPackage
+@{
+    var type = Model.Locale(Culture);
+    var roles = !string.IsNullOrEmpty(type.Roles) ? type.Roles.Split(',') : new string[0];
+    var inusingCount = AppModel.Get().DataContext.Count<ContentList>(c => c.BaseType.Equals(type.Name));
+}
+@*<form id="contentType_form"
+    data-ajax="true"
+    data-ajax-method="POST"
+    data-ajax-url="@Url.Content("~/api/contents/typeroles")"
+    data-ajax-success="$.loading('hide')"
+    style="padding:10px; "
+    >*@
+<div style="padding: 10px 5px; position: relative;">
+    <img src="@Url.Content(Model.Icon)" style="height:48px;width:48px;" class="d-inline"/>
+    <span class="d-title">@type.Title</span>
+    <small style="position: absolute; right: 5px; bottom: 5px;">@Resources.Contents.Version:@type.Version</small>
+</div>
+<div style="padding: 10px 0px; text-align: center;">
+    <a data-role="button" 
+        style="width: 75px;"  
+            @if (inusingCount > 0)
+            {<text>class="d-state-disable"</text>}
+            onclick="$.confirm('@string.Format(Resources.Messages.ConfirmDelete_Format,Resources.Commons.Content)','@Resources.Commons.Question','@Resources.Commons.OK','@Resources.Commons.Cancel').done(function(){ $.loading('@(Resources.Commons.Removing)...');app.contentTypes.uninstall('@Model.Name'); $('#list_@Model.Name').remove(); $.closePanels();$.loading('hide');});">
+        @Resources.Commons.Uninstall</a>
+    <a data-role="button" class="d-state-disable">@Resources.Commons.InstallUpdate</a>
+    <a data-role="button" 
+            data-icon-left="d-icon-info-2" 
+            target="_blank" 
+            href="http://www.dotnetage.com/home/en-US/content-lists/locate/@(type.UID)"></a>
+</div>
+<input type="hidden" name="name" id="name" value="@type.Name" />
+@if (!string.IsNullOrEmpty(type.Description))
+{
+    <div style="padding: 10px;">
+        <div class="d-title">@Resources.Commons.Desc</div>
+        <div class="d-field">
+            <div>@type.Description</div>
+        </div>
+    </div>
+}
+@*    <div class="d-title">@Common.AccessRoles</div>
+    <div class="d-field">
+        <div style="padding-bottom:10px;">@List_cshtml.AccessRoles</div>
+    </div>
+    <ul data-role="listview" data-display="mobile-list" data-link-icon="no" data-inset="true">
+        @foreach (var role in AppModel.Get().Roles.All)
+        {
+            <li data-readonly="true">
+                <div>
+                    <input type="checkbox" data-label="@role" data-bool="false" id="@role" name="roles" @if (roles.Contains(role))
+                                                                                                        {<text>value="@role" checked="checked"</text>}/>
+                </div>
+            </li>
+        }
+    </ul>
+    <button data-default="true" data-inline="false">@Dict.Save</button>
+</form>*@

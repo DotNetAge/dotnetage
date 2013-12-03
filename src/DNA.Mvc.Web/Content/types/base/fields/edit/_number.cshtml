@@ -1,0 +1,7 @@
+﻿@model ContentFieldValue
+@{
+    var field = (NumberField)Model.Field;
+}
+<input type="number"  data-speech="false" @field.GetAttributes(Model.Raw) @field.GetValidationAttributes()/>@if (field.ShowAsPercentage)
+                                                                                                            {<text><span>@field.PercentSymbol</span></text>}
+@Html.ValidationMessage(field)

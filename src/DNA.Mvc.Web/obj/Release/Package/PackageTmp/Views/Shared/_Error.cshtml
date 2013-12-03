@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html data-root="~">
+<head>
+    <title>@ViewBag.Title</title>
+    @{ Html.RenderPartial("_head"); }
+    @RenderSection("HeaderSection", false)
+</head>
+<body class="d-error"data-root="@(Request.ApplicationPath)">
+    <div class="d-error-page">
+        <div class="d-error-content">
+            <h1>@ViewBag.Title</h1>
+            @RenderBody()
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("body").animate({ opacity: 1 }, 1000);
+        });
+    </script>
+</body>
+</html>

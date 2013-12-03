@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="list-info" version="1.0">
+  <name short="ListInfo">List info</name>
+  <name short="ListInfo" xml:lang="zh-cn">列表信息</name>
+  <description>Show the list information such as caption,description,moderators and ect.</description>
+  <icon src="default.png" />
+  <preference name="listName" value="''" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="showTitle" value="false" />
+  <preference name="showDesc" value="false" />
+  <preference name="showMods" value="false" />
+  <preference name="showTools" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

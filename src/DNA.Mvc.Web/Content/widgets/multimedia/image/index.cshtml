@@ -1,0 +1,214 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+@{
+    var uf = item.GetUserPreferences();
+    var targets = new SelectList(new List<SelectListItem>()
+    {
+        new SelectListItem() { Text =Designs.Target_Blank, Value = "_blank" },
+        new SelectListItem() { Text =Designs.Target_Parent, Value = "_parent" },
+        new SelectListItem() { Text =Designs.Target_Self,  Value = "_self" },
+        new SelectListItem() { Text =Designs.Target_Top, Value = "_top" }
+    }, "Value", "Text", uf.target);
+
+    var sizes = new SelectList(new List<SelectListItem>()
+    {
+        new SelectListItem() { Text =Designs.ImgSize_Original, Value = "0" },
+        new SelectListItem() { Text =Designs.ImgSize_Thumb , Value = "100" },
+        new SelectListItem() { Text =Designs.ImgSize_Small, Value = "240" },
+        new SelectListItem() { Text = Designs.ImgSize_Medium, Value = "500" },
+        new SelectListItem() { Text =Designs.ImgSize_Large, Value = "800" },
+        new SelectListItem() { Text = Designs.ImgSize_Custom, Value = "-1" }
+    }, "Value", "Text", uf.target);
+}
+<div style="height: 80px;margin-bottom:10px; line-height: 80px; text-align: center;@if (string.IsNullOrEmpty(uf.src))
+                                                                                   {<text>display:none;</text>})">
+    <img src="@uf.src" style="max-height:80px;max-width:100px;" class="d-inline" id="@item.GetID("preview")" />
+</div>
+
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="divider">
+        @item.Label("src", Commons.Url)
+    </li>
+    <li data-readonly="true" style="border-bottom: none; padding-bottom: 0px;">
+        <div style="padding-left: 5px;">
+            @item.TextBox("src", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.ImageUrl.ToLower()), style = "width:100%;" })
+        </div>
+    </li>
+    <li data-readonly="true" style="padding: 10px; padding-top: 0px;">
+        @UIHelper.BrowseFor(item.GetID("src"), Resources.Messages.SelectAnImage, "image", inline: false)
+    </li>
+</ul>
+<ul data-role="listview" 
+    data-display="mobile-list" 
+    data-inset="true" style="border-top:none;padding:0px;@if (string.IsNullOrEmpty(uf.src))
+                                                         {<text>display:none;</text>}" 
+    id="@item.GetID("setting_holder")">
+    <li data-role="fieldcontain">
+        @item.Label("title", Resources.Commons.Title)
+        @item.TextBox("title", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Title), onfocus = "$(this).select();" })
+    </li>
+    <li data-role="fieldcontain">
+        <label style="width: 100%;">Title position</label>
+        <select data-role="combobox" data-drop-style="menu" name="showLinkText" style="width: 120px;">
+            <option value="no" @if (item.GetString("showLinkText").Equals("no", StringComparison.OrdinalIgnoreCase))
+                               {<text>selected="selected"</text>}>Hidden</option>
+            <option value="top" @if (item.GetString("showLinkText").Equals("top", StringComparison.OrdinalIgnoreCase))
+                                {<text>selected="selected"</text>}>@Resources.Designs.Top</option>
+            <option value="bottom" @if (item.GetString("showLinkText").Equals("bottom", StringComparison.OrdinalIgnoreCase))
+                                   {<text>selected="selected"</text>}>@Resources.Designs.Bottom</option>
+        </select>
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("alt", Resources.Commons.Alt, new { style = "width:100%;" })
+        @item.TextBox("alt", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Alt), onfocus = "$(this).select();", style = "width:100%;" })
+        <small style="margin: 0px;">@Resources.Glossary.Alt</small>
+    </li>
+    <li data-role="fieldcontain">
+        <label style="width: 100%;">@Designs.ImageSize</label>
+        @Html.DropDownList("imageisze", sizes, new
+   {
+       name = "size",
+       data_drop_style = "menu",
+       data_role = "combobox",
+       data_select = "_onselect_imagesize_" + item.IDPrefix + "(parseInt(ui.dataItem.value))",
+       style = "width:250px;"
+   })
+    </li>
+    <li data-readonly="true" id="@item.GetID("imagesize_holder")" @if (uf.size != -1)
+                                                                  {<text>style="display:none;padding-left: 50px;"</text>}
+                                                                  else
+                                                                  {<text>style="padding-left: 50px;"</text>}>
+        <div style="margin-bottom: 5px;">
+            @item.Label("width", Resources.Designs.Width)
+            @item.TextBox("width", new { data_width = "60" })<span class="d-inline">px</span>
+        </div>
+        <div>
+            @item.Label("height", Resources.Designs.Height)
+            @item.TextBox("height", new { data_width = "60" })<span class="d-inline">px</span>
+        </div>
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("link", Resources.Commons.Link)
+        @item.TextBox("link", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Link) })
+        <a data-rel="link" data-link-to="#@(item.GetID("link"))" style="margin-left:25%;margin-top:5px;" data-role="button">@Resources.Pages.AddLink</a>
+    </li>
+    <li data-role="fieldcontain">
+        <label>@Resources.Designs.Target</label>
+        @Html.DropDownList("target", targets, new { data_role = "combobox", style = "width:150px;" })
+    </li>
+</ul>
+
+<script type="text/javascript">
+    function _loadimagemeta_@(item.IDPrefix)(url) {
+        var previewImg = $('#@item.GetID("preview")'),
+            placeHolder = $('#@item.GetID("imagesize_holder")'),
+            wEle = $("[name=width]", placeHolder),
+            hEle = $("[name=height]", placeHolder);
+
+        previewImg.attr('src', url);
+
+        $.get(url + "?match=self", function (data) {
+            previewImg.data("width", data.exif.width)
+                               .data("height", data.exif.height)
+                               .data("ratio", data.exif.width / data.exif.height);
+            var settingHolder = $('#@item.GetID("setting_holder")');
+            settingHolder.show();
+            wEle.val(data.exif.width);
+            hEle.val(data.exif.height);
+            $("[name=title]", settingHolder).val(data.name);
+            $("[name=alt]", settingHolder).val(data.name.replace(data.extension, ""));
+        });
+    }
+
+    $(function () {
+        var previewImg = $('#@item.GetID("preview")');
+        previewImg.on("load", function () {
+            previewImg.parent().show();
+
+        }).error(function () {
+            previewImg.parent().hide();
+        });
+
+        $("#@(item.GetID("src"))").bind("change", function () {
+            _loadimagemeta_@(item.IDPrefix)($(this).val());
+        });
+    });
+
+    function _onselect_imagesize_@(item.IDPrefix)(val) {
+        var placeHolder = $('#@item.GetID("imagesize_holder")'),
+                    wEle = $("[name=width]", placeHolder),
+                    hEle = $("[name=height]", placeHolder),
+                    previewImg = $('#@item.GetID("preview")');
+
+                    placeHolder.isVisible(val == -1);
+                    if (val > 0) {
+                        wEle.val(val);
+                        hEle.val(val);
+                    } else {
+                        if (previewImg.data("width"))
+                            wEle.val(previewImg.data("width"))
+                        if (previewImg.data("height"))
+                            hEle.val(previewImg.data("height"))
+                    }
+                }
+</script>
+</text>).Content(@<text>
+@_RenderConetent(item)
+</text>).Design(@<text>
+@if (string.IsNullOrEmpty(item.GetString("src")))
+{
+    @item.DesignModeHolder(Resources.Messages.SelectAnImage)
+}
+else
+{
+    @_RenderConetent(item, true)
+}
+</text>).GetHtml()
+
+@helper _RenderConetent(WidgetHelper item, bool design = false)
+{
+    var uf = item.GetUserPreferences();
+    <div style="text-align: center;" itemtype="http://schema.org/Photograph" itemscope="itemscope">
+        <meta itemprop="name" content="@uf.title" />
+        @if (item.GetString("showLinkText") == "top" && !string.IsNullOrEmpty(item.GetString("title")))
+        {
+            <div>
+                <a class="d-link" title="@uf.title" href="@if (!string.IsNullOrEmpty("link") && !design)
+                                                          {<text>@uf.link</text>}
+                                                          else
+                                                          {<text>javascript:void(0);</text>}">@item.GetString("title")</a>
+            </div>
+        }
+        @if (string.IsNullOrEmpty(uf.link))
+        {
+
+            <img src="@uf.src" alt="@uf.alt" itemprop="image"
+            style="@if (uf.size>0 && uf.width > 0)
+                   {<text>max-width:@(uf.width)px;</text>}@if (uf.height > 0)
+                                                          {<text>max-height:@(uf.height)px;</text>}" />
+ 
+        }
+        else
+        {
+            <a title="@uf.title" target="@uf.target" href="@if (design)
+                                                           {<text>javascript:void(0);</text>}
+                                                           else
+                                                           {<text>@uf.link</text> }" style="text-align: center;" itemprop="url">
+                <img src="@uf.src" alt="@uf.alt" itemprop="image" style="@if (uf.size >0 && uf.width > 0)
+                                                                         {<text>max-width:@(uf.width)px;</text>}@if (uf.height > 0)
+                                                                                                                {<text>max-height:@(uf.height)px;</text>}" />
+            </a>
+
+        }
+
+        @if (item.GetString("showLinkText") == "bottom" && !string.IsNullOrEmpty(item.GetString("title")))
+        {
+            <div>
+                <a class="d-link" title="@uf.title" href="@if (!string.IsNullOrEmpty("link") && !design)
+                                                          {<text>@uf.link</text>}
+                                                          else
+                                                          {<text>javascript:void(0);</text>}">@item.GetString("title")</a>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,53 @@
+﻿@using DNA.Web.ServiceModel
+
+@helper Buttons(ContentDataItemDecorator dataItem,decimal price)
+{
+    <form class="d-form d-ui-widget"
+         style="width:293px;margin-top:10px;"
+        data-ajax="true"
+        data-ajax-url="/@(dataItem.Parent.Web.Name)/@(dataItem.Locale)/Store/Buyer/AddToCart"
+        data-ajax-method="post"
+        data-ajax-begin="$.loading();"
+        data-ajax-complete="$.loading('hide')"
+        data-ajax-update="#shoppingchart"
+        data-ajax-success="$('#shoppingchart').taoUI();$('#shoppingDlg').taoDialog('open');">
+        <div>
+            <label>Qty</label>
+            <input type="text" name="quantity" value="1" style="width:80px;"/>
+            <input type="hidden" name="id" value="@dataItem.ID" />
+                        <input type="hidden" name="price" value="@price" />
+            <a onclick="$(this).closest('form').submit();" data-role="button" style="width:110px;"
+                data-icon-left="d-icon-cart" >Add to cart</a>
+        </div>
+        <div style="text-align:right;"><a data-role="button" data-default="true" style="width:100px;">Buy</a></div>
+    </form>
+    <div data-role="dialog" 
+        id="shoppingDlg"
+        title="Shopping cart" 
+        data-width="800" data-opened="false">
+        <div id="shoppingchart"></div>
+@*        <p>
+            <a data-role="button" style="width:150px;" data-rel="close">Continue Shopping</a>
+        </p>
+        <table data-role="grid">
+            <thead>
+                <tr>
+                    <th>Item description</th>
+                    <th data-type="number" data-width="100">Price</th>
+                    <th data-type="number" data-width="100">Quantity</th>
+                    <th data-type="number" data-width="100">Total</th>
+                </tr>
+            </thead>
+            <tr>
+               <td><img src="@dataItem["thumb"].Raw" style="width:80px;"></td>
+                <td>$@dataItem["price"].Raw</td>
+                <td>1</td>
+                <td><span style="text-align:right;">$@dataItem["price"].Raw</span></td>
+            </tr>
+        </table>
+        <div style="text-align:right"><span>Subtotal</span><span>$@dataItem["price"].Raw</span></div>
+        <p style="text-align:right;">
+            <a data-role="button" style="width:100px;" data-default="true">Checkout</a>
+        </p>*@
+    </div>
+}

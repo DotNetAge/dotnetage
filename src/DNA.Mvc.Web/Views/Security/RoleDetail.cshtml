@@ -1,0 +1,69 @@
+@model Role
+@using DNA.Web.Controllers;
+@using System.Reflection;
+@{
+    Layout = "";
+    var role = Model.Name;//(string)ViewData["Role"];
+    var _model = AppModel.Get().Permissions.ToList();
+}
+
+@using (Html.BeginForm("Apply", "Security"))
+{ 
+    @Html.AntiForgeryToken() 
+
+    <ul data-role="listview" data-inset="true" data-display="mobile-list" data-selectable="true" data-select="$(ui.item).children('span').click();">
+        @foreach (var permset in _model)
+        {
+            var perms = permset.Permissions;
+            var permsetTitle = permset.Name;
+
+            if (!string.IsNullOrEmpty(permset.ResbaseName) && (!string.IsNullOrEmpty(permset.TitleResName)))
+            {
+                permsetTitle = Html.Global(permset.ResbaseName, permset.TitleResName);
+                if (string.IsNullOrEmpty(permsetTitle))
+                {
+                    permsetTitle = permset.Name;
+                }
+            }
+            <li data-role="divider" data-counter="@perms.Count">@permsetTitle</li>
+           
+            foreach (var p in perms)
+            {
+                var permValue = AppModel.Get().DataContext.Permissions.IsAuthorized(p, role);
+                //var permValue = AppModel.Roles.IsAuthorized(p, role);
+                var type = Type.GetType(p.Controller + "," + p.Assembly);
+                var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+                MethodInfo action = (from MethodInfo method in methods
+                                     where (method.GetCustomAttributes(typeof(SecurityActionAttribute), true).Length > 0) && method.Name.Equals(p.Action)
+                                     select method).FirstOrDefault();
+                var attr = (SecurityActionAttribute)Attribute.GetCustomAttribute(action, typeof(SecurityActionAttribute));
+                var permTitle = attr.Title;
+                var permDesc = attr.Description;
+
+                if (!string.IsNullOrEmpty(attr.ResBaseName))
+                {
+                    if (!string.IsNullOrEmpty(attr.TitleResName))
+                    {
+                        permTitle = Html.Global(attr.ResBaseName, attr.TitleResName);
+                    }
+
+                    if (!string.IsNullOrEmpty(attr.DescResName))
+                    {
+                        permDesc = Html.Global(attr.ResBaseName, attr.DescResName);
+                    }
+                }
+            <li style="padding-left:20px;">
+                <h4>
+                    <input type="checkbox" data-label="@permTitle" value="@permValue" 
+                    @if (permValue)
+                    {<text> checked="checked"</text>}
+                @if (role == "administrators")
+                { <text> disabled="disabled" </text>}
+                data-change="$.post('@Url.Content("~/api/roles/perm")',{ grant:ui.checked,id:@p.ID,role:'@role'});" /></h4>
+                <p>@permDesc</p>
+
+            </li>
+            }
+        }
+    </ul>
+}

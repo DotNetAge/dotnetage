@@ -1,0 +1,3 @@
+﻿.d-ui-widget, .ui-widget { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; background-color: #7d9295; background-image: none; }
+.d-ui-widget, .ui-widget, .d-node-content > * { color: #ffffff; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #ffffff; }

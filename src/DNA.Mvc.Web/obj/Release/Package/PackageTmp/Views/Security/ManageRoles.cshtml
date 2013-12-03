@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = Resources.Commons.Roles;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var name = (string)Request.QueryString["n"];
+}
+@if (string.IsNullOrEmpty(name))
+{
+    var roles = AppModel.Get().Roles.GetAllRoles();
+    @section Navs{
+        <a data-role="button" 
+            data-icon-left=" d-icon-cw"
+            title="@Resources.Security.ReloadPerms"
+            onclick="$.loading('@(Resources.Commons.Working)','@(Resources.Messages.ReloadingPerms)...');$.post('@Url.Action("RefreshPerms", "Security", new { Area = "" })',function(){ window.location.reload();})">@Resources.Commons.Reload</a>
+    } 
+    <ul data-role="listview" data-display="mobile-list" class="d-ui-widget" data-inset="true">
+        <li data-role="divider">@Resources.Security.SysRoles</li>
+        <li data-counter="@Resources.Security.FullPerms" data-link-icon="no" data-icon="d-icon-group"><a href="javascript:void(0);">administrators</a></li>
+        <li data-icon="d-icon-group"><a href="~/host/roles?n=guests">guests</a></li>
+        <li data-role="divider">@Resources.Security.UserRoles</li>
+        <li data-readonly="true">
+            <div>
+                <form action="@Url.Action("Create", "Security")" method="post">@Html.AntiForgeryToken()
+                    <label for="role_name" style="margin-right: 5px;">@Resources.Commons.Role:</label>
+                    <input type="text" id="role_name" name="roleName"
+                                placeholder="@string.Format(Resources.InputHolders.Format,Resources.Commons.Role)"
+                                data-val="true"
+                                data-val-required="@string.Format(Resources.Validations.Required_Format,Resources.Commons.Role)"
+                                data-val-remote = "@string.Format(Resources.Validations.Exists_Format,Resources.Commons.Role)"
+                                data-val-remote-url ="@Url.Action("ValidateRole", "Security")"/>
+                    <button>@Resources.Commons.Create</button>
+                    <div data-valmsg-for="roleName" class="d-valmsg" style="padding: 0px 0px 5px 0px; margin-left: 0px;"></div>
+                </form>
+            </div>
+        </li>
+        @foreach (var role in roles)
+        {
+            if (!role.Name.Equals("guests", StringComparison.OrdinalIgnoreCase) && !role.Name.Equals("administrators", StringComparison.OrdinalIgnoreCase))
+            {
+            <li data-icon="d-icon-group"><a href="@Url.Content("~/host/roles?n=" + role.Name)">@role.Name</a></li>
+            }
+        }
+    </ul>
+}
+else
+{
+    var role = AppModel.Get().Roles.Find(name);
+    if (role != null)
+    {
+        ViewBag.Title = Resources.Commons.Role + ":" + role.Name;
+        ViewBag.ReturnUrl = "~/host/roles";
+
+    @section Navs{
+        @if (!role.Name.Equals("administrators", StringComparison.OrdinalIgnoreCase) && !role.Name.Equals("guests", StringComparison.OrdinalIgnoreCase))
+        {
+            <form action="@Url.Action("Delete", "Security", new { roleName = role.Name })" 
+                method="post"  
+                style="display:none;" id="sys_delete_role_form">
+            </form>                
+            <a data-role="button" 
+                data-icon-left="d-icon-cross-3"
+                onclick="var f=$('#sys_delete_role_form'); $.confirm('@(string.Format(Resources.Messages.ConfirmDelete_Format,Resources.Commons.Role))','@(Resources.Commons.Confirm)').done(function(){ f.submit();});">@Resources.Commons.Delete</a>
+
+        }
+    }
+        if (role.Name.Equals("administrators"))
+        {
+    <p class="ui-state-highlight" style="padding: 10px;">@Resources.Messages.FullPermsOfAdmin</p>
+        }
+        else
+        {
+            Html.RenderPartial("RoleDetail", role);
+        }
+    }
+}

@@ -1,0 +1,139 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var settings = item.GetUserPreferences();
+  LogoLayouts layout = (LogoLayouts)Enum.Parse(typeof(LogoLayouts), settings.layout);
+}
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        <label>@Resources.Pages.Layout</label>
+        <select name="layout" data-role="combobox" data-drop-style="menu" style="width: 200px;">
+            <option value="@LogoLayouts.TitleOnly.ToString()" @if (layout == LogoLayouts.TitleOnly)
+                                                              {<text>selected="selected"</text>}>@Resources.Designs.TitleOnly</option>
+            <option value="@LogoLayouts.LogoOnly.ToString()" @if (layout == LogoLayouts.LogoOnly)
+                                                             {<text>selected="selected"</text>}>@Resources.Designs.LogoOnly</option>
+            <option value="@LogoLayouts.LogoAndTitle.ToString()" @if (layout == LogoLayouts.LogoAndTitle)
+                                                                 {<text>selected="selected"</text>}>@Resources.Designs.LogoAndTitle</option>
+        </select>
+    </li>
+    <li data-role="fieldcontain">
+        @item.Checkbox("showDesc", item.Loc("ShowDesc"))
+    </li>
+    <li data-role="fieldcontain">
+        @item.Checkbox("showParent", item.Loc("ShowParent"))
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label(item.Loc("AltTitle"))
+        @item.TextBox("altTitle", new { placeholder = item.Loc("AltTitleHolder") })
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label(item.Loc("AltDesc"))
+        @item.TextArea("altDesc", new { placeholder = item.Loc("AltDescHolder") })
+    </li>
+</ul>
+</text>).Content(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    LogoLayouts layout = (LogoLayouts)Enum.Parse(typeof(LogoLayouts), settings.layout);
+    var page = AppModel.Get().CurrentPage;
+    if (page.IsStatic && AppModel.Get().Context.Page != null)
+    {
+        var ctxPage = AppModel.Get().Context.Page as WebPageDecorator;
+        if (ctxPage == null)
+        {
+            ctxPage = AppModel.Get().Wrap(AppModel.Get().Context.Page);
+        }
+        page = ctxPage;
+    }
+}
+@if (page != null)
+{    
+    <div style="padding: 20px 0px;">
+        @if (settings.showParent)
+        {
+            if (page.ParentID > 0)
+            {
+            <a href="@page.Parent.Url">@page.Parent.Title</a>
+            }
+            else
+            {
+                if (!page.Slug.Equals("default", StringComparison.OrdinalIgnoreCase))
+                {
+            <a href="@Url.Content(AppModel.Get().CurrentWeb.Url)">@AppModel.Get().CurrentWeb.Title</a>
+                }
+            }
+        }
+        <h2 style="line-height: 1em;">
+            @if (layout == LogoLayouts.LogoAndTitle || layout == LogoLayouts.TitleOnly || layout == LogoLayouts.LogoOnly)
+            {
+                if (!string.IsNullOrEmpty(page.ImageUrl) && layout != LogoLayouts.TitleOnly)
+                {
+                <img src="@Url.Content(page.ImageUrl)"  class="d-inline" alt="logo" onerror="$(this).hide();"/>
+                }
+                if (layout != LogoLayouts.LogoOnly)
+                {
+                <span class="d-inline">@if (!string.IsNullOrEmpty(settings.altTitle) && page.ID.Equals(item.Model.PageID))
+                                       {<text>@settings.altTitle</text>}
+                                       else
+                                       {<text>@page.Title</text>}</span>
+                }
+            }
+        </h2>
+    </div>
+            if (settings.showDesc && !string.IsNullOrEmpty(page.Description))
+            {
+    <div>
+        @if (string.IsNullOrEmpty(settings.altDesc))
+        {<text>@page.Description</text>}
+        else
+        {<text>@settings.altDesc</text>}
+    </div>
+            }
+}
+</text>).Design(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    LogoLayouts layout = (LogoLayouts)Enum.Parse(typeof(LogoLayouts), settings.layout);
+    var page = AppModel.Get().CurrentPage;
+}
+@if (page != null)
+{
+    <div style="padding: 20px 0px;">
+        @if (settings.showParent)
+        {
+            <a href="javascript:void(0);">@item.Loc("ParentPageTitle")</a>
+        }
+
+        <h2 style="line-height: 1em;">
+            @if (layout == LogoLayouts.LogoAndTitle || layout == LogoLayouts.TitleOnly || layout == LogoLayouts.LogoOnly)
+            {
+                if (!string.IsNullOrEmpty(page.ImageUrl) && layout != LogoLayouts.TitleOnly)
+                {
+                <img src="@Url.Content(page.ImageUrl)"  class="d-inline" alt="logo"/>
+                }
+                if (layout != LogoLayouts.LogoOnly)
+                {
+                <span class="d-inline" id="@item.GetID("pageTitle")">@if (string.IsNullOrEmpty(settings.altTitle))
+                                                                     {<text>@page.Title</text>}
+                                                                     else
+                                                                     {<text>@settings.altTitle</text>}</span>
+                }
+            }
+        </h2>
+
+        @if (settings.showDesc)
+        {
+            <div id="@item.GetID("pageDesc")">
+                @if (string.IsNullOrEmpty(settings.altDesc))
+                {<text>@page.Description</text>}
+                else
+                {<text>@settings.altDesc</text>}
+            </div>
+        }
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#@item.GetID("pageTitle")").html(document.title);
+            $("#@item.GetID("pageDesc")").html($("head>meta[name=description]").attr("content"));
+        });
+    </script>
+}
+</text>).GetHtml()

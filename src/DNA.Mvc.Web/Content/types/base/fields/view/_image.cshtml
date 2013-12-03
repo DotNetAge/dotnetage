@@ -1,0 +1,63 @@
+﻿@model ContentViewFieldValue
+@{
+    var field = Model.Field.Field as ImageField;
+    decimal ratio = (decimal)4 / (decimal)3;
+    var thumbW = field.ThumbnailWidth > 0 ? field.ThumbnailWidth : 200;
+    var thumbH = field.ThumbnailHeight > 0 ? field.ThumbnailHeight : (thumbW * ratio);
+    var defaultUrl = "";// Url.Content("~/content/images/no-image.gif");
+    var srcUrl = "";
+    if (!string.IsNullOrEmpty((string)field.DefaultValue) && Model.IsNull)
+    {
+        defaultUrl = field.DefaultValue.ToString();
+        if (defaultUrl.StartsWith("/") || defaultUrl.StartsWith("~") || defaultUrl.StartsWith("http"))
+        {
+            defaultUrl = Url.Content(defaultUrl);
+        }
+        else
+        {
+            defaultUrl = Url.Content(Model.Item.List.ResolveUrl(defaultUrl));
+        }
+    }
+
+    if (!Model.IsNull)
+    {
+        srcUrl = Url.Content(Model.Value.ToString());
+        if (srcUrl.Contains("/webshared/"))
+        {
+            if (srcUrl.Contains("?"))
+            {
+                srcUrl += "&";
+            }
+            else
+            {
+                srcUrl += "?";
+            }
+            srcUrl += "w=" + thumbW.ToString() + "&h=" + thumbH;
+        }
+    }
+    else
+    {
+        srcUrl = defaultUrl;
+    }
+}
+@if (Model.Field.IsLinkToItem)
+{ 
+    <a class="d-link d-inline" style="width:@(thumbW)px;line-height:@(thumbH)px;text-align:center;overflow:hidden;" href="@Url.Content(Model.Item.Url)">
+        <img src="@srcUrl" style="max-width:@(thumbW)px;max-height:@(thumbH)px;" class="d-inline" />
+    </a>
+}
+else
+{
+@*<div style="width:@(thumbW)px;height:@(thumbH)px;text-align:center;overflow:hidden;" class=""></div>*@
+    if (!string.IsNullOrEmpty(srcUrl))
+    {
+        <div style="height:@(thumbH)px;width:@(thumbW)px;background:url(@srcUrl) center center no-repeat;display:inline-block;" @field.GetAttributes()></div>
+    @*
+    <img itemprop="thumbnailUrl" 
+        onerror="$(this).remove();" 
+        data-size="@thumbW" src="@srcUrl" 
+        style="max-width:@(thumbW)px;max-height:@(thumbH)px;" 
+        class="@Model.CssClass" />*@
+    }
+}
+

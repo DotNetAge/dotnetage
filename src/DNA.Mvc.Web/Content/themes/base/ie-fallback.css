@@ -1,0 +1,16 @@
+﻿.ie a img { border: none; }
+.ie7 .d-item > a, .ie8 .d-item > a { display: inline-block; line-height: 33px; }
+article, aside, footer, header, section, footer, nav, figure, menu { display: block; }
+h1, h2, h3 { clear: both; }
+h1 { padding-top: 2em; }
+h2 { font-size: 200%; padding: 1.75em 0 1em; color: #fff; }
+h3 { font-size: 120%; padding: 0.75em 0 1em; color: #fff; }
+a { color: #fff; }
+.grid li { padding: 0 33px; }
+a img { border: none; }
+div { clear: both; overflow: hidden; padding: 15px 0; }
+html { background: #222; text-align: center; }
+body { width: 955px; margin: 0 auto; padding: 25px; }
+table, td, th { border: 1px solid #444; clear: both; background: #222; }
+td { text-indent: 0; }
+table span { border: none; position: static; background: none; color: #ccc; margin: 0; padding: 0; }

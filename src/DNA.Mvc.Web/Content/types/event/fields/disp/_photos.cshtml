@@ -1,0 +1,55 @@
+﻿@model ContentFieldValue
+@{
+    var list = Model.ParentList;
+    var url = Model.Raw != null ? Model.Raw.ToString() : "";
+    Uri targetUri = null;
+    Uri.TryCreate(url, UriKind.Absolute, out targetUri);
+    var items = targetUri != null ? AppModel.Get().NetDrive.GetFiles(targetUri) : null;
+}
+<script type="text/javascript" src="@Url.Content(list.Package.ResolveUri("scripts/jquery.masonry.min.js"))"></script>
+<link type="text/css" href="@Url.Content(list.Package.ResolveUri("css/imgallery.css"))" rel="stylesheet" />
+@if (items != null && items.Count() > 0)
+{
+    <div id="@(list.Name + "_wall")">
+        @foreach (var item in items)
+        {
+            var info = new DNA.Web.WebResourceInfo(item);
+            if (info.ContentType.StartsWith("image"))
+            {
+            <div class="d-photo">
+                <div class="content">
+                    <a href="@item.ToString()" title="@info.Name" target="_blank">
+                        <img src="@item.ToString()?w=300" style="width:300px;" alt="@info.Name"/></a>
+                </div>
+                <div class="title">
+                    <label>@info.Name</label>
+                </div>
+            </div>
+            }
+        }
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#@(list.Name)_wall").masonry({
+                itemSelector: '.d-photo',
+                columnWidth: 10,
+                isAnimated: !Modernizr.csstransitions
+            });
+        });
+    </script>
+}
+@if (Request.IsAuthenticated && User.Identity.Name.Equals(Model.ParentList.Owner) && Model.Raw != null)
+{
+    if (!string.IsNullOrEmpty(Model.Raw.ToString()))
+    {
+    <div data-role="uploader" 
+        data-url="@Model.Raw.ToString()" 
+        data-connect="next" 
+        data-oncomplete="location.reload();"
+        data-onstart="$('#@Model.Field.ClientID').show()"
+        style="border:1px dashed #ccc;height:50px;text-align:center;padding:20px 0px;margin:10px 0px;line-height:50px;color:#ccc;">
+        <span>@list.Package.Loc("DropPhotoToUpload")</span>
+    </div>
+    <div data-role="uploadinfo" id="@Model.Field.ClientID" style="display:none;"></div>
+    }
+}

@@ -1,0 +1,62 @@
+﻿@using System.Xml.Linq
+@model ContentFieldValue
+@{
+    var field = (NoteField)Model.Field;
+}
+@if (!Model.IsNull)
+{
+    if (field != null)
+    {
+        var contentText = "";
+        if (field.IsHtml)
+        {
+            try
+            {
+                var formatValue = Model.Raw.ToString().Replace("<br/>", "\t\n").Replace("<br>", "\t\n").Replace("<BR>", "\t\n").Replace("<hr/>", "").Replace("<hr>", "").Replace("<HR>", "");
+                var element = XElement.Parse("<html>" + formatValue + "</html>");
+                var firstPrg = element.Elements("p").FirstOrDefault();
+                if (firstPrg == null)
+                {
+                    firstPrg = element.Elements("div").FirstOrDefault();
+                }
+
+                if (firstPrg != null)
+                {
+                    contentText = firstPrg.Value;
+                }
+                else
+                {
+                    contentText = TextEngine.Text(Model.Raw.ToString()).ToString();
+                }
+            }
+            catch
+            {
+                contentText = TextEngine.Text(Model.Raw.ToString()).ToString();
+            }
+        }
+        else
+        {
+            contentText = Model.Raw.ToString();
+        }
+
+        if (field.LengthLimit > 0)
+        {
+            contentText = Html.Cut(contentText, field.LengthLimit);
+        }
+    <p>
+        @if (field.IsHtml)
+        { 
+            @MvcHtmlString.Create(contentText)
+        }
+        else
+        {
+            @contentText
+        }
+    </p>
+        //}
+    }
+}
+else
+{  
+    @Model.Raw
+}

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="blogs" xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" target="_self" dir="lrt">
+  <title>Blogs</title>
+  <layout><![CDATA[<div class="d-page" data-role="layout"><div data-role="layout" data-label="Header" class="d-page-part d-page-header">@Html.Zone("HeaderZone", "HeaderZone").Attrs(new {@class="d-widget-zone",data_label="Header zone"}).GetHtml()
+</div><div data-role="layout" data-label="Navigation" class="d-page-nav">@Html.Zone("NavigationZone", "NavigationZone").Attrs(new {@class="d-widget-zone",data_label="Navigator zone"}).GetHtml()
+</div><div data-role="layout" data-label="Content" class="d-page-content">@Html.Zone("ContentZone", "ContentZone").Attrs(new {@class="d-widget-zone",data_label="Main zone",style=""}).GetHtml()
+<div data-role="layout" data-label="61.8% 39.2%" data-cols="2" data-class="sr" class="d-page-part"><div class="d-layout-columns d-layout-columns-sr"><div class="d-layout-column">@Html.Zone("zone0", "zone0").Attrs(new {@class="d-widget-zone"}).GetHtml()
+</div><div class="d-layout-column">@Html.Zone("zone1", "zone1").Attrs(new {@class="d-widget-zone"}).GetHtml()
+</div></div></div></div><div data-role="layout" data-label="Footer" class="d-page-footer">@Html.Zone("FooterZone", "FooterZone").Attrs(new {@class="d-widget-zone",data_label="Footer zone"}).GetHtml()
+</div></div>]]></layout>
+  <widgets>
+    <w:widget pid="intro-content" zone="HeaderZone" showIn="parent" seq="1">
+      <w:title><![CDATA[Intro content]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/promoimg-blog.png'" />
+      <w:preference name="link" value="''" />
+      <w:preference name="alt" value="'promoimg-blog'" />
+      <w:preference name="target" value="'_self'" />
+      <w:preference name="pos" value="'top'" />
+      <w:preference name="title" value="'Blog'" />
+      <w:preference name="linkText" value="''" />
+      <w:preference name="summary" value="'Here we will introduce how to create a blog content type to implement a blog timeline.&lt;p&gt;And you can also remove the tour data and use it as your blog directly.&lt;/p&gt;'" />
+      <w:preference name="size" value="0" />
+      <w:preference name="width" value="288" />
+      <w:preference name="height" value="232" />
+    </w:widget>
+    <w:widget pid="dataview" zone="NavigationZone" showIn="parent" seq="1">
+      <w:title><![CDATA[Recently posts]]></w:title>
+      <w:link src="/home/en-US/lists/blog/views/recently.html" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="listName" value="'blog'" />
+      <w:preference name="viewName" value="'recently'" />
+      <w:preference name="allowFiltering" value="false" />
+      <w:preference name="allowSorting" value="false" />
+      <w:preference name="allowPaging" value="true" />
+      <w:preference name="pagingInfo" value="false" />
+      <w:preference name="pageIndex" value="1" />
+      <w:preference name="pageSize" value="20" />
+    </w:widget>
+    <w:widget pid="new-item-button" zone="NavigationZone" showIn="parent">
+      <w:title><![CDATA[New item button]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="listName" value="''" />
+      <w:preference name="btnText" value="''" />
+    </w:widget>
+  </widgets>
+</page>

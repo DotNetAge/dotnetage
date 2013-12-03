@@ -1,0 +1,80 @@
+﻿@using Resources;
+@Html.Widget().Content(@<text>
+@{
+    var src = item.GetString("src");
+    var content = item.GetString("content");
+    if (!string.IsNullOrEmpty(src))
+    {
+    <script type="text/javascript">
+        $(function () {
+            $.get("@Url.Content(src)").done(function (dat) { $("head").append($("<style/>").html(dat)); })
+           });
+    </script>
+    }
+
+    if (!string.IsNullOrEmpty(content))
+    { 
+    <style id="@item.GetID("style")" type="text/css">
+            @MvcHtmlString.Create(content)
+        </style>
+    <script type="text/javascript">document.head.appendChild(document.getElementById("@item.GetID("style")"));</script>
+    }
+}
+</text>).UserPreferences(@<text>
+@{
+    var src = item.GetString("src");
+    var fileName = !string.IsNullOrEmpty(src) ? System.IO.Path.GetFileName(src) : "custom.css";
+}
+<div>
+    <div style="padding: 50px; text-align: center;">
+        <img src="@Url.Content(item.ResovleUrl("default.png"))" />
+        <div>@fileName</div>
+        @item.Hidden("src")
+        <div>
+            @UIHelper.BrowseFor(item.GetID("src"), item.Loc("SelectDlgTitle"), ".css", inline: false)
+        </div>
+        <div>
+            <a data-role="button" 
+                data-default="true" 
+                data-inline="false" 
+                href="javascript:void(0);" 
+                onclick="event.stopPropagation(); $.editCode('@fileName',$('#@item.GetID("content")').val(),function(val){ $('#@item.GetID("content")').val(val); $('#@item.ClientID').widget('prefs', { content: val }); return true; }, 'css');">@Resources.Commons.Edit</a>
+            <input type="hidden" value="@item.GetString("content")" id="@item.GetID("content")" name="content" />
+        </div>
+    </div>
+</div>
+@*<div>
+    <div data-role="accordion">
+        <h3>@item.Loc("Ref")</h3>
+        <div>
+            <ul data-role="listview" data-display="mobile-list" data-inset="false">
+                <li data-role="fieldcontain">
+                    @item.Label("src", "Url")
+                    @item.TextBox("src", new { placeholder = item.Loc("UrlHolder") })
+                </li>
+                <li data-readonly="true">
+                    @UIHelper.BrowseFor(item.GetID("src"), item.Loc("SelectDlgTitle"), ".css", inline: false)
+                </li>
+            </ul>
+        </div>
+        <h3>@item.Loc("Custom")</h3>
+        <div>
+            @item.TextArea("content", new { placeholder = item.Loc("StylesheetHolder"), style = "width:98%;height:300px;" })
+        </div>
+    </div>
+</div>*@
+
+</text>).Design(@<text>
+@{var src = item.GetString("src");}
+@if (string.IsNullOrEmpty(src))
+{
+    @item.DesignModeHolder(item.Loc("OpenSettings"))
+}
+else
+{
+    <div style="text-align:center;cursor:pointer;" onclick="@item.OpenPrefs">
+        <img src="@Url.Content(item.ResovleUrl("default.png"))" />
+        <div>@System.IO.Path.GetFileName(src)</div>
+    </div>
+}
+</text>).GetHtml()

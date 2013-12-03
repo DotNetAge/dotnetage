@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" defaultLocale="en-US" name="news" 
+             version="1.0.0" id="text-block" base="textblock" activity="true" 
+             allowCategoriesAndTags="true" allowAttachs="true" allowComments="true">
+  <title><![CDATA[News]]></title>
+  <fields>
+    <field name="title" required="true" slug="true" linkToItem="true" itemprop="name" type="Text">
+      <title>Title</title>
+      <placeHolder>Enter the content block title</placeHolder>
+    </field>
+    <field name="body" required="true" itemprop="text" type="Note" isHtml="true" numlines="10">
+      <title>Content</title>
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true" anonymous="true">
+      <paging allow="true" index="1" size="10" />
+      <title><![CDATA[News]]></title>
+      <emptyPattern><![CDATA[<div style="line-height:50px;text-align:center;" class="d-contentXL">No content</div>]]></emptyPattern>
+      <fields>
+        <fieldRef name="title" toFeed="title" />
+        <fieldRef name="body" toFeed="description" />
+      </fields>
+    </view>
+  </views>
+  <forms>
+    <form type="New">
+      <title><![CDATA[Post a news]]></title>
+      <fields>
+        <field name="title" showLabel="true" />
+        <field name="body" showLabel="true" />
+      </fields>
+    </form>
+    <form type="Edit">
+      <title><![CDATA[Edit news]]></title>
+      <fields>
+        <field name="title" showLabel="true" />
+        <field name="body" showLabel="true" />
+      </fields>
+    </form>
+    <form type="Display" anonymous="true">
+      <title><![CDATA[News detail]]></title>
+      <fields>
+        <field name="title" showLabel="true" />
+        <field name="body" showLabel="true" />
+      </fields>
+    </form>
+    <form type="Activity" anonymous="true">
+      <title><![CDATA[Updates]]></title>
+      <fields>
+        <field name="title" showLabel="true" />
+        <field name="body" showLabel="true" />
+      </fields>
+    </form>
+  </forms>
+</contentType>

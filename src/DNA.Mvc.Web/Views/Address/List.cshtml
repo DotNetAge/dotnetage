@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Address>
+<ul data-role="listview" data-display="mobile-list">
+    @if (Model.Count() > 0 && Model.First().IsValid)
+    {
+        <li data-readonly="true">
+            <div>
+                <a data-role="button" 
+                href="@Url.Action("New", "Address")"
+                data-rel="dialog"
+                data-dialog-title="New address"
+                data-dialog-padding="5">New address</a>
+            </div>
+        </li>
+    }
+    @foreach (var addr in Model)
+    { 
+        <li id="address@(addr.ID)" @if (!addr.IsValid)
+                                   {<text>data-link-icon="d-icon-exclamation-sign"</text>}><a href="@Url.Action("Edit", "Address", new { id = addr.ID })" 
+            data-rel="panel" 
+            data-panel-title="Edit address"
+            data-panel-pos="right"
+            data-panel-display="overlay"
+             
+            >
+            @if (addr.IsValid)
+            { @addr.ToString(Culture) }
+            else
+            {
+                <span>(Empty)</span>
+            }
+        </a>
+        </li>
+    }
+</ul>

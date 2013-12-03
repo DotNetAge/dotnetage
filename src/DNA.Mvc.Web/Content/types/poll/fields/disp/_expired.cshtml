@@ -1,0 +1,22 @@
+﻿@model ContentFieldValue
+@{
+    var isexpired = false;
+    if (!Model.IsNull)
+    {
+        var expired = (DateTime)Model.Raw;
+        if (expired != null)
+        {
+            isexpired = expired < DateTime.Now;
+        }
+    }
+}
+<p>
+    @if (isexpired)
+    {
+        <span class="d-ui-widget-content d-state-dislabe" style="padding: 5px 10px;">@Model.ParentList.Package.Loc("Closed")</span>
+    }
+    else
+    {
+        <span class="d-ui-widget d-state-active" style="padding: 5px 10px;">@Model.ParentList.Package.Loc("Polling")</span>
+    }
+</p>

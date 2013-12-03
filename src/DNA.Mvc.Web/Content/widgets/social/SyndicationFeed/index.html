@@ -1,0 +1,35 @@
+﻿<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="default.css" />
+    <script type="text/javascript" src="feeds.js"></script>
+</head>
+<body>
+    <form data-role="userprefs" class="d-fields">
+        <div>
+            <label>RSS Source</label>
+            <input type="url" data-role="textbox" name="uri"/>
+        </div>
+        <div>
+            <input type="checkbox" name="autoheight" data-label="Auo height"/>
+        </div>
+        <div>
+            <label>Max returns</label>
+            <input type="number" name="maxrows" />
+        </div>
+    </form>
+    <div id="feedcontainer"></div>
+    <script type="text/x-jquery-tmpl" id="article_tmpl">
+        <article class="newsitem">
+            <div class="newsbody">
+                <header>
+                    <h1>${Title.Text}</h1>
+                    <h2>${Author}</h2>
+                </header>
+                <p class="pubdate">Published: <span>{{= $.jsonDate(PublishDate)}}</span></p>
+                <p>{{html Summary.Text}}</p>
+                <a href="${Links[0].Uri}" target="_blank" data-role="button">Read more</a>
+            </div>
+        </article>
+    </script>
+</body>
+</html>

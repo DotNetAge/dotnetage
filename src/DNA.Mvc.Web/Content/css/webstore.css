@@ -1,0 +1,8 @@
+﻿.dw-item { float: left; margin: 5px; text-align: center; padding: 0px; }
+    .dw-item > div { padding: 10px; overflow: auto; }
+.dw-img { overflow: hidden; float: left; width: 80px; height: 120px; text-align: center; }
+    .dw-img img { max-width: 64px; max-height: 64px; }
+.dw-detail { width: 210px; float: left; text-align: left; height: 120px; overflow: hidden; }
+    .dw-detail .d-title { padding-bottom: 10px; line-height: 1em; }
+.f-installed { display: none; position: absolute; right: -5px; padding: 5px; bottom: 15px; font-size: 1.5em; color: #fff; background-color: #0094ff; border-top-left-radius: 100px; border-bottom-left-radius: 100px; }
+.d-state-installed .f-installed { display: block; }

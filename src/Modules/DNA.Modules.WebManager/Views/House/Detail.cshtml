@@ -1,0 +1,34 @@
+﻿@model DNA.Web.WebDecorator
+<form class="d-fields" style="padding: 20px;">
+    <div class="d-field" style="padding: 10px 0px;">
+        <label>@Resources.Commons.Name:</label>
+        <span>@Model.Name</span>
+    </div>
+    <div class="d-field" style="padding: 10px 0px;">
+        <label>@Resources.Commons.Title:</label>
+        <span>@Model.Title</span>
+    </div>
+    <div class="d-field" style="padding: 10px 0px;">
+        <span>@Model.Description</span>
+    </div>
+    <div>
+        @if (Model.IsOwner(Context))
+        {
+            <a href="@Url.Content(Model.SettingUrl)" data-inline="false" data-role="button">@Resources.Commons.Settings</a>
+        }
+        <a href="#website_exporter" data-rel="panel"
+            data-inline="false" data-role="button">@Resources.Commons.Export</a>
+        <a href="/@Model.Name/@Model.DefaultLocale" data-inline="false" data-role="button">Open</a>
+        @if (!Model.Name.Equals("home")) { 
+         <a data-role="button" data-inline="false"
+             data-ajax="true"
+             data-ajax-url="@Url.Content("~/api/webs/delete/"+Model.Name)"
+             data-ajax-method="post"
+             data-ajax-before="$.loading()"
+             data-ajax-complete="$.loading('hide')"
+             data-ajax-confirm="Are you sure delete this web?"
+             data-ajax-success="$.loading();$.closePanels();$('li[data-webid=@Model.Id]').remove();"
+             >@Resources.Commons.Delete</a>
+        }
+    </div>
+</form>

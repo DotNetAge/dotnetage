@@ -1,0 +1,253 @@
+﻿@using DNA.Web.ServiceModel;
+@using Resources;
+
+@helper Languages(string langs)
+{
+    var languages = langs.Split(',');
+    if (languages != null && languages.Length > 0)
+    {
+    @Languages(languages)
+    }
+}
+
+@helper Languages(string[] languages)
+{
+    if (languages != null && languages.Length > 0)
+    {
+    <span class="d-inline">
+        @foreach (var lan in languages)
+        {
+            var c = new System.Globalization.CultureInfo(lan);
+            <img src="~/content/images/flags/@(lan).gif" class="d-inline" title="@c.DisplayName"/>
+        }
+    </span>
+    }
+}
+
+@helper PageDataList(string id = "sys_pages_datalist")
+{
+    <datalist id="@id">
+        @foreach (var p in AppModel.Get().CurrentWeb.Pages)
+        {
+            if (p.IsShared) { continue; }
+            <option value="@p.Url" label="@p.Title"></option>
+        }
+    </datalist>
+}
+
+@helper Image(string src, int w, int h, string id = "")
+{
+    var formatedSrc = src;
+    if (!string.IsNullOrEmpty(src))
+    {
+        if (!src.StartsWith("data") && src.Contains("/webshared/"))
+        {
+            if (src.Contains("?"))
+            {
+                formatedSrc += "&w=" + w.ToString() + "h=" + h.ToString();
+            }
+            else
+            {
+                formatedSrc += "?w=" + w.ToString() + "h=" + h.ToString();
+            }
+        }
+
+        if (formatedSrc.StartsWith("~"))
+        {
+            formatedSrc = DNA.Utility.UrlUtility.CreateUrlHelper().Content(formatedSrc);
+        }
+    }
+    <img src="@formatedSrc" 
+         style="max-width:@(w)px;max-height:@(h)px;" 
+         class="d-inline" @if (!string.IsNullOrEmpty(id))
+                          {<text>id="@id"</text>} />
+}
+
+@helper SearchBox(string website, string locale)
+{
+    var Url = DNA.Utility.UrlUtility.CreateUrlHelper();
+    
+    <form class="d-searchbox" method="post" action="@Url.Content(string.Format("~/{0}/{1}/search", website, locale))">
+        <input type="search"
+                name="terms"
+                data-icon="d-icon-search"
+                style="display:block;"
+            autocomplete="off"
+            placeholder="@Resources.Commons.Search"
+            onkeypress="if (event.keyCode==13 && $(this).val()!='') $(this).closest('form').submit();"
+            data-autocomplete="@Url.Content(string.Format("~/search-suggest/{0}/{1}", locale, DNA.Web.ServiceModel.AppModel.Get().Searcher.Sources.First().Name))"
+            data-autocomplete-param="term"
+            data-autocomplete-select="$(this).closest('form').submit()"
+                @if (Request.Browser.IsBrowser("Chrome"))
+                { 
+                    <text>
+                x-webkit-speech="" 
+                x-webkit-grammar="builtin:translate" 
+                onwebkitspeechchange="$(this).closest('form').submit();" 
+                    </text>
+                } 
+            />
+    </form>    
+}
+@helper Solutions(string onselect = "", string[] installedSolutions = null)
+{
+    var solutions = AppModel.Get().Solutions.Packages;
+    <ul data-role="listview" 
+        id="solutionBox" 
+        data-display="mobile-list" 
+        data-inset="true"
+        data-selectable="true"
+            @if (!string.IsNullOrEmpty(onselect))
+            {<text>
+            data-select="@onselect"
+            </text>}
+            >
+        @foreach (var sol in solutions)
+        {
+            var culture = CurrentPage.Culture.ToLower();
+            if (!sol.Model.DefaultLanguage.Equals(culture, StringComparison.OrdinalIgnoreCase) &&
+                !sol.GetSupportLanguages().Contains(culture))
+            {
+                continue;
+            }
+            var s = sol.Locale(culture);
+            var installed = installedSolutions != null && installedSolutions.Count(i => i.StartsWith(sol.Name + ".", StringComparison.OrdinalIgnoreCase)) > 0;
+            <li data-val="@sol.Name" 
+                data-installed="@installed.ToString().ToLower()"
+                data-icon="d-icon-aid"
+                @if (installed)
+                { 
+                    <text>data-link-icon="d-icon-checkmark-2"</text>
+                }
+                else
+                {<text>data-link-icon="no"</text>}>
+                <a>@s.Title.Text</a>
+            </li>
+        }
+    </ul>
+
+}
+
+@helper BrowseFor(string name, string title = "Select a file", string filter = "", string path = "", string buttonText = "", string onselect = "", bool inline = true)
+{
+    var Url = DNA.Utility.UrlUtility.CreateUrlHelper();
+    <span data-role="button" 
+        onclick="$.fileDialog('@title','@path','@filter').done(function(file){if (file) {$('#@name').val(file).trigger('change');@onselect } })" 
+        @if (inline)
+        {
+        <text>style="width:80px;"</text>}
+        else
+        {
+        <text>data-inline="false"</text>
+        }
+        >@(string.IsNullOrEmpty(buttonText) ? Resources.Commons.Browse : buttonText)</span>
+}
+
+@helper FontStyleList(string target)
+{
+    <select data-role="fontstyles" data-target="@target"
+@*        onchange="$('#@target').removeClass('f-menu').removeClass('f-title').removeClass('f-h1').removeClass('f-h2').removeClass('f-h3').removeClass('f-h4').removeClass('f-h5').removeClass('f-h6').removeClass('f-body').removeClass('f-body-l').removeClass('f-body-s').removeClass('f-body-xs').addClass($(this).val())"*@
+        >
+        <option value="d-title">@Resources.Commons.Title</option>
+        <option value="d-h1">@Resources.TextFormats.Header1</option>
+        <option value="d-h2">@Resources.TextFormats.Header2</option>
+        <option value="d-h3">@Resources.TextFormats.Header3</option>
+        <option value="d-h4">@Resources.TextFormats.Header4</option>
+        <option value="d-h5">@Resources.TextFormats.Header5</option>
+        <option value="d-h6">@Resources.TextFormats.Header6</option>
+        <option value="d-body-l">@Resources.TextFormats.ContentL</option>
+        <option value="d-body">@Resources.TextFormats.Content</option>
+        <option value="d-body-s">@Resources.TextFormats.ContentS</option>
+        <option value="d-body-xs">@Resources.TextFormats.ContentXS</option>
+    </select>
+}
+
+@helper EditorToolbars(string id)
+{
+    var Url = DNA.Utility.UrlUtility.CreateUrlHelper();
+    <ul data-role="toolbar" class="@(id) d-inline">
+        <li class="d-item custom">
+            <select style="height:27px;" 
+                    id="@(id)_formats"
+                    onchange=" var sel=$(this).children('[selected]'); if (!sel.data('cmd')) return; $('#@id').taoEditor(sel.data('cmd'), sel.data('cmd-param'));">
+                <option value="none">-- @Resources.TextFormats.Format --</option>
+                <option class="d-h1" data-tag-name="h1" data-cmd="formatBlock" data-cmd-param="<h1>">@Resources.TextFormats.Header1</option>
+                <option class="d-h2" data-tag-name="h2" data-cmd="formatBlock" data-cmd-param="<h2>">@Resources.TextFormats.Header2</option>
+                <option class="d-h3" data-tag-name="h3" data-cmd="formatBlock" data-cmd-param="<h3>">@Resources.TextFormats.Header3</option>
+                <option class="d-h4" data-tag-name="h4" data-cmd="formatBlock" data-cmd-param="<h4>">@Resources.TextFormats.Header4</option>
+                <option class="d-h5" data-tag-name="h5" data-cmd="formatBlock" data-cmd-param="<h5>">@Resources.TextFormats.Header5</option>
+                <option class="d-h6" data-tag-name="h6" data-cmd="formatBlock" data-cmd-param="<h6>">@Resources.TextFormats.Header6</option>
+                <option class="d-title" data-cmd="insertBlock" data-cmd-param="<div class='d-title'>{0}</div>">@Resources.Commons.Title</option>
+                <option class="d-quote" data-tag-name="blockQuote" data-cmd="formatBlock" data-cmd-param="<blockQuote>">@Resources.TextFormats.Quote</option>
+                <option class="d-content-l" data-cmd="insertBlock" data-cmd-param="<div class='d-content-l'>{0}</div>">@Resources.TextFormats.ContentL</option>
+                <option class="d-content" data-cmd="insertBlock" data-cmd-param="<div class='d-content'>{0}</div>">@Resources.TextFormats.Content</option>
+                <option class="d-content-s" data-tag-name="small" data-cmd="formatBlock" data-cmd-param="<small>">@Resources.TextFormats.ContentS</option>
+                <option class="d-content-xs" data-cmd="insertBlock" data-cmd-param="<div class='d-content-xs'>{0}</div>">@Resources.TextFormats.ContentXS</option>
+            </select>
+        </li>
+        <li class="d-separator"></li>
+        <li data-cmd="bold" title="@Resources.TextFormats.Bold" data-role="checkbox"><a href="javascript:void(0);"><span class="d-icon-bold"></span></a></li>
+        <li data-cmd="italic" title="@Resources.TextFormats.Italic"  data-role="checkbox"><a href="javascript:void(0);"><span class="d-icon-italic"></span></a></li>
+        <li data-cmd="underline" title="@Resources.TextFormats.Underline"  data-role="checkbox"><a href="javascript:void(0);"><span class="d-icon-underline"></span></a></li>
+        <li data-cmd="strikeThrough" title="@Resources.TextFormats.StrikeThrough"  data-role="checkbox"><a href="javascript:void(0);"><span class="d-icon-strikethrough"></span></a></li>
+    </ul>
+    <ul data-role="toolbar" class="@(id) d-inline">
+        <li data-cmd="justifyLeft" title="@Resources.TextFormats.JustifyLeft" data-role="radio" data-group="justify"><a href="javascript:void(0);"><span class="d-icon-align-left"></span></a></li>
+        <li data-cmd="justifyCenter" title="@Resources.TextFormats.JustifyCenter" data-role="radio" data-group="justify"><a href="javascript:void(0);"><span class="d-icon-align-center"></span></a></li>
+        <li data-cmd="justifyRight" title="@Resources.TextFormats.JustifyRight" data-role="radio" data-group="justify"><a href="javascript:void(0);"><span class="d-icon-align-right"></span></a></li>
+        <li class="d-separator"></li>
+        <li data-cmd="insertOrderedList" title="@Resources.TextFormats.OrderedList" data-role="radio" data-group="ordered"><a href="javascript:void(0);"><span class="d-icon-list-ol"></span></a></li>
+        <li data-cmd="insertUnorderedList" title="@Resources.TextFormats.UnorderedList" data-role="radio" data-group="ordered"><a href="javascript:void(0);"><span class="d-icon-list-ul"></span></a></li>
+        <li class="d-separator"></li>
+        <li data-cmd="indent" title="@Resources.TextFormats.Indent"><a href="javascript:void(0);"><span class="d-icon-indent-right"></span></a></li>
+        <li data-cmd="outdent" title="@Resources.TextFormats.Outdent"><a href="javascript:void(0);"><span class="d-icon-indent-left"></span></a></li>
+    </ul>
+    <ul data-role="toolbar" class="@(id) d-inline">
+        <li title="@Resources.TextFormats.Paragraph" data-cmd="insertParagraph"><a href="javascript:void(0);"><span class="d-icon-pilcrow"></span></a></li>
+        <li data-cmd="insertHorizontalRule" title="@Resources.TextFormats.HorizontalRule"><a href="javascript:void(0);"><span class="d-icon-minus-4"></span></a></li>
+        <li title="@Resources.TextFormats.InsertLink"><a href="javascript:void(0);" data-rel="link" data-link-select="$('#@(id)').taoEditor('insertHtml', '<a href=\''+data.url+'\'>'+data.title+'</a>');"><span class="d-icon-link"></span></a></li>
+        @*        <li title="@Resources.TextFormats.Unlink" data-cmd="unlink"><a href="javascript:void(0);"><span class="d-icon-unlink"></span></a></li>*@
+        <li title="@Resources.TextFormats.InsertImage" onclick="$.fileDialog('@Resources.Messages.SelectAnImage','images').done(function(file){if (file) { $('#@(id)').taoEditor('insertImage',file);} })"><a href="javascript:void(0);"><span class="d-icon-image"></span></a></li>
+        <li title="@Resources.TextFormats.InsertVideo" onclick="$.fileDialog('@(string.Format(Resources.Messages.SelectFormat, Resources.Commons.Video))','videos').done(function(file){ if (file) { $.get(file+'?martch=self',function(dat){  $('#@(id)').taoEditor('insertVideo', file, dat.contentType); }); } })"><a href="javascript:void(0);"><span class="d-icon-video"></span></a></li>
+    </ul>
+}
+
+@helper PersonLink(string userName)
+{
+    var user = AppModel.Get().Users[userName];
+    if (user != null)
+    {
+    <a title="@user.DisplayName"
+         role="link"
+         href="@(DNA.Utility.UrlUtility.CreateUrlHelper().Action("ViewProfile", "Account", new { locale = AppModel.Get().Context.Culture, user = userName }))"
+         data-rel="panel"
+         data-panel-display="overlay"
+         data-panel-pos="right"
+         data-panel-title="About @user.DisplayName">@user.DisplayName</a>
+    }
+}
+
+@helper ContentLists(string listName = "", string onselect = "")
+{
+    var lists = AppModel.Get().CurrentWeb.Lists;
+    var Url = DNA.Utility.UrlUtility.CreateUrlHelper();
+    <ul data-role="listbox"
+        data-selectable="true"
+        data-item-style="cursor:pointer;"
+        @if (!string.IsNullOrEmpty(onselect))
+        {<text>
+         data-select="@onselect"</text>}
+        style="height:300px;">
+        @foreach (var ls in lists)
+        {
+            <li data-name="@ls.Name" 
+                data-link="@Url.Content(ls.SettingUrl)"
+                @if (!string.IsNullOrEmpty(listName) && listName.Equals(ls.Name))
+                {<text>class="d-state-active"</text>}
+                >
+                <img  src="@Url.Content((ls.Package != null && !string.IsNullOrEmpty(ls.Package.Icon)) ? ls.Package.Icon : "~/content/images/list.png")" style="width:32px;" class="d-inline" />
+                <span class="d-inline">@ls.Title</span>
+            </li>
+        }
+    </ul>
+}

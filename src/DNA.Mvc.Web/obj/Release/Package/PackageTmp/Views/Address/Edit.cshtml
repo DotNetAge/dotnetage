@@ -1,0 +1,118 @@
+﻿@model Address
+<form class="d-form" id="addressForm"
+    data-ajax="true"
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-success="$('body').trigger('@(Model == null ? "addressCreated" : "addressEdited")',data); $.closePanels();$('#addressForm').closest('.d-dialog-content').taoDialog('close');"
+    data-ajax-method="post"
+    data-ajax-url="@(Model == null ? Url.Action("New", "Address", new { format = "json" }) : Url.Action("Edit", "Address", new { id = Model.ID, format = "json" }))">
+    <div class="d-field">
+        @Html.LabelFor(m => m.Company, Resources.Contacts.Company)
+        @Html.TextBoxFor(m => m.Company,
+        new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.HomePage) })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.FirstName, Resources.Contacts.FirstName)
+        @Html.TextBoxFor(m => m.FirstName,
+        new
+        {
+            placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.FirstName),
+            data_val = "true",
+            data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.FirstName)
+        })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.LastName, Resources.Contacts.LastName)
+        @Html.TextBoxFor(m => m.LastName, new
+   {
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.LastName),
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.LastName)
+   })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Email, Resources.Contacts.Email)
+        @Html.TextBoxFor(m => m.Email, new
+   {
+       type = "email",
+       data_speech = false,
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.Email),
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Email)
+   })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Tel, Resources.Contacts.Phone)
+        @Html.TextBoxFor(m => m.Tel, new
+   {
+       data_speech = false,
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Phone),
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.Phone)
+   })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Mobile, Resources.Contacts.Mobile)
+        @Html.TextBoxFor(m => m.Mobile, new
+   {
+       data_speech = false,
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Mobile),
+   })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Fax, Resources.Contacts.Fax)
+        @Html.TextBoxFor(m => m.Fax, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Fax) })
+    </div>
+
+    <div class="d-field">
+        @Html.LabelFor(m => m.Country, Resources.Contacts.Country)
+        @Html.DropDownListFor(m => m.Country,
+                    new SelectList(Application.Countries.OrderBy(c => c.EnglishName).ToList(), "TwoLetterISORegionName", "DisplayName"),
+                    new { data_role = "combobox", style = "width:60%;", data_height = "200", data_input = "false" })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.State, Resources.Contacts.State)
+        @Html.TextBoxFor(m => m.State, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.State) })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.City, Resources.Contacts.City)
+        @Html.TextBoxFor(m => m.City, new
+   {
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.City),
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.City)
+   })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Zip, Resources.Contacts.ZipCode)
+        @Html.TextBoxFor(m => m.Zip, new
+   {
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.ZipCode),
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.ZipCode)
+   })
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Street, Resources.Contacts.Street)
+        @Html.TextBoxFor(m => m.Street, new
+   {
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Street),
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.Street)
+   })
+    </div>
+    @*    @if (Model != null)
+    {
+        <div class="d-field">
+            <a data-role="button" data-inline="false">View address on google</a>
+        </div>
+    }*@
+    <div class="d-field">
+        <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+        @if (Model != null && Model.ID > 0)
+        {
+            <a data-role="button" data-inline="false">@Resources.Commons.Delete</a>
+        }
+    </div>
+</form>
+

@@ -1,0 +1,113 @@
+﻿@model UserProfile
+@{
+    ViewBag.Title =string.Format(Resources.Contacts.SignupWithApp, Model.AppName);
+    var pwdLength = AppModel.Settings.PasswordLength;
+}
+@if (Model.ID > 0)
+{
+    <div id="signup_container">
+        <div style="padding: 20px; min-height: 75px; margin-bottom: 10px;">
+            <div style="width:48px;height:48px;background:url(@Model.Avatar) center center;float:left;background-size:48px;">
+            </div>
+            <div style="float: left; margin-left: 15px; width: 495px;">
+                <h2 style="margin: 0px 0px 5px 0px;">
+                    @(!string.IsNullOrEmpty(Model.DisplayName) ? Server.UrlDecode(Model.DisplayName) : Model.Account)
+                    on <strong><u>@Model.AppName</u></strong>
+                </h2>
+                <div style="color: #6d6d6d;">@Model.Signature</div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            window.location="@(ViewBag.ReturnUrl!=null ? ViewBag.ReturnUrl.ToString() : Url.Content("~/"))";
+        });
+    </script>
+}
+else
+{
+    <div id="connect_container">
+        <div style="padding: 20px; min-height: 75px; margin-bottom: 10px;">
+            <div style="width:48px;height:48px;background:url(@Model.Avatar) center center;float:left;background-size:48px;">
+            </div>
+            <div style="float: left; margin-left: 15px; width: 495px;">
+                <h2 style="margin: 0px 0px 5px 0px;">
+                    @(!string.IsNullOrEmpty(Model.DisplayName) ? Server.UrlDecode(Model.DisplayName) : Model.Account)
+                    on <strong><u>@Model.AppName</u></strong>
+                </h2>
+                <div style="color: #6d6d6d;">@Model.Signature</div>
+            </div>
+        </div>
+        <div style="padding-left: 20px;">
+            @using (Ajax.BeginForm("connect", "account", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "connect_container"
+            }))
+            {
+                <h3 style="border: none; margin-top: 0px;">
+                    <span style="color: #6d6d6d;">
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <text>@Resources.Messages.FinalizeAccountConnect</text>
+                        }
+                        else
+                        { 
+                            <text>@Resources.Messages.UsrAndPwdRequire</text>
+                        }</span>
+                </h3>
+                <div style="padding: 0px 0px 20px 0px;">
+                    @Html.ValidationSummary()
+                </div>
+                @Html.HiddenFor(m => m.DisplayName)
+                @Html.HiddenFor(m => m.FirstName)
+                @Html.HiddenFor(m => m.LastName)
+                @Html.HiddenFor(m => m.Account)
+                @Html.HiddenFor(m => m.Gender)
+                @Html.HiddenFor(m => m.AppName)
+                @Html.HiddenFor(m => m.Avatar)
+                @Html.HiddenFor(m => m.Link)
+                @Html.HiddenFor(m => m.Signature)
+                @Html.HiddenFor(m => m.Email)
+                <div class="d-fields">
+                    <div style="border: none;">
+                        <label for="UserName">@Resources.Commons.UserName</label>
+                    </div>
+                    <div>
+                        <input type="text" name="Email" id="Email"
+                                placeholder = "example@email.com"
+                                data-val = "true"
+                                data-val-required = "@string.Format(Resources.Validations.Required_Format, Resources.Contacts.Email )"
+                                data-val-email = "@string.Format(Resources.Validations.Valid_Format, Resources.Contacts.Email )"
+                                maxlength ="50"
+                                value="@Model.UserName" />
+                        <div>
+                            <span data-valmsg-for="UserName" class="d-valmsg" style="padding: 0px 0px 5px 0px; margin-left: 0px;"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="Password">@Resources.Commons.Password</label>
+                    </div>
+                    <div>
+                        <input type="password" name="Password"
+                            data-speech="false"
+                            data-val = "true"
+                            data-val-required = "@string.Format(Resources.Validations.Required_Format, Resources.Commons.Password)"
+                            data-val-length ="@string.Format(Resources.Validations.PwdLen_Format, pwdLength)"
+                            data-val-length-max = "16"
+                            data-val-length-min ="@pwdLength"
+                            maxlength = "16"
+                            required="required"
+                            placeholder ="@string.Format(Resources.Validations.PwdLen_Format, pwdLength)"/>
+                        <div>
+                            <span data-valmsg-for="Password" class="d-valmsg" style="padding: 0px; margin-left: 0px;"></span>
+                        </div>
+                    </div>
+                    <p>
+                        <button data-role="button" data-default="true">@Resources.Commons.Connect</button>
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+}

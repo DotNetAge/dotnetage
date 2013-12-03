@@ -1,0 +1,103 @@
+﻿@model DNA.Web.RegisterModel
+@{
+    ViewBag.Title =Resources.Managements.CreateUser;
+    ViewBag.ReturnUrl = "~/host/users";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var pwdLength = AppModel.Settings.PasswordLength;
+    var userLen = AppModel.Settings.UserNameLength;
+}
+
+<form action="~/host/create-user"
+    method="post"
+    class="d-form"
+    onsubmit="$.loading();">
+    <div class="d-field">
+        @Html.LabelFor(m => m.UserName, Resources.Commons.UserName)
+        @Html.TextBoxFor(m => m.UserName, new
+       {
+           data_val = "true",
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.UserName),
+           data_val_remote = string.Format(Resources.Validations.Exists_Format, Resources.Commons.UserName),
+           data_val_remote_url = Url.Content("~/api/accounts/validatename"),
+           data_val_regex = Resources.Validations.UserName_Regex,
+           data_val_regex_pattern = "^[A-Za-z0-9_]+$",
+           data_val_length = string.Format(Resources.Validations.UserNameLen_Format, userLen),
+           data_val_length_max = 50,
+           data_val_length_min = userLen,
+           placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.UserName),
+           maxlength = 50,
+           value = "administrator"
+       })
+
+        @Html.ValidationMessageFor(m => m.UserName)
+
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Email, Resources.Contacts.Email)
+        @Html.TextBoxFor(m => m.Email, new
+       {
+           placeholder = "example@email.com",
+           data_val = "true",
+           data_val_remote = string.Format(Resources.Validations.Exists_Format, Resources.Contacts.Email),
+           data_val_remote_url = Url.Content("~/api/accounts/validatemail"),
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Contacts.Email),
+           data_val_email = string.Format(Resources.Validations.Valid_Format, Resources.Contacts.Email),
+           maxlength = 250
+       })
+
+        @Html.ValidationMessageFor(m => m.Email)
+
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.Password, Resources.Commons.Password)
+        @Html.PasswordFor(m => m.Password, new
+       {
+           data_val = "true",
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.Password),
+           data_speech = "false",
+           data_val_length = string.Format(Resources.Validations.PwdLen_Format, pwdLength),
+           data_val_length_max = 16,
+           data_val_length_min = pwdLength,
+           maxlength = 16,
+           placeholder = string.Format(Resources.Validations.PwdLen_Format, pwdLength)
+       })
+
+        @Html.ValidationMessageFor(m => m.Password)
+
+    </div>
+    <div class="d-field">
+        @Html.LabelFor(m => m.ConfirmPassword, Resources.Security.ConfirmPwd)
+        @Html.PasswordFor(m => m.ConfirmPassword, new
+       {
+           data_val = "true",
+           data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Security.ConfirmPwd),
+           data_speech = "false",
+           maxlength = 16,
+           placeholder = string.Format(Resources.InputHolders.Format, Resources.Security.ConfirmPwd),
+           data_val_length = string.Format(Resources.Validations.PwdLen_Format, pwdLength),
+           data_val_length_max = 16,
+           data_val_length_min = pwdLength,
+           data_val_equalto = Resources.Validations.Password_Equal,
+           data_val_equalto_other = "Password"
+       })
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+
+    </div>
+    <div class="d-title">@Resources.Commons.Roles</div>
+
+    @foreach (var role in AppModel.Get().Roles.All)
+    {    <div class="d-field" style="line-height: 24px;">
+        <input type="checkbox" 
+                        data-label="@role" 
+                        data-bool="false" 
+                        id="@role" 
+                        @if (role == "guests")
+                        {
+                            <text>class="d-state-disable" checked="checked" disabled="disabled"</text>
+                        }
+                        name="roles" value="@role"/>
+    </div>}
+    <p>
+        <button data-inline="false" data-default="true">@Resources.Commons.Create</button>
+    </p>
+</form>

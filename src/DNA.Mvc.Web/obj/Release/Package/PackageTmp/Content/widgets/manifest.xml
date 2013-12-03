@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<webstore>
+  <add id="d9fbf964-ee21-40ae-b274-71a49307b9d6" uid="http://localhost/home/en-US/widgets/2013/08/30/archives.html" localid="content\archives" updated="2013-08-30 09:06:02" ver="1.0" />
+  <add id="5cc4cd5d-87e3-42f7-9aab-7529f3927146" uid="http://localhost/home/en-US/widgets/2013/08/30/dataform.html" localid="content\dataform" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="3629687c-cb1c-4b21-9f5d-2218cf145df2" uid="http://localhost/home/en-US/widgets/2013/08/30/dataview.html" localid="content\dataview" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="8fdaf74e-8255-4d4a-b413-589890597021" uid="http://localhost/home/en-US/widgets/2013/08/30/download-list.html" localid="content\downloadlist" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="2beb18ed-2021-4d4d-8825-efa040555889" uid="http://localhost/home/en-US/widgets/2013/08/30/file-download.html" localid="content\filedownload" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="381fa662-aa09-4491-8f06-108f4f8b0de4" uid="http://localhost/home/en-US/widgets/2013/08/30/list-info.html" localid="content\listInfo" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="cc6e00bd-26f7-4008-9275-8917d30c8365" uid="http://localhost/home/en-US/widgets/2013/08/30/new-item-button.html" localid="content\newbutton" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="ec2a021f-5d38-4653-93e6-bcf820f70d4d" uid="http://localhost/home/en-US/widgets/2013/08/30/new-form.html" localid="content\newform" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="4508d069-4721-4579-9bb8-c9b8e286b837" uid="http://localhost/home/en-US/widgets/2013/08/30/tags.html" localid="content\tags" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="66c4ab44-8e14-40e7-be6e-66f576d3aaac" uid="http://localhost/home/en-US/widgets/2013/08/30/image.html" localid="multimedia\image" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="0b0e45db-0708-40f4-8a52-63f266828d39" uid="http://localhost/home/en-US/widgets/2013/08/30/image-grid.html" localid="multimedia\imagegrid" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="76fc7e12-2a24-4054-adce-991d27ae154c" uid="http://localhost/home/en-US/widgets/2013/08/30/picture-flow.html" localid="multimedia\pictureflow" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="2f25c7a1-35e3-4a05-a2c1-443ea69f7ee7" uid="http://localhost/home/en-US/widgets/2013/08/30/image-slider.html" localid="multimedia\slider" updated="2013-08-30 09:06:03" ver="1.0" />
+  <add id="0f588c6b-3011-4754-9ece-85f6955d5b19" uid="http://localhost/home/en-US/widgets/2013/08/30/slideshow.html" localid="multimedia\slideshow" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="ff575901-1082-4e90-b5a8-d4a633183ad1" uid="http://localhost/home/en-US/widgets/2013/08/30/video.html" localid="multimedia\video" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="8fc8bec8-61c4-43c0-a85a-45561d44640e" uid="http://localhost/home/en-US/widgets/2013/08/30/button.html" localid="navigation\button" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="d6beee66-8693-4b7b-9a5e-a1890db92b19" uid="http://localhost/home/en-US/widgets/2013/08/30/links.html" localid="navigation\links" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="76f68ab6-3821-4d31-8d71-9a1e81d1ee0c" uid="http://localhost/home/en-US/widgets/2013/08/30/menu.html" localid="navigation\menu" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="79a5302f-2422-4d9b-8db3-7c8130139e65" uid="http://localhost/home/en-US/widgets/2013/08/30/page-header.html" localid="navigation\pageheader" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="0b2bd55f-49bb-44c9-b777-78007aeaf279" uid="http://localhost/home/en-US/widgets/2013/08/30/page-path.html" localid="navigation\pagepath" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="3219190f-dea7-424c-973a-4ba0f3ded8d0" uid="http://localhost/home/en-US/widgets/2013/08/30/sitemap.html" localid="navigation\sitemap" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="2ec4aeb1-027f-4fe2-b0c5-9ee205522064" uid="http://localhost/home/en-US/widgets/2013/08/30/web-site-info.html" localid="navigation\webheader" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="e030f7c9-deb0-49b2-891e-46ee56d2196c" uid="http://localhost/home/en-US/widgets/2013/08/30/comments.html" localid="social\Comments" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="3537a0f1-04a0-4a84-92e6-de38e2605faa" uid="http://localhost/home/en-US/widgets/2013/08/30/comments0.html" localid="social\fbComments" updated="2013-08-30 09:06:04" ver="1.0" />
+  <add id="59b5afe9-f1f1-49f1-b123-eeb45add85e7" uid="http://localhost/home/en-US/widgets/2013/08/30/follow-us.html" localid="social\FollowUs" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="3a595daa-0cd8-42e6-9179-fc03cd965716" uid="http://localhost/home/en-US/widgets/2013/08/30/likes.html" localid="social\Likes" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="86881189-a591-473f-b8d0-813793b77a6e" uid="http://localhost/home/en-US/widgets/2013/08/30/share-links.html" localid="social\ShareLinks" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="c93c7607-6052-465e-944e-6608f9b00907" uid="http://localhost/home/en-US/widgets/2013/08/30/syndication-feed.html" localid="social\SyndicationFeed" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="6241af1e-73cc-43e7-95e4-985a6a5c863b" uid="http://localhost/home/en-US/widgets/2013/08/30/code-formatter.html" localid="text\code" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="65ac6688-7ffd-4bf8-83f3-110192d9a884" uid="http://localhost/home/en-US/widgets/2013/08/30/code-file.html" localid="text\codefile" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="0c60b7d5-85b8-49e2-ae81-5a0e8d1262fd" uid="http://localhost/home/en-US/widgets/2013/08/30/creative-text.html" localid="text\creativetext" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="248014a7-d711-443c-bb5a-49b02bd9992d" uid="http://localhost/home/en-US/widgets/2013/08/30/style-sheet.html" localid="text\css" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="f578c259-1423-4a1a-b8f7-44234d3efa2c" uid="http://localhost/home/en-US/widgets/2013/08/30/heading.html" localid="text\heading" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="5b06704e-e50d-4827-92fe-79a7bebb8c08" uid="http://localhost/home/en-US/widgets/2013/08/30/html-block.html" localid="text\html" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="b8872712-212f-4512-aeb3-2e9fb37ab216" uid="http://localhost/home/en-US/widgets/2013/08/30/html-file.html" localid="text\htmlfile" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="bbd3e582-8c91-434e-81ed-ff7718bad136" uid="http://localhost/home/en-US/widgets/2013/08/30/intro-content.html" localid="text\intro" updated="2013-08-30 09:06:05" ver="1.0" />
+  <add id="3b2daef4-83ba-4c70-922f-36da0a4f6639" uid="http://localhost/home/en-US/widgets/2013/08/30/notes.html" localid="text\notes" updated="2013-08-30 09:06:06" ver="1.0" />
+  <add id="9806553c-79c8-4b91-a4f3-3b84f5a6434a" uid="http://localhost/home/en-US/widgets/2013/08/30/scripts.html" localid="text\script" updated="2013-08-30 09:06:06" ver="1.0" />
+  <add id="920682ee-4d41-4744-98da-6898689ee916" uid="http://localhost/home/en-US/widgets/2013/08/30/adsense.html" localid="utilities\adsense" updated="2013-08-30 09:06:06" ver="3.0.0" />
+  <add id="b8228499-c260-44d1-9486-c390b8a7fcfc" uid="http://localhost/home/en-US/widgets/2013/08/30/bingsearch.html" localid="utilities\BingSearch" updated="2013-08-30 09:06:06" ver="2.1.0" />
+  <add id="38c4a5c6-445d-4fa6-a6ea-c258124068f4" uid="http://localhost/home/en-US/widgets/2013/08/30/contact-detail.html" localid="utilities\contactdetail" updated="2013-08-30 09:06:06" ver="1.0" />
+  <add id="8ccd1f36-ea8a-404e-9628-ad530f64e3cd" uid="http://localhost/home/en-US/widgets/2013/08/30/contact-us.html" localid="utilities\contactmail" updated="2013-08-30 09:06:06" ver="1.0" />
+  <add id="4c829659-5c07-455b-9407-b234befbebf7" uid="http://localhost/home/en-US/widgets/2013/08/30/googlemap.html" localid="utilities\GoogleMap" updated="2013-08-30 09:06:06" ver="1.0" />
+  <add id="8152aa80-ce44-449f-b599-dabf10ec6eca" uid="http://localhost/home/en-US/widgets/2013/08/30/searchbox.html" localid="utilities\searchbox" updated="2013-08-30 09:06:06" ver="2.1.0" />
+</webstore>

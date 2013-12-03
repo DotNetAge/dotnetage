@@ -1,0 +1,49 @@
+﻿<div id="receiver_container">
+    @if (IsPost)
+    {
+        var host = SmtpConfig.Read().From;
+        string m = ViewBag.Email.ToString();
+        var endIndex = m.IndexOf("@");
+        var particalMail = "<ins>" + m.Substring(0, 3) + "</ins>-XXXX-<ins>" + m.Substring(endIndex, m.Length - endIndex) + "</ins>";
+        <p>@MvcHtmlString.Create(string.Format(Resources.Security.EmailSent, particalMail))</p>
+        if (!string.IsNullOrEmpty(host))
+        {
+        <p>@string.Format(Resources.Messages.EnsureReceiver, host)</p>
+        }
+        <p>
+            <span data-role="button" data-default="true" onclick="$(document).trigger('passwordchanged');">@Commons.Close</span>
+        </p>
+    }
+    else
+    {
+        using (Ajax.BeginForm("Receive", "Account", new { locale = Culture, Area = "" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnBegin = "$.loading('" + Resources.Security.Sending + "')",
+        OnComplete = "$.loading('hide')",
+        OnSuccess = "$('#receiver_container').replaceWith(data); $('#receiver_container').taoUI();"
+    }))
+        {
+        <p>@Resources.Messages.ReceivePwd </p>
+        <div>
+            @Html.Label("account", Resources.Contacts.Account, new { style = "width:60px;", @class = "d-inline" })
+            @Html.TextBox("account", "", new
+{
+    placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.UserName),
+    data_val = "true",
+    style = "width:250px;margin-right:5px;",
+    data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.UserName),
+    data_val_remote = string.Format(Resources.Errors.NotFoundFormat, Resources.Commons.User),
+    data_val_remote_url = Url.Action("ValidateAccount", "Account")
+})
+        </div>
+        <div style="margin-top: 5px;">
+            @Html.ValidationMessage("account")
+        </div>
+        <div style="padding: 10px 0px;">
+            <button data-default="true">@Commons.Send</button>
+        </div>
+        @Scripts.Render("~/bundles/jqueryval")
+        }
+    }
+</div>

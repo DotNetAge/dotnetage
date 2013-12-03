@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<webstore>
+  <add id="47351d7a-817c-40a7-8d26-91cf8c5142a4" uid="http://localhost/home/en-US/themes/2013/08/30/dark-blue.html" localid="dark-blue" updated="2013-08-30 09:06:00" ver="1.0" />
+  <add id="e48336fa-1cf8-4050-925f-20c40eeb870a" uid="http://localhost/home/en-US/themes/2013/08/30/dark-orange.html" localid="dark-orange" updated="2013-08-30 09:06:01" ver="1.0" />
+  <add id="2554ca10-2807-4d01-b36a-d0eb913bd3e8" uid="http://localhost/home/en-US/themes/2013/08/30/default.html" localid="default" updated="2013-08-30 09:06:01" ver="1.0" />
+  <add id="ed2a8685-55bc-4a67-8dc5-f9c0374a2d95" uid="http://localhost/home/en-US/themes/2013/08/30/discovery.html" localid="discovery" updated="2013-08-30 09:06:01" ver="1.0" />
+  <add id="32fd19d4-53ac-4b75-b1b4-44e584667ca1" uid="http://localhost/home/en-US/themes/2013/08/30/gray.html" localid="gray" updated="2013-08-30 09:06:01" ver="1.0" />
+  <add id="7e917950-cca9-4d24-92b1-5b4d201c8b39" uid="http://localhost/home/en-US/themes/2013/08/30/medex.html" localid="medex" updated="2013-08-30 09:06:01" ver="1.0" />
+  <add id="ef4ad8aa-c0c9-4e26-a661-cf7da26226b3" uid="http://localhost/home/en-US/themes/2013/08/30/red-blue.html" localid="red-blue" updated="2013-08-30 09:06:01" ver="1.0" />
+  <add id="2f310b74-cba3-4563-8f1f-fdaaa2ddf6fd" uid="http://localhost/home/en-US/themes/2013/08/30/white-black.html" localid="white-black" updated="2013-08-30 09:06:02" ver="1.0" />
+  <add id="8e1337f8-9d19-4cae-a90f-6599c970e157" uid="http://localhost/home/en-US/themes/2013/08/30/white-blue.html" localid="white-blue" updated="2013-08-30 09:06:02" ver="1.0" />
+  <add id="7eb818af-848e-4a9f-965b-ac10bc3a91c7" uid="http://localhost/home/en-US/themes/2013/08/30/white-green.html" localid="white-green" updated="2013-08-30 09:06:02" ver="1.0" />
+  <add id="6b5e1d21-b9d7-432e-9f78-f08c22f9f403" uid="http://localhost/home/en-US/themes/2013/08/30/white-light-green.html" localid="white-light-green" updated="2013-08-30 09:06:02" ver="1.0" />
+  <add id="abb01a38-d9c8-4b95-bb6e-d109b8f6e4eb" uid="http://localhost/home/en-US/themes/2013/08/30/white-purple.html" localid="white-purple" updated="2013-08-30 09:06:02" ver="1.0" />
+  <add id="56709d0f-6b6d-4cb1-8b63-775b1a1f67cc" uid="http://localhost/home/en-US/themes/2013/08/30/white-red.html" localid="white-red" updated="2013-08-30 09:06:02" ver="1.0" />
+</webstore>

@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SA_AddRolesToUser" xml:space="preserve">
+    <value>Add roles to user</value>
+  </data>
+  <data name="SA_AddRolesToUserDesc" xml:space="preserve">
+    <value>Allow to add roles for users</value>
+  </data>
+  <data name="SA_AddWidget" xml:space="preserve">
+    <value>Add widget to page</value>
+  </data>
+  <data name="SA_AddWidgetDesc" xml:space="preserve">
+    <value>Allow add widgets to the page</value>
+  </data>
+  <data name="SA_ApplyWidgetSettings" xml:space="preserve">
+    <value>Apply widget settings</value>
+  </data>
+  <data name="SA_ApplyWidgetSettingsDesc" xml:space="preserve">
+    <value>Allows to change common settings for widget</value>
+  </data>
+  <data name="SA_ControlPanel" xml:space="preserve">
+    <value>Control panel</value>
+  </data>
+  <data name="SA_ControlPanelDesc" xml:space="preserve">
+    <value>Allow access to the control panel</value>
+  </data>
+  <data name="SA_CreateCategory" xml:space="preserve">
+    <value>Create category</value>
+  </data>
+  <data name="SA_CreateCategoryDesc" xml:space="preserve">
+    <value>Allows user to create a new category</value>
+  </data>
+  <data name="SA_CreateNewPage" xml:space="preserve">
+    <value>Create page</value>
+  </data>
+  <data name="SA_CreateNewPageDesc" xml:space="preserve">
+    <value>Allows user to create new web page</value>
+  </data>
+  <data name="SA_CreateNewThread" xml:space="preserve">
+    <value>Create new thread</value>
+  </data>
+  <data name="SA_CreateNewThreadDesc" xml:space="preserve">
+    <value>Allows user to create new thread</value>
+  </data>
+  <data name="SA_CreatePaths" xml:space="preserve">
+    <value>Create paths</value>
+  </data>
+  <data name="SA_CreatePathsDesc" xml:space="preserve">
+    <value>Allows user to create directory on the server.</value>
+  </data>
+  <data name="SA_CreateRoles" xml:space="preserve">
+    <value>Create roles</value>
+  </data>
+  <data name="SA_CreateRolesDesc" xml:space="preserve">
+    <value>Allows user to add new role</value>
+  </data>
+  <data name="SA_CreateWidget" xml:space="preserve">
+    <value>Create widget</value>
+  </data>
+  <data name="SA_CreateWidgetDesc" xml:space="preserve">
+    <value>Allows users to create widgets by using widget editor.</value>
+  </data>
+  <data name="SA_DeleteCat" xml:space="preserve">
+    <value>Delete category</value>
+  </data>
+  <data name="SA_DeleteCatDesc" xml:space="preserve">
+    <value>Allows user to delete category</value>
+  </data>
+  <data name="SA_DeletePage" xml:space="preserve">
+    <value>Delete page</value>
+  </data>
+  <data name="SA_DeletePageDesc" xml:space="preserve">
+    <value>Allows user to delete page.</value>
+  </data>
+  <data name="SA_DeletePaths" xml:space="preserve">
+    <value>Delete paths</value>
+  </data>
+  <data name="SA_DeletePathsDesc" xml:space="preserve">
+    <value>Allows user to delete the directory on the server.</value>
+  </data>
+  <data name="SA_DeleteRoles" xml:space="preserve">
+    <value>Delete roles</value>
+  </data>
+  <data name="SA_DeleteRolesDesc" xml:space="preserve">
+    <value>Allows user to delete role</value>
+  </data>
+  <data name="SA_DeleteWidget" xml:space="preserve">
+    <value>Delete widgets</value>
+  </data>
+  <data name="SA_DeleteWidgetDesc" xml:space="preserve">
+    <value>Allows user to delete widget</value>
+  </data>
+  <data name="SA_DesignPage" xml:space="preserve">
+    <value>Design page</value>
+  </data>
+  <data name="SA_DesignPageDesc" xml:space="preserve">
+    <value>Allows users to switch page design mode.</value>
+  </data>
+  <data name="SA_EditCat" xml:space="preserve">
+    <value>Edit category</value>
+  </data>
+  <data name="SA_EditCatDesc" xml:space="preserve">
+    <value>Allows user to edit category</value>
+  </data>
+  <data name="SA_EditPage" xml:space="preserve">
+    <value>Edit page</value>
+  </data>
+  <data name="SA_EditPageDesc" xml:space="preserve">
+    <value>Allows user to edit page settings.</value>
+  </data>
+  <data name="SA_EditWidgetSrc" xml:space="preserve">
+    <value>Edit widget source</value>
+  </data>
+  <data name="SA_EditWidgetSrcDesc" xml:space="preserve">
+    <value>Allows user to edit widget source file.</value>
+  </data>
+  <data name="SA_ExportPageData" xml:space="preserve">
+    <value>Export page data</value>
+  </data>
+  <data name="SA_ExportPageDataDesc" xml:space="preserve">
+    <value>Allows user to export and download page data.</value>
+  </data>
+  <data name="SA_ExportWidgetData" xml:space="preserve">
+    <value>Export user preferences</value>
+  </data>
+  <data name="SA_ExportWidgetDataDesc" xml:space="preserve">
+    <value>Allows user to export and download widget user preferences data.</value>
+  </data>
+  <data name="SA_FileMan" xml:space="preserve">
+    <value>File manager</value>
+  </data>
+  <data name="SA_FileManDesc" xml:space="preserve">
+    <value>Allow using the file manager to manage site resources</value>
+  </data>
+  <data name="SA_ImportPageData" xml:space="preserve">
+    <value>Import page data</value>
+  </data>
+  <data name="SA_ImportPageDataDesc" xml:space="preserve">
+    <value>Allow uploading page data file to create new page.</value>
+  </data>
+  <data name="SA_ImportWidgetData" xml:space="preserve">
+    <value>Import user preferences</value>
+  </data>
+  <data name="SA_ImportWidgetDataDesc" xml:space="preserve">
+    <value>Allow uploading widget user preferences data file to add widget to page.</value>
+  </data>
+  <data name="SA_ListFiles" xml:space="preserve">
+    <value>List files</value>
+  </data>
+  <data name="SA_ListFilesDesc" xml:space="preserve">
+    <value>Allows user to list files from server.</value>
+  </data>
+  <data name="SA_ListPaths" xml:space="preserve">
+    <value>List paths</value>
+  </data>
+  <data name="SA_ListPathsDesc" xml:space="preserve">
+    <value>Allows user to list paths from server.</value>
+  </data>
+  <data name="SA_Managementbase" xml:space="preserve">
+    <value>Management base</value>
+  </data>
+  <data name="SA_ManagePermissions" xml:space="preserve">
+    <value>Manage permissions</value>
+  </data>
+  <data name="SA_ManagePermissions_Desc" xml:space="preserve">
+    <value>Allow assigning permissions to role.</value>
+  </data>
+  <data name="SA_ManageRoles" xml:space="preserve">
+    <value>Manage Roles</value>
+  </data>
+  <data name="SA_ManageRolesDesc" xml:space="preserve">
+    <value>Allows user to manage the role.</value>
+  </data>
+  <data name="SA_ManageSiteSettings" xml:space="preserve">
+    <value>Manage site settings</value>
+  </data>
+  <data name="SA_ManageSiteSettingsDesc" xml:space="preserve">
+    <value>Allows user to change web site common settings.</value>
+  </data>
+  <data name="SA_ManageUsers" xml:space="preserve">
+    <value>Manage users</value>
+  </data>
+  <data name="SA_ManageUsersDesc" xml:space="preserve">
+    <value>Allows user to access the security control panel</value>
+  </data>
+  <data name="SA_MoveChange" xml:space="preserve">
+    <value>Change position</value>
+  </data>
+  <data name="SA_MoveChangeDesc" xml:space="preserve">
+    <value>Allow moving page to new position</value>
+  </data>
+  <data name="SA_MoveFilesAndPaths" xml:space="preserve">
+    <value>Move files and paths</value>
+  </data>
+  <data name="SA_MoveFilesAndPathsDesc" xml:space="preserve">
+    <value>Allow moving files or paths to new destinations</value>
+  </data>
+  <data name="SA_MoveWidget" xml:space="preserve">
+    <value>Drag and drop Widgets</value>
+  </data>
+  <data name="SA_MoveWidgetDesc" xml:space="preserve">
+    <value>Allows user to drag and drop Widget on page.</value>
+  </data>
+  <data name="SA_PageMan" xml:space="preserve">
+    <value>Page manager</value>
+  </data>
+  <data name="SA_PageManDesc" xml:space="preserve">
+    <value>Allow using Page Manager to manage all pages in web site.</value>
+  </data>
+  <data name="SA_PAGES" xml:space="preserve">
+    <value>Pages</value>
+  </data>
+  <data name="SA_RemoveRolesFromUser" xml:space="preserve">
+    <value>Remove roles from user</value>
+  </data>
+  <data name="SA_RemoveRolesFromUserDesc" xml:space="preserve">
+    <value>Allows removing roles from users.</value>
+  </data>
+  <data name="SA_Robot" xml:space="preserve">
+    <value>Edit robot.txt</value>
+  </data>
+  <data name="SA_RobotDesc" xml:space="preserve">
+    <value>Allows user to edit the robot.txt file.</value>
+  </data>
+  <data name="SA_SECURITY" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="SA_ToggleWidget" xml:space="preserve">
+    <value>Toggle widget state</value>
+  </data>
+  <data name="SA_ToggleWidgetDesc" xml:space="preserve">
+    <value>Allow collapsing or expanding widgets</value>
+  </data>
+  <data name="SA_UploadFiles" xml:space="preserve">
+    <value>Upload files</value>
+  </data>
+  <data name="SA_UploadFilesDesc" xml:space="preserve">
+    <value>Allow uploading file to the server.</value>
+  </data>
+  <data name="SA_WebResSystem" xml:space="preserve">
+    <value>Web resource system</value>
+  </data>
+  <data name="SA_WidgetMan" xml:space="preserve">
+    <value>Widget manager</value>
+  </data>
+  <data name="SA_WidgetManDesc" xml:space="preserve">
+    <value>Allow using Widget Manager to install,upload,remove and edit widgets.</value>
+  </data>
+  <data name="SA_Widgets" xml:space="preserve">
+    <value>Wdigets</value>
+  </data>
+  <data name="SA_ChangeThemes" xml:space="preserve">
+    <value>Change themes</value>
+  </data>
+  <data name="SA_ChangeThemesDesc" xml:space="preserve">
+    <value>Allows change themes and web style</value>
+  </data>
+  <data name="SA_ChangeIconAndLogo" xml:space="preserve">
+    <value>Change icon and logo</value>
+  </data>
+  <data name="SA_ChangeIconAndLogoDesc" xml:space="preserve">
+    <value>Allows users can change the website title and logo.</value>
+  </data>
+  <data name="SA_ChangeTheme" xml:space="preserve">
+    <value>Change web site theme</value>
+  </data>
+  <data name="SA_ChangeThemeDesc" xml:space="preserve">
+    <value>Allows users can change the theme of current website.</value>
+  </data>
+  <data name="SA_Contents" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="SA_CreateTeamSite" xml:space="preserve">
+    <value>Create team site</value>
+  </data>
+  <data name="SA_CreateTeamSiteDesc" xml:space="preserve">
+    <value>Allows users can create new team site.</value>
+  </data>
+  <data name="SA_CreateTheme" xml:space="preserve">
+    <value>Create theme</value>
+  </data>
+  <data name="SA_CreateThemeDesc" xml:space="preserve">
+    <value>Allows users can create new themes.</value>
+  </data>
+  <data name="SA_DeployPackage" xml:space="preserve">
+    <value>Deploy packages</value>
+  </data>
+  <data name="SA_DeployPackageDesc" xml:space="preserve">
+    <value>Allows users can deploy the uploaded packages.</value>
+  </data>
+  <data name="SA_DesignTheme" xml:space="preserve">
+    <value>Design themes</value>
+  </data>
+  <data name="SA_DesignThemeDesc" xml:space="preserve">
+    <value>Allows users can use the style designer to design themes.</value>
+  </data>
+  <data name="SA_DownloadTheme" xml:space="preserve">
+    <value>Download themes</value>
+  </data>
+  <data name="SA_DownloadThemeDesc" xml:space="preserve">
+    <value>Allows users can download the theme package.</value>
+  </data>
+  <data name="SA_RemoveUploadPackage" xml:space="preserve">
+    <value>Remove uploaded packages</value>
+  </data>
+  <data name="SA_RemoveUploadPackageDesc" xml:space="preserve">
+    <value>Allows users can remove the uploaded packages.</value>
+  </data>
+  <data name="SA_SMTPSettings" xml:space="preserve">
+    <value>Smtp settings</value>
+  </data>
+  <data name="SA_SMTPSettingsDesc" xml:space="preserve">
+    <value>Allows users can change the SMTP settings.</value>
+  </data>
+  <data name="SA_Theming" xml:space="preserve">
+    <value>Theming</value>
+  </data>
+  <data name="SA_UploadPackage" xml:space="preserve">
+    <value>Upload packages</value>
+  </data>
+  <data name="SA_UploadPackageDesc" xml:space="preserve">
+    <value>Allows users can view and upload packages.</value>
+  </data>
+  <data name="SA_ViewWebsiteList" xml:space="preserve">
+    <value>View website list</value>
+  </data>
+  <data name="SA_ViewWebsiteListDesc" xml:space="preserve">
+    <value>Allows users can view the websites list.</value>
+  </data>
+  <data name="SA_Markspammer" xml:space="preserve">
+    <value>Mark spammers</value>
+  </data>
+  <data name="SA_MarkspammerDesc" xml:space="preserve">
+    <value>Allows user can mark the comments as spam.</value>
+  </data>
+  <data name="SA_ContentBackup" xml:space="preserve">
+    <value>Backup data</value>
+  </data>
+  <data name="SA_ContentBackupDesc" xml:space="preserve">
+    <value>Allow users to backup list schema and data to file.</value>
+  </data>
+  <data name="SA_ContentMan" xml:space="preserve">
+    <value>Content manager</value>
+  </data>
+  <data name="SA_ContentManDesc" xml:space="preserve">
+    <value>Allows users to use content manager</value>
+  </data>
+  <data name="SA_ContentRestore" xml:space="preserve">
+    <value>Restore data</value>
+  </data>
+  <data name="SA_ContentRestoreDesc" xml:space="preserve">
+    <value>Allows users to recover views, forms, and data items from backup file.</value>
+  </data>
+  <data name="SA_CreateList" xml:space="preserve">
+    <value>Create new list field</value>
+  </data>
+  <data name="SA_CreateListDesc" xml:space="preserve">
+    <value>Allows user can be create new fields for list.</value>
+  </data>
+  <data name="SA_CreateView" xml:space="preserve">
+    <value>Create view</value>
+  </data>
+  <data name="SA_CreateViewDesc" xml:space="preserve">
+    <value>Allows user to create new views.</value>
+  </data>
+  <data name="SA_CreateWeb" xml:space="preserve">
+    <value>Create new web</value>
+  </data>
+  <data name="SA_CreateWebDesc" xml:space="preserve">
+    <value>Allows user to create new web.</value>
+  </data>
+  <data name="SA_DelView" xml:space="preserve">
+    <value>Delete view</value>
+  </data>
+  <data name="SA_DelViewDesc" xml:space="preserve">
+    <value>Allows user to delete views.</value>
+  </data>
+  <data name="SA_EditField" xml:space="preserve">
+    <value>Edit list field</value>
+  </data>
+  <data name="SA_EditFieldDesc" xml:space="preserve">
+    <value>Allows user can be edit the field settings.</value>
+  </data>
+  <data name="SA_EditForm" xml:space="preserve">
+    <value>Edit form</value>
+  </data>
+  <data name="SA_EditFormDesc" xml:space="preserve">
+    <value>Allow user can custom forms.</value>
+  </data>
+  <data name="SA_EditList" xml:space="preserve">
+    <value>Edit list settings</value>
+  </data>
+  <data name="SA_EditListDesc" xml:space="preserve">
+    <value>Allows user can edit list settings and custom fields,views,and forms.</value>
+  </data>
+  <data name="SA_EditView" xml:space="preserve">
+    <value>Edit view</value>
+  </data>
+  <data name="SA_EditViewDesc" xml:space="preserve">
+    <value>Allows user modify view settings custom styles and behaviors.</value>
+  </data>
+  <data name="SA_Localization" xml:space="preserve">
+    <value>Localization</value>
+  </data>
+  <data name="SA_LocalizationDesc" xml:space="preserve">
+    <value>Allows users can localize the pages and contents.</value>
+  </data>
+  <data name="SA_Webs" xml:space="preserve">
+    <value>Webs</value>
+  </data>
+</root>

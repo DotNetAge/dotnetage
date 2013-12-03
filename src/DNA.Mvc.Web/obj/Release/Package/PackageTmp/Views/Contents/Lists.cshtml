@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = Commons.Contents;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var app = AppModel.Get();
+    var types = app.ContentTypes.Packages;
+}
+@section HeaderSection{
+    <script type="text/javascript">
+        function _fillvals(_type, _title) {
+            var _itemCount = $('[data-content-type=' + _type + ']').find('li').length + 1;
+            $('#Content_type').val(_type);
+            $('#Content_title').val(_title + _itemCount);
+            $('#Content_name').val(_type + _itemCount);
+            $('#contype_info').children('.d-item-thumb')
+                                          .css({ 'margin-top': '-32px', 'left': '10px', 'width': '64px' });
+        }
+    </script>
+}
+<div data-role="panel" id="contentTypeDlg"
+    data-pos="right"
+    data-display="overlay"
+    data-return="#choice_contenttype_panel"
+    style="position: fixed;" 
+    title="@Resources.Contents.AddNewList">
+    <div>
+        <div style="position: relative; height: 80px; padding: 10px 10px 10px 40px;" id="contype_info">
+            <img class="d-item-thumb" style="left: 10px; top: 50%; margin-top: -32px;" />
+            <h3 class="d-item-heading"></h3>
+            <p class="d-item-desc"></p>
+        </div>
+        <form method="post" 
+            action="@Url.Content("~/" + app.CurrentWeb.Name + "/" + Culture + "/lists/create")" 
+            id="creationform" 
+            onsubmit="if ($(this).valid()) $.loading();">
+            <input type="hidden" id="Content_type" name="base" />
+            <input type="hidden" name="locale" value="@Culture" />
+            <ul data-role="listview" data-display="mobile-list">
+                <li data-role="fieldcontain">
+                    <label>@Commons.Title</label>
+                    <input type="text" id="Content_title" onfocus="$(this).select();" name="title" 
+                        placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Title)" />
+                </li>
+                <li data-role="fieldcontain">
+                    <label>@Commons.Name</label>
+                    <input type="text" id="Content_name" name="name" onfocus="$(this).select();"
+                    data-val="true" 
+                    data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Name)"
+                    data-val-regex = "@string.Format(Resources.Validations.LetterAndNumRegex_Format, Commons.Name)"
+                    data-val-regex-pattern = "^[A-Za-z0-9_-]+$"
+                    placeholder="@string.Format(Resources.InputHolders.Format, Commons.Name)" />
+                    @Html.ValidationMessage("name")
+                </li>
+                <li data-readonly="true" style="padding: 10px;">
+                    <input type="checkbox" checked="checked" name="showInMenu" value="True" data-label="@Resources.Pages.ShowInMenu" />
+                </li>
+            </ul>
+            <div style="padding: 0px 10px;">
+                <button data-default="true" data-inline="false" data-icon-left="d-icon-disk">@Commons.Add</button>
+                <a data-role="button" data-rel="close" data-inline="false" href="#contentTypeDlg">@Commons.Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div data-role="panel" data-pos="right" data-display="overlay" data-position="fixed" id="choice_contenttype_panel">
+    <h3>@Resources.Contents.AddNewList</h3>
+    <div>
+        <ul data-role="listview" data-display="mobile-list" data-link-icon="no">
+            @foreach (var _type in types)
+            {
+                if (_type.Name.Equals("base"))
+                {
+                    continue;
+                }
+                var _locType = _type.Locale(UICulture);
+                var g = app.CurrentWeb.Lists.Where(l => l.Locale.Equals(Culture, StringComparison.OrdinalIgnoreCase) && l.BaseType.Equals(_type.Name)).ToList();
+                var roles = _type.Model.Roles;
+                if (!string.IsNullOrEmpty(roles))
+                {
+                    var roleArgs = roles.Split(',');
+                    if (!app.User.IsInRoles(roleArgs))
+                    {
+                        continue;
+                    }
+                }
+                <li data-content-type="@_type.Name" data-link-icon="no">
+                    <a data-rel="open"
+                        
+                        href="#contentTypeDlg" @if (!string.IsNullOrEmpty(_locType.Description))
+                                                              {<text>
+                            title="@_locType.Description"</text>
+                                                              }
+                        onclick="$('#contype_info').empty();$(this).children('.d-item-thumb,.d-item-heading,.d-item-desc').clone().appendTo('#contype_info');_fillvals('@_type.Name','@_locType.Title');">
+                        <img src="@Url.Content(_type.Icon)" style="width:32px;left:auto;top:50%;margin-top:-16px;" />
+                        <h4>@_locType.Title</h4>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<ul data-role="listview" data-display="mobile-list" data-inset="true" style="margin-bottom: 20px;" data-link-icon="no">
+    <li data-icon="d-icon-plus-2"><a data-rel="open" href="#choice_contenttype_panel">@Resources.Contents.AddNewList</a></li>
+ </ul>
+
+@foreach (var _type in types)
+{
+    var _locType = _type.Locale(UICulture);
+    var g = app.CurrentWeb.Lists.Where(l => l.Locale.Equals(Culture, StringComparison.OrdinalIgnoreCase) && l.BaseType.Equals(_type.Name)).OrderBy(t => t.Name).ToList();
+    if (g.Count > 0)
+    {
+    <ul data-role="listview" data-display="mobile-list" data-inset="true" style="margin-bottom: 20px;" data-link-icon="d-icon-settings">
+        @foreach (var c in g)
+        {
+            <li data-counter="@c.TotalItems">
+                <a href="@Url.Content(c.SettingUrl)">
+                    <h4><span data-icon="table-2"></span>@c.Title</h4>
+                    @if (!string.IsNullOrEmpty(c.Description))
+                    {
+                        <p>@c.Description</p>
+                    }
+                </a>
+                @if (c.NewForm!=null) {
+                <a data-icon="d-icon-add-to-list" href="@Url.Content(c.GetNewItemUrl())@(!string.IsNullOrEmpty(c.DefaultUrl) ? "?returnUrl=" + Url.Content(c.DefaultUrl) : "")"></a>
+                }
+            </li>
+        }
+    </ul>
+    }
+}

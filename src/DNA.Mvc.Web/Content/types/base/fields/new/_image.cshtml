@@ -1,0 +1,20 @@
+﻿@model ImageField
+<div class="d-inline">
+    <div class="d-vbox">
+        <input  id="@(Model.ClientID)"
+            name="@Model.Name"
+            type="hidden"
+            data-role="dropbox"
+            data-img-size="@(Model.Width == 0 ? 100 : Model.Width)px"
+            @if (Model.DefaultValue != null) {<text>value="@(Model.DefaultValue)"</text>}
+            style="width:@(Model.Width == 0 ? 100 : Model.Width)px;height:@(Model.Height == 0 ? 100 : Model.Height)px;"
+          />
+        <div class="buttonholder" style="margin-top: 5px; text-align: center;">
+            <a data-role="button" 
+                data-rel="file"
+                data-file-to="@(Model.ClientID)"
+                title="@Resources.Messages.SelectAnImage"
+                style="position: relative; width: 100px;">@Resources.Commons.Browse</a>
+        </div>
+    </div>
+</div>

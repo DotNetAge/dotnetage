@@ -1,0 +1,25 @@
+﻿@model ContentQueryResult
+@{
+    var items = Model.Items;
+}
+
+@foreach (var item in items)
+{
+    var owner = AppModel.Get().Users[item.Owner];
+    var orgItem = Model.List.GetItem(item.ID);
+    <div style="position: relative;" class="d-view @Model.CssClass" itemscope="itemscope" itemtype="@Model.List.ItemType">
+        <div style="position: absolute; left: 0px; top: 0px;">
+            <div class="d-ui-widget" style="text-align: center; padding: 10px; margin-right: 10px;">
+                <div class="d-h3" style="line-height: 1em;">@item.Reads</div>
+                <div class="d-content-xs">@Resources.Commons.Reads</div>
+                <div class="d-h6" style="line-height: 1em;">@orgItem.Descendant().Count()</div>
+                <div class="d-content-xs">@Resources.Social.Replies</div>
+            </div>
+        </div>
+        <div style="margin-left: 80px;">
+            <div class="d-title" itemprop="name">@{Html.ForView("title", item);}</div>
+            <div class="d-content-xs"><a class="d-inline" role="link" data-icon-left="d-icon-calendar" itemprop="datePublished">@item.Published</a><span class="d-inline d-icon-user"></span>@UIHelper.PersonLink(orgItem.Owner)</div>
+            <div itemprop="description">@{Html.ForView("body", item);}</div>
+        </div>
+    </div>
+}

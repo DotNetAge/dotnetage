@@ -1,0 +1,53 @@
+﻿@model ContentFieldRef
+<form id="editorfield_form" 
+    data-ajax="true"
+    data-ajax-url="@Url.Content(string.Format("~/{0}/{1}/view/editfield?name={2}&slug={3}&field={4}", AppModel.Get().CurrentWeb.Name, Culture, Model.Parent.Name, Model.ParentView.Name, Model.Name))"
+    data-ajax-method="post"
+    data-ajax-success="$.closePanels();"
+    data-ajax-begin="$.loading();$('button[data-default=true]',this).isDisable(true)"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-error="$.err(error)">
+    <ul data-role="listview"
+        data-display="mobile-list">
+        <li data-readonly="true">
+            <div>
+                @Html.CheckBoxFor(m => m.ShowLabel, new { data_label = Resources.Contents.View_ShowLabel })
+            </div>
+        </li>
+        <li data-readonly="true">
+            <div>@Html.CheckBoxFor(m => m.IsHidden, new { data_label = Resources.Contents.IsHiddenField })</div>
+        </li>
+        <li data-readonly="true">
+            <div>
+                <label>@Resources.Contents.FeedField</label>
+                <select name="feed" data-drop-style="menu" data-role="combobox" style="width: 70%;">
+                    <option value="">(@Resources.Contents.Not )</option>
+                    <option value="title" @if (!string.IsNullOrEmpty(Model.ToFeedItemField) && Model.ToFeedItemField.Equals("title"))
+                                          {<text>selected="selected"</text>}>@Resources.Commons.Title</option>
+                    <option value="description" @if (!string.IsNullOrEmpty(Model.ToFeedItemField) && Model.ToFeedItemField.Equals("description"))
+                                                {<text>selected="selected"</text>}>@Resources.Commons.Desc</option>
+                    <option value="image" @if (!string.IsNullOrEmpty(Model.ToFeedItemField) && Model.ToFeedItemField.Equals("image"))
+                                          {<text>selected="selected"</text>}>@Resources.Commons.Thumbnail</option>
+                    <option value="thumbnail" @if (!string.IsNullOrEmpty(Model.ToFeedItemField) && Model.ToFeedItemField.Equals("thumbnail"))
+                                              {<text>selected="selected"</text>}>@Resources.Commons.Desc</option>
+                    <option value="video" @if (!string.IsNullOrEmpty(Model.ToFeedItemField) && Model.ToFeedItemField.Equals("video"))
+                                          {<text>selected="selected"</text>}>@Resources.Commons.Video</option>
+                </select>
+            </div>
+        </li>
+        <li data-role="divider">@Resources.Contents.Code</li>
+        <li data-readonly="true">
+            <textarea name="code" style="width:96%;height:200px;font-size:8pt;" 
+                placeholder="@("@model ContentViewFieldValue")">@ViewBag.Code</textarea>
+        </li>
+    </ul>
+    <p style="padding: 0px 10px;">
+        <button data-inline="false" class="d-state-disable" data-default="true">@Resources.Commons.Save</button>
+    </p>
+</form>
+<p style="padding: 0px 10px;">
+    <button data-role="button" data-rel="close" data-inline="false">@Resources.Commons.Cancel</button>
+</p>
+<script type="text/javascript">
+    $(function () { $("#editorfield_form").bind("change", function () { $('button[data-default=true]', this).isDisable(false); }); });
+</script>

@@ -1,0 +1,8 @@
+﻿.d-page, .d-page-footer { width: 100%; }
+    .d-page-header > *, .d-page-nav > *, .d-page-footer > * { margin: auto; width: 980px; }
+.d-page-content { margin: auto; width: 980px; }
+
+@media screen and (max-width: 768px) {
+    .d-page-content { width: 100%; }
+    .d-page-header > *, .d-page-nav > *, .d-page-footer > * { margin: auto; width: auto; }
+}

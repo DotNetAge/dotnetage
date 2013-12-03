@@ -1,0 +1,211 @@
+@model DNA.Web.WebPage
+@{
+    var targets = new SelectList(new List<SelectListItem>()
+    {
+        new SelectListItem() { Text =Resources.Designs.Target_Blank, Value = "_blank" },
+        new SelectListItem() { Text =Resources.Designs.Target_Parent, Value = "_parent" },
+        new SelectListItem() { Text =Resources.Designs.Target_Self,  Value = "_self" },
+        new SelectListItem() { Text =Resources.Designs.Target_Top, Value = "_top" }
+    }, "Value", "Text");
+    var viewModes = new SelectList(new List<SelectListItem>() { 
+    new SelectListItem(){Text=Resources.Designs.Center,Value="0"},
+    new SelectListItem(){Text=Resources.Designs.Full,Value="1"}
+    }, "Value", "Text");
+    var roles = AppModel.Get().Roles.All;
+    var pageWrapper = AppModel.Get().Wrap(Model);
+}
+<style>
+    #slugInput { border-bottom: 1px solid #0094ff; }
+        #slugInput > input { border: none; border-bottom: 1px solid #ccc; width: auto; display: inline-block; }
+</style>
+<form data-ajax="true"
+    data-ajax-url="@Url.Content("~/editpage/" + Model.ID.ToString())?locale=@Culture"
+    data-ajax-method="post"
+    data-ajax-begin="$.loading();"
+    data-ajax-complete="$.loading('hide');$.closePanels();$('body').trigger('change');"
+    data-ajax-success="if ($.isFunction(window._aftersave)) window._aftersave($('#page_editing_form_@Model.ID'));"
+    id="page_editing_form_@Model.ID"
+    data-id="@Model.ID"
+    >
+    <input type="hidden" name="designModel" value="@ViewBag.DesignModel.ToString().ToLower()" />
+    <div data-role="tabs" style="margin-top: -1px; height: @if (!(bool)ViewBag.DesignModel)
+                                                           {<text>450px</text>}
+                                                           else
+                                                           {<text>600px</text>};" data-cache="true">
+        <ul style="font-size: 9pt;">
+            <li><a href="#tabs_common">@Resources.Commons.Common</a></li>
+            <li><a href="#tabs_navigation">@Resources.Commons.Navigation</a></li>
+            <li><a href="#tabs_security">@Resources.Commons.Security</a></li>
+            @if ((bool)ViewBag.DesignModel)
+            {
+                <li><a href="#tabs_html">@Resources.Commons.Html</a></li>
+            }
+            else
+            {
+                if (Application.User.Webs.Count() > 1)
+                {
+                <li><a href="#tabs_webs">Move</a></li>
+                }
+            }
+            @*    <li><a href="#tabs_app">Icon</a></li>     <li><a href="@Url.Action("Versions", "DynamicUI", new { id = Model.ID })">Versions</a></li>*@
+        </ul>
+        <div id="tabs_common" style="padding: 0px;">
+            <div class="d-form">
+                @if (!Model.IsStatic)
+                {
+                    <div class="d-field"><a href="@pageWrapper.Url" target="_blank">@pageWrapper.Url</a></div>
+                    <div class="d-field" style="position: relative;">
+                        <label>@Resources.Commons.Name</label>
+                        <input type="text" name="Slug" id="slugvalue" value="@Model.Slug" onfocus="$(this).select();"/>
+                        <span class="d-inline" style="color: #CCCCCC; font-weight: bold; margin-top: -11px; position: absolute; right: 21px; top: 50%;">.html</span>
+                    </div>
+                }
+                <div class="d-field">@Html.LabelFor(m => m.Title, Resources.Commons.Title)
+                    @Html.TextBoxFor(m => m.Title, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Title), maxlength = "66" })
+                </div>
+                <div class="d-field">@Html.LabelFor(m => m.Description, Resources.Commons.Desc)
+                    @Html.TextAreaFor(m => m.Description, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Desc), maxlength = "150" })
+                </div>
+                <div class="d-field">@Html.LabelFor(m => m.Keywords, Resources.Commons.Keywords)
+                    @Html.TextAreaFor(m => m.Keywords, new
+               {
+                   placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Keywords),
+                   maxlength = "150"
+               })
+                </div>
+                <div  class="d-field" data-readonly="true" style="padding: 10px;@if (!(bool)ViewBag.DesignModel)
+                                                                                {<text>display:none;</text>}">
+                    <a data-inline="false" data-role="button" onclick="var keys=app.page.extractKeywords();if (keys.length) $('textarea[name=Keywords]').val(keys.join(',')).trigger('change');">@Resources.Pages.ExtractKeywords</a>
+                </div>
+                <div  class="d-field" @if (!(bool)ViewBag.DesignModel)
+                                      {<text>style="display:none;"</text>}>
+                    <label>@Resources.Designs.Direction</label>
+                    <select name="Dir" style="width: 70%;"
+                        data-role="combobox"
+                        data-drop-style="menu"
+                        data-select="$(document).attr('dir',ui.value)">
+                        <option value="ltr" @if (Model.Dir != null && Model.Dir.Equals("ltr", StringComparison.OrdinalIgnoreCase))
+                                            {<text>selected="selected"</text>})>@Resources.Designs.LTR</option>
+                        <option value="rtl" @if (Model.Dir != null && Model.Dir.Equals("rtl", StringComparison.OrdinalIgnoreCase))
+                                            {<text>selected="selected"</text>})>@Resources.Designs.RTL</option>
+                    </select>
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.Dir)
+        </div>
+        <div id="tabs_navigation" style="padding: 0px;">
+            <div class="d-form">
+                <div class="d-field">
+                    <div>
+                        @Html.LabelFor(m => m.LinkTo, Resources.Pages.NavTo)
+                    </div>
+                    @Html.TextBoxFor(m => m.LinkTo, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Pages.RedirectUrl.ToLower()), style = "width:100%;", list = "sys_pages_datalist" })
+                    <div style="text-align: right; padding: 5px 0px;">
+                        <a href="#LinkTo" data-rel="link" data-role="button" style="width: 100px;">@Resources.Pages.AddLink</a>
+                    </div>
+                    @UIHelper.PageDataList()
+                </div>
+                <div class="d-field">
+                    @Html.LabelFor(m => m.Target, Resources.Designs.Target)
+                    @Html.DropDownListFor(m => m.Target, targets, new { data_role = "combobox", data_drop_style = "menu", style = "width:170px;" })
+                </div>
+                <div class="d-field">
+                    @Html.CheckBoxFor(m => m.ShowInMenu, new { data_label = Resources.Pages.ShowInMenu })
+                </div>
+                <div class="d-field">
+                    @Html.CheckBoxFor(m => m.ShowInSitemap, new { data_label = Resources.Pages.ShowInSitemap })
+                </div>
+                <div class="d-field">
+                    @Html.CheckBoxFor(m => m.NoFollow, new { data_label = Resources.Designs.Nofollow })
+                </div>
+                @Html.HiddenFor(m => m.ViewMode)
+                @*            <div style="border: none;">
+                @Html.CheckBoxFor(m => m.EnableVersioning, new { data_label = "Enable versioning" })
+            </div>
+                <div>
+                    @Html.LabelFor(m => m.ViewMode, Edit_cshtml.ViewMode)
+                    @Html.DropDownListFor(m => m.ViewMode, viewModes, new { data_role = "combobox", data_drop_style = "menu", style = "width:200px;" })
+                </div>*@
+            </div>
+        </div>
+        <div id="tabs_security" style="padding: 0px; overflow: auto;">
+            <div class="d-form">
+                <div class="d-field">@Html.CheckBoxFor(m => m.AllowAnonymous, new { data_label = Resources.Security.AllowAnonymous, data_change = "var _r=$('#securityroles'); if (ui.checked) _r.hide(); else _r.show();" })</div>
+                <div>@Resources.Pages.AllowAnonymousNotes</div>
+                <div class="d-field" style="@if (Model.AllowAnonymous)
+                                            { <text>display:none;</text>}" id="securityroles">
+                    <div>
+                        @foreach (var r in roles)
+                        { 
+                            <div style="padding: 5px">
+                                <input type="checkbox" name="roles" value="@r" 
+                                    data-bool="false" 
+                                    data-label="@r" 
+                                    @if (pageWrapper.Roles.Contains(r))
+                                    {<text>checked="checked"</text>} />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if ((bool)ViewBag.DesignModel)
+        {
+            <div id="tabs_html" style="padding: 0px;">
+                @*            <textarea class="d-textarea" name="ViewData" id="PageViewData" style="height:560px;width:273px;font-size:8pt;">@Model.ViewData</textarea>*@
+                <input type="hidden" name="ViewData" id="PageViewData" value="@Model.ViewData" />
+                <input type="hidden" name="StartupScripts" id="StartupScripts" value="@Model.StartupScripts" />
+                <input type="hidden" name="CssText" id="CssText" value="@Model.CssText" />
+                <div style="padding: 0px 10px;">
+                    <a data-inline="false" data-role="button" onclick="$.editCode('@(Resources.Pages.EditScript)',$('#StartupScripts').val(),function(val){ $('#StartupScripts').val(val).trigger('change'); return true;},'javascript')">@(Resources.Pages.EditScript)</a>
+                    <a data-inline="false" data-role="button" onclick="$.editCode('@(Resources.Pages.EditCss)',$('#CssText').val(),function(val){ $('#CssText').val(val).trigger('change');$('#inpagestyle').html(val); return true; },'css')">@Resources.Pages.EditCss</a>
+                    <a data-inline="false" data-role="button" onclick="$.editCode('@Resources.Pages.EditHtml',$('#PageViewData').val(),function(val){ $.loading();$('body').page('setPageHtml',val).done(function(){location.reload();}); })">@Resources.Pages.EditHtml</a>
+                    <a data-inline="false" data-role="button" onclick="$.confirm('@Resources.Messages.Confirm_PageReset').done(function(){ app.page.reset().done(function(){ location.reload(); });});">@Resources.Pages.ResetLayout</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            if (Application.User.Webs.Count() > 1)
+            {
+            <div id="tabs_webs" style="padding: 0px;">
+                <div style="padding: 20px;">
+                    <p>Select the web site below to move to.</p>
+                    <ul data-role="listview" data-display="mobile-list" data-inset="true"
+                        data-selectable="true"
+                        data-select="_moveToWeb(@Model.ID ,ui.item.data('id'));">
+                        @foreach (var w in Application.User.Webs)
+                        {
+                            if (w.Id.Equals(this.Web.Id)) { continue; }
+                            <li data-id="@w.Id"><a href="javascript:void(0);">@w.Title (@w.Name)</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        }
+        @*     <div id="tabs_app">
+            <div style="height: 300px;padding-top:50px;">
+                <div style="height: 100px; width: 100px;margin:auto;">
+                    @Html.HiddenFor(m => m.ImageUrl, new { data_role = "dropbox", data_img_size = "100", style = "height:100px;width:100px;" })
+                    <div style="text-align: center; padding: 5px 0px;">
+                        <a data-role="button"  onclick="$.fileDialog({title:'@Edit_cshtml.SelectImg',input:$('#ImageUrl'),container:$('#ImageUrl').parent(),url:'@(Url.Action("Explorer", "WebFiles", new { Area = "", locale = Culture }))'});" style="position: relative; width: 100px;">@Dict.Browse</a>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+    <p style="padding: 0px 10px;">
+        <button data-default="true" data-inline="false" class="d-state-disable">@Resources.Commons.Save</button>
+    </p>
+    <p style="padding: 0px 10px;">
+        <a data-inline="false" data-role="button" data-rel="close">@Resources.Commons.Cancel</a>
+    </p>
+</form>
+<script type="text/javascript">
+    $(function () {
+        $("#page_editing_form_@Model.ID").bind("change", function () {
+            $(this).find('button[data-default=true]').isDisable(!$(this).valid());
+        });
+    });
+</script>

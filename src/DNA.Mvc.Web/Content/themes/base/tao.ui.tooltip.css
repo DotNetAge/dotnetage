@@ -1,0 +1,17 @@
+﻿
+/****************************************************tooltip****************************************************/
+.d-tooltip { min-width: 10px; padding: 5px 10px; position: absolute; display: none; z-index: 3000; font-size: 8pt; }
+    .d-tooltip:before, .d-tooltip:after { content: ""; border-width: 1px; border-style: solid; position: absolute; width: 0; height: 0; background: none; }
+    .d-tooltip.d-pos-bottom:before, .d-tooltip.d-pos-bottom:after { border-bottom-width: 0; }
+
+    .d-tooltip.d-pos-bottom:before { border-left: 7px solid transparent; border-right: 7px solid transparent; border-top-width: 10px; bottom: -10px; right: auto; left: 50%; margin-left: -7px; z-index: 3000; }
+    .d-tooltip.d-pos-bottom:after { border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid #fff; bottom: -7px; left: -5px; right: auto; margin-left: -5px; z-index: 3001; }
+    .d-tooltip.d-pos-top:before, .d-tooltip.d-pos-top:after { border-top-width: 0; }
+    .d-tooltip.d-pos-top:before { border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom-width: 10px; top: -10px; right: auto; left: 50%; margin-left: -7px; z-index: 3000; }
+    .d-tooltip.d-pos-top:after { border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 7px solid #fff; top: -7px; left: -5px; right: auto; margin-left: -5px; z-index: 3001; }
+    .d-tooltip.d-pos-left:before, .d-tooltip.d-pos-left:after { border-left-width: 0; }
+    .d-tooltip.d-pos-left:before { border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right-width: 10px; top: 50%; right: auto; left: 10px; margin-left: -20px; margin-top: -7px; z-index: 3000; }
+    .d-tooltip.d-pos-left:after { border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 7px solid #fff; top: 50%; left: -5px; right: auto; margin-left: -2px; margin-top: -5px; z-index: 3001; }
+    .d-tooltip.d-pos-right:before, .d-tooltip.d-pos-right:after { border-right-width: 0; }
+    .d-tooltip.d-pos-right:before { border-bottom: 7px solid transparent; border-top: 7px solid transparent; border-left-width: 10px; top: 50%; right: -9px; margin-left: -20px; margin-top: -7px; z-index: 3000; }
+    .d-tooltip.d-pos-right:after { border-bottom: 5px solid transparent; border-top: 5px solid transparent; border-left: 7px solid #fff; top: 50%; right: -6px; margin-left: -2px; margin-top: -5px; z-index: 3001; }

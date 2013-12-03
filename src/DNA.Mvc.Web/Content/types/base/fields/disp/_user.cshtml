@@ -1,0 +1,25 @@
+﻿@model ContentFieldValue
+
+@{
+    var field = Model.Field as UserField;
+    var width = field.ThumbnailWidth > 0 ? field.ThumbnailWidth : 80;
+}
+@if (!Model.IsNull)
+{
+    var userName = Model.Raw.ToString();
+    switch (field.DisplayStyle)
+    {
+        case UserDisplayStyles.PhotoAndName: 
+    <div style="width:@(width)px">
+        @SocialNetworks.UserAvatar(userName, width)
+        @Html.UserLink(userName);
+    </div>
+            break;
+        case UserDisplayStyles.NameOnly:
+    @Html.UserLink(userName)
+            break;
+        default:
+    @SocialNetworks.UserAvatar(userName, width)
+            break;
+    }
+}

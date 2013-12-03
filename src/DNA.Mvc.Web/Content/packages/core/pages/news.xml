@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="lists/news/views/default" 
+      xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" static="true" shared="true" dir="ltr">
+  <title>News</title>
+  <pages />
+  <widgets>
+    <w:widget pid="list-info" zone="ContentZone" showIn="parent">
+      <w:title><![CDATA[News]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="listName" value="'news'" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="showTitle" value="false" />
+      <w:preference name="showDesc" value="false" />
+      <w:preference name="showMods" value="false" />
+      <w:preference name="showTools" value="true" />
+    </w:widget>
+    <w:widget pid="dataview" zone="ContentZone" showIn="parent" seq="1" static="true">
+      <w:title><![CDATA[All contents]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="listName" value="'news'" />
+      <w:preference name="viewName" value="'default'" />
+      <w:preference name="allowFiltering" value="false" />
+      <w:preference name="allowSorting" value="false" />
+      <w:preference name="allowPaging" value="true" />
+      <w:preference name="pagingInfo" value="true" />
+      <w:preference name="pageIndex" value="1" />
+      <w:preference name="pageSize" value="20" />
+    </w:widget>
+    <w:widget pid="intro-content" zone="NavigationZone" showIn="parent">
+      <w:title><![CDATA[News banner]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/news-paper.png'" />
+      <w:preference name="link" value="''" />
+      <w:preference name="alt" value="'newspaper'" />
+      <w:preference name="target" value="'_self'" />
+      <w:preference name="pos" value="'left'" />
+      <w:preference name="title" value="'Follows us'" />
+      <w:preference name="linkText" value="''" />
+      <w:preference name="summary" value="'Paid more attention on us you will find different'" />
+      <w:preference name="size" value="0" />
+      <w:preference name="width" value="329" />
+      <w:preference name="height" value="328" />
+    </w:widget>
+  </widgets>
+</page>

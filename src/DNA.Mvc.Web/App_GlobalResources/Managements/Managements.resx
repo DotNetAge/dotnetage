@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Abuses" xml:space="preserve">
+    <value>Abuses</value>
+  </data>
+  <data name="Abuse_Copyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="Abuse_HateSpeech" xml:space="preserve">
+    <value>Hate speech or violence</value>
+  </data>
+  <data name="Abuse_Nudity" xml:space="preserve">
+    <value>Nudity</value>
+  </data>
+  <data name="Abuse_ReportReason" xml:space="preserve">
+    <value>Why are you reporting this post?Thank you for helping us by reporting content which may be in violation of our Community Standards.</value>
+  </data>
+  <data name="Abuse_ThxForHelping" xml:space="preserve">
+    <value>Thank you for your helping</value>
+  </data>
+  <data name="Abuse_ThxForReporting" xml:space="preserve">
+    <value>The report is send to our administrator.Thank you for helping us by reporting content which may be in violation of our Community Standards.</value>
+  </data>
+  <data name="AdminDashboard" xml:space="preserve">
+    <value>Administrator dashboard</value>
+  </data>
+  <data name="EnableSsl" xml:space="preserve">
+    <value>EnableSsl</value>
+  </data>
+  <data name="MetaTags" xml:space="preserve">
+    <value>Meta tags</value>
+  </data>
+  <data name="PersonalSettings" xml:space="preserve">
+    <value>Personal settings</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Reporter" xml:space="preserve">
+    <value>Reporter</value>
+  </data>
+  <data name="Robot" xml:space="preserve">
+    <value>robot.txt</value>
+  </data>
+  <data name="Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Smtp_Sender" xml:space="preserve">
+    <value>Sender account</value>
+  </data>
+  <data name="Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="TaskPane" xml:space="preserve">
+    <value>Task pane</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="UseDefaultCredentials" xml:space="preserve">
+    <value>Used default credentials</value>
+  </data>
+  <data name="WebSiteSettings" xml:space="preserve">
+    <value>Website settings</value>
+  </data>
+  <data name="FbSettings" xml:space="preserve">
+    <value>Facebook OAuth settings</value>
+  </data>
+  <data name="GPlusSettings" xml:space="preserve">
+    <value>Google+ OAuth settings</value>
+  </data>
+  <data name="TRSettings" xml:space="preserve">
+    <value>Tumblr OAuth settings</value>
+  </data>
+  <data name="TWSettings" xml:space="preserve">
+    <value>Twitter OAuth settings</value>
+  </data>
+  <data name="WLSettings" xml:space="preserve">
+    <value>WindowsLive OAuth settings</value>
+  </data>
+  <data name="AllowRegisterNewUser" xml:space="preserve">
+    <value>Allow register new user</value>
+  </data>
+  <data name="AllowUploadFileTypes" xml:space="preserve">
+    <value>Allow upload file types</value>
+  </data>
+  <data name="APIKey" xml:space="preserve">
+    <value>API Key</value>
+  </data>
+  <data name="App" xml:space="preserve">
+    <value>App</value>
+  </data>
+  <data name="BingAppID" xml:space="preserve">
+    <value>Bing App ID</value>
+  </data>
+  <data name="BingVerifyKey" xml:space="preserve">
+    <value>Bing verifcation key</value>
+  </data>
+  <data name="ChangePwd" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="CreateLocCopy" xml:space="preserve">
+    <value>Create localize copy</value>
+  </data>
+  <data name="DefaultNetDriveQuota" xml:space="preserve">
+    <value>Default netdrive used quota</value>
+  </data>
+  <data name="DefLang" xml:space="preserve">
+    <value>Default langauge</value>
+  </data>
+  <data name="DNAAccount" xml:space="preserve">
+    <value>DotNetAge account</value>
+  </data>
+  <data name="EnableSitemenu" xml:space="preserve">
+    <value>Enable sitemenu</value>
+  </data>
+  <data name="ForceEmailValidation" xml:space="preserve">
+    <value>Force email validation</value>
+  </data>
+  <data name="GAAccount" xml:space="preserve">
+    <value>Google analytics account</value>
+  </data>
+  <data name="GlobalSettings" xml:space="preserve">
+    <value>Global settings</value>
+  </data>
+  <data name="GoogleVerifyKey" xml:space="preserve">
+    <value>Google verification key</value>
+  </data>
+  <data name="HostAccount" xml:space="preserve">
+    <value>Host account</value>
+  </data>
+  <data name="InstallSolAfterReg" xml:space="preserve">
+    <value>Install solution after user register</value>
+  </data>
+  <data name="MB" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="MinPwdLen" xml:space="preserve">
+    <value>Minimum password length</value>
+  </data>
+  <data name="MinUserNameLen" xml:space="preserve">
+    <value>Minimum user name length</value>
+  </data>
+  <data name="NetDriver" xml:space="preserve">
+    <value>NetDriver</value>
+  </data>
+  <data name="PreUploadFileSize" xml:space="preserve">
+    <value>Limit the size of pre upload file</value>
+  </data>
+  <data name="ReCaptcha" xml:space="preserve">
+    <value>ReCaptcha</value>
+  </data>
+  <data name="ReCaptchaPrivateKey" xml:space="preserve">
+    <value>ReCaptcha PrivateKey</value>
+  </data>
+  <data name="ReCaptchaPublicKey" xml:space="preserve">
+    <value>ReCaptcha PublicKey</value>
+  </data>
+  <data name="ReservedUserNames" xml:space="preserve">
+    <value>Reserved user names</value>
+  </data>
+  <data name="SitemapUrl" xml:space="preserve">
+    <value>Sitemap url</value>
+  </data>
+  <data name="SMTP_Settings" xml:space="preserve">
+    <value>SMTP Settings</value>
+  </data>
+  <data name="SwitchToDefault" xml:space="preserve">
+    <value>Switch default language</value>
+  </data>
+  <data name="UserRegistration" xml:space="preserve">
+    <value>User registration</value>
+  </data>
+  <data name="WebMasterTools" xml:space="preserve">
+    <value>Web master tools</value>
+  </data>
+  <data name="WWWResolved" xml:space="preserve">
+    <value>Resolve www</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="AddRule" xml:space="preserve">
+    <value>Add rule</value>
+  </data>
+  <data name="DirsAndFiles" xml:space="preserve">
+    <value>Directories and Files</value>
+  </data>
+  <data name="DirsAndFilesNotes" xml:space="preserve">
+    <value>&lt;div&gt;If you want this rule to affect all files and directories, type /.&lt;/div&gt;&lt;div&gt; To specify individual files or directories, type them in one per line. Example: &lt;div&gt;&lt;div&gt;/directory/file.html&lt;/div&gt;&lt;div&gt;/directory/subdirectory/&lt;/div&gt;</value>
+  </data>
+  <data name="Metas" xml:space="preserve">
+    <value>Metas</value>
+  </data>
+  <data name="SiteSettings" xml:space="preserve">
+    <value>Site settings</value>
+  </data>
+  <data name="SpecifyAdditionalMetas" xml:space="preserve">
+    <value>Specify additional metas</value>
+  </data>
+  <data name="SpecifyRules" xml:space="preserve">
+    <value>Specify additional rules</value>
+  </data>
+  <data name="Smtp_Server" xml:space="preserve">
+    <value>Smtp server</value>
+  </data>
+  <data name="FieldSettings" xml:space="preserve">
+    <value>Field settings</value>
+  </data>
+  <data name="ViewSettings" xml:space="preserve">
+    <value>View settings</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Networkaccounts" xml:space="preserve">
+    <value>Network accounts</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Create user</value>
+  </data>
+  <data name="FullTrust" xml:space="preserve">
+    <value>Full trust</value>
+  </data>
+  <data name="MediumTrust" xml:space="preserve">
+    <value>Medium trust</value>
+  </data>
+  <data name="TrustLevel" xml:space="preserve">
+    <value>Trust level</value>
+  </data>
+  <data name="UnlockFullTrust" xml:space="preserve">
+    <value>Unlock Full trust level</value>
+  </data>
+  <data name="Smtp_DispName" xml:space="preserve">
+    <value>Sender name</value>
+  </data>
+  <data name="DebugMode" xml:space="preserve">
+    <value>Debug mode</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>On</value>
+  </data>
+</root>

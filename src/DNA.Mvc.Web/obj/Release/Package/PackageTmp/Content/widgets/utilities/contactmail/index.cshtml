@@ -1,0 +1,104 @@
+﻿@using Resources;
+@using Microsoft.Web.Helpers;
+@Html.Widget().Design(@<text>
+@if (!string.IsNullOrEmpty(item.GetString("receiver")))
+{
+    @_RenderEmailContactsForm(item)
+}
+else
+{
+    @item.DesignModeHolder(item.Loc("ReceiverRequired"))
+}
+</text>).UserPreferences(@<text>
+
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        @item.Label("receiver", item.Loc("Receiver"))
+        @item.TextBox("receiver", new { placeholder = "eg:someone@email.com" })
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("subject", Resources.Commons.Subject)
+        @item.TextBox("subject", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Subject) })
+    </li>
+    <li data-role="fieldcontain">
+        @item.Label("postbackmsg", item.Loc("Postback"))
+        @item.TextArea("postbackmsg", new { placeholder = item.Loc("PostbackHolder") })
+    </li>
+</ul>
+</text>).Content(@<text>
+@_RenderEmailContactsForm(item)
+</text>).GetHtml()
+@helper _RenderEmailContactsForm(WidgetHelper item)
+{
+    <div id="@item.GetID("loader")" 
+        style="display:none;background:url('@Url.Content("~/content/images/img_loading.gif")') center center no-repeat;height:100px;">
+    </div>
+    <div id="@item.GetID("aftersent")" style="display:none;">
+        <h4>@item.Loc("Sent")</h4>
+        @if (!string.IsNullOrEmpty(item.GetString("aftersent")))
+        {
+            <p>@MvcHtmlString.Create(item.GetString("aftersent"))</p>
+        }
+    </div>
+    <form class="d-form" 
+        data-ajax="true" 
+        data-ajax-url="@Url.Content("~/api/accounts/mailto?locale=" + Culture)" 
+        data-ajax-method="post"
+        data-ajax-loading="#@item.GetID("loader")"
+        data-ajax-failure="$.err(error)"
+        data-ajax-success="$('#@item.GetID("aftersent")').show();$('#@item.GetID("form")').hide();"
+        id="@item.GetID("form")"
+        >
+        @AntiForgery.GetHtml()
+        <input type="hidden" name="to" value="@item.GetString("receiver")" />
+        @item.Hidden("subject")
+        <div class="d-field">
+            <label for="@item.GetID("name")" style="width:20%;">@Resources.Commons.Name *</label>
+            <input type="text" 
+                data-val="true" 
+                data-val-requried="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Name)" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Name) "
+                id="@item.GetID("name")"
+                name="fromName" @if (Request.IsAuthenticated)
+                            { <text>value="@AppModel.Get().Profile.DisplayName"</text>}/>
+            @Html.ValidationMessage(item.GetID("name"))
+        </div>
+        <div class="d-field">
+            <label for="@item.GetID("email")" style="width:20%;">@Resources.Contacts.Email *</label>
+            <input type="text" 
+                data-val="true" 
+                data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Contacts.Email)" 
+                data-val-email="@string.Format(Resources.Validations.Valid_Format, Resources.Contacts.Email)"
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Contacts.Email)"
+                name="from"
+                 id="@item.GetID("email")"
+                @if (Request.IsAuthenticated)
+                { <text>value="@AppModel.Get().Profile.Email"</text>} />
+            @Html.ValidationMessage(item.GetID("email"))
+        </div>
+        @*        <div class="d-field">
+            <label for="@item.GetID("subject")" style="width:20%;">@Widget_Contactus.Subject</label>
+            <input type="text" 
+                data-val="true" 
+                data-val-requried="@Widget_Contactus.SubjectRequired" 
+                name="subject" 
+                 id="@item.GetID("subject")"
+                placeholder="@Widget_Contactus.SubjectHolder"/>
+            @Html.ValidationMessage(item.GetID("subject"))
+        </div>
+        <div>
+            <label for="@item.GetID("message")">@Widget_Contactus.Message</label>
+        </div>*@
+        <div class="d-field">
+            <textarea id="@item.GetID("message")" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Message)" 
+                name="message" 
+                data-val="true" 
+                data-val-requried="@string.Format(Resources.Validations.Valid_Format, Resources.Commons.Message)"></textarea>
+            @Html.ValidationMessage(item.GetID("message"))
+        </div>
+        <div style="padding-top: 0px;">
+            <button data-default="true" data-inline="false">@Commons.Send</button>
+        </div>
+    </form>
+}

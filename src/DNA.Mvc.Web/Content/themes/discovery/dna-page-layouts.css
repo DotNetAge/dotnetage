@@ -1,0 +1,10 @@
+﻿.d-page-content { border-color: #000000; }
+.d-page-nav { border-bottom: none; background-color: #546366; }
+    .d-page-nav, .d-page-nav .d-content, .d-page-nav .d-link { color: #ffffff; }
+.d-page-content .d-widget { border-color: #9CBBBA; background-color: #9CBBBA; }
+.d-page-content .d-ui-widget-header { background-color: transparent; }
+    .d-page-content .d-ui-widget-header > a { color: #3b3e3e; }
+.d-view { border-color: #909a9d; }
+.d-sitemenu { font-size: 9pt; }
+
+.d-page-header .d-mainmenu { margin-right: -5px; }

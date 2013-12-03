@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="picture-flow" version="1.0">
+  <name short="Pictureflow">Picture flow</name>
+  <name short="Pictureflow" xml:lang="zh-cn">相片流</name>
+  <description xml:lang="zh-cn">将网盘指定文件夹内的图片以滑动加载方式加载并瀑布流式显示图片</description>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="url" value="''" />
+  <preference name="width" value="200" />
+  <preference name="rows" value="20" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

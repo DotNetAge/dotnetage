@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" id="googlemap" 
+        version="1.0" 
+        xmlns="http://www.w3.org/ns/widgets"
+        height="300"
+        >
+  <name short="GoogleMap">GoogleMap</name>
+  <description></description>
+  <icon src="default.png" />
+  <preference name="zoom" value="16" />
+  <preference name="lon" value="-73.9514422416687" />
+  <preference name="lat" value="40.69847032728747" />
+  <preference name="static" value="false" />
+  <preference name="title" value="'The title on the marker'" />
+  <preference name="contentString" value="''" />
+  <content type="text/html" src="index.htm" />
+</widget>

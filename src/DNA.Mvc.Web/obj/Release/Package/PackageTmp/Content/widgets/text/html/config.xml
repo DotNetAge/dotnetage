@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="html-block">
+  <name short="Html">Html block</name>
+  <name short="Html" xml:lang="zh-cn">Html 文本</name>
+  <description>Edit and display the html content</description>
+  <icon src="default.png" />
+  <preference name="content" value="" />
+  <preference name="cached" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

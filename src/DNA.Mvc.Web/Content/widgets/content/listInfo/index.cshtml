@@ -1,0 +1,211 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{    
+    var listName = item.GetString("listName");
+    ContentListDecorator list = null;
+    if (!string.IsNullOrEmpty(listName))
+    {
+        list = AppModel.Get().CurrentWeb.Lists[listName];
+    }
+    var lists = AppModel.Get().CurrentWeb.Lists;
+}
+<div id="@item.GetID("listSelector")">
+    <div>@string.Format(Resources.Messages.SelectFormat, Resources.Contents.List)</div>
+    @item.Hidden("listName")
+    <ul data-role="listbox"
+        data-selectable="true"
+        data-item-style="cursor:pointer;"
+        data-select="var n=ui.item.data('name');$('#@item.GetID("listName")').val(n).trigger('change');"
+        style="height:300px;">
+        @foreach (var ls in lists)
+        {
+            <li data-name="@ls.Name" 
+                data-link="@Url.Content(ls.SettingUrl)"
+                @if (!string.IsNullOrEmpty(listName) && listName.Equals(ls.Name))
+                {<text>class="d-state-active"</text>}
+                >
+                <img src="@Url.Content(ls.Package.Icon)" style="width:32px;" class="d-inline" />
+                <span class="d-inline">@ls.Title</span>
+            </li>
+        }
+    </ul>
+</div>
+<div class="d-field">
+    @item.Checkbox("showTitle", item.Loc("ShowTitle"))
+</div>
+<div class="d-field">
+    @item.Checkbox("showDesc", item.Loc("ShowDesc"))
+</div>
+<div class="d-field">
+    @item.Checkbox("showMods", item.Loc("ShowModerators"))
+</div>
+<div class="d-field">
+    @item.Checkbox("showTools", item.Loc("ShowTools"))
+</div>
+<div class="d-field"></div>
+</text>).Content(@<text>
+@_RenderListInfo(item)
+</text>).Design(@<text>
+@{var listName = item.GetString("listName"); }
+@if (!string.IsNullOrEmpty(listName))
+{
+    var list = AppModel.Get().CurrentWeb.Lists[listName];
+    var settings = item.GetUserPreferences();
+    if (list != null)
+    {
+    <div style="padding: 10px;">
+        @if (item.GetBool("showTitle"))
+        {
+            <h3>
+                <a href="javascript:void">@list.Title</a>
+            </h3>}
+        @if (item.GetBool("showDesc"))
+        {
+            <div style="height: 60px">
+                @list.Description
+            </div>}
+        @if (item.GetBool("showMods"))
+        {
+            <div>
+                Moderators list
+            </div>
+        }
+        @if (item.GetBool("showTools"))
+        {
+            <p>
+                <a data-role="button" class="d-inline" data-default="true">@(string.IsNullOrEmpty(list.NewForm.Title) ? Resources.Contents.AddItem : list.NewForm.Title)</a>
+                @if (list.IsOwner(Context))
+                {
+                    <a href="@Url.Content(list.SettingUrl)" data-role="button" data-icon-left="d-icon-settings"></a>
+                }
+                @if (list.DefaultView != null && list.DefaultView.HasFeed)
+                {
+                    <a data-role="button" data-icon-left="d-icon-rss" href="@list.DefaultView.RssUri"></a>
+                }
+            </p>
+        }
+
+    </div>
+    }
+}
+else
+{
+    @item.DesignModeHolder(string.Format(Resources.Messages.SelectFormat, Resources.Contents.List))
+}
+</text>).GetHtml()
+
+@helper _RenderListInfo(WidgetHelper item)
+{
+    var settings = item.GetUserPreferences();
+    var listName = (string)settings.listName;
+    var list = AppModel.Get().CurrentWeb.Lists[listName];
+
+    if (list != null)
+    {
+        var view = AppModel.Get().Context.View;
+        if (item.GetBool("showTitle"))
+        {
+    <h3>
+        @if (view != null)
+        {
+            if (Request.RequestContext.RouteData.Values.ContainsKey("tags"))
+            {
+            <span>@Resources.Commons.Tags : @Request.RequestContext.RouteData.Values["tag"]</span>
+            }
+            else
+            {
+                if (Request.RequestContext.RouteData.Values.ContainsKey("archives"))
+                {
+            <span>@Resources.Contents.Archives : @(Request.RequestContext.RouteData.Values["year"])-@Request.RequestContext.RouteData.Values["month"] </span>
+                }
+                else
+                {
+            @list.Title
+                }
+            }
+        }
+        else
+        {
+            <a role="link" href="@Url.Content(list.DefaultUrl)" style="line-height:inherit;">@list.Title</a>
+        }
+    </h3>
+        }
+        if (!string.IsNullOrEmpty(list.Description))
+        {
+            if (settings.showDesc)
+            {
+    <div>@(view != null ? view.Description : list.Description)</div>
+            }
+        }
+        if (item.GetBool("showTools"))
+        {
+    <p>
+        @if (list.NewForm != null && list.NewForm.IsAjax)
+        {
+            if (list.NewForm.IsAuthorized(Context))
+            {
+                if (view == null)
+                {
+                    view = list.DefaultView;
+                }
+                var _src = list.Name + "_" + (view != null ? view.Name : "view") + "_datasource";
+            <a data-role="button" data-rel="dialog" data-default="true"
+                data-dialog-cache="false"
+                data-dialog-title="@(!string.IsNullOrEmpty(list.NewForm.Title) ? list.NewForm.Title : Resources.Contents.AddItem)"
+                data-dialog-modal="true"
+                data-dialog-fullscreen="true"
+                href="@(UrlBuilder.Create(Url.Content(list.GetNewItemUrl())).AddParam("locale", Culture).ToString())">@(string.IsNullOrEmpty(list.NewForm.Title) ? Resources.Contents.AddItem : list.NewForm.Title)</a>
+            <script type="text/javascript">
+                $(function () {
+                    $("body").bind("contentDataItemCreated", function (event, response) {
+                        if (response.list == "@(list.Name)") {
+                            if ($("#@_src").length) {
+                                $("#@_src").taoDataSource("insert", response.data);
+                            }
+                            else {
+                                $.loading();
+                                location.reload();
+                            }
+                        }
+                    });
+                });
+            </script>
+            }
+        }
+        else
+        {
+            if (list.NewForm.IsAuthorized(Context))
+            {
+            <a data-role="button" 
+                data-default="true"
+                style="width:100px;" 
+            href="@Url.Content(list.GetNewItemUrl() + "?returnUrl=" + Url.Encode(Request.RawUrl))">@(string.IsNullOrEmpty(list.NewForm.Title) ? Resources.Contents.AddItem : list.NewForm.Title)</a>
+            }
+
+        }
+        @if (view != null && view.HasFeed)
+        {
+            <a href="@view.RssUri.ToString()"  data-role="button" target="_blank" data-icon-left="d-icon-rss" title="Rss subscription"></a>
+        }
+        @if (list.IsOwner(Context))
+        {
+            var url = view != null ? view.SettingUrl : list.SettingUrl;
+            <a href="@Url.Content(url)" data-role="button" data-icon-left="d-icon-settings"></a>
+        }
+@*        @if (list.AllowResharing)
+        {
+            <a data-role="button" class="d-inline" style="width: 100px; margin-left: 5px;">@Resources.Dict.Follow</a>
+        }*@
+    </p>
+        }
+        if (list.IsModerated && list.Moderators != null && settings.showMods)
+        {
+            var mnames = list.Moderators.Split(',');
+            var moderators = AppModel.Get().DataContext.Where<UserProfile>(u => mnames.Contains(u.UserName));
+    <p>
+        <label>@Resources.Contents.Moderators:</label>
+        @SocialNetworks.UserAvatarList(moderators)
+    </p>
+        }
+
+    }
+}

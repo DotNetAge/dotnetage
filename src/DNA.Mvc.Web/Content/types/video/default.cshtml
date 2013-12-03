@@ -1,0 +1,36 @@
+﻿@model ContentQueryResult
+
+@{
+    var itemtype = Model.List.ItemType; 
+}
+@if (Model.Count() > 0)
+{
+    <ul class="d-view d-view-float @Model.CssClass">
+        @foreach (var dataItem in Model)
+        {
+            <li class="d-view-item" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                          {<text>itemtype="@itemtype"</text>}>
+                <div class="d-ui-widget">
+                    @foreach (var field in Model.View.FieldRefs)
+                    {
+                        if (field.IsHidden || field.Field.FieldType != (int)ContentFieldTypes.Video) { continue; }
+                         <div title="@field.Title" @field.GetMicroDataAttributes() class="@field.CssClass">@{ Html.ForView(field.Name, dataItem); }</div>
+                    }
+                    <time datetime="@dataItem.Published.ToString("yyyy-MM-ddThh:mm:ss")"><small>@dataItem.Published.ToShortDateString()</small></time>
+                </div>
+                @foreach (var field in Model.View.FieldRefs)
+                {
+                    if (field.IsHidden || field.Field.FieldType==(int)ContentFieldTypes.Video) { continue; }
+                    <div title="@field.Title" @field.GetMicroDataAttributes() class="@field.CssClass">
+                        @{ Html.ForView(field.Name, dataItem); }
+                    </div>
+                }
+
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div>@Resources.Messages.NoItemFound</div>
+}

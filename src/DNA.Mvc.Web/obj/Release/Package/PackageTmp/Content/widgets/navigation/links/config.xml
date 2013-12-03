@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="links">
+  <name short="Links">Links</name>
+  <name short="Links" xml:lang="zh-cn">链接列表</name>
+  <description>Allows user choice pages from current website and add as menu item.</description>
+  <description xml:lang="zh-cn">允许用户将当前站点内的页面中选取并添加到菜单栏内</description>
+  <icon src="default.png" />
+  <preference name="type" value="'list'" />
+  <preference name="data" value="''" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="cached" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

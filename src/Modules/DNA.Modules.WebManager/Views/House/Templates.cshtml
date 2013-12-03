@@ -1,0 +1,13 @@
+﻿@model DNA.Web.WebCollection
+@{
+    ViewBag.Title = Resources.Commons.Templates;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<div style="text-align: center; padding: 10px;">
+    <ul data-role="listview" data-display="button-list"  data-inline="true" data-selectable="true" data-item-style="width:80px;">
+        <li><a href="@Url.HostAction("WebMan", "Index", "House", Culture)">@Resources.Commons.Webs</a></li>
+        <li class="d-state-active"><a href="javascript:void(0);">@Resources.Commons.Templates</a></li>
+    </ul>
+</div>
+@UIHelper.Solutions("console.log(ui.item.data('val'))")

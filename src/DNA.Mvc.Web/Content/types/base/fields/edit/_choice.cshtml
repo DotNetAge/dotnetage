@@ -1,0 +1,52 @@
+﻿@model ContentFieldValue
+@{
+    var field = (ChoiceField)Model.Field;
+    var choices = field.Choices;    
+}
+@if (choices == null)
+{
+    <input type="text" name="@field.Name" id="@(field.ClientID + "_val")"  />
+}
+else
+{
+    if (field.AllowMultiChoice)
+    {
+    <input type="hidden" name="@field.Name" id="@(field.ClientID + "_val")" />
+    <select  id="@(field.ClientID)" 
+        data-role="listbox" 
+        data-checkable="true"  
+        data-autohighlight="false"
+        data-checkto="@(field.ClientID + "_val")"
+        data-check-vals="@Model.Raw"
+        style="width:70%;max-height:220px; border:1px solid #ccc;display:inline-block;"
+    @if (field.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+    >
+        @foreach (string val in field.ChoiceValues)
+        {
+            <option value="@val">@val</option>
+        }
+    </select>
+
+    }
+    else
+    {
+    <select  id="@(field.ClientID)" name="@field.Name"  data-role="combobox" style="width:70%;"
+     @if (field.AllowMultiChoice)
+     {<text>multiple="multiple"</text>}
+    @if (field.IsRequired)
+    { <text>required="required"</text>}
+    @if (field.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+    @if (field.ChoiceValues.Length > 50)
+    {<text>data-height=150</text>}
+    data-input="@field.FillInChoice.ToString().ToLower()"
+    >
+        @foreach (string val in field.ChoiceValues)
+        {
+            <option value="@val" @if (((string)Model.Raw) == val)
+                                 {<text>selected="selected"</text>}>@val</option>
+        }
+    </select>
+    }
+}

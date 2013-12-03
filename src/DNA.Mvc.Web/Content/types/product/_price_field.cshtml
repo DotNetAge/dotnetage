@@ -1,0 +1,13 @@
+﻿@model ContentFieldValue
+@{
+    var price = (decimal)Model.Raw;
+    var discount = (decimal)Model.Item["Discount"].Raw;
+}
+@if (discount > 0)
+{
+    <span style="text-decoration: line-through;">@(Model.Field.Format(Model.Raw))</span>
+}
+else
+{
+    <span>@(Model.Field.Format(Model.Raw))</span>
+}

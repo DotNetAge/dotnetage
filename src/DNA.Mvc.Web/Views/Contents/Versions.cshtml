@@ -1,0 +1,23 @@
+﻿@model IEnumerable<ContentDataItemDecorator>
+<ul data-role="listview" data-display="mobile-list">
+ @foreach (var ver in Model)
+            {
+                <li @if (ver.IsCurrentVersion)
+                    {<text>data-counter="latest"</text>}
+                    @if (!string.IsNullOrEmpty(Request.QueryString["ver"]) && Request.QueryString["ver"] == ver.Version.ToString())
+                    {<text>data-counter="@Resources.Commons.Versions.ToLower() @ver.Version"</text>}>
+                    <a @if (!ver.IsCurrentVersion) {<text>href="@(ver.UrlComponent)?ver=@(ver.Version)"</text>}>
+                        <span class="d-inline">Rev @ver.Version</span>
+                        <div class="d-item-desc d-content-s">
+                            <small data-inline="true" style="" title="@Resources.Contents.PublishDate">@ver.Published</small>
+                        </div>
+                    </a>
+                    @if (ver.Parent.EditForm.IsAuthorized(Context) && !ver.IsCurrentVersion)
+                    {
+                        <a data-icon="d-icon-history" title="@Resources.Contents.Rollback" 
+                      onclick="$.confirm('@(Resources.Messages.Confirm_Rollback)').done(function(){  $.loading(); $.post('@Url.Action("Rollback", "Contents", new { id = ver.ID, name = ver.Parent.Name, website = AppModel.Get().Context.Website })');});"
+                      ></a>
+                    }
+                </li>
+            }
+</ul>

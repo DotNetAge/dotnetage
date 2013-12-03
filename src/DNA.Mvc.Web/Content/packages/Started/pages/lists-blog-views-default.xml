@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="lists/blog/views/default" xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" showInMenu="false" dir="ltr">
+  <title>Blog</title>
+  <description><![CDATA[All posts]]></description>
+  <pages>
+    <page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="lists/blog/views/features" showInMenu="false" dir="ltr">
+      <title>Hot posts</title>
+      <widgets>
+        <w:widget pid="list-info" zone="ContentZone" showIn="parent">
+          <w:title><![CDATA[Blog]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="listName" value="'blog'" />
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="transparent" value="true" />
+          <w:preference name="showTitle" value="false" />
+          <w:preference name="showDesc" value="false" />
+          <w:preference name="showMods" value="false" />
+          <w:preference name="showTools" value="true" />
+        </w:widget>
+        <w:widget pid="dataview" zone="ContentZone" showIn="parent" seq="1" static="true">
+          <w:title><![CDATA[Hot posts]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="listName" value="'blog'" />
+          <w:preference name="viewName" value="'features'" />
+          <w:preference name="allowFiltering" value="false" />
+          <w:preference name="allowSorting" value="false" />
+          <w:preference name="allowPaging" value="true" />
+          <w:preference name="pagingInfo" value="true" />
+          <w:preference name="pageIndex" value="0" />
+          <w:preference name="pageSize" value="20" />
+        </w:widget>
+      </widgets>
+    </page>
+    <page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="lists/blog/views/recently" showInMenu="false" dir="ltr">
+      <title>Recently posts</title>
+      <description><![CDATA[Recently posts]]></description>
+      <widgets>
+        <w:widget pid="list-info" zone="ContentZone" showIn="parent">
+          <w:title><![CDATA[Blog]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="listName" value="'blog'" />
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="transparent" value="true" />
+          <w:preference name="showTitle" value="false" />
+          <w:preference name="showDesc" value="false" />
+          <w:preference name="showMods" value="false" />
+          <w:preference name="showTools" value="true" />
+        </w:widget>
+        <w:widget pid="dataview" zone="ContentZone" showIn="parent" seq="1" static="true">
+          <w:title><![CDATA[Recently posts]]></w:title>
+          <w:preference name="showHeader" value="false" />
+          <w:preference name="showBorder" value="false" />
+          <w:preference name="listName" value="'blog'" />
+          <w:preference name="viewName" value="'recently'" />
+          <w:preference name="allowFiltering" value="false" />
+          <w:preference name="allowSorting" value="false" />
+          <w:preference name="allowPaging" value="true" />
+          <w:preference name="pagingInfo" value="true" />
+          <w:preference name="pageIndex" value="1" />
+          <w:preference name="pageSize" value="10" />
+        </w:widget>
+      </widgets>
+    </page>
+  </pages>
+  <widgets>
+    <w:widget pid="page-header" zone="HeaderZone" showIn="descendant">
+      <w:title><![CDATA[Page header]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="layout" value="'TitleOnly'" />
+      <w:preference name="showParent" value="false" />
+      <w:preference name="showDesc" value="false" />
+      <w:preference name="altTitle" value="''" />
+      <w:preference name="altDesc" value="''" />
+    </w:widget>
+    <w:widget pid="list-info" zone="ContentZone" showIn="parent">
+      <w:title><![CDATA[Blog]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="listName" value="'blog'" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="showTitle" value="false" />
+      <w:preference name="showDesc" value="false" />
+      <w:preference name="showMods" value="false" />
+      <w:preference name="showTools" value="true" />
+    </w:widget>
+    <w:widget pid="dataview" zone="ContentZone" showIn="parent" seq="1" static="true">
+      <w:title><![CDATA[All posts]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="listName" value="'blog'" />
+      <w:preference name="viewName" value="'default'" />
+      <w:preference name="allowFiltering" value="false" />
+      <w:preference name="allowSorting" value="false" />
+      <w:preference name="allowPaging" value="true" />
+      <w:preference name="pagingInfo" value="true" />
+      <w:preference name="pageIndex" value="0" />
+      <w:preference name="pageSize" value="20" />
+    </w:widget>
+    <w:widget pid="page-path" zone="NavigationZone" showIn="descendant">
+      <w:title><![CDATA[Page path]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+    </w:widget>
+  </widgets>
+</page>

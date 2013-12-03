@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = Resources.NetDrives.Folders;
+    //var web = AppModel.Get().CurrentWeb;
+    //var folderPath = AppModel.Get().Context.AppUrl.ToString() + "webshared/" + web.Name;
+    string folderPath = ViewBag.FolderPath;
+}
+<div style="height: 300px; overflow: auto;">
+    <ul data-role="tree"
+        data-source="foldersrc"
+        data-singlepath="true"
+        data-onselected="$('#selectedFolder').val(ui.dataItem.url);$('#newfolder_form').attr('data-ajax-url',ui.dataItem.url);$('#btnSelectAnExistsFolder').isDisable(false);"
+        style="border:none;"
+        id="foldertree">
+    </ul>
+</div>
+<div data-role="datasource" id="foldersrc">
+    <div data-action="read" data-url="@folderPath">
+        <div data-name="match" data-value="*"></div>
+    </div>
+    <div data-role="mapper" data-filter="output.img='@Url.Content("~/content/images/folder.gif")';">
+        <div data-role="schema">
+            <div data-field="text">
+                name
+            </div>
+            <div data-field="url">
+                url
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@folderPath" id="selectedFolder" />
+@{var isauth = AppModel.Get().User.IsAuthorized<DNA.Web.Controllers.WebFilesController>("UploadOrCreate");}
+<form id="newfolder_form"
+        data-ajax-method="post" 
+        data-ajax-success="_onfoldercreated"
+        data-ajax-url="@folderPath" 
+        data-ajax="true"
+    style="padding:5px"
+    >
+    @if (isauth)
+    {
+        <div id="sys_newfolder_container">
+        <label>@Resources.NetDrives.Newfolder</label>
+        <input type="text" 
+            data-width="200" 
+            id="folderName" 
+            name="sub" 
+            data-val="true"
+            data-val-required="@(string.Format(Resources.Validations.Required_Format,Resources.NetDrives.FolderName))"
+            onkeyup="$('#btnAddNewFolder').isDisable($(this).val()=='')"
+            onchange="$('#btnAddNewFolder').isDisable($(this).val()=='')"
+            placeholder="@Resources.NetDrives.FolderNameHolder" />
+            </div>
+        <button data-inline="false" style="margin-top:5px;" class="d-state-disable" id="btnAddNewFolder">@Resources.Commons.Add</button>
+    }
+    <a style="margin-top:5px;" class="d-state-disable" id="btnSelectAnExistsFolder"
+        data-role="button" 
+        data-inline="false" >@Resources.Commons.Select</a>
+</form>
+@if (isauth)
+{
+    <script type="text/javascript">
+        function _onfoldercreated(data) {
+            $("#folderName").val("");
+            var selNode = $("#foldertree").taoTreeview("option", "selectedNode");
+            $("#foldertree").taoTreeview("add",
+                {
+                    text: data.name,
+                    url: data.url,
+                    img: "@Url.Content("~/content/images/folder.gif")"
+                }, selNode);
+    }
+    </script>
+}

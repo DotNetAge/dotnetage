@@ -1,0 +1,70 @@
+﻿@{Html.Widget().AutoSave().UserPreferences(@<text>
+    @if (!item.Model.IsStatic)
+    {
+        var _params = item.GetUserPreferences();
+        <div>
+            <label>@Resources.Contents.List</label>
+            <select
+                data-role="listbox"
+                data-drop-style="menu"
+                name="listName"
+                onchange=" $('#@item.ClientID').widget('settings',{title:$('[selected]',this).data('form')});"
+                >
+                @{ 
+        var lists = AppModel.Get().CurrentWeb.Lists;
+        var firstName = lists.Count() > 0 ? lists.FirstOrDefault().Name : "";
+                }
+                @foreach (var list in lists)
+                {
+                    if (list.Name == _params.listName)
+                    { 
+                    <option value="@list.Name" data-form="@list.NewForm.Title" selected="selected">@list.Title</option>
+                    }
+                    else
+                    {
+                    <option value="@list.Name">@list.Title</option>
+                    }
+                }
+            </select>
+        </div>
+    }
+    </text>).Header(@<text>
+<a class="d-link d-widget-title-link" href="@(string.IsNullOrEmpty(item.Model.Link) ? "javascript:void(0);" : Url.Content(item.Model.Link))">
+    @if (!string.IsNullOrEmpty(item.Model.IconUrl))
+    {
+        <img src="@Url.Content(item.Model.IconUrl)" alt="widget_icon" class="d-inline" />
+    }
+    @{
+        var listName = item.GetString("listName");
+        var customHeaderText = "";
+        if (!string.IsNullOrEmpty(listName))
+        {
+            customHeaderText = (string)Context.Items[listName + "-newform-caption"];
+        }
+    }
+    <span class="d-inline d-widget-title-text">@(string.IsNullOrEmpty(customHeaderText) ? item.Model.Title : customHeaderText)</span>
+</a>
+</text>).Content(@<text>
+    @{
+        var settings = item.GetUserPreferences();
+        var listName = (string)settings.listName;
+        if (!string.IsNullOrEmpty(listName))
+        {
+            var list = AppModel.Get().CurrentWeb.Lists[listName];
+            if (list != null)
+            {
+                var form = list.NewForm;
+                using (Html.BeginForm("New", "Contents", new { name = listName },
+                    FormMethod.Post, new
+                    {
+                        enctype = "multipart/form-data",
+                        @class =form.CssClass+" d-form"
+                    }))
+                {
+                    Html.RenderPartial("~/views/contents/_NewForm.cshtml", list.NewForm, ViewData);
+                }
+            }
+        }
+
+    }
+    </text>).Render();}

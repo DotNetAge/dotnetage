@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Background" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="FontFamily" xml:space="preserve">
+    <value>Font family</value>
+  </data>
+  <data name="FontSze" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="Layouts" xml:space="preserve">
+    <value>Layouts</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="LTR" xml:space="preserve">
+    <value>Left to right (ltr)</value>
+  </data>
+  <data name="Margin" xml:space="preserve">
+    <value>Margin</value>
+  </data>
+  <data name="MaxHeight" xml:space="preserve">
+    <value>Max height</value>
+  </data>
+  <data name="MaxWidth" xml:space="preserve">
+    <value>Max width</value>
+  </data>
+  <data name="MinHeight" xml:space="preserve">
+    <value>Min height</value>
+  </data>
+  <data name="MinWidth" xml:space="preserve">
+    <value>Min width</value>
+  </data>
+  <data name="Nofollow" xml:space="preserve">
+    <value>No follow</value>
+  </data>
+  <data name="Padding" xml:space="preserve">
+    <value>Padding</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="RTL" xml:space="preserve">
+    <value>Right to left (rtl)</value>
+  </data>
+  <data name="Target_Parent" xml:space="preserve">
+    <value>Parent window</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Open in</value>
+  </data>
+  <data name="Target_Blank" xml:space="preserve">
+    <value>New window</value>
+  </data>
+  <data name="Target_Self" xml:space="preserve">
+    <value>Current window</value>
+  </data>
+  <data name="Target_Top" xml:space="preserve">
+    <value>Top window</value>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>ViewMode</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="AddPage" xml:space="preserve">
+    <value>Add page</value>
+  </data>
+  <data name="ChanageTheme" xml:space="preserve">
+    <value>Change theme</value>
+  </data>
+  <data name="DisplayMode" xml:space="preserve">
+    <value>DisplayMode</value>
+  </data>
+  <data name="GridLayout" xml:space="preserve">
+    <value>Grid layout</value>
+  </data>
+  <data name="TitleLayout" xml:space="preserve">
+    <value>Title layout</value>
+  </data>
+  <data name="AddImages" xml:space="preserve">
+    <value>Add images</value>
+  </data>
+  <data name="DoNothing" xml:space="preserve">
+    <value>Do nothing</value>
+  </data>
+  <data name="GoToLink" xml:space="preserve">
+    <value>Go to specified link</value>
+  </data>
+  <data name="ImageScaling" xml:space="preserve">
+    <value>Image scaling</value>
+  </data>
+  <data name="ImageSize" xml:space="preserve">
+    <value>Image size</value>
+  </data>
+  <data name="OpenImageViewer" xml:space="preserve">
+    <value>Open image viewer</value>
+  </data>
+  <data name="OrganizeImages" xml:space="preserve">
+    <value>Organize images</value>
+  </data>
+  <data name="Scaling_Fit" xml:space="preserve">
+    <value>Fit</value>
+  </data>
+  <data name="Scaling_Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="Scaling_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Sizing" xml:space="preserve">
+    <value>Sizing</value>
+  </data>
+  <data name="WhenClickOnImage" xml:space="preserve">
+    <value>When clicking on image</value>
+  </data>
+  <data name="TextPosition" xml:space="preserve">
+    <value>Text position</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>Offset</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="ClsName" xml:space="preserve">
+    <value>Css class</value>
+  </data>
+  <data name="Column" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Columns" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="LogoAndTitle" xml:space="preserve">
+    <value>Logo and title</value>
+  </data>
+  <data name="LogoOnly" xml:space="preserve">
+    <value>Logo only</value>
+  </data>
+  <data name="TitleOnly" xml:space="preserve">
+    <value>Title only</value>
+  </data>
+  <data name="Alignment" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="ImagePosition" xml:space="preserve">
+    <value>ImagePosition</value>
+  </data>
+  <data name="ImgSize_Custom" xml:space="preserve">
+    <value>Custom size ...</value>
+  </data>
+  <data name="ImgSize_Large" xml:space="preserve">
+    <value>Large : 800 px width</value>
+  </data>
+  <data name="ImgSize_Medium" xml:space="preserve">
+    <value>Medium : 500 px width</value>
+  </data>
+  <data name="ImgSize_Original" xml:space="preserve">
+    <value>Original size</value>
+  </data>
+  <data name="ImgSize_Small" xml:space="preserve">
+    <value>Small : 240 px width</value>
+  </data>
+  <data name="ImgSize_Thumb" xml:space="preserve">
+    <value>Thumbnail : 100 px width</value>
+  </data>
+  <data name="Border" xml:space="preserve">
+    <value>Border</value>
+  </data>
+  <data name="Spaces" xml:space="preserve">
+    <value>Spaces</value>
+  </data>
+  <data name="AddImage" xml:space="preserve">
+    <value>Add image</value>
+  </data>
+  <data name="ImageTitle" xml:space="preserve">
+    <value>Image title</value>
+  </data>
+  <data name="Simulator" xml:space="preserve">
+    <value>Simulator</value>
+  </data>
+  <data name="EditCss" xml:space="preserve">
+    <value>Edit stylesheet</value>
+  </data>
+  <data name="Thumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
+</root>

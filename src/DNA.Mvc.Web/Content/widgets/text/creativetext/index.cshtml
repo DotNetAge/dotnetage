@@ -1,0 +1,64 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+<div class="d-field" style="text-align: center;">
+    <input  id="@item.GetID("photo")" 
+            name="photo" 
+            type="hidden" 
+            data-role="dropbox" 
+            value="@(item.GetString("photo"))"
+            data-img-size="150px"
+            style="width:150px;height:150px;"
+          />
+    <a data-role="button" 
+            data-inline="false"
+                data-rel="file"
+                data-file-to="@item.GetID("photo")"
+                title="Select an image">@Commons.Browse</a>
+</div>
+
+<div class="d-field">
+    @item.Label("title", Commons.Title)
+    @item.TextBox("title", new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Title) })
+</div>
+<div class="d-field">
+    @item.Label("url", Commons.Link)
+    @item.TextBox("url", new { placeholder = string.Format(Resources.InputHolders.Format, Commons.NavUrl.ToLower() ) })
+</div>
+<div class="d-field" style="text-align: right; padding: 5px 10px;">
+    <a href="#@(item.GetID("url"))" data-rel="link" data-role="button" style="width: 65%;margin: 0 10px;">@Resources.Pages.AddLink</a>
+</div>
+<div class="d-field">
+    @item.Label("description", Commons.Desc)
+    @item.TextArea("description", new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Desc), style = "height:250px;" })
+</div>
+</text>).Content(@<text>
+<div itemtype="http://schema.org/Article" style="padding: 10px;" itemscope="itemscope">
+    @if (!string.IsNullOrEmpty(item.GetString("photo")) && item.GetString("photo").StartsWith("d-icon-"))
+    {
+        <div style="margin: 0 -10px;">
+            <span data-icon="@item.GetString("photo")" data-size="large"></span>
+        </div>
+    }
+    else
+    {
+        if (!string.IsNullOrEmpty(item.GetString("photo")))
+        {
+        <a style="position: relative; margin: 0 -10px;" @if (!string.IsNullOrEmpty(item.GetString("url"))){<text>href="@item.GetString("url")"</text>}>
+            <img itemprop="image" style="max-width:100%;" src="@item.GetString("photo")" alt="@item.GetString("title")"/>
+        </a>
+        }
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("url")))
+    {
+        <div itemprop="url"><a class="d-link d-title" href="@item.GetString("url")"><span itemprop="name">@item.GetString("title")</span></a></div>
+    }
+    else
+    {
+        <div itemprop="url" class="d-title"><span itemprop="name">@item.GetString("title")</span></div>    
+    }
+    @if (item.IsNotEmpty("description"))
+    {
+        <div class="d-notes" itemprop="description">@MvcHtmlString.Create(item.GetString("description"))</div>
+    }
+</div>
+</text>).GetHtml()

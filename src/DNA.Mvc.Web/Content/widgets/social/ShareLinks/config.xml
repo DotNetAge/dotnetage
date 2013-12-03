@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="share-links">
+  <name short="Sharelinks">Share links</name>
+  <icon src="default.png" />
+  <preference name="linkbackTitle" value="''" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

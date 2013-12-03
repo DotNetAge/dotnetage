@@ -1,0 +1,37 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType;
+    //var fieldCount = Model.View.FieldRefs.Count;
+    var titleFieldName = Model.List.GetDefaultTitleField().Name;
+}
+<ul class="d-view d-view-expandable @Model.CssClass">
+    @foreach (var dataItem in Model)
+    {
+        <li class="d-view-item" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                      {<text>itemtype="@itemtype"</text>}>
+            @if (dataItem.AllowEdit(Context))
+            { 
+                <a data-icon-left="d-icon-edit" data-role="button" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" onclick="$.loading()" title="@Resources.Commons.Edit"></a>
+            }
+            <a role="link" data-icon-left="d-icon-plus-4" onclick="$(this).next().slideToggle();$(this).children('.d-primary-icon').toggleClass('d-icon-plus-4').toggleClass('d-icon-minus-4')">@dataItem[titleFieldName]</a>
+            <div class="d-view-fields">
+                @foreach (var field in Model.View.FieldRefs)
+                {
+                    if (field.Name.Equals(titleFieldName)) { continue; }
+                    if (!string.IsNullOrEmpty(field.ItemProp) && field.IsHidden)
+                    {
+                    <meta itemprop="@field.ItemProp" content="@dataItem[field.Name]" />
+                    }
+                    else
+                    {
+                    <div @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))" id="@dataItem.ID">
+                        @{ Html.ForView(field.Name, dataItem); }
+                    </div>
+                    }
+                }
+                <div style="padding: 5px 0px;"><a href="@dataItem.UrlComponent">@Resources.Commons.LearnMore</a></div>
+            </div>
+
+        </li>
+    }
+</ul>

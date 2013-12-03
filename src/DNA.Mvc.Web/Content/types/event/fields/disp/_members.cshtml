@@ -1,0 +1,44 @@
+﻿@model ContentFieldValue
+@{
+    var memberStr = Model.Raw != null ? Model.Raw.ToString() : "";
+    var members = string.IsNullOrEmpty(memberStr) ? new string[0] : memberStr.Split(',');
+    var isMember = Request.IsAuthenticated ? members.Contains(User.Identity.Name) : false;
+    IEnumerable<UserProfile> memberProfiles = null;
+    var pkg = Model.ParentList.Package;
+    if (members.Count() > 0)
+    {
+        memberProfiles = AppModel.Get().DataContext.Where<UserProfile>(u => members.Contains(u.UserName)).ToList();
+    }
+}
+@if (!isMember)
+{
+    if (Model.Item.Value("ending").Raw != null)
+    {
+        if ((DateTime)Model.Item.Value("ending").Raw > DateTime.Now)
+        {
+    <div>
+        @if (Request.IsAuthenticated)
+        {
+            var newmembers = new List<string>(members);
+            newmembers.Add(User.Identity.Name);
+            var newmemberStr = string.Join(",", newmembers.ToArray());
+            var url = Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/updateitem/" + Model.ParentList.ID.ToString() + "?itemID=" + Model.Item.ID.ToString());
+            <a data-role="button"
+                onclick="$(this).isDisable(true);$.post('@url',{@Model.Field.Name:'@newmemberStr'});">@pkg.Loc("JoinEvent")</a>
+        }
+        else
+        {
+            <a href="#logindialog" rel="dialog">@pkg.Loc("JoinEvent")</a>
+        }
+    </div>
+        }
+        else
+        { 
+    <div>@pkg.Loc("EventClosed")</div>
+        }
+    }
+}
+@if (memberProfiles != null)
+{
+    @SocialNetworks.UserAvatarList(memberProfiles)
+}

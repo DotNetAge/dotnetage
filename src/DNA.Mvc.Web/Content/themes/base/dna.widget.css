@@ -1,0 +1,64 @@
+﻿/*Widget common*/
+.d-widget { position: relative; clear: left; margin-bottom: 5px; border: 1px solid transparent; }
+.d-widget-collapsed { opacity: 0.7; filter: Alpha(Opacity=70); }
+.d-widget:last-child { margin-bottom: 0px; }
+/*view modes*/
+.d-widget-header { position: relative; overflow: hidden; line-height: normal; padding: 0px 10px; border-top-left-radius: inherit; border-top-right-radius: inherit; line-height: normal; padding: 10px 0px; }
+    .d-widget-header > * { display: inline-block; vertical-align: middle; }
+    .d-widget-header > a { overflow: hidden; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap; }
+.d-widget-header-hide { display: none; border: none; opacity: 0.5; filter: Alpha(Opacity=50); }
+.d-widget-icon, .d-widget-title-text { display: inline-block; vertical-align: middle; }
+.d-widget-icon { margin: 5px; }
+.d-widget-title-text { text-indent: 5px; }
+/*.noborder .d-widget-title-text{text-indent:0px;}*/
+
+.d-widget-body { position: relative; display: block; overflow: visible; border-bottom-left-radius: inherit; border-bottom-right-radius: inherit; }
+    .d-widget-body.loading { min-height: 200px; }
+.d-widget-collapsed > .d-widget-body { display: none; }
+.d-widget-desc-helper { display: inline-block; padding: 10px; width: 250px!important; height: 20px!important; border: 1px solid transparent; border-color: #ccc; background-color: #f2f2f2; -webkit-box-shadow: 0 0 5px #0099CC; box-shadow: 0 0 5px #0099CC; text-align: center; font-size: 11pt; }
+
+.d-widget-zone { position: relative; bottom: 0px; overflow: visible; white-space: normal; margin-right: 5px; }
+    .d-widget-zone:empty { display: none; }
+    .d-widget-zone:not(:empty) { padding: 10px 0px; }
+[data-role=layout] ~ .d-widget-zone { padding: 0px; }
+.d-widget-zone-design { min-height: 50px; outline: 1px dashed #ccc; outline-offset: -3px; margin-right: 0px; }
+    .d-widget-zone-design:empty { display: block; }
+    .d-widget-zone-design .d-widget-header, .d-widget-zone-design .d-widget-header .d-widget-title-link { cursor: move; }
+    .d-widget-zone-design .d-widget-header-hide { display: block; border: none; background: none; }
+    .d-widget-zone-design .d-widget-title-text { cursor: text; }
+
+.d-widget-title-link { vertical-align: middle; text-decoration: none; }
+.d-widget-prefs, form[data-role='userprefs'] { position: relative; display: none; }
+
+.d-widget.noborder { border: none; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+    .d-widget.noborder .d-widget-header { padding: 0px; }
+.d-widget.d-transparent, .d-widget.d-transparent > .d-widget-body { background-color: transparent; }
+
+.d-widget.d-state-dragging { width: 250px!important; }
+    .d-widget.d-state-dragging > .d-widget-body { height: 20px; }
+        .d-widget.d-state-dragging > .d-widget-body > * { display: none; }
+
+/* for default stylish*/
+.d-widget-placeholder { display: block; height: 50px; outline: 1px dashed #fff; outline-offset: 1px; border: 1px dashed #000000; background-color: #f2f2f2; text-align: center; opacity: .9; }
+    .d-widget-placeholder:after { width: 100%; color: #ccc; content: "Drop widget here"; text-align: center!important; line-height: 50px; }
+.d-widget-zone-dag-hover, .d-widget-zone-allow-drop { background-color: #ecf3fd; }
+.d-widget-collapsed .d-widget-header { border-bottom: none; }
+.d-widget-zone-design .d-widget .d-widget-drag-handler { position: absolute; top: 0px; left: 0px; z-index: 100; display: none; width: 20px; height: 20px; background: #8b00ad; }
+.d-widget-zone-design .d-widget:hover .d-widget-drag-handler { display: inline-block; cursor: move; }
+.d-widget-drag-handler { opacity: .3; }
+    .d-widget-drag-handler:hover { opacity: 1; }
+
+.d-widget-viewmode-floating { position: absolute; margin: 0px; }
+.d-widget-zone-design .d-widget-viewmode-floating { min-width: 140px; min-height: 50px; }
+.d-widget-zone-design .d-widget.d-state-active { outline: 1px solid #0099CC; cursor: move; }
+    .d-widget-zone-design .d-widget.d-state-active:after { position: absolute; top: 0px; left: 0px; z-index: -1; width: 100%; height: 100%; outline: 1px solid #f2f2f2; outline-offset: -1px; content: ""; }
+
+.d-widget-zone.d-state-activated { margin-bottom: 10px; }
+.d-widget-frame { height: inherit; width: 100%; border: none; }
+
+@media screen and (max-width: 600px) {
+    .d-widget-zone { margin-right: 0px; }
+    /*.d-widget-pageheader > .d-widget-body > * { margin:auto 10px; }*/
+    .d-widget-body { padding: 5px; }
+}
+

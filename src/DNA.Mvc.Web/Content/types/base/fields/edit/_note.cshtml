@@ -1,0 +1,24 @@
+﻿@model ContentFieldValue
+@{
+    var field = (NoteField)Model.Field;
+}
+@if (field.IsHtml) { 
+@UIHelper.EditorToolbars(field.ClientID)
+}
+    
+<textarea  id="@(field.ClientID)" 
+    name="@field.Name" 
+    placeholder="@field.Placeholder" 
+            @if (field.IsHtml)
+            {<text> data-role="editor" data-encoded="false"
+     data-toolbar=".@(field.ClientID)"
+    data-text-html="@Resources.Commons.Design"
+      data-text-code="@Resources.Commons.Html"
+    </text>}
+            else
+            {<text> @field.GetValidationAttributes() </text>}
+            @if (field.NumLines > 0)
+            {<text>rows="@field.NumLines" style="height:@(field.NumLines * 20)px;width:100%;"</text>}
+            >@(Server.HtmlDecode((string)Model.Raw))
+        </textarea>
+

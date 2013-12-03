@@ -1,0 +1,31 @@
+﻿@model ContentDataItemDecorator
+@{
+    var fields = Model.Parent.EditForm.Fields;
+    var fieldArgs = new string[] { "Name", "Number", "Price", "ImageUrl", "Thumb1", "Thumb2", "Thumb3", "Thumb4", "Thumb5", "Description" };
+}
+<style type="text/css">
+    .photolist { display: inline-block; }
+        .photolist > * { vertical-align: middle; display: inline-block; }
+</style>
+@{ 
+    Html.ForEdit(fields["Name"], Model);
+    Html.ForEdit(fields["Number"], Model);
+    Html.ForEdit(fields["Price"], Model); 
+}
+<div>
+    <label>@Resources.Commons.Photos</label>
+    <div class="photolist">
+        @{Html.ForEdit(fields["ImageUrl"], Model, false, false);}
+        @{Html.ForEdit(fields["Thumb1"], Model, false, false);}
+        @{Html.ForEdit(fields["Thumb2"], Model, false, false);}
+        @{Html.ForEdit(fields["Thumb3"], Model, false, false);}
+        @{Html.ForEdit(fields["Thumb4"], Model, false, false);}
+        @{Html.ForEdit(fields["Thumb5"], Model, false, false);}
+    </div>
+</div>
+@foreach (var f in fields)
+{
+    if (fieldArgs.Contains(f.Name)) { continue; }
+    Html.ForEdit(f, Model);
+}
+@{Html.ForEdit(fields["Description"], Model);}

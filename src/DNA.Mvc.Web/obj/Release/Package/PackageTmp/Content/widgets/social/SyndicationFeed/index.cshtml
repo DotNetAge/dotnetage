@@ -1,0 +1,302 @@
+﻿@using System.ServiceModel.Syndication;
+@using System.Xml;
+
+@Html.Widget().Content(@<text>
+@if (item.GetString("layout") == "list")
+{
+    @_RenderFeed(item)
+}
+else
+{
+    @_RenderSlideFeed(item)
+}
+</text>).UserPreferences(@<text>
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        @item.Label("uri", Resources.Commons.Url)
+        @item.TextBox("uri", new { placeholder = item.Loc("RssHolder") })
+    </li>
+    <li data-role="fieldcontain">
+        @item.Checkbox("channel", item.Loc("ShowChannel"))
+    </li>
+    <li data-role="fieldcontain">
+        <label>@Resources.Designs.Layout</label>
+        <select name="layout" data-role="combobox" data-drop-style="menu" style="width: 80px;">
+            <option value="list" @if (item.GetString("layout") == "list")
+                                 {<text>selected="selected"</text>}>@item.Loc("List")</option>
+            <option value="slider" @if (item.GetString("layout") == "slider")
+                                   {<text>selected="selected"</text>}>@item.Loc("Slider")</option>
+        </select>
+    </li>
+</ul>
+</text>).Design(@<text>
+@if (!string.IsNullOrEmpty(item.GetString("uri")))
+{
+    if (item.GetString("layout") == "list" || Request.Browser.ScreenCharactersWidth <= 400)
+    {
+    @_RenderFeed(item)
+    }
+    else
+    {
+    @_RenderSlideFeed(item)
+    }
+}
+else
+{
+    @item.DesignModeHolder(item.Loc("AddChannelUrl"))
+}
+</text>).GetHtml()
+
+@helper _RenderSlideFeed(WidgetHelper item, int prePageCount = 4)
+{
+    var url = item.GetString("uri");
+    if (!string.IsNullOrEmpty(url))
+    {
+        using (var reader = XmlReader.Create(url))
+        {
+            try
+            {
+                var feed = SyndicationFeed.Load(reader);
+                var totalPages = Math.Ceiling((decimal)feed.Items.Count() / (decimal)4);
+                var totalItems = feed.Items.ToList();
+                if (item.GetBool("channel"))
+                {
+    <div class="d-title" style="padding: 10px;">
+        <a rel="nofollow"  @if (feed.Links != null && feed.Links.Count > 0)
+                           {<text> href="@feed.Links.FirstOrDefault().Uri"</text>}>@if (feed.ImageUrl != null)
+                                                                                   {
+                               <img src="@feed.ImageUrl" style="margin-right:10px;max-height:64px;max-width:64px;line-height:inherit;" class="d-inline"/>}@feed.Title.Text</a>
+    </div>
+                }
+    <div data-role="content-slider" style="height: 610px;" data-nav="true">
+        @for (int i = 0; i < totalPages; i++)
+        {
+            var skip = i * prePageCount;
+            var takes = prePageCount;
+            var items = totalItems.Skip(i).Take(takes);
+            <div style="overflow: auto; position: relative; padding: 0px;">
+                @foreach (var feedItem in items)
+                {
+                    var images = new List<string>();
+                    var player = "";
+                    var thumbnail = "";
+                    var summary = feedItem.Summary.Text;
+
+                    foreach (var ext in feedItem.ElementExtensions)
+                    {
+
+                        if (ext.OuterNamespace.StartsWith("http://search.yahoo.com/mrss", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (ext.OuterName.Equals("player", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var extReader = ext.GetReader();
+                                if (extReader.HasAttributes)
+                                {
+                                    player = extReader.GetAttribute("url");
+                                    continue;
+                                }
+                            }
+
+                            if (ext.OuterName.Equals("thumbnail", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var extReader = ext.GetReader();
+                                if (extReader.HasAttributes)
+                                {
+                                    thumbnail = extReader.GetAttribute("url");
+                                    continue;
+                                }
+                            }
+
+                            if (string.IsNullOrEmpty(summary) && ext.OuterName.Equals("text", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var extReader = ext.GetReader();
+                                summary = extReader.ReadString();
+                                continue;
+                            }
+                        }
+
+                        if (ext.OuterNamespace.StartsWith("http://www.itunes.com/dtds/podcast-1.0.dtd", StringComparison.OrdinalIgnoreCase))
+                        {
+                            if (string.IsNullOrEmpty(summary) && ext.OuterName.Equals("summary", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var extReader = ext.GetReader();
+                                summary = extReader.ReadString();
+                                continue;
+                            }
+                        }
+
+                        if (ext.OuterName.Equals("image", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var extReader = ext.GetReader();
+                            if (extReader.HasAttributes)
+                            {
+                                thumbnail = extReader.GetAttribute("href");
+                                continue;
+                            }
+                        }
+
+                    }
+                    <div style="overflow: hidden; height: 300px; width: 49%; float: left;" itemscope="itemscope" itemtype="http://schema.org/Article">
+                        <div style="padding: 20px; overflow: hidden;" class="d-feed-item">
+                            <div class="d-title"><a itemprop="url" href="@feedItem.Links.FirstOrDefault().Uri" rel="nofollow"><span itemprop="title">@feedItem.Title.Text</span></a></div>
+                            @if (!string.IsNullOrEmpty(thumbnail))
+                            {
+                                <div style="height:80px;background:no-repeat url('@(thumbnail)') center center;background-size:contain;">
+                                    <meta itemprop="image" content="@thumbnail" />
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(summary))
+                            {
+                                <div itemprop="description"
+                                    style="margin: 8px 0; font-size: 1.2em; height: 3.6em; line-height: 1.2em; overflow: hidden; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis;">
+                                    @MvcHtmlString.Create(summary)
+                                </div>
+                            }
+                            <time datetime="@feedItem.PublishDate.ToString("yyyy-MM-ddThh:mm:ss")" itemprop="datePublished">@feedItem.PublishDate</time>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+            }
+            catch (Exception e)
+            {
+@* <div>无法加载目标频道的内容，可能是地址不正确或频道内容不合符RSS2 和 ATOM2规范</div>*@
+    <div>@e.Message</div>
+            }
+        }
+    }
+    else
+    {
+        if (Request.IsAjaxRequest())
+        {
+    <div style="text-align: center;">
+        <input type="text" data-width="250" placeholder="@item.Loc("RssHolder")" id="@item.GenerateFieldID("url")"/><span data-role="button" onclick="$.post('@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/widgets/apply")',{id:@item.Model.ID,uri:$('#@item.GenerateFieldID("url")').val()},function(){ $('#@item.ClientID').widget('refresh'); } );">@Resources.Commons.Save</span>
+    </div>
+        }
+        else
+        {
+    <div>@item.Loc("ChannelNotReady")</div>
+        }
+    }
+}
+
+
+@helper _RenderFeed(WidgetHelper item)
+{
+    var url = item.GetString("uri");
+    if (!string.IsNullOrEmpty(url))
+    {
+        using (var reader = XmlReader.Create(url))
+        {
+            try
+            {
+                var feed = SyndicationFeed.Load(reader);
+                if (item.GetBool("channel"))
+                {
+    <div class="d-title" style="padding: 10px;">
+        <a rel="nofollow"  @if (feed.Links != null && feed.Links.Count > 0)
+                           {<text> href="@feed.Links.FirstOrDefault().Uri"</text>}>@if (feed.ImageUrl != null)
+                                                                                   {
+                               <img src="@feed.ImageUrl" style="margin-right:10px;max-height:64px;max-width:64px;line-height:inherit;" class="d-inline"/>}@feed.Title.Text</a>
+    </div>       
+                }
+    <div>
+
+        @foreach (var feedItem in feed.Items)
+        {
+            var link = feedItem.Links[0];
+            var images = new List<string>();
+            var player = "";
+            var thumbnail = "";
+            var summary = feedItem.Summary.Text;
+
+            foreach (var ext in feedItem.ElementExtensions)
+            {
+
+                if (ext.OuterNamespace.StartsWith("http://search.yahoo.com/mrss", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (ext.OuterName.Equals("player", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var extReader = ext.GetReader();
+                        if (extReader.HasAttributes)
+                        {
+                            player = extReader.GetAttribute("url");
+                            continue;
+                        }
+                    }
+
+                    if (ext.OuterName.Equals("thumbnail", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var extReader = ext.GetReader();
+                        if (extReader.HasAttributes)
+                        {
+                            thumbnail = extReader.GetAttribute("url");
+                            continue;
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(summary) && ext.OuterName.Equals("text", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var extReader = ext.GetReader();
+                        summary = extReader.ReadString();
+                        continue;
+                    }
+                }
+
+                if (ext.OuterNamespace.StartsWith("http://www.itunes.com/dtds/podcast-1.0.dtd", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (string.IsNullOrEmpty(summary) && ext.OuterName.Equals("summary", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var extReader = ext.GetReader();
+                        summary = extReader.ReadString();
+                        continue;
+                    }
+                }
+
+                if (ext.OuterName.Equals("image", StringComparison.OrdinalIgnoreCase))
+                {
+                    var extReader = ext.GetReader();
+                    if (extReader.HasAttributes)
+                    {
+                        thumbnail = extReader.GetAttribute("href");
+                        continue;
+                    }
+                }
+            }
+            <div style="border-bottom: 1px solid #f2f2f2;" itemscope="itemscope" itemtype="http://schema.org/Article" class="d-feed-item">
+                <div style="padding: 10px;">
+                    <div class="d-title"><a href="@link.Uri" title="@link.Title" target="_blank" rel="nofollow" itemprop="title">@feedItem.Title.Text    </a></div>
+                    @if (!string.IsNullOrEmpty(summary))
+                    {
+                        <div itemprop="description"
+                            style="margin: 8px 0; font-size: 1.2em; line-height: 1.2em; overflow: hidden; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis;">@MvcHtmlString.Create(summary)
+                        </div>
+                    }
+                    <time datetime="@feedItem.PublishDate.ToString("yyyy-MM-ddThh:mm:ss")" itemprop="datePublished">@feedItem.PublishDate</time>
+                </div>
+            </div>
+        }
+    </div> 
+            }
+            catch (Exception e)
+            {
+    <div>@e.Message</div>
+            }
+        }
+    }
+    else
+    {
+        if (Request.IsAjaxRequest())
+        {
+    <div style="text-align: center;">
+        <input type="text" data-width="250" placeholder="@item.Loc("RssHolder")" id="@item.GenerateFieldID("url")"/><span data-role="button" onclick="$.post('@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/widgets/apply")',{id:@item.Model.ID,uri:$('#@item.GenerateFieldID("url")').val()},function(){ $('#@item.ClientID').widget('refresh'); } );">@Resources.Commons.Save</span>
+    </div>
+        }
+        else
+        {
+    <div>@item.Loc("ChannelNotReady")</div>
+        }
+    }
+}

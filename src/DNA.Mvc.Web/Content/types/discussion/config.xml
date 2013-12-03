@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" name="discussion" allowAttachs="true" moderated="true" allowVotes="true" defaultLocale="en-us" activity="true" hierarchy="true" version="1.0.0" id="discussions">
+  <title resKey="Discussions" />
+  <description resKey="Discussions_Desc" />
+  <fields>
+    <field type="Text" name="title" linkToItem="true" required="true" itemprop="name" slug="true">
+      <title resKey="Title"/>
+      <placeHolder resKey="Title_Holder"/>
+    </field>
+    <field type="Note" name="body" isHtml="true" itemprop="text">
+      <title resKey="Body"/>
+    </field>
+  </fields>
+  <views>
+    <view name="defaultView" default="true" filter="parentId='00000000-0000-0000-0000-000000000000'">
+      <title resKey="DefaultView" />
+      <styleSheet src="css/default.css" />
+      <emptyPattern>
+        <html><![CDATA[<p><div>This discussion board is empty.</div></p>]]></html>
+      </emptyPattern>
+      <emptyPattern xml:lang="zh-cn">
+        <html><![CDATA[<p><div>此论坛内没有任何讨论的主题.</div></p>]]></html>
+      </emptyPattern>
+      <body src="views/_default.cshtml" />
+      <fields>
+        <fieldRef name="title" />
+        <fieldRef name="body" />
+      </fields>
+      <paging allow="true" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New" accessRoles="administrators,guests">
+      <title resKey="New" />
+      <body src="forms/_new.cshtml" />
+    </form>
+    <form name="editForm" type="Edit" accessRoles="administrators,guests">
+      <title resKey="Edit"/>
+      <body src="forms/_edit.cshtml" />
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Disp"/>
+      <styleSheet src="css/default.css" />
+      <body src="forms/_detail.cshtml" />
+      <fields>
+        <field name="title" caption="true" showLabel="false" />
+        <field name="body" showLabel="false" />
+      </fields>
+    </form>
+    <form name="activityForm" type="Activity" anonymous="true">
+      <title resKey="Activity"/>
+      <fields>
+        <field name="title" caption="true" />
+        <field name="body" />
+      </fields>
+    </form>
+  </forms>
+</contentType>

@@ -1,0 +1,361 @@
+﻿@using DNA.Web.ServiceModel
+@using DNA.Web
+@using System.Xml.Linq
+@using System.Web.Mvc
+@using Resources
+@helper Options(ContentDataItemDecorator item)
+{
+    var list = item.Parent;
+    <div>
+        <input type="checkbox" 
+            data-label="@Resources.Contents.IsPublished" 
+            name="IsPublished" @if (item.IsPublished)
+                               {<text> checked="checked" value="True" </text>}
+                               else
+                               {<text> value="False" </text>}/>
+    </div>
+
+    if (list.AllowComments)
+    {
+    <div>
+        <input type="checkbox" 
+            data-label="@Resources.Contents.AllowComments" 
+            name="AllowComments" @if (item.EnableComments)
+                                 {<text> checked="checked" value="True" </text>}
+                                 else
+                                 {<text> value="False" </text>}/>
+    </div>
+    }
+}
+@helper CategoriesAndTags(ContentDataItemDecorator item, UrlHelper urlHelper)
+{
+    var list = item.Parent;
+
+    if (list.AllowCategoriesAndTags)
+    {
+    <div id="category_tags_section"
+        data-role="panel" 
+        data-collapsed="@((item.Categories != null && item.Categories.Count > 0) || (item.Tags != null && item.Tags.Length > 0) ? "false" : "true")" 
+        data-closable="false">
+        <h3>@Resources.Contents.CategoriesAndTags</h3>
+        <div>
+            <ul data-role="listview" data-display="mobile-list" data-inset="true">
+                @if (Context.User.IsWebMaster())
+                {
+                    <li data-role="divider">
+                        <label data-inline="true" for="newcat">@Resources.Commons.Category</label>
+                        <div class="d-inline">
+                            <input type="text" id="newcat" placeholder="@(string.Format(Resources.InputHolders.Format, Resources.Commons.Name))" />
+                            <a data-role="button" style="margin: 0px 10px; width: 70px;" onclick="_addcat();">@Resources.Commons.Add</a>
+                            <a data-role="button" data-icon-left="d-icon-trash" onclick="_delcat();" id="delcatbutton"></a>
+                        </div>
+                    </li>
+                }
+                <li data-readonly="true">
+                    <div style="height: 250px; overflow: auto;">
+                        @{
+                var web = AppModel.Get().CurrentWeb;
+                var xcat = web.Categories.HtmlElement();
+                xcat.Descendants().AsParallel().ForAll(e => { e.Add(new XAttribute("data-expanded", "true")); });
+                var el = new XElement("ul",
+                    new XElement("li",
+                        new XAttribute("data-id", "0"),
+                        new XAttribute("data-expanded", "true"),
+                        new XElement("span", string.IsNullOrEmpty(web.Title) ? web.Name : web.Title),
+                         xcat)
+                    );
+
+                if (Context.User.IsWebMaster())
+                {
+                    el.AddHtmlAttributes(new
+                    {
+                        data_role = "tree",
+                        data_singlepath = "false",
+                        data_checkboxes = "true",
+                        data_checked = "_getCheckedNodeValues();",
+                        data_unselectable = "true",
+                        data_drag_drop = "true",
+                        data_dropped = "app.web.cats.move(ui.node.dataInt('id'), ui.targetNode.dataInt('id'));",
+                        style = "padding-left: 10px; min-height: 200px;",
+                        id = "catee"
+                    });
+                }
+                else
+                {
+                    el.AddHtmlAttributes(new
+                    {
+                        data_role = "tree",
+                        data_singlepath = "false",
+                        data_checkboxes = "true",
+                        data_checked = "_getCheckedNodeValues();",
+                        data_unselectable = "true",
+                        data_drag_drop = "false",
+                        style = "padding-left: 10px; min-height: 200px;",
+                        id = "catee"
+                    });
+                }
+                        }
+                        @MvcHtmlString.Create(el.OuterXml())
+                        <input type="hidden" value="@(item.Categories != null && item.Categories.Count() > 0 ? string.Join(",", item.Categories.Select(c => c.ID).ToArray()) : "")" name="Categories" id="Categories"  />
+                    </div>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="Tags">@Resources.Commons.Tags</label>
+                    <input type="text" name="Tags" id="Tags" placeholder="@Resources.Contents.SpliteTags" value="@(item.Tags != null && item.Tags.Count() > 0 ? string.Join(",", item.Tags) : "")" />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        @if (item.Categories != null && item.Categories.Count() > 0)
+        { 
+            <text>
+        $(function () {
+            window.setTimeout(function () {
+                _setCheckedValues([@(string.Join(",", item.Categories.Select(c => c.ID).ToArray()))]);
+            }, 300);
+        });
+        </text>
+        }
+
+        function _setCheckedValues(vals) {
+            if (vals) {
+                $.each(vals, function (i, n) {
+                    var node = $("#catee").find("[data-id='" + n + "']");
+                    if (node.length)
+                        $(">input.d-node-checkbox", node).attr("checked", true);
+                });
+            }
+        }
+
+        function _getCheckedNodeValues() {
+            var keys = $('#catee').taoTreeview("getCheckedAttrs", "data-id");
+            $("#Categories").val(keys.join(","));
+        }
+
+        @if (Context.User.IsWebMaster())
+        { <text>
+        function _delcat() {
+            var selNode = $("#catee").taoTreeview("option", "selectedNode");
+            if (selNode != null && selNode != undefined) {
+                if (selNode.dataInt("id")) {
+                    $.confirm("@(string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Commons.Category))", "@Resources.Commons.Confirm")
+              .done(function () {
+                  app.web.cats.remove(selNode.dataInt("id")).done(function () {
+                      var _parentNode = selNode.parent().closest("li.d-node");
+                      selNode.remove();
+                      if (_parentNode.length)
+                          $("#catee").taoTreeview("select", _parentNode);
+                  });
+              });
+                }
+            }
+        }
+
+        function _addcat(wid) {
+            var catInput = $("#newcat"),
+                val = catInput.val(),
+                selNode = $("#catee").taoTreeview("option", "selectedNode"),
+                parentId = 0;
+            if (selNode == null) {
+                selNode = $($("#catee").children()[0]);
+                $("#catee").taoTreeview("select", selNode);
+            }
+
+            if (val) {
+                catInput.val("");
+                $.loading("Adding new category");
+                app.web.cats.add({ name: val, parentId: parentId })
+                                       .always(function () { $.loading("hide"); })
+                                       .done(function (data) {
+                                           data.text = data.name;
+                                           $("#catee").taoTreeview("add", data, selNode);
+                                           $("#catee").taoTreeview("select", selNode);
+                                       });
+            } else
+                catInput.focus();
+        }
+        </text>}
+    </script>
+    }
+}
+@helper Attachements(ContentDataItemDecorator item)
+{
+    var list = item.Parent;
+    if (list.AllowAttachments)
+    {
+    <div>
+        <div data-role="panel" data-collapsed="@((!item.HasAttachments).ToString())" data-closable="false">
+            <h3>@Resources.Commons.Attachments</h3>
+            <div>
+                <input type="hidden" name="RemovedAttachs" id="removedAttachs" />
+                <ul id="_attachs"
+                    data-role="listview"
+                    data-display="mobile-list"
+                    data-inset="true"
+                    data-tmpl="attach_tmpl">
+                    @foreach (var attr in item.Attachments)
+                    { 
+                        <li data-attach-id="@attr.ID" 
+                            data-counter="@attr.ContentType" 
+                            data-name="@attr.Name" 
+                            data-link-icon="no">
+                            <a><span data-inline="true">@attr.Name</span></a>
+                            <a data-icon="minus-2" onclick="_removeAttach(@attr.ID)"></a>
+                        </li>
+                    }
+                </ul>
+                <div style="padding: 10px;">
+                    <a data-role="button" data-inline="false" data-icon-left="d-icon-folder-open" style="overflow: hidden; position: relative;">@Resources.Commons.Add
+                        <input type="file"
+                            onchange="var item=__addAttach(event.target.files);$(this).clone(true).appendTo(item).attr('name','attachfiles').hide();"
+                            size="200"
+                            style="width: 100%; opacity: 0; position: absolute; top: 0px; left: 0px; height: 45px;" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/x-jquery-tmpl" id="attach_tmpl">
+        <li data-counter="${type}" data-link-icon="no" data-name="${name}">
+            <a><span data-inline="true">${name}</span></a>
+            <a data-icon="minus-2" onclick="$(this).parent().remove();"></a>
+        </li>
+    </script>
+    <script type="text/javascript">
+        function _undoRemove(_id) {
+            var attachs = $("#removedAttachs"),
+                removalIDs = attachs.val(),
+                item = $("[data-attach-id=" + _id + "]");
+
+            $(">a>span", item).css("text-decoration", "none");
+            $(".d-item-spliter>span", item).removeClass("d-icon-ccw").addClass("d-icon-minus-2");
+            $(".d-item-spliter", item).attr("title", "@(Resources.Contents.RemoveAttach)").attr("onclick", "_removeAttach(" + _id + ");");
+
+            if (removalIDs) {
+                var _ids = removalIDs.split(",");
+                var newids = [];
+                $.each(_ids, function (i, n) {
+                    if (n != _id)
+                        newids.push(n);
+                });
+
+                attachs.val(newids.join(","));
+            }
+        }
+
+        function _removeAttach(_id) {
+            var attachs = $("#removedAttachs"),
+                removalIDs = attachs.val(),
+                item = $("[data-attach-id=" + _id + "]");
+
+            $(">a>span", item).css("text-decoration", "line-through");
+            $(".d-item-spliter>span", item).removeClass("d-icon-minus-2").addClass("d-icon-ccw");
+            $(".d-item-spliter", item).attr("title", "Undo").attr("onclick", "_undoRemove(" + _id + "); ");
+
+            if (removalIDs != undefined) {
+                if ($.trim(removalIDs) == "")
+                    attachs.val(_id);
+                else
+                    attachs.val(removalIDs + "," + _id);
+            }
+        }
+
+        function __addAttach(files) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files.item(i);
+                if ($("[data-name=" + file.name + "]", $("#_attachs")).length > 0)
+                    break;
+
+                var item = $("#_attachs").taoListview("addItem", file);
+
+                if (file.type.startsWith("image")) {
+                    var reader = new FileReader();
+                    reader.item = item;
+                    reader.readAsDataURL(file);
+                    reader.onload = function (e) {
+                        var img = $("<img/>").addClass("d-inline").css({ "max-width": "32px", "max-height": "32px", "margin-right": "5px" });
+                        this.item.children().first().prepend(img);
+                        img[0].src = e.target.result;
+                    };
+                }
+
+                item.mobilelistItem();
+                return item;
+            }
+        }
+    </script>
+    }
+}
+
+
+@*@helper DataTreeCombobox(ContentListDecorator list, string value = "")
+{
+    var items = list.Items.ToList();
+    var firstField = list.GetDefaultTitleField();
+    var topItems = items.Where(c => c.ParentItemID == Guid.Empty);
+    DNA.Web.ContentDataItem selectedItem = null;
+    if (!string.IsNullOrEmpty(value))
+    {
+        Guid uid = Guid.Empty;
+        Guid.TryParse(value, out uid);
+        if (uid != null && uid != Guid.Empty)
+        {
+            selectedItem = items.FirstOrDefault(f => f.ID.Equals(uid));
+        }
+    }
+    <input type="hidden" name="parentID" style="width:70%;"  id="_parentID"
+       data-role="dropdown" 
+       data-input="false" 
+       data-target="next" 
+       data-height="200" 
+       @if (selectedItem != null)
+       {
+       <text>
+       value="@value"
+       data-value="@selectedItem.ID"
+       data-text="@AppModel.Get().Wrap(selectedItem).Value(firstField.Name).Raw"
+       </text>
+       }
+      />
+    <ul data-role="tree"
+        data-onselected="$('#_parentID').taoDropdown('value',ui.node.data('id'),ui.node.data('text')).taoDropdown('close');">
+        <li data-id="" data-text="@Common.Top"><a>@Common.Top</a></li>
+        @foreach (var _item in topItems)
+        {
+            var item = AppModel.Get().Wrap(_item);
+            <li data-id="@item.ID" 
+                 data-text="@item.Value(firstField.Name).Raw"
+                >
+                <a @if (selectedItem != null && selectedItem.Path.StartsWith(item.Path))
+                   {
+                    <text>class="d-state-active d-state-expand"</text>
+                   }>@item.Value(firstField.Name).Raw</a>
+                @_ChildrenItem(items, _item, firstField.Name, selectedItem)
+            </li>
+        }
+    </ul>
+}*@
+
+@helper _ChildrenItem(IEnumerable<DNA.Web.ContentDataItem> source, DNA.Web.ContentDataItem parent, string fieldName, DNA.Web.ContentDataItem selectedItem)
+{
+    var items = source.Where(s => s.ParentItemID == parent.ID).ToList();
+    if (items.Count() > 0)
+    {
+    <ul>
+        @foreach (var _item in items)
+        {
+            var item = AppModel.Get().Wrap(_item);
+            <li data-id="@item.ID" 
+                data-text="@item.Value(fieldName).Raw">
+                <a  @if (selectedItem != null && selectedItem.Path.StartsWith(item.Path))
+                    {
+                    <text>class="d-state-active d-state-expand"</text>
+                    }>@item.Value(fieldName).Raw
+                    @_ChildrenItem(items, _item, fieldName, selectedItem)
+                </a>
+            </li>
+        }
+    </ul>
+    }
+}

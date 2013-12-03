@@ -1,0 +1,127 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{ var settings = item.GetUserPreferences();
+   var types = new SelectList(new List<SelectListItem>()
+    {
+        new SelectListItem() { Text =Resources.Designs.Horizontal, Value = "horizontal" },
+        new SelectListItem() { Text =Resources.Designs.Vertical, Value = "vertical" },
+    }, "Value", "Text", settings.type);
+    
+   //var effects = new List<SelectListItem>()
+   // {
+   //     new SelectListItem() { Text =Resources.Widget_Common.Blend, Value = "blend" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Bounce, Value = "bounce" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Clip, Value = "clip" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Drop, Value = "drop" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Explode, Value = "explode" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Fold, Value = "fold" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Highlight, Value = "highlight" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Pulsate, Value = "pulsate" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Scale, Value = "scale" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Shake, Value = "shake" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Slide, Value = "slide" },
+   //     new SelectListItem() { Text = Resources.Widget_Common.Transfer, Value = "transfer" }
+   // };
+   //var showEffects = new SelectList(effects, "Value", "Text", settings.showEffect);
+   //var hideEffects = new SelectList(effects, "Value", "Text", settings.hideEffect);
+   var dataTypes = new SelectList(new List<SelectListItem>() { 
+   new SelectListItem(){Text=item.Loc("ShowAllPages"),Value="1"},
+   new SelectListItem(){Text=item.Loc("ShowRootPages"),Value="2"},
+   new SelectListItem(){Text=item.Loc("ShowChildrenPages"),Value="3"},
+   }, "Value", "Text", settings.dataType);
+}
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        <label>@Resources.Commons.Type</label>
+        @Html.DropDownList("type", types, new { data_role = "combobox", data_drop_style = "menu", style = "width:100px;" })
+    </li>
+    <li data-role="fieldcontain">
+        <label>@item.Loc("MenuItems")</label>
+        @Html.DropDownList("dataType", dataTypes, new { data_role = "combobox", data_drop_style = "menu", style = "width:100px;" })
+    </li>
+    <li>
+        @item.Checkbox("showImgs", item.Loc("ShowItemImg"))
+    </li>
+</ul>
+
+</text>).Content(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    if (!string.IsNullOrEmpty(settings.csstext))
+    {
+        var cssfileName = item.GetID("menu") + ".css";
+        var cssPath = "~/content/temp/css/" + cssfileName;
+        //We need to found the css file
+        if (!File.Exists(Server.MapPath(cssPath)))
+        {
+            File.WriteAllText(Server.MapPath(cssPath), settings.csstext, System.Text.Encoding.UTF8);
+        }
+        var defaultBundle = BundleTable.Bundles.GetBundleFor("~/Content/themes/" + AppModel.Get().CurrentWeb.Theme + "/css");
+        defaultBundle.Include(cssPath);
+        //defaultBundle.Include("~/content/css/menus/glass.css");
+    }
+}
+@Sitemaps.GetHtml(htmlAttributes: new
+{
+    data_role = (settings.type == "horizontal") ? "menubar" : "menu",
+    data_same_width="true",
+    data_alt="false",
+    @class="d-mainmenu",
+    itemprop="breadcrumb",
+    id = item.GetID("menu")
+}, ismenu: true, showimg: settings.showImgs, withAttributes: false, dataType: settings.dataType)
+</text>).Design(@<text>
+@{
+    var csstext = item.GetString("csstext");
+    var type = item.GetString("type");
+    var showImgs = item.GetBool("showImgs");
+}
+<style id="@item.GetID("custom_style")" type="text/css">
+     @if (!string.IsNullOrEmpty(csstext))
+     {  
+          @MvcHtmlString.Create(csstext)
+     }
+</style>
+@Sitemaps.GetHtml(htmlAttributes: new
+{
+    data_role = (type == "horizontal") ? "menubar" : "menu",
+    @class="d-mainmenu",
+    id = item.GetID("menu")
+}, ismenu: true, showimg: showImgs, withAttributes: false, dataType: 2)
+<script type="text/javascript">
+    $(function () {
+        var _clientID = "@item.GetID("menu")",
+            _menu = $("#" + _clientID),
+            _widget = $("#@item.ClientID");
+
+        _menu.find("a").attr("href", "javascript:void(0);");
+        var _onresize = function (event, ui) {
+            var _savetocss = function (_target, sheetId, _val) {
+                var custom_style = $("#" + sheetId),
+                    editing_text = custom_style.text(),
+                    regex = new RegExp(_target.replace(".", "\.") + " \{(.+?)\}");
+                if (editing_text.match(regex))
+                    editing_text = editing_text.replace(regex, _target + " {" + _val + "}");
+                else
+                    editing_text += _target + " {" + _val + "}\n";
+                custom_style.text(editing_text);
+            }
+
+            _savetocss("#" + _clientID + ".d-menu > .d-item > a", "@item.GetID("custom_style")", "line-height:" + ui.size.height + "px");
+            _savetocss("#" + _clientID + ".d-menu.@(type)", "@item.GetID("custom_style")", "height:" + ui.size.height + "px");
+
+            if (_widget.hasClass("d-widget-viewmode-floating"))
+                _savetocss("#" + _clientID, "@item.GetID("custom_style")", "width:" + ui.size.width + "px");
+        };
+
+        if (_widget.hasClass("ui-resizable")) {
+            _widget.unbind("resize", _onresize)
+                          .bind("resize", _onresize);
+        } else {
+            _widget.resizable({
+                handles: "n,s",
+                resize: _onresize
+            });
+        }
+    });
+</script>
+</text>).GetHtml()

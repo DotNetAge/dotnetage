@@ -1,0 +1,27 @@
+﻿@using DNA.Web.ServiceModel.Tasks;
+@model IEnumerable<WorkItem>
+@if (Model.Count() == 0) {
+<p class="info">No task found.</p>
+}
+else {
+<ul data-role="listview" data-display="mobile-list" data-inset="true" id="list_@ViewBag.TaskState">
+    @foreach (var task in Model)
+    { 
+        <li id="@task.Name"
+            @if (task.State == TaskStates.Ready)
+            {<text>data-link-icon="d-icon-clock"</text>} data-counter="@task.NextStart">
+            <a href="@Url.SolutionAction("TaskManager", "Edit", "Scheduler", Culture, WebName, new { id = task.Name})"
+                data-rel="panel"
+                data-panel-title="Task detail"
+                data-panel-pos="right"
+                data-panel-display="overlay"
+                data-panel-auto-release="true"
+                >@task.Title</a>
+            @if (task.State == TaskStates.Running)
+            { <a data-icon="d-icon-pause"></a> }
+            @if (task.State == TaskStates.Stop)
+            { <a data-icon="d-icon-play-2"></a> }
+        </li>
+    }
+</ul>
+}

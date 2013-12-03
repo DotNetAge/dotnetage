@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.w3.org/ns/widgets"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xml="http://www.w3.org/XML/1998/namespace"
+           targetNamespace="http://www.w3.org/ns/widgets"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:element name="widget">
+    <xs:annotation>
+      <xs:documentation>the root element of a configuration document</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="name">
+            <xs:annotation>
+              <xs:documentation>the full human-readable name for a widget that is used</xs:documentation>
+            </xs:annotation>
+            <xs:complexType mixed="true">
+              <xs:attributeGroup ref="global"/>
+              <xs:attribute name="short" type="xs:string"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="description">
+            <xs:complexType mixed="true">
+              <xs:attributeGroup ref="global"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="author" maxOccurs="1">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attribute name="href" type="xs:string" use="required" />
+                  <xs:attribute name="email" type="xs:string" use="required" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="icon">
+            <xs:complexType>
+              <xs:attributeGroup ref="global"/>
+              <xs:attribute name="src" type="xs:string" use="optional"/>
+              <xs:attribute name="width" type="xs:int" use="optional"/>
+              <xs:attribute name="height" type="xs:int" use="optional"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="license">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attributeGroup ref="global"/>
+                  <xs:attribute name="href" type="xs:string" use="optional" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="feature" >
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="param">
+                  <xs:complexType>
+                    <xs:attribute name="name" type="xs:string" use="required" />
+                    <xs:attribute name="value" type="xs:string" use="required"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="required" type="xs:boolean" default="false" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="preference" >
+            <xs:complexType>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="readonly" type="xs:boolean" use="optional" default="false" />
+              <xs:attribute name="value" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="content" minOccurs="0" maxOccurs="1">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attributeGroup ref="global"/>
+                  <xs:attribute name="type" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:token">
+                        <xs:enumeration value="text/html"/>
+                        <xs:enumeration value="text/xml"/>
+                        <xs:enumeration value="application/x-ms-aspnet"/>
+                        <xs:enumeration value="application/x-shockwave-flash"/>
+                        <xs:enumeration value="application/x-silverlight-app"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="src" type="xs:string" use="optional" />
+                  <xs:attribute name="encoding" type="xs:string" use="optional" default="UTF-8" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="global"/>
+      <xs:attribute name="id" type="xs:anyURI"/>
+      <xs:attribute name="version"/>
+      <xs:attribute name="height" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="width" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="viewmodes">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="windowed"/>
+            <xs:enumeration value="floating"/>
+            <xs:enumeration value="fullscreen"/>
+            <xs:enumeration value="maximized"/>
+            <xs:enumeration value="minimized"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="defaultlocale" type="xs:language"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="global">
+    <xs:annotation>
+      <xs:documentation>attributes can be used on any element in a configuration document</xs:documentation>
+    </xs:annotation>
+    <xs:attribute ref="xml:lang"/>
+    <xs:attribute name="resKey" type="xs:string" use="optional" />
+    <xs:attribute name="dir">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="ltr"/>
+          <xs:enumeration value="rtl"/>
+          <xs:enumeration value="lro"/>
+          <xs:enumeration value="rlo"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:element name="span">
+    <xs:complexType>
+      <xs:attributeGroup ref="global"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

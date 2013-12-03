@@ -1,0 +1,13 @@
+﻿@model ContentViewFieldValue
+@{
+    var price =Model.IsNull ? 0 :  (decimal)Model.Value;
+    var discount = Convert.ToDecimal(Model.Item["Discount"]);
+}
+@if (discount == 0)
+{
+    <span>@Model.Field.Field.Format(price)</span>
+}
+else
+{
+    <span style="text-decoration: line-through;">@(Model.Field.Field.Format(price))</span>
+}

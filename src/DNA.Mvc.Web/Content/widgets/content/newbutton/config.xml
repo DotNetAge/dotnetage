@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="new-item-button">
+  <name short="NewItemButton">New item button</name>
+  <name short="NewItemButton" xml:lang="zh-cn">新建项目按钮</name>
+  <description xml:lang="zh-cn"></description>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="listName" value="''" />
+  <preference name="btnText" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

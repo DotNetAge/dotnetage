@@ -1,0 +1,20 @@
+﻿@model ContentFieldValue
+@{
+    var field = (ImageField)Model.Field;
+    var style = "";
+    if (field.Height > 0)
+    {
+        style = string.Format("height:{0}px;", field.Height);
+    }
+
+    if (field.Width > 0)
+    {
+        style = style + string.Format("width:{0}px;", field.Width);
+    }
+}
+@if (!string.IsNullOrEmpty((string)Model.Raw))
+{ 
+        @*<a href="@Model.Raw" data-viewer="true" style="display:block;"></a>*@
+        <img src="@Model.Raw" data-preload="true" alt="@Model.Field.Title" @if (!string.IsNullOrEmpty(style)) {<text>style="@style"</text>} />
+        
+}

@@ -1,0 +1,112 @@
+﻿@using Resources;
+@Html.Widget().Content(@<text>
+@_RenderVideo(item)
+</text>).Design(@<text>
+@if (string.IsNullOrEmpty(item.GetString("src")))
+{
+    @item.DesignModeHolder(string.Format(Resources.Messages.SelectFormat, Resources.Commons.Video))
+}
+else
+{
+    @_RenderVideo(item)
+}
+</text>).UserPreferences(@<text>
+<div class="d-field">
+    <label>@Resources.Commons.Url</label>
+    @item.TextBox("src", new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Video) })
+</div>
+<div class="d-field">
+    <label></label>@UIHelper.BrowseFor("src", string.Format(Resources.Messages.SelectFormat, Resources.Commons.Video), "video")
+</div>
+<div class="d-field">
+    <label></label>
+    @item.Checkbox("autoplay", Resources.Widgets.AutoPlay)
+</div>
+<div class="d-field">
+    <label>@Resources.Designs.Width</label>
+    @item.TextBox("width", new { data_width = "80", onfocus = "$(this).select()" })
+</div>
+<div class="d-field">
+    <label>@Resources.Designs.Height</label>
+    @item.TextBox("height", new { data_width = "80", onfocus = "$(this).select()" })
+</div>
+</text>).GetHtml()
+
+@helper _RenderVideo(WidgetHelper item)
+{
+    var src = item.GetString("src");
+    var width = item.GetInt("width");
+    var height = item.GetInt("height");
+    var autoplay = item.GetBool("autoplay");
+    var urls = src.Split(',');
+    var webFile = new DNA.Web.WebResourceInfo(urls[0]);
+    var isFlash = webFile.Url.ToString().StartsWith(".swf");
+    var isYoutube = webFile.Url.ToString().StartsWith("http://www.youtube.com", StringComparison.OrdinalIgnoreCase) || webFile.Url.ToString().StartsWith("http://youtu.be", StringComparison.OrdinalIgnoreCase);
+    var isWmv = webFile.ContentType.StartsWith("video/x-ms-");
+    var isSilverlight = webFile.Url.ToString().StartsWith(".xap");
+    <div class="d-shadow bend">
+        <div
+            class="d-video-player-wrapper" style="background: #000; z-index: 0; text-align: center;" itemscope="itemscope"
+            itemtype="http://schema.org/VideoObject" itemprop="video">
+            <meta itemprop="url" content="@webFile.Url.ToString()"/>
+            @if (isYoutube || isFlash)
+            {
+                if (isFlash)
+                {
+                @Video.Flash(webFile.Url.ToString(), width: width + "px", height: height + "px", play: true, windowMode: "transparent", scale: "exactfit", quality: "medium");
+                }
+                else
+                {
+                    var yurl = webFile.Url;
+                    var _url = webFile.Url.ToString();
+                    if (_url.StartsWith("http://youtu.be", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var path = yurl.LocalPath;
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            path = path.Substring(1);
+                        }
+                        _url = "https://www.youtube.com/v/" + path + "?version=3";
+                    }
+                <object width="@width" height="@height">
+                    <param name="movie" value="@_url"></param>
+                    <param name="allowFullScreen" value="true"></param>
+                    <param name="allowScriptAccess" value="always"></param>
+                    <embed src="@_url" type="application/x-shockwave-flash" 
+                    allowfullscreen="true" 
+                    allowscriptaccess="always" width="@width" height="@height"></embed>
+                </object>
+                }
+            }
+            else
+            {
+                if (isWmv)
+                {
+                    if (width > 0 && height > 0)
+                    {
+                @Video.MediaPlayer(webFile.Url.ToString(), width: width + "px", height: height + "px", autoStart: autoplay)
+                    }
+                    else
+                    {
+                @Video.MediaPlayer(webFile.Url.ToString(), autoStart: autoplay)
+                    }
+                }
+                else
+                {
+                    if (isSilverlight)
+                    {
+                @Video.Silverlight(webFile.Url.ToString(), width: width + "px", height: height + "px")
+                    }
+                    else
+                    {
+                <video controls="controls"
+                    autoplay="autoplay"
+                    preload="auto"
+                    onloadedmetadata="if ($(this).width()>$(this).parent().width()) $(this).width($(this).parent().width()) ;">
+                    <source type="@webFile.ContentType" src="@webFile.Url.ToString()" />
+                </video>}
+                }
+            }
+        </div>
+    </div>
+}

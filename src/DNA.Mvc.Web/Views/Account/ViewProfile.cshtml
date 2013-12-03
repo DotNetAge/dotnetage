@@ -1,0 +1,58 @@
+﻿@model DNA.Web.ServiceModel.UserDecorator
+@{var profile = Model.DefaultProfile;
+  var profiles = Model.Profiles;
+  var webs = Model.Webs;
+}
+<div>
+    @SocialNetworks.UserAvatar(Model.UserName, 80)
+    <div class="d-inline" style="vertical-align: top;">
+        <div class="d-h5" style="line-height: 1em;">@Model.DisplayName</div>
+    </div>
+</div>
+<ul data-role="listview" data-display="mobile-list">
+    <li data-role="divider">@Resources.Contacts.About</li>
+    <li data-readonly="true">
+        <p>
+            @profile.Signature
+        </p>
+    </li>
+    @if (profiles.Count > 1)
+    {
+        <li data-role="divider">@Resources.Contacts.FollowMeOn</li>
+        foreach (var p in profiles)
+        { 
+        <li data-icon="d-icon-@p.AppName"><a href="@p.Link" target="_blank">@p.AppName</a></li>
+        }
+    }
+    @if (webs.Count() > 0)
+    {
+        <li data-role="divider">@Resources.Commons.Webs</li>
+        foreach (var web in webs)
+        { 
+        <li><a href="@Url.Content(web.Url)">
+            @if (!string.IsNullOrEmpty(web.LogoImageUrl))
+            {
+                <img src="@Url.Content(web.LogoImageUrl)"/>
+            }
+            <h4>@web.Title</h4>
+        </a>
+        </li>
+        }
+    }
+</ul>
+@if (!Request.IsAuthenticated)
+{
+    <div style="padding: 10px;" id="profileviewer_loginholder">
+        <a data-role="button" data-inline="false" data-rel="login" 
+            data-login-success="$('[data-rel=mailto]').isDisable(false);$('#profileviewer_loginholder').remove();">@Resources.Commons.Login</a>
+    </div>
+}
+<div style="padding: 10px;">
+    <a data-role="button" 
+        data-inline="false" 
+        data-rel="mailto" 
+        data-callback="$.notify('The message sent.')" 
+        data-to="@Model.UserName"
+        @if (!Request.IsAuthenticated || (Request.IsAuthenticated && User.Identity.Name.Equals(Model.UserName, StringComparison.OrdinalIgnoreCase)))
+        {<text>class="d-state-disable"</text>}>Send mail</a>
+</div>

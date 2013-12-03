@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{49B18971-37DB-423A-A981-26DC65AAF2AE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DNA.Web.Data.Entity</RootNamespace>
+    <AssemblyName>DNA.Web.Data.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSharpFormat">
+      <HintPath>..\..\packages\DNA.Text.2.1.0\lib\CSharpFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="DNA.Patterns, Version=1.0.0.30063, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\DNA.Patterns.1.0.0\lib\DNA.Patterns.dll</HintPath>
+    </Reference>
+    <Reference Include="DNA.Text">
+      <HintPath>..\..\packages\DNA.Text.2.1.0\lib\DNA.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>assemblyReferences\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Migrations\Configuration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migrations\Migration2013721.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Migrations\Migration303.cs" />
+    <Compile Include="Migrations\Migration310.cs" />
+    <Compile Include="ModelConfiguration\Common\AddressConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\CategoryConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLAbuseConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\MovedUrlConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\LikeConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlAbuseConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQLRecipe.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLCommentConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLContentFormConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLContentItemDataConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLContentListConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLContentViewConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLPermissionsConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLPermissionsetsConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLUserProfileConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLWebConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLWebPageConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLWebPageVersionConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLWidgetConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLWidgetDescriptorConfiguration.cs" />
+    <Compile Include="ModelConfiguration\MySQL\MySQLActionConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlRecipe.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlActionConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlCommentConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\ContentAttachmentConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\VoteConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlPermissionsConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlPermissionsetsConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\TagConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\FollowConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlContentFormConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlContentItemDataConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlContentListConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlContentViewConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlUserProfileConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\RoleConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\SubscriptionConfiguration.cs" />
+    <Compile Include="ModelConfiguration\Common\UserConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlWebConfiguration.cs" />
+    <Compile Include="ContentDataItemRepository.cs" />
+    <Compile Include="CoreDbContext.cs" />
+    <Compile Include="EntityRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelConfiguration\SqlServer\SqlWebPageConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlWebPageVersionConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlWidgetDescriptorConfiguration.cs" />
+    <Compile Include="ModelConfiguration\SqlServer\SqlWidgetConfiguration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\WebPageIsExistsException.cs" />
+    <Compile Include="Exceptions\WebPageNotFoundException.cs" />
+    <Compile Include="PermissionRepository.cs" />
+    <Compile Include="UserRepository.cs" />
+    <Compile Include="WebPageRepository.cs" />
+    <Compile Include="Exceptions\WebSiteIsExistsException.cs" />
+    <Compile Include="WidgetDescriptorRepository.cs" />
+    <Compile Include="WidgetRepository.cs" />
+    <Compile Include="InternalXmlConvertionExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assemblyReferences\Microsoft.Practices.Unity.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DNA.Mvc.Data\DNA.Web.DataModel.csproj">
+      <Project>{b9807b5a-5055-4455-88c2-814d0fc8a0f0}</Project>
+      <Name>DNA.Web.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DNA.Mvc.Infrastructure\DNA.Web.Infrastructure.csproj">
+      <Project>{da00b217-68fc-4bdd-a39b-a4e161090bea}</Project>
+      <Name>DNA.Web.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DNA.Xml.Solutions\DNA.Xml.Solutions.csproj">
+      <Project>{93a93c4c-3bef-4411-9b46-a9f9809b5504}</Project>
+      <Name>DNA.Xml.Solutions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

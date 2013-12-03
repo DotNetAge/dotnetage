@@ -1,0 +1,22 @@
+﻿@model ContentDataItemDecorator
+@{
+    var form = Model.Parent.DetailForm;
+}
+
+@*@if (!Request.IsAjaxRequest())
+{
+    @DispForms.Caption(Model, Url)
+}*@
+
+@*@DispForms.Info(list,Model)*@
+
+@{ 
+    if (!form.Body.IsEmpty)
+    {
+        Html.RenderFormTemplate(form, Model);
+    }
+    else
+    {
+        Html.RenderFields(form, Model);
+    }
+}

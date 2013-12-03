@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Country Codes";
+}
+
+<h3>Country code table</h3>
+<p>Total:@Application.Countries.Count()</p>
+<table data-role="grid" data-sortable="true">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Currency </td>
+            <td>Currency Code</td>
+            <td>2 Letters</td>
+            <td>3 Letters</td>
+            <td>English name</td>
+            <td>Native name</td>
+            <td>Display name</td>
+        </tr>
+    </thead>
+    @foreach (var country in Application.Countries)
+    {
+        <tr>
+            <td><a href="@Url.HostAction("Utilities", "StateCodes", "Utility", new { id = country.Name })">@country.Name</a></td>
+            <td>@country.CurrencySymbol</td>
+            <td>@country.ISOCurrencySymbol </td>
+            <td>@country.TwoLetterISORegionName</td>
+            <td>@country.ThreeLetterISORegionName</td>
+            <td>@country.EnglishName</td>
+            <td>@country.NativeName</td>
+            <td>@country.DisplayName</td>
+        </tr>
+    }
+</table>

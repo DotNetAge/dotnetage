@@ -1,0 +1,7 @@
+﻿@model ContentFieldValue
+@{
+    var field = (TextField)Model.Field;    
+}
+
+<input type="text" @field.GetAttributes(Model.Raw) @field.GetValidationAttributes() />
+@Html.ValidationMessage(field)

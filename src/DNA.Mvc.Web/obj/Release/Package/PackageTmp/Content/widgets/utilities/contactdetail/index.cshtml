@@ -1,0 +1,158 @@
+﻿@Html.Widget().UserPreferences(@<text>
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        @item.Label("company",Resources.Contacts.Company)
+        @item.TextBox("company", new { placeholder =string.Format(Resources.InputHolders.Format,Resources.Contacts.Company)})</li>
+    <li data-role="fieldcontain">
+        @item.Label("address_line1", Resources.Contacts.Address+"1")
+        @item.TextBox("address_line1", new { placeholder =Resources.InputHolders.Address1 })</li>
+    <li data-role="fieldcontain">
+        @item.Label("address_line2", Resources.Contacts.Address+"2")
+        @item.TextBox("address_line2", new { placeholder =Resources.InputHolders.Address2})</li>
+    <li data-role="fieldcontain">
+        @item.Label("zipcode",Resources.Contacts.ZipCode)
+        @item.TextBox("zipcode", new { placeholder = string.Format(Resources.InputHolders.Format,Resources.Contacts.ZipCode) })
+    </li>
+    <li data-role="fieldcontain">@item.Label("telephone", Resources.Contacts.Tel)
+        @item.TextBox("telephone", new { placeholder = Resources.InputHolders.Tel})</li>
+    <li data-role="fieldcontain">@item.Label("cellphone",Resources.Contacts.Mobile)
+        @item.TextBox("cellphone", new { placeholder =Resources.InputHolders.Mobile})</li>
+    <li data-role="fieldcontain">@item.Label("fax", Resources.Contacts.Fax)
+        @item.TextBox("fax", new { placeholder = Resources.InputHolders.Fax })</li>
+    <li data-role="fieldcontain">@item.Label("email", Resources.Contacts.Email)
+        @item.TextBox("email", new { placeholder = Resources.InputHolders.Email })</li>
+</ul>
+
+</text>).Design(@<text>
+@if (!string.IsNullOrEmpty(item.GetString("address_line1")))
+{
+    <address><span data-inline="true" data-icon="address-book"></span><span data-inline="true">@item.GetString("address_line1")</span></address>
+}
+else
+{
+    <address class="d-state-disable"><span data-inline="true" data-icon="address-book"></span><span data-inline="true">Place address line 1</span></address>
+}
+
+@if (!string.IsNullOrEmpty(item.GetString("address_line2")))
+{
+    <address><span data-inline="true" data-icon="address-book"></span><span data-inline="true">@item.GetString("address_line2")</span></address>
+}
+else
+{
+    <address class="d-state-disable"><span data-inline="true" data-icon="address-book"></span><span data-inline="true">Place address line 2</span></address>
+}
+@if (!string.IsNullOrEmpty(item.GetString("zipcode")))
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="target"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.ZipCode:</span><span class="d-inline">@item.GetString("zipcode")</span>
+    </div>
+}
+else
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="target"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.ZipCode:</span><span class="d-inline d-state-disable">GA</span>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(item.GetString("tel")))
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="phone-hang-up"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Tel:</span><span class="d-inline">@item.GetString("tel")</span>
+    </div>
+}
+else
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="phone-hang-up"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Tel:</span><span class="d-inline d-state-disable">000-000-000</span>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(item.GetString("cellphone")))
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="mobile-2"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Mobile:</span><span class="d-inline">@item.GetString("cellphone")</span>
+    </div>
+}
+else
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="mobile-2"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Mobile:</span><span class="d-inline d-state-disable">000-000-000</span>
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(item.GetString("fax")))
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="random"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Fax:</span><span class="d-inline">@item.GetString("fax")</span>
+    </div>
+}
+else
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="random"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Fax:</span><span class="d-inline d-state-disable">000-000-000</span>
+    </div>
+
+}
+
+@if (!string.IsNullOrEmpty(item.GetString("email")))
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="envelope-2"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Email:</span><a class="d-inline d-link" href="mailto:@item.GetString("email")">@item.GetString("email")</a>
+    </div>
+}
+else
+{
+    <div style="margin: 5px 0px;">
+        <span data-inline="true" data-icon="envelope-2"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Email:</span><a class="d-inline d-link d-state-disable" href="javascript:void(0);">email@@mail.com</a>
+    </div>
+}
+</text>).Content(@<text>
+<div style="padding: 10px;">
+
+
+    @if (!string.IsNullOrEmpty(item.GetString("company")))
+    {
+        <div style="margin: 5px 0px;">
+            @item.GetString("company")
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("address_line1")))
+    {
+        <address><span data-inline="true" data-icon="address-book"></span><span data-inline="true">@item.GetString("address_line1")</span></address>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("address_line2")))
+    {
+        <address>@item.GetString("address_line2")</address>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("zipcode")))
+    {
+        <div style="margin: 5px 0px;">
+            <span data-inline="true" data-icon="target"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.ZipCode:</span><span class="d-inline">@item.GetString("zipcode")</span>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("tel")))
+    {
+        <div style="margin: 5px 0px;">
+            <span data-inline="true" data-icon="phone-hang-up"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Tel:</span><span class="d-inline">@item.GetString("tel")</span>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("cellphone")))
+    {
+        <div style="margin: 5px 0px;">
+            <span data-inline="true" data-icon="mobile-2"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Mobile:</span><span class="d-inline">@item.GetString("cellphone")</span>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("fax")))
+    {
+        <div style="margin: 5px 0px;">
+            <span data-inline="true" data-icon="random"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Fax:</span><span class="d-inline">@item.GetString("fax")</span>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(item.GetString("email")))
+    {
+        <div style="margin: 5px 0px;">
+            <span data-inline="true" data-icon="envelope-2"></span><span class="d-inline" style="margin-right: 5px">@Resources.Contacts.Email:</span><a class="d-inline d-link" href="mailto:@item.GetString("email")">@item.GetString("email")</a>
+        </div>
+    }
+</div>
+</text>).GetHtml()

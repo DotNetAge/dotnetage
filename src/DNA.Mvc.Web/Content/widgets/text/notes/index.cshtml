@@ -1,0 +1,142 @@
+﻿@using Resources;
+@Html.Widget().AutoSave().UserPreferences(@<text>
+@{
+    var content = item.GetString("content");
+    string src = item.GetString("src");
+    var fileText = string.Format(Messages.SelectFormat, item.Loc("TextFile"));
+    var fileName = "";
+    if (!string.IsNullOrEmpty(src))
+    {
+        fileText = Commons.Change;
+        var segs = src.Split('/');
+        fileName = segs[segs.Length - 1];
+    }
+}
+@item.Hidden("src")
+<div>
+    <a data-role="button" 
+        data-icon-left="d-icon-file"
+        role="link" 
+        id="@item.GetID("file")" @if (string.IsNullOrEmpty(src))
+                                 {<text> style="display:none;"</text> }
+                                 else
+                                 {<text>
+        href="@src"
+        target="_blank"
+        </text>}>
+        @if (!string.IsNullOrEmpty(src))
+        {<text>@fileName</text>}
+    </a>
+</div>
+<div>
+    <a id="@item.GetID("select_file")"
+      data-role="button"
+      data-inline="false"
+      data-icon-left="d-icon-hdd"
+      onclick="$.fileDialog('@fileText','','text','#@item.GetID("src")').done(function(file){$('#@item.GetID("file")').show().attr('href',file).taoButton('option','label',$.getFileName(file));})">@fileText</a>
+</div>
+<div style="padding-top: 0px;">
+    <a data-role="button"
+        data-icon-left="d-icon-edit"
+        data-inline="false"
+        data-rel="dialog" 
+        href="#@item.GetID("dlg")">@item.Loc("EditText")</a>
+</div>
+<div id="@item.GetID("dlg")" title="@item.Loc("EditText")"
+    data-role="dialog" 
+    data-fullscreen="true" 
+    data-opened="false"
+    data-open="var _srcUrl=$('#@item.GetID("src")').val(); if (_srcUrl) { $.ajax(_srcUrl).done(function(txt){ $('#@item.GenerateFieldID("content")').val(txt); }); } var dlg=$('#@item.GetID("dlg")'); $('#@item.GetID("content")').height($(window).height()- ( ($('>h3',dlg).outerHeight(true)+$('#@item.GetID("toolpanes")').outerHeight(true)+60))).focus(); $('#@item.GetID("content")').width($('#@item.GetID("contentContainer")').width()-10);"
+    style="padding:0px;">
+    <div style="padding: 5px;" id="@item.GetID("toolpanes")">
+        <ul data-role="toolbar" 
+                data-inline="true"
+                data-item-click="var _f=$(ui.item).data('format'); if (_f) { $('#@item.GenerateFieldID("content")').insertFormat(_f); }">
+            <li><a data-rel="close" onclick="$('#@item.ClientID').widget('prefs',{content:$('#@item.GenerateFieldID("content")').val()});"><span class="d-icon-disk"></span></a></li>
+            <li class="d-separator"></li>
+            <li data-format="'''{0}'''" title="@TextFormats.Bold"><a><span class="d-icon-bold"></span></a></li>
+            <li data-format="''{0}''" title="@TextFormats.Italic"><a><span class="d-icon-italic"></span></a></li>
+            <li data-format="__{0}__" title="@TextFormats.Underline"><a><span class="d-icon-underline"></span></a></li>
+            <li data-format="--{0}--" title="@TextFormats.StrikeThrough"><a><span class="d-icon-strikethrough"></span></a></li>
+            <li class="d-separator"></li>
+            <li data-format="<{0}<" title="@TextFormats.JustifyLeft"><a><span class="d-icon-align-left"></span></a></li>
+            <li data-format=">{0}>" title="@TextFormats.JustifyRight"><a><span class="d-icon-align-right"></span></a></li>
+            <li class="d-separator"></li>
+            <li data-format="#{0}" title="@TextFormats.OrderedList"><a><span class="d-icon-list-ol"></span></a></li>
+            <li data-format="*{0}" title="@TextFormats.UnorderedList"><a><span class="d-icon-list-ul"></span></a></li>
+            @*                <li class="d-separator"></li>
+                <li data-format="^^{0}^^" title="@Widget_Html.Superscript"><a><span class="d-icon-superscript"></span></a></li>
+                <li data-format=",,{0},," title="@Widget_Html.Subscript"><a><span class="d-icon-subscript"></span></a></li>*@
+        </ul>
+        <ul data-role="toolbar" 
+                data-inline="true"
+                data-item-click="var _f=$(ui.item).data('format'); if (_f) { $('#@item.GenerateFieldID("content")').insertFormat(_f); }">
+            <li class="d-item custom">
+                <select data-role="combobox" 
+                    data-input="false" style="width:100px;" 
+                    data-select="$('#@item.GenerateFieldID("content")').insertFormat(ui.dataItem.value);">
+                    <option value="">@TextFormats.Format</option>
+                    <option value="((({0})))">@TextFormats.Quote</option>
+                    <option value="=={0}==">@TextFormats.Header1</option>
+                    <option value="==={0}===">@TextFormats.Header2</option>
+                    <option value="===={0}====">@TextFormats.Header3</option>
+                    <option value="====={0}====">@TextFormats.Header4</option>
+                    <option value="======{0}======">@TextFormats.Header5</option>
+                </select>
+            </li>
+            <li data-format="<code html>{0}</code>"><a><span class="d-icon-code"></span></a></li>
+            <li data-format="----"><a><span class="d-icon-pilcrow"></span></a></li>
+            <li><a href="javascript:void(0);" onclick="$.fileDialog('@Messages.SelectAnImage','','image').done(function(file){if (file) {  $('#@item.GenerateFieldID("content")').insertFormat('[image|alt text|'+file+']');  } })"><span class="d-icon-image"></span></a></li>
+            <li><a rel="dialog" href="#@item.GenerateFieldID("link_dlg")"><span class="d-icon-link"></span></a></li>
+        </ul>
+    </div>
+    <div class="d-ui-widget-content" style="padding:5px;padding-top:0px;" id="@item.GetID("contentContainer")">
+        <textarea name="content" id="@item.GenerateFieldID("content")" 
+            placeholder="@item.Loc("ContentHolder")">@item.GetString("content")</textarea>
+    </div>
+</div>
+
+</text>).Design(@<text>
+@{
+    var content = item.GetString("content");
+    var src = item.GetString("src");
+    if (string.IsNullOrEmpty(content) && string.IsNullOrEmpty(src))
+    {
+    @item.DesignModeHolder(Resources.Widgets.OpenSettings)
+    }
+    else
+    {
+    @_RenderWiki(item, src, content)
+    }
+}
+
+</text>).Content(@<text>
+@{
+    var content = item.GetString("content");
+    var src = item.GetString("src");
+    @_RenderWiki(item, src, content)
+}
+
+</text>).GetHtml()
+
+@helper _RenderWiki(WidgetHelper widget, string src, string content)
+{
+    <div style="white-space: normal;">
+        @try
+        {
+            if (!string.IsNullOrEmpty(src))
+            {
+                content = File.ReadAllText(AppModel.Get().NetDrive.MapPath(new Uri(src)), System.Text.Encoding.UTF8);
+            }
+
+            if (!string.IsNullOrEmpty(content))
+            {
+            @TextEngine.Wiki(content)
+            }
+        }
+        catch
+        {
+            <div>@widget.Loc("FormattedError")</div>
+        }
+    </div>
+}

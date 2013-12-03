@@ -1,0 +1,12 @@
+﻿@model IOrganization
+<div class="d-field">
+    <label>Name</label>
+    <span>@Model.Name</span>
+</div>
+@if (!string.IsNullOrEmpty(Model.LegalName))
+{
+    <div class="d-field">
+        <label>LegalName</label>
+        <span>@Model.LegalName</span>
+    </div>
+}

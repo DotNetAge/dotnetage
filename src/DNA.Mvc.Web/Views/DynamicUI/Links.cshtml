@@ -1,0 +1,37 @@
+﻿<input type="hidden" id="sys_selected_url" />
+<div data-role="tabs" style="width: 300px; height: 300px;">
+    <ul>
+        <li><a href="#tab_my_link">@Resources.Commons.Common</a></li>
+        <li><a href="#tab_page_link">@Resources.Commons.Pages</a></li>
+        <li><a href="#tab_list_link">@Resources.Contents.ContentTypes</a></li>
+    </ul>
+    <div id="tab_my_link">
+        <div style="padding: 10px;">
+            <div>@string.Format(Resources.InputHolders.Format, Resources.Commons.Url)</div>
+            <div>
+                <input type="url" data-role="textbox"
+                    placeholder="eg:http://www.domain.com/page.html"
+                    data-width="250"
+                    id="sys_custom_url"
+                    onkeyup="$('#sys_selected_url').val($(this).val())" />
+            </div>
+        </div>
+    </div>
+    <div id="tab_page_link">
+        <form id="sys_pages_select_form">@{Html.RenderAction("Pages", "DynamicUI", new { website = AppModel.Get().Context.Website, locale = Culture }); }</form>
+    </div>
+    <div id="tab_list_link">
+        @{Html.RenderAction("Links", "Contents", new { website = AppModel.Get().Context.Website, locale = Culture }); }
+    </div>
+</div>
+<div style="padding: 10px">
+    <a data-default="true" data-role="button" data-rel="close" style="width: 100px;">@Resources.Commons.Select</a>
+    <a data-rel="close" data-role="button">@Resources.Commons.Cancel</a>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#sys_pages_select_form").bind("change", function () {
+            $('#sys_selected_url').val($("#sys_selected_page_url").val());
+        });
+    })
+</script>

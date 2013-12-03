@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<webstore>
+  <add id="157fc137-4763-4307-88ec-3eb36d6ee27a" uid="http://localhost/home/en-US/content-lists/2013/08/30/blog.html" localid="blog" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="fb4b0a68-48a9-4aad-ac15-a01f6c7988b8" uid="http://localhost/home/en-US/content-lists/2013/08/30/code-block.html" localid="codeblock" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="15ad5a87-3d80-424d-b87d-c31def860abe" uid="http://localhost/home/en-US/content-lists/2013/08/30/component.html" localid="component" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="74fa485a-82b0-4cf8-a426-64b23594ca53" uid="http://localhost/home/en-US/content-lists/2013/08/30/contacts.html" localid="contact" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="5f41c609-a2e0-42a1-8325-0ec81594982e" uid="http://localhost/home/en-US/content-lists/2013/08/30/demo.html" localid="demo" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="3ae4970b-f257-4959-9b44-7f54e53d6256" uid="http://localhost/home/en-US/content-lists/2013/08/30/discussions.html" localid="discussion" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="bf80de8b-8dd7-40e1-ae19-7e73cc0ce9be" uid="http://localhost/home/en-US/content-lists/2013/08/30/document.html" localid="document" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="0d84bdb8-64bf-4918-aad4-53b7bd796c1b" uid="http://localhost/home/en-US/content-lists/2013/08/30/events.html" localid="event" updated="2013-08-30 09:06:07" ver="1.0" />
+  <add id="1a2fcd49-400c-4578-9387-2a1429be893d" uid="http://localhost/home/en-US/content-lists/2013/08/30/faq.html" localid="faq" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="9ce8f6b8-1d71-497b-bc7c-b2278b4b63e3" uid="http://localhost/home/en-US/content-lists/2013/08/30/favorite.html" localid="Favorite" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="0e74c5df-0372-40a2-ad8c-ed953837b167" uid="http://localhost/home/en-US/content-lists/2013/08/30/order.html" localid="order" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="f9123ebf-4f2c-4e7c-99ae-cb9f6f45d35c" uid="http://localhost/home/en-US/content-lists/2013/08/30/photo.html" localid="photo" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="f258dcb3-5620-42dc-8b10-d92623c54915" uid="http://localhost/home/en-US/content-lists/2013/08/30/polls.html" localid="poll" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="b1fb86ac-cda3-402f-b856-ff5f60ce436a" uid="http://localhost/home/en-US/content-lists/2013/08/30/product.html" localid="product" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="368e22d7-c5fa-4c7e-adce-23b7dfbd12da" uid="http://localhost/home/en-US/content-lists/2013/08/30/text-block.html" localid="textblock" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="a2f20744-2912-492d-b732-8adeaa6c7da6" uid="http://localhost/home/en-US/content-lists/2013/08/30/todo-list.html" localid="todolist" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="5eb60567-08d7-4617-989e-6b39fda41906" uid="http://localhost/home/en-US/content-lists/2013/08/30/videos.html" localid="video" updated="2013-08-30 09:06:08" ver="1.0" />
+  <add id="4e8fe171-6fbd-47d7-94c6-93dcf9071091" uid="http://localhost/home/en-US/content-lists/2013/08/30/virtual-product.html" localid="virtualproduct" updated="2013-08-30 09:06:09" ver="1.0" />
+  <add id="883365a6-8f57-4599-90f9-e597a4d218b8" uid="http://localhost/home/en-US/content-lists/2013/08/30/wiki.html" localid="wiki" updated="2013-08-30 09:06:09" ver="1.0" />
+</webstore>

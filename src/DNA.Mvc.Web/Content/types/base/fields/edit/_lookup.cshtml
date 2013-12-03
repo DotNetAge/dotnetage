@@ -1,0 +1,41 @@
+﻿@model ContentFieldValue
+@{
+    var field = Model.Field as LookupField;
+
+    var lookupList = !string.IsNullOrEmpty(field.ListName) ? AppModel.Get().CurrentWeb.Lists[field.ListName] : null;
+    var lookupView = !string.IsNullOrEmpty(field.ViewName) && lookupList != null ? lookupList.Views[field.ViewName] : null;
+
+    if (string.IsNullOrEmpty(field.ViewName) && lookupList != null)
+    {
+        lookupView = lookupList.DefaultView;
+    }
+    var lookupField = !string.IsNullOrEmpty(field.FieldName) && lookupView != null ? lookupView.FieldRefs[field.FieldName] : null;
+}
+
+@if (lookupList == null || lookupView == null || lookupField == null) { 
+    <div class="d-state-error d-inline" style="padding:10px;width:250px;">@Resources.Errors.LookupFieldError</div>
+} else {
+        var lookupItems = lookupView.Items();
+ <select  id="@(field.ClientID)" 
+     name="@field.Name" 
+     data-role="combobox"
+     data-input="false"
+     data-height="200"
+    @if (field.IsRequired)
+    { <text>required="required"</text>}
+    @if (field.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+    >
+        @foreach (var item in lookupItems)
+        {
+            <option value="@item.ID" @if (Model.Raw != null && ((string)Model.Raw) == item.ID.ToString())
+                                 {<text>selected="selected"</text>}>@item[field.FieldName]</option>
+        }
+    </select>
+    <div class="d-inline" >
+        <a href="javascript:void(0);" onclick="$.ajaxDialog({title:$('#@(field.ClientID)').taoComboBox('text'),resizable:true,width:$('body').width(),url:'@(Url.Content(string.Format("~/{0}/{1}/lists/{2}/items/", lookupList.Web.Name, lookupList.Locale, lookupList.Name)))'+$('#@field.ClientID').val()+'.html'})" class="d-inline" style="margin:0 5px;">@Resources.Contents.ViewItems</a>
+        <a class="d-inline" rel="dialog" href="#@(field.Name+"_"+"_newform")">@(string.IsNullOrEmpty(lookupList.NewForm.Title) ? Resources.Contents.AddItem : lookupList.NewForm.Title)</a>
+@*        @NewForms.Dialog(field.Name + "_" + "_newform", lookupList, Url,"$('#"+field.ClientID+"').taoComboBox('addItem',{label:data.object."+field.FieldName+",value:data.id});$('#"+field.ClientID+"').taoComboBox('val',data.id);$('#"+field.Name + "_" + "_newform"+"').dialog('close');")*@
+    </div>
+
+}

@@ -1,0 +1,31 @@
+﻿.d-style-layout { position: relative; margin-left: 70px; width: 300px; height: 300px; }
+.d-box-margin { position: absolute; top: 0px; left: 0px; width: 250px; height: 250px; border: 1px dashed #ccc; background: #fff; color: #6d6d6d; }
+.d-style-layout input { position: absolute; width: 50px; border: none; background: none; text-align: center; -webkit-text-shadow: none; text-shadow: none; }
+.d-box-margin:hover input, .d-box-border:hover input, .d-box-padding:hover input, .d-box-core:hover input { color: #fff; }
+.d-style-layout input:focus { z-index: 500; border: 1px solid #808080; background: #fff; -webkit-box-shadow: 0 0 5px #ccc; box-shadow: 0 0 5px #ccc; color: #000; }
+.d-box-margin > input { color: #ccc; }
+input.d-margin-top { top: 2px; left: 98px; }
+input.d-margin-left { top: 115px; left: -13px; }
+input.d-margin-right { top: 115px; left: 213px; }
+input.d-margin-bottom { top: 227px; left: 98px; }
+
+input.d-border-top { top: 1px; left: 74px; }
+input.d-border-left { top: 90px; left: -13px; }
+input.d-border-right { top: 90px; left: 162px; }
+input.d-border-bottom { top: 178px; left: 74px; }
+
+input.d-padding-top { top: 1px; left: 50px; }
+input.d-padding-left { top: 65px; left: -13px; }
+input.d-padding-right { top: 65px; left: 112px; }
+input.d-padding-bottom { top: 128px; left: 50px; }
+
+input.d-box-width { top: 41px; left: -1px; }
+input.d-box-height { top: 41px; left: 52px; }
+.d-box-core-text { position: absolute; top: 41px; left: 47px; }
+.d-box-margin-text { position: absolute; top: 2px; left: 5px; font-size: 9pt; }
+.d-box-border { position: absolute; top: 25px; left: 25px; width: 200px; height: 200px; border: 1px solid #a4a4a4; background: #ccc; color: #000; }
+.d-box-border-text { position: absolute; top: 2px; left: 5px; font-size: 9pt; }
+.d-box-padding { position: absolute; top: 50px; left: 50px; width: 150px; height: 150px; border: 1px solid #6d6d6d; background: #efefef; color: #000; }
+.d-box-padding-text { position: absolute; top: 2px; left: 5px; font-size: 9pt; }
+.d-box-core { position: absolute; top: 75px; left: 75px; width: 100px; height: 100px; border: 1px solid #6d6d6d; background: #efefef; color: #000; }
+    .d-box-margin:hover, .d-box-border:hover, .d-box-padding:hover, .d-box-core:hover { background: #0797ce; color: #fff; -webkit-text-shadow: none; text-shadow: none; }

@@ -1,0 +1,13 @@
+﻿@model ContentViewFieldValue
+@{
+    var lookupField = Model.Field.Field as LookupField;
+    ContentListDecorator lookupList = AppModel.Get().CurrentWeb.Lists[lookupField.ListName];
+    ContentViewDecorator lookupView = lookupList != null ? (!string.IsNullOrEmpty(lookupField.ViewName) ? lookupList.Views[lookupField.ViewName] : null) : null;
+    if (lookupView == null && lookupList != null)
+    {
+        lookupView = lookupList.DefaultView;
+    }
+    ContentFieldRef orgField = lookupView != null ? lookupView.FieldRefs[Model.FieldName] : null;
+    ContentQueryResultItem lookupItem = orgField != null && lookupView != null ? lookupView.GetItem(Guid.Parse(Model.Item[Model.FieldName].ToString())) : null;
+    Html.ForView(lookupField.FieldName, lookupItem);
+}

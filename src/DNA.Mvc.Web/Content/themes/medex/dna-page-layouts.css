@@ -1,0 +1,5 @@
+﻿.d-page-nav { border-color: #000000; background-color: #00cfef; }
+.d-page-header, .d-page-header .d-content, .d-page-header .d-link { color: #000000; }
+.d-page-content { border-color: #000000; background-color: #7d9295; }
+    .d-page-content .d-ui-widget-header { background-color: transparent; }
+.d-page-footer { border-color: #000000; background-color: #677b7d; }

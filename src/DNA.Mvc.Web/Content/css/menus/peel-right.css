@@ -1,0 +1,4 @@
+﻿/*#name#*/.d-menu { background-color:inherit;z-index:0;}
+/*#name#*/.d-menu.horizontal { min-height: 52px; margin-bottom: 10px; }
+    /*#name#*/.d-menu > .d-item > a { line-height: 50px; }
+    /*#name#*/.d-menu:after { content: ""; position: absolute; z-index: -1; bottom: 15px; left: 2%; width: 50%; max-width: 150px; height: 20%; /*add box-shadow*/ -webkit-box-shadow: 0 15px 10px rgba(125,125,125,0.8); -moz-box-shadow: 0 15px 10px rgba(125,125,125,0.8); box-shadow: 0 15px 10px rgba(125,125,125,0.8); /*add css3 transform*/ -webkit-transform: rotate(-8deg); -moz-transform: rotate(-8deg); -o-transform: rotate(-8deg); transform: rotate(-8deg); }

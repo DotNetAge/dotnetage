@@ -1,0 +1,5 @@
+﻿.d-mainmenu { font-size: 9pt; height: 87px; }
+    .d-mainmenu .d-item { text-transform: uppercase; }
+    .d-mainmenu > .d-item > a { line-height: 80px; }
+    .d-mainmenu > .d-item { border-bottom: 5px solid #CFE8E7; }
+    .d-mainmenu > .d-item.d-state-active,.d-mainmenu > .d-item.d-state-hover { border-bottom: 5px solid #424B4D; }

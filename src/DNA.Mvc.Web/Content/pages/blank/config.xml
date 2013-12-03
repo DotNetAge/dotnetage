@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page target="_self"
+      anonymous="true"
+      showInMenu="true"
+      showInSitemap="true"
+      static="false" 
+      shared="false"
+      xmlns="http://www.dotnetage.com/XML/Schema/page">
+  <title>blank</title>
+  <description>The empty webpage template</description>
+  <image src="icon_newpage_48.png"></image>
+</page>

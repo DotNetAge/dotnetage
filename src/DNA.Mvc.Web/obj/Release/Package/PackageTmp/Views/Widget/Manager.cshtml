@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = Resources.Commons.Widgets;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var roles = AppModel.Get().Roles.All;
+}
+<div id="tab_installed">
+    <ul data-role="listview" data-display="mobile-list" class="d-ui-widget" data-selectable="true" data-inset="true">
+        @{var cats = AppModel.Get().Widgets.Categories;}
+        @foreach (var cat in cats)
+        {
+            var widgets = AppModel.Get().Widgets.Packages.Where(p => p.Category.Equals(cat, StringComparison.OrdinalIgnoreCase));
+
+            if (widgets.Count() == 0) { continue; }
+            <li data-role="divider">@AppModel.GetResourceString("Commons",cat)</li>
+            foreach (var pkg in widgets)
+            {
+                var widget = pkg.Locale(UICulture);
+                var defaultIcon = "data:image/gif;base64,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";
+                var installPath = pkg.Category + "\\" + pkg.Name;
+                var descriptor = AppModel.Get().Descriptors[installPath];
+                var languages = pkg.GetSupportLanguages();
+                if (widget.Icons != null && widget.Icons.Count > 0)
+                {
+                    defaultIcon = Url.Content(pkg.ResolveUri(widget.Icons.FirstOrDefault().Source));
+                }
+            <li data-id="@widget.ID"
+                    data-title="@widget.Name.FullName"
+                    data-pkg="@pkg.Name"
+                    data-category="@cat"
+                    data-desc="@widget.Description"
+                    data-install-path="@installPath"
+                    data-link-icon="no"
+                    @if (descriptor != null && descriptor.ReferenceCount > 0)
+                    {<text> data-counter="@descriptor.ReferenceCount"</text>}
+                    else
+                    {<text> @if (descriptor == null)
+                            {<text>data-counter="disabled"</text>}
+                    </text>}>
+                <a data-rel="panel"
+                        @if (descriptor != null)
+                        {<text>
+                        href="@Url.Action("Edit", "Widget")?locale=@Culture&installPath=@(descriptor.InstalledPath)"
+                        </text>}
+                        else
+                        {<text>
+                        href="@Url.Action("Package", "Widget")?locale=@Culture&name=@(widget.ID)"
+                        </text>}
+                        data-panel-pos="right"
+                        data-panel-display="overlay"
+                        data-panel-title="@Resources.Commons.Details"
+                        data-panel-auto-release="true">
+                    <img src="@defaultIcon" style="min-height:36px;max-width:36px;top:50%;margin-top:-18px;left:10px;"/>
+                    <h4>@widget.Name.FullName  <small>v @widget.Version</small></h4>
+                </a>
+            </li>
+            }
+        }
+    </ul>
+</div>
+@*    <div id="tab_updates"></div>
+</div>*@
+
+<script type="text/javascript">
+    function _uninstall_package(id) {
+        var item = $("[data-pkg='" + id + "']");
+        $.confirm("@(string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Commons.Widget))", "@Resources.Commons.Confirm")
+           .done(function () {
+               $.loading();
+               app.widgets
+                     .uninstall(id, item.data("category"))
+                    .done(function () {
+                        $("[data-pkg='" + id + "']").remove();
+                    }).always(function () { $.loading("hide"); });
+           });
+    }
+</script>

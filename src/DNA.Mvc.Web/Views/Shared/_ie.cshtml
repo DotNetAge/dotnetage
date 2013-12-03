@@ -1,0 +1,94 @@
+﻿@if (Request.Browser.Browser.Equals("ie", StringComparison.OrdinalIgnoreCase) && Request.Browser.MajorVersion < 10)
+{ 
+    <div id="chrome_frame_prompt">
+        <div style="text-align: center; padding: 20px 0px; font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace; font-weight: bold;">Your browser does not fully support html5, in order to get a better use experience please</div>
+        <div style="text-align: center;">
+            <table style="width: 800px;">
+                <tr>
+                    <td>
+                        <img src="~/content/images/Mobile-Device.png" style="max-width: 290px; border: none;" />
+                    </td>
+                    <td style="width: 500px; font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace; padding-left: 30px;">
+                        <h1 style="text-align: left;">Access this website with mobile device</h1>
+                        <p style="text-align: left;">Our site can adapt to any mobile device and can provide you with the best experience.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="text-align: center; background: #0094ff;">
+            <table style="width: 800px;">
+                <tr>
+                    <td style="width: 500px; font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace; padding-left: 30px;">
+                        <div>
+                            <h1 style="text-align: left;">Install Google Chrome Frame</h1>
+                            <p style="text-align: left;">
+                                Google Chrome Frame is a free plug-in for Internet Explorer. Some advanced web apps use Google Chrome Frame to provide you with additional features and better performance. 
+                            </p>
+                            <a href="http://www.google.com/chromeframe?hl=@UICulture" style="border:2px #fff solid;padding:10px;display:inline-block;font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace;color:#fff;font-size:25px;width:150px;line-height:35px;font-weight:bold;">@Resources.Installations.Install</a>
+                        </div>
+                    </td>
+                    <td><a style="border: none;" href="http://www.google.com/chromeframe?hl=@UICulture">
+                        <img src="//www.google.com/images/icons/illustrations/chrome_frame-430.png" style="max-width: 290px; border: none;" /></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="text-align: center;min-height:300px;">
+            <table style="width: 800px;">
+                <tr>
+                    <td style="padding-top: 50px;padding-right:50px;">
+                        <table>
+                            <tr>
+                                <td><a style="font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace; border: none; color: #fff;" href="http://www.google.com/chrome/">
+                                    <img src="@Url.Content("~/content/images/chrome.png")"style="border:none;"  />
+                                    <span>Chrome</span>
+                                </a></td>
+                                <td><a style="font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace; border: none; color: #fff;" href="http://www.firefox.com">
+                                    <img src="@Url.Content("~/content/images/firefox.png")" style="border:none;" />
+                                    <span>Firefox</span>
+                                </a></td>
+                                <td><a style="font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace; border: none; color: #fff;" href="http://www.apple.com/safari/">
+                                    <img src="@Url.Content("~/content/images/safari.png")" style="border:none;" />
+                                    <span>Safari</span>
+                                </a></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width: 500px; font-family: 'Courier New', Courier, 'Nimbus Mono L', monospace;">
+                        <h1 style="text-align: left;">Use modern HTML5 browser</h1>
+                        <p style="text-align: left;">
+                            Or you can use one of this browsers
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var _hideAll = function () {
+                $(".d-page").remove();
+                $("footer").remove();
+                $(".d-sitetools").remove();
+                $("body").css({
+                    "background": "#333333",
+                    "color": "#FFFFFF",
+                    "padding": "0px",
+                    "margin": "0px"
+                });
+                $("#chrome_frame_prompt").show().width($(window).width()).height($(window).height());
+            }
+
+            CFInstall.check({
+                preventPrompt: true,
+                onmissing: function () {
+                    _hideAll();
+                },
+                oninstall: function () {
+                    $("#chrome_frame_prompt").remove();
+                }
+            });
+
+        });
+    </script>
+}

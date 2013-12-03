@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = Resources.Commons.Restore;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var app = AppModel.Get();
+    var files = app.NetDrive.GetFiles(new Uri(app.Context.AppUrl + "webshared/" + app.CurrentWeb.Name + "/backup"));
+    ViewBag.BackLink =app.CurrentWeb.ContentsSettingUrl;
+}
+@if (files != null && files.Count() > 0)
+{
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-selectable="true"
+        data-select="$.loading('@(Resources.Commons.Restoring) ...');$.post('@Url.Action("Restore", "Contents", new { locale = Culture })',{file:ui.item.data('url')},function(){$.loading('hide');$.notify('@(Resources.Messages.RestoreSuccess)');})"
+        data-inset="true">
+        <li data-role="divider">@Resources.Contents.BackupFiles</li>
+        @foreach (var f in files)
+        {
+            var webFile = new WebResourceInfo(f);
+            var file = new System.IO.FileInfo(app.NetDrive.MapPath(f));
+            <li data-url="@webFile.Name" data-counter="@file.CreationTime"><a href="javascript:void(0);">@webFile.Name</a></li>
+        }
+    </ul>
+}
+else
+{
+    <p>@Resources.Messages.NoBackupFile</p>
+}

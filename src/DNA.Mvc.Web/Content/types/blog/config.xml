@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" itemtype="http://schema.org/Blog" allowComments="true" allowAttachs="true" allowVotes="true" allowResharing="true" allowCategoriesAndTags="true" versioning="true" defaultLocale="en-us" activity="true" name="blog" version="1.0.0" id="blog">
+  <title resKey="Blog" />
+  <fields>
+    <field type="Text" name="name" itemprop="name" linkToItem="true" required="true" slug="true">
+      <title resKey="Title" />
+      <placeHolder resKey="Title_Holder" />
+    </field>
+    <field type="Note" name="text" itemprop="text" isHtml="true" required="true">
+      <title resKey="Body" />
+    </field>
+    <field type="Text" name="references">
+      <title resKey="References" />
+    </field>
+    <field type="Image" name="image" itemprop="image" thumbHeight="100" thumbWidth="150">
+      <title resKey="Cover" />
+      <description resKey="CoverDesc" />
+    </field>
+    <field type="Note" name="description" itemprop="description">
+      <title resKey="Summary" />
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true" sort="created DESC">
+      <title resKey="DefaultViewTitle" />
+      <description resKey="DefaultViewDesc" />
+      <fields>
+        <fieldRef name="image" />
+        <fieldRef name="name" toFeed="title">
+          <tmpl src="_heading.cshtml" />
+        </fieldRef>
+        <fieldRef name="description"  toFeed="description"/>
+      </fields>
+      <body src="_list.cshtml" />
+      <paging allow="true" size="20" />
+    </view>
+    <view name="features" sort="reads DESC,totalShares DESC" nopage="true">
+      <title resKey="FeatureViewTitle" />
+      <description resKey="FeatureViewDesc" />
+      <fields>
+        <fieldRef name="image" />
+        <fieldRef name="name" />
+        <fieldRef name="description" />
+      </fields>
+      <body src="_slideshow.cshtml"></body>
+      <styleSheet src="features.css"></styleSheet>
+      <paging allow="true" size="5" />
+    </view>
+    <view name="recently" sort="published DESC">
+      <title resKey="RecentlyViewTitle" />
+      <description resKey="RecentlyViewDesc"/>
+      <fields>
+        <fieldRef name="image" />
+        <fieldRef name="name" />
+        <fieldRef name="description" />
+      </fields>
+      <body src="_timeline.cshtml" />
+      <paging allow="true" index="1" size="10" />
+    </view>
+    <view name="heading" sort="published DESC" nopage="true">
+      <title resKey="Heading" />
+      <description resKey="HeadingDesc" />
+      <fields>
+        <fieldRef name="name" />
+      </fields>
+      <body src="_links.cshtml"></body>
+      <paging allow="true" index="1" size="10" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New" />
+    </form>
+    <form name="editForm" type="Edit">
+      <title resKey="Edit" />
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Disp" />
+      <fields>
+        <field name="name" caption="true" hidden="true" />
+        <field name="references" showLabel="true">
+          <tmpl src="_reference.cshtml" />
+        </field>
+        <field name="text" showLabel="false"></field>
+      </fields>
+    </form>
+    <form name="activityForm" type="Activity" anonymous="true">
+      <title resKey="Activity" />
+      <fields>
+        <field name="name" caption="true" />
+        <field name="references">
+          <tmpl src="_reference.cshtml" />
+        </field>
+        <field name="text" showLabel="false"></field>
+      </fields>
+    </form>
+  </forms>
+</contentType>

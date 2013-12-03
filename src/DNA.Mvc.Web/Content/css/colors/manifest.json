@@ -1,0 +1,161 @@
+﻿[
+  {
+      "title": "Gray",
+	  "url":"gray.css",
+      "colors": [
+	  { "name":"link","value": "#3d3d3d" },
+	  { "name":"color","value": "#000000" },
+	  { "name":"body","value": "#fcfcfc" },
+	  { "name":"header","value": "transparent" },
+	  { "name":"nav","value": "transparent" }, 
+	  { "name":"footer","value": "#f2f2f2" },
+	  { "name":"content","value": "#ffffff" }
+      ]
+  },
+    {
+      "title": "Black",
+	  "url":"gray.css",
+      "colors": [
+	  { "name":"link","value": "#ffffff" },
+	  { "name":"color","value": "#f2f2f2" },
+	  { "name":"body","value": "#3d3d3d" },
+	  { "name":"page","value": "#3d3d3d" },
+	  { "name":"sitetools","value": "#000000" },
+	  { "name":"header","value": "transparent" },
+	  { "name":"nav","value": "transparent" }, 
+	  { "name":"footer","value": "#000000" },
+	  { "name":"content","value": "#000000" }
+      ]
+  },
+    {
+        "title": "Blue",
+		"url":"blue.css",
+        "colors": [
+		{ "name":"link","value": "#0092eb" },
+		{ "name":"color","value": "#000000" },
+		{ "name":"body","value": "#ffffff" },
+		{ "name":"header","value": "transparent" },
+		{ "name":"nav","value": "transparent" },
+		{ "name":"content","value": "#ffffff" },
+		{ "name":"footer","value": "#f2f2f2" }
+        ]
+    },
+    {
+        "title": "Purple",
+		"url":"purple.css",
+        "colors": [
+		{ "name":"link","value": "#ce1289" },
+		{ "name":"color","value": "#333333" },
+		{ "name":"body","value": "#d8d0f7" },
+		{ "name":"header","value": "#f8e8f2" },
+		{ "name":"nav","value": "#f0b8da" },
+		{ "name":"content","value": "#ffffff" },
+		{ "name":"footer","value": "#ce1289" }
+        ]
+    },
+    {
+        "title": "Pink",
+		"url":"pink.css",
+        "colors": [
+		{ "name":"link","value": "#7c1d5c" },
+		{ "name":"color","value": "#333333" },
+		{ "name":"body","value": "#ceb5ca" },
+		{ "name":"header","value": "#f0ebf1" },
+		{ "name":"nav","value": "#c8b0c8" },
+		{ "name":"content","value": "#ffffff" },
+		{ "name":"footer","value": "#583352" }
+        ]
+    },
+    {
+        "title": "Green",
+		"url":"green.css",
+        "colors": [
+		{ "name":"link","value": "#247e3e" },
+		{ "name":"color","value": "#000000" },
+		{ "name":"body","value": "#f6f8e0" },
+		{ "name":"header","value": "#c0d8c0" },
+		{ "name":"nav","value": "#247e3e" },
+		{ "name":"content","value": "#ffffff" },
+		{ "name":"footer","value": "#89a785" }
+        ]
+    },
+    {
+        "title": "Red",
+		"url":"red.css",
+        "colors": [
+		{ "name":"link","value": "#542b2b" },
+		{ "name":"color","value": "#000000" },
+		{ "name":"body","value": "#20131d" },
+		{ "name":"header","value": "#58121c" },
+		{ "name":"nav","value": "#7E1A28" },
+		{ "name":"footer","value": "#390708" },
+		{ "name":"content","value": "#ffffff" }
+        ]
+    },
+    {
+        "title": "Orange",
+		"url":"orange.css",
+        "colors": [
+		{ "name":"link","value": "#351a08" },
+		{ "name":"color","value": "#000000" },
+		{ "name":"body","value": "#f5f5f5" },
+		{ "name":"header","value": "#fef1eb" },
+		{ "name":"nav","value": "#ffdecf" },
+		{ "name":"content","value": "#ffffff" },
+		{ "name":"footer","value": "#d54237" }
+        ]
+    },
+	   {
+        "title": "",
+		"url":"",
+        "colors": [
+		{ "name":"link","value": "#351a08" },
+		{ "name":"color","value": "#000000" },
+		{ "name":"body","value": "#fff1da" },
+		{ "name":"header","value": "#ad4743" },
+		{ "name":"nav","value": "#962420" },
+		{ "name":"content","value": "#fdf7ed" },
+		{ "name":"footer","value": "#4e0705" }
+        ]
+    },
+	   {
+        "title": "",
+		"url":"",
+        "colors": [
+		{ "name":"link","value": "#59440f" },
+		{ "name":"color","value": "#333333" },
+		{ "name":"body","value": "#ffd063" },
+		{ "name":"header","value": "#ffefb9" },
+		{ "name":"nav","value": "#efd390" },
+		{ "name":"content","value": "#fff8de" },
+		{ "name":"footer","value": "#59440f" }
+        ]
+    },
+	   {
+        "title": "",
+		"url":"",
+        "colors": [
+		{ "name":"link","value": "#871e03" },
+		{ "name":"color","value": "#9d5e2e" },
+		{ "name":"body","value": "#fb4336" },
+		{ "name":"header","value": "#fea196" },
+		{ "name":"nav","value": "#d09fa2" },
+		{ "name":"content","value": "#ffbfb6" },
+		{ "name":"footer","value": "#871e03" }
+        ]
+    },
+	   {
+        "title": "",
+		"url":"",
+        "colors": [
+		{ "name":"link","value": "#AAC3CA" },
+		{ "name":"color","value": "#333333" },
+		{ "name":"body","value": "#FF97A9" },
+		{ "name":"header","value": "transparent" },
+		{ "name":"nav","value": "#FB98A9" },
+		{ "name":"content","value": "#ffffff" },
+		{ "name":"footer","value": "#F56F86" }
+        ]
+    }
+
+]

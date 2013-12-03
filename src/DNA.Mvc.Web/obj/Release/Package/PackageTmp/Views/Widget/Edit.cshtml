@@ -1,0 +1,57 @@
+﻿@model WidgetDescriptorDecorator
+@{
+    var roles = Model.Roles;
+    var website = AppModel.Get().Context.Website;
+    var apiPath = "~/api/" + website + "/widgets/roles";
+    var apiURL = Url.Content(apiPath);
+}
+<form id="widget_desc_form"
+    data-ajax="true"
+    data-ajax-method="POST"
+    data-ajax-url="@apiURL"
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide');"
+    data-ajax-success="$.closePanels();"
+    data-ajax-error="$.err(error)" 
+    style="padding:10px;">
+    <input type="hidden" name="id" id="target_id" value="@Model.InstalledPath" />
+    <div style="padding: 10px 5px; position: relative;">
+        <img src="@(string.IsNullOrEmpty(Model.IconUrl) ? "data:image/gif;base64,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": Url.Content(Model.IconUrl))" style="height:48px;width:48px;" class="d-inline"/>
+        <span class="d-title">@Model.Title</span>
+        <small style="position: absolute; right: 5px; bottom: 5px;">@Resources.Commons.Version:@Model.Version</small>
+    </div>
+    <div style="padding: 10px 0px; text-align: center;">
+        <a data-role="button" style="width: 75px;"  
+            @if (Model.ReferenceCount > 0)
+            {<text>class="d-state-disable"</text>}
+            onclick="app.widgets.disable('@Url.Encode(Model.InstalledPath)'); $.closePanels();$('li[data-id=@Model.UID]').children('a').attr('href','@(Url.Action("Package", "Widget") + "?locale=" + Culture + "&name=" + Model.UID)').append($('<span/>').addClass('d-item-counter').text('disabled'))" />@Resources.Commons.Disable</a>
+        <a data-role="button" 
+            onclick="$.loading();app.widgets.update('@Url.Encode(Model.InstalledPath)').done(function(){ $.closePanels(); }).always(function(){ $.loading('hide'); });">@Resources.Widgets.ForceRefresh</a>
+        <a data-role="button" data-icon-left="d-icon-info-2" target="_blank" href="http://www.dotnetage.com/home/en-US/widgets/locate/@(Model.UID)"></a>
+    </div>
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        <li data-role="divider">@Resources.Widgets.State</li>
+        <li data-readonly="true" data-counter="@Model.ReferenceCount" data-link-icon="no">
+            <a href="javascript:void(0);">@Resources.Widgets.Using</a>
+        </li>
+        <li data-role="divider">@Resources.Security.AccessRoles </li>
+        @foreach (var role in AppModel.Get().Roles.All)
+        {
+            <li data-readonly="true">
+                <div>
+                    <input type="checkbox" 
+                        data-label="@role" 
+                        data-bool="false" 
+                        id="@role" 
+                        name="roles" 
+                        @if (roles.Contains(role))
+                        {<text>value="@role" checked="checked"</text>}/>
+                </div>
+            </li>
+        }
+    </ul>
+    <div style="padding: 0px 10px;">
+        <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+        <a data-role="button" data-inline="false" data-rel="close">@Resources.Commons.Cancel</a>
+    </div>
+</form>

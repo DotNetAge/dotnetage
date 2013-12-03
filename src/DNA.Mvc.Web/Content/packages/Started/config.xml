@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<solution xmlns="http://www.dotnetage.com/XML/Schema/solution" theme="default-scroll" defaultLocale="en-us">
+  <title>Started</title>
+  <description></description>
+  <logo src="logo-64.png" />
+  <page src="pages/default.xml" />
+  <page src="pages/blogs.xml" />
+  <page src="pages/contacts.xml" />
+  <page src="pages/lists-blog-views-default.xml" />
+  <list src="lists/blog.xml" />
+</solution>

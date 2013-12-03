@@ -1,0 +1,196 @@
+﻿@model DNA.Web.ServiceModel.SettingsGroup
+@{
+    ViewBag.Title = Resources.Managements.GlobalSettings;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    
+}
+
+<form
+    method="post" 
+    action="@Url.Content("~/host/settings")"
+    data-ajax-success="$.info('Save global settings success'); $('#btnSave').isDisable(true);"
+    data-ajax-method="POST"
+    data-ajax-failure="$.err(error)"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-begin="$.loading()"
+    data-ajax="true" id="global_settings_form">
+    @Html.AntiForgeryToken()
+    <ul data-role="listview" data-display="mobile-list" class="d-ui-widget" data-selectable="true" data-inset="true">
+        <li data-role="divider" data-icon="d-icon-settings">@Resources.Commons.Common</li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.HostAccount : </label>
+            <label>@Model.Administrator</label>
+            @*<a data-role="button" style="display: inline-block; margin-left: 10px; font-size: 100%;">@GlobalSettings_cshtml.ChangePwd</a>*@
+        </li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.TrustLevel:</label>
+            <label>
+                @if (AppModel.IsFullTrust){<text>@Resources.Managements.FullTrust</text>} else {<text>@Resources.Managements.MediumTrust </text> Html.RenderPartial("_UnlockFullTrust");}
+            </label>
+        </li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.DebugMode</label>
+            <input type="checkbox" data-role="button" @if(AppModel.IsDebug){<text>checked="checked" data-label="@Resources.Managements.On"</text>}else{<text>data-label="@Resources.Managements.Off"</text>} id="btnIsDebug"/>
+        </li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.DefLang:</label>
+            @Html.DropDownList("DefaultLocale", new SelectList(AppModel.Get().SupportedCultures, "Name", "DisplayName", Model.DefaultLocale), new { data_role = "combobox",data_input = "false", style = "width:250px;", data_height=250 })
+        </li>
+        <li data-role="fieldcontain">
+            <input type="checkbox" data-label="@Resources.Managements.EnableSitemenu" @if (Model.EnableSitemenu){<text>checked="checked"</text>} 
+                value="@Model.EnableSitemenu.ToString()" name="EnableSitemenu"/>
+        </li>
+        <li data-role="fieldcontain">
+            <input type="checkbox" data-label="@Resources.Managements.WWWResolved" @if (Model.WWWResolved){<text>checked="checked"</text>}  
+                value="@Model.WWWResolved.ToString()" name="WWWResolved"/>
+        </li>
+        @*        <li data-role="divider">@GlobalSettings_cshtml.DNAAccount</li>
+        <li data-role="fieldcontain">
+            <label>@GlobalSettings_cshtml.App:</label>
+            <span>http://www.domain.com</span>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="APIKey">@GlobalSettings_cshtml.APIKey</label>
+            <input type="text" name="APIKey" value="@Model.APIKey" data-icon="d-icon-key"/></li>*@
+        <li data-role="divider" data-icon="d-icon-stats">@Resources.Managements.WebMasterTools</li>
+       <li>
+            <a href="@(AppModel.Get().Context.AppUrl)sitemap.xml" target="_blank">@Resources.Managements.SitemapUrl:@(AppModel.Get().Context.AppUrl)sitemap.xml</a>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="GAAccount">@Resources.Managements.GAAccount:</label>
+            <input type="text" name="GAAccount" id="GAAccout" value="@Model.GAAccount" placeholder="UA-XXXXXXX-X"/></li>
+        <li data-role="fieldcontain">
+            <label for="GoogleKey">@Resources.Managements.GoogleVerifyKey</label>
+            <input type="text" name="GoogleKey" id="GoogleKey" value="@Model.GoogleKey" />
+        </li>
+        <li data-role="fieldcontain">
+            <label for="BingKey">@Resources.Managements.BingVerifyKey</label>
+            <input type="text" name="BingKey" id="BingKey" value="@Model.BingKey" />
+        </li>
+        <li data-role="divider"><span class="d-icon-group" style="margin-right: 10px;"></span>@Resources.Managements.UserRegistration</li>
+        <li data-readonly="true">
+            <div>
+                <input type="checkbox" 
+                            name="AllowNewUser" 
+                            id="AllowNewUser"
+                            value="@Model.OpenRegister.ToString()"
+                            data-label="@Resources.Managements.AllowRegisterNewUser" 
+                             @if (Model.OpenRegister)
+                             {<text>checked="checked"</text>} />
+            </div>
+        </li>
+        <li data-readonly="true">
+            <div>
+                <input type="checkbox" 
+                            name="ForceEmailValidation" 
+                            id="ForceEmailValidation"
+                            value="@Model.ForceEmailValidation.ToString()"
+                            data-label="@Resources.Managements.ForceEmailValidation" 
+                            @if (Model.ForceEmailValidation)
+                            {<text>checked="checked"</text>} />
+            </div>
+        </li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.MinUserNameLen</label>
+            <input type="number" name="UserNameLength" min="3" max="16" 
+                data-width="60" 
+                onfocus="$(this).select()" 
+                value="@Model.UserNameLength" /></li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.MinPwdLen</label><input type="number"  
+                onfocus="$(this).select()" name="PasswordLength" min="3" max="16" value="@Model.PasswordLength" data-width="60"  /></li>
+        <li data-role="fieldcontain">
+            <label>@Resources.Managements.ReservedUserNames</label>
+            <input type="text" id="newname" data-width="120"
+                onkeypress="if (event.keyCode==13 && $(this).val()) $(this).parent().next().click();"
+                onkeyup="$(this).parent().next().isDisable($(this).val()=='')" />
+            <a data-role="button"
+                onclick="$('#ReservedUserNames').taoTags('add',$('#newname').val());$('#newname').val('').focus().select();$(this).isDisable(true);"
+                style="margin-left: 5px;" class="d-state-disable">@Resources.Commons.Add</a>
+        </li>
+        <li data-readonly="true">
+            <div>
+                <input data-role="tags" 
+                    value="@(Model.ReservedUserNames.Length > 0 ? string.Join(",", Model.ReservedUserNames) : "")"  
+                    id="ReservedUserNames" 
+                    name="ReservedUserNames" 
+                    data-added="$(this).trigger('change');"
+                    data-removed="$(this).trigger('change');"/>
+            </div>
+        </li>
+        <li data-readonly="true">
+            <div>
+                <div class="d-inline">
+                    <input type="checkbox" data-label="@Resources.Managements.InstallSolAfterReg" /></div>
+                <div class="d-inline">
+                    <select data-role="combobox" data-drop-style="menu" style="width:150px;">
+                        @{var pkgs = AppModel.Get().Solutions.Packages;}
+                        @foreach (var pkg in pkgs)
+                        {
+                            var solution = pkg.Locale(Culture);
+                            <option value="@pkg.Name">@solution.Title.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </li>
+        <li data-role="divider">@Resources.Managements.ReCaptcha</li>
+        <li data-role="fieldcontain">
+            <label for="ReCaptchaPublicKey">@Resources.Managements.ReCaptchaPublicKey</label>
+            <input type="text" name="ReCaptchaPublicKey" id="ReCaptchaPublicKey" value="@Model.ReCaptchaPublicKey"/>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="ReCaptchaPrivateKey">@Resources.Managements.ReCaptchaPrivateKey</label>
+            <input type="text" name="ReCaptchaPrivateKey" id="ReCaptchaPrivateKey"  value="@Model.ReCaptchaPrivateKey"/>
+        </li>
+        <li data-role="divider"><span class="d-icon-hdd" style="margin-right: 10px;"></span>@Resources.Managements.NetDriver </li>
+        <li data-readonly="true">
+            <div>
+                <div data-inline="true">
+                    <input data-label="@Resources.Managements.PreUploadFileSize" type="checkbox" /></div>
+                <input type="text" value="5" style="width: 60px;" />
+                <span data-inline="true">@Resources.Managements.MB</span>
+            </div>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="DefaultNetDriveQuota">@Resources.Managements.DefaultNetDriveQuota</label>
+            <input type="number" value="@Model.DefaultNetDriveQuota" name="DefaultNetDriveQuota" style="width:80px;" />
+            <span>@Resources.Managements.MB</span>
+        </li>
+        <li data-role="fieldcontain">
+            <label for="AllowUploads">@Resources.Managements.AllowUploadFileTypes</label>
+            <input type="text" id="newtag" onkeypress="if (event.keyCode==13 && $(this).val()) $(this).parent().next().click();"
+                onkeyup="$(this).parent().next().isDisable($(this).val()=='')" data-width="150" />
+            <a data-role="button"
+                onclick="$('#AllowUploads').taoTags('add',$('#newtag').val());$('#newtag').val('').focus().select();$(this).isDisable(true);"
+                style="margin-left: 5px;" class="d-state-disable">@Resources.Commons.Add</a>
+        </li>
+        <li data-readonly="true">
+            <div>
+                <input data-role="tags" style="width:99%;" 
+                    name="AllowUploads" 
+                    id="AllowUploads" 
+                    data-inline="true" 
+                    class="d-inline" 
+                    data-added="$(this).trigger('change');"
+                    data-removed="$(this).trigger('change');"
+                    value="@((Model.AllowUploads.Count() > 0) ? string.Join(",", Model.AllowUploads) : "")" />
+            </div>
+        </li>
+    </ul>
+    <p>
+        <button data-default="true" data-inline="false" class="d-state-disable" id="btnSave">@Resources.Commons.Submit</button>
+    </p>
+</form>
+
+<script type="text/javascript">
+    $(function () {
+        $("#global_settings_form").bind("change", function () {
+            $('#btnSave').isDisable(false)
+        });
+        $("#btnIsDebug").bind("change", function () {
+            $.loading();
+            $.post("@Url.Action("SetDebug","Sys")", function () { location.reload(); });
+        });
+    });
+</script>

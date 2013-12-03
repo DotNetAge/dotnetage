@@ -1,0 +1,61 @@
+﻿<form data-ajax="true"
+    data-ajax-url="@Url.Content("~/api/webs/create")"
+    data-ajax-method="post"
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-error="$.err(error)"
+    data-ajax-success="$(document).trigger('webcreated',data);$.closePanels();"
+    id="createweb_form"
+    class="d-form"
+        >
+    @AntiForgery.GetHtml()
+    <input name="theme" type="hidden" value="Default" />
+    <input type="hidden" value="" name="owner" id="owner" />
+    <input type="hidden" value="@Culture" name="lang" />
+    <div class="d-field">
+        <label for="Web_Name">@Resources.Commons.Url</label>
+        <input id="Web_Name" name="name" type="text"
+                data-val="true"
+                data-val-remote = "@string.Format(Resources.Validations.Exists_Format, Resources.Commons.Name))"
+                data-val-remote-url ="@Url.Content("~/api/webs/validate")"
+                data-val-required = "@string.Format(Resources.Validations.Required_Format, Resources.Commons.Name))"
+                data-val-regex ="@string.Format(Resources.Validations.LetterAndNumRegex_Format, Resources.Commons.Name))."
+                data-val-regex-pattern = "^[A-Za-z0-9_]+$"
+                data-val-length = "@string.Format(Resources.Validations.LenRange_Format, Resources.Commons.Name, 3, 30)"
+                data-val-length-max = "30"
+                data-val-length-min ="3"
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Name)"
+                onkeyup="$(this).parent().next().text('@AppModel.Get().Context.AppUrl'+$(this).val()); $('#Web_Title').val($(this).val());"
+                />
+        <small>@AppModel.Get().Context.AppUrl</small>
+        @Html.ValidationMessage("name")
+    </div>
+    <div class="d-field">
+        <label for="Web_Tilte">@Resources.Commons.Title</label>
+        <input data-val="true" name="title" id="Web_Title" value="" type="text"
+            data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Title)"
+            placeholder="@Resources.InputHolders.WebTitleHolder"/>
+        <small>@Resources.Glossary.Web_Title</small>
+        @Html.ValidationMessage("title")
+    </div>
+    <div class="d-field">
+        <label for="Web_Description" style="vertical-align: top;">@Resources.Commons.Desc</label>
+        <textarea id="Web_Description" name="desc" 
+            placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Desc)"></textarea>
+        <small>@Resources.Glossary.Web_Desc</small>
+    </div>
+    <div>
+        <div class="d-title">@Resources.Commons.Template</div>
+        @*        <input type="hidden" name="tmpl" id="solution" />*@
+        @UIHelper.Solutions("$('#solName').val(ui.item.data('val'))")
+    </div>
+    <input type="hidden" name="solution" id="solName" value="core" />
+    <div style="padding: 10px;">
+        <button data-default="true" data-inline="false">@Resources.Commons.Create</button>
+    </div>
+</form>
+
+@if (Request.IsAjaxRequest())
+{ 
+    <script type="text/javascript" async="async"  src="@Scripts.Url("~/scripts/jquery.validate.unobtrusive.js")"></script>
+}

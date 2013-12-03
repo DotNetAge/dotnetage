@@ -1,0 +1,113 @@
+﻿@using Resources;
+@using DNA.Web.ServiceModel
+@Html.Widget().UserPreferences(@<text>
+@{    var targets = new SelectList(new List<SelectListItem>()
+    {
+        new SelectListItem() { Text =Designs.Target_Blank, Value = "_blank" },
+        new SelectListItem() { Text =Designs.Target_Parent, Value = "_parent" },
+        new SelectListItem() { Text =Designs.Target_Self,  Value = "_self" },
+        new SelectListItem() { Text =Designs.Target_Top, Value = "_top" }
+    }, "Value", "Text", item.GetString("target"));
+}<nav><a</nav>
+<div class="d-field">
+    @item.Label("text", "Text")
+    @item.TextBox("text", new { placeholder = "Enter the link title text" })
+</div>
+<div class="d-field">
+    @item.Label("url", Resources.Commons.Url)
+    @item.TextBox("url", new { placeholder = "Enter the link url" })
+</div>
+<div class="d-field">
+    <label>@Resources.Designs.Target</label>
+    @Html.DropDownList("target", targets, new { data_role = "combobox", style = "width:150px;" })
+</div>
+<div class="d-field">
+    <label>Direction</label>
+    <select name="dir" data-role="combobox" data-drop-style="menu" style="width: 80px;">
+        <option value="up" @if (item.GetString("dir") == "up")
+                           {<text>selected="selected"</text>}>Up</option>
+        <option value="left" @if (item.GetString("dir") == "left")
+                             {<text>selected="selected"</text>}>Left</option>
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("forecolor", "Font")
+    <input type="color" data-role="picker" 
+        value="@item.GetString("forecolor")" 
+        name="forecolor" 
+        data-change="$('#@item.ClientID').find('a').css('color', ui.value);$(this).closest('form').trigger('change');"
+        />
+</div>
+<div class="d-field">
+    @item.Label("facecolor", "Face")
+    <input type="color" data-role="picker" 
+        value="@item.GetString("facecolor")" 
+        name="facecolor" 
+        data-change="$('#@item.ClientID').find('a').children('span').css('background-color', ui.value);$(this).closest('form').trigger('change');"
+        />
+</div>
+<div class="d-field">
+    @item.Label("hovercolor", "Hover")
+    <input type="color" data-role="picker" 
+        value="@item.GetString("hovercolor")" 
+        name="hovercolor" 
+        data-change="$(this).closest('form').trigger('change');"
+        />
+</div>
+<div class="d-field">
+    @item.Label("backcolor", "Back")
+    <input type="color" data-role="picker" 
+        value="@item.GetString("backcolor")" 
+        name="bgcolor" 
+        data-change="$('#@item.ClientID').find('a').children('span').css('background-color', ui.value);$(this).closest('form').trigger('change');"
+        />
+</div>
+<div class="d-field">
+    @item.Label("fontsize", Resources.Designs.FontSze)
+    @item.Hidden("fontsize")<div style="width: 150px;" class="d-inline">
+        <input data-role="slider" type="hidden" value="@item.GetString("fontsize")" data-to="@item.GetID("fontsize")" 
+        data-slide="$('#@item.ClientID').find('a').css({ 'font-size': (ui.value/12) + 'em' });"/>
+    </div>
+</div>
+<div class="d-field">
+    @item.Label("w", Resources.Designs.Width)
+    @item.Hidden("w")<div style="width: 150px;" class="d-inline">
+        <input data-role="slider" type="hidden" value="@item.GetString("w")" 
+        data-max="1000"
+        data-to="@item.GetID("w")" 
+        data-slide="$('#@item.ClientID').find('a').css('width', ui.value + 'px');"/>
+    </div>
+</div>
+<div class="d-field">
+    @item.Label("h", Resources.Designs.Height)
+    @item.Hidden("h")<div style="width: 150px;" class="d-inline">
+        <input data-role="slider" type="hidden" value="@item.GetString("h")" 
+        data-max="1000"
+        data-to="@item.GetID("h")" 
+        data-slide="$('#@item.ClientID').find('a').css('line-height', ui.value + 'px');"/>
+    </div>
+</div>
+
+</text>).Content(@<text>
+@{
+    var m = item.GetUserPreferences();
+    var size = item.GetInt("fontsize") / 12;
+    var lineheight = item.GetInt("h");
+}
+<link type="text/css" rel="stylesheet" href="@item.GetWidgetPath("default.min.css")" />
+<style>
+#@item.ClientID .d-3d-link{font-size:@(size)em; line-height:@(lineheight)px;width:@(item.GetInt("w"))px;color:@item.GetString("forecolor");background-color:@item.GetString("bgcolor");}
+#@item.ClientID .d-3d-link.d-style-up span {background: @(item.GetString("facecolor"));}
+#@item.ClientID .d-3d-link.d-style-up span:before {background: @(item.GetString("backcolor"));}
+#@item.ClientID .d-3d-link.d-style-up:hover span,.d-3d-link.d-style-up:focus span { background: @(item.GetString("hovercolor"));}
+#@item.ClientID .d-3d-link.d-style-left span {background: @(item.GetString("facecolor"));}
+    #@item.ClientID .d-3d-link.d-style-left span:before { background: @(item.GetString("backcolor"));}
+    #@item.ClientID .d-3d-link.d-style-left:hover span,.d-3d-link.d-style-left:focus span { background: @(item.GetString("hovercolor"));}
+        #@item.ClientID .d-3d-link.d-style-left:hover span::before,.d-3d-link.d-style-left:focus span::before { background: @(item.GetString("facecolor"));}
+</style>
+<div class="d-3d-link-wrapper" style="text-align: center;">
+    <a class="d-3d-link d-style-@(item.GetString("dir"))" 
+    href="@(Request.IsAjaxRequest() ? "javascript:void(0);" : item.GetString("url"))" 
+    target="@item.GetString("target")" ><span title="@item.GetString("text")">@item.GetString("text")</span></a>
+</div>
+</text>).GetHtml()

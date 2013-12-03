@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="sitemap">
+  <name short="Sitemap">Sitemap</name>
+  <name short="Sitemap" xml:lang="zh-cn">网站地图</name>
+  <icon src="default.png" />
+  <preference name="columns" value="3" />
+  <preference name="class" value="''" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

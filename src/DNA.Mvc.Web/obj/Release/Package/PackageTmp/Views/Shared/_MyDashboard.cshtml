@@ -1,0 +1,167 @@
+﻿@{
+    Layout = "";
+    var user = AppModel.Get().User;
+    var defaultAvatar = "~/content/images/no-avatar.gif";
+    var avatar = !string.IsNullOrEmpty(user.DefaultProfile.Avatar) ? user.DefaultProfile.Avatar : defaultAvatar;
+}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6 lte9 lte8 lte7 no-js @Culture.ToLower()"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7 lte9 lte8 lte7 no-js @Culture.ToLower()"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8 lte9 lte8 no-js @Culture.ToLower()"> <![endif]-->
+<!--[if IE 9 ]><html class="ie ie9 lte9 no-js @Culture.ToLower()"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="notie no-js @Culture.ToLower()">
+<!--<![endif]-->
+<head>
+    @if (Request.Browser.Browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
+    {
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    }
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0;" />
+    @if (Request.IsMobileRequest())
+    {
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="telephone=no" name="format-detection" />
+    }
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/modernizr", "~/bundles/jquery", "~/bundles/taoui", "~/bundles/dna")
+    @Styles.Render(AppModel.BaseThemePath, AppModel.Get().MyThemePath)
+    @RenderSection("HeaderSection", false)
+    <style type="text/css">
+        body { overflow: hidden; padding-top: 0px; }
+    </style>
+</head>
+<body data-loading="@Resources.Commons.Working"
+    lang="@Culture.ToLower()" 
+    data-root="@(Request.ApplicationPath)" class="d-tran-fast">
+    <div data-role="panel"
+        data-display="static"
+        data-collapsable="false"
+        data-fill="true"
+        style="border-top: none; border-bottom: none; border-radius: 0px;" id="sys_workspace_container">
+        <h3 style="text-align: center;" id="current_page_title">
+            @if (ViewBag.ReturnUrl != null && !string.IsNullOrEmpty((string)ViewBag.ReturnUrl))
+            {
+                <div style="position: absolute; left: 10px; top: 50%; margin-top: -16px;">
+                    <a data-role="button" data-icon-left="d-icon-reorder" href="javascript:void(0);" id="menubutton" style="display: none;"></a>
+                    <a data-role="button" data-icon-left="d-icon-chevron-left" href="@Url.Content((string)ViewBag.ReturnUrl)">
+                        @if (ViewBag.ReturnText != null && !string.IsNullOrEmpty((string)ViewBag.ReturnText))
+                        { 
+                            @ViewBag.ReturnText
+                        }
+                    </a>
+                    @RenderSection("LeftNavs", false)
+                </div>
+            }
+            else
+            {
+                <div style="position: absolute; left: 10px; top: 50%; margin-top: -16px;">
+                    <a data-role="button" data-icon-left="d-icon-reorder" href="javascript:void(0);" id="menubutton" style="display: none;"></a>
+                    @RenderSection("LeftNavs", false)
+                </div>
+            }
+            <span id="sys_header_title">@ViewBag.Title</span>
+            <div style="position: absolute; right: 10px; top: 50%; margin-top: -16px;">
+                @RenderSection("Navs", false)
+            </div>
+        </h3>
+        <div id="sys_ui_container">
+            <div style="padding: 20px;">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div data-role="panel"
+        data-position="fixed"
+        data-display="reveal"
+        data-fill="true"
+        data-dismissible="false"
+        data-opened="true"
+        data-closable="false">
+        <h3 style="text-align: center;">
+            <span style="position: absolute; left: 0px; top: 50%; margin-top: -16px;">
+                <a data-role="button" data-icon-left="d-icon-house" href="@Url.Content("~/home/" + Culture)"></a>
+            </span>
+            @user.DisplayName
+            <span style="position: absolute; right: 0px; top: 50%; margin-top: -16px; display: none;" id="sys_close_panel">
+                <a data-role="button" data-icon-left="d-icon-chevron-right" href="javascript:void(0);"></a>
+            </span>
+        </h3>
+        <div>
+            <div style="padding: 10px;">
+                <div style="text-align: center;">
+                    <div>
+                        <div style="width:100px;text-align:center;" class="d-avatar d-inline" title="@user.DisplayName">
+                            <img src="@Url.Content(avatar)" style="height:100px;width:100px;" id="Avatar_img"/>
+                            <input type="hidden" name="Avatar" id="Avatar_Val" />
+                            <a data-rel="file" data-role="button" data-file-to="Avatar_Val"
+                                style="width: 87px;" data-file-select="$('#Avatar_img').attr('src',file);">@Resources.Commons.Change</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{Html.RenderAction("Menus", "Sys", new { Area = "", type = 2, locale = UICulture });}
+            @RenderSection("PaneSeciton", false)
+            <div style="text-align: center; margin-top: 20px;">
+                <small>@Html.Copyright()</small>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/unobtrusive")
+    <script type="text/javascript">
+        $(function () {
+            var _dismisshelper = null,
+                __open = function () {
+                    $("body").css("margin-left", "300px");
+                    if (_dismisshelper) _dismisshelper.remove();
+
+                    if (innerWidth < 800) {
+                        $("#sys_close_panel").show();
+                        $("#sys_workspace_container").css("opacity", 0.2);
+                        _dismisshelper = $("<div/>").appendTo("body")
+                                                                        .height($(document).height())
+                                                                        .css({
+                                                                            "opacity": 0.2,
+                                                                            "width": ($(window).width() - 300) + "px",
+                                                                            "background": "#000",
+                                                                            "position": "absolute",
+                                                                            "top": "0px"
+                                                                        }).click(function () { __close(); });
+                    } else $("#sys_close_panel").hide();
+
+                },
+                __close = function () {
+                    $("body").css("margin-left", "0px");
+                    $("#menubutton").isVisible(innerWidth < 800);
+                    $("#sys_workspace_container").css("opacity", 1);
+                    if (_dismisshelper) _dismisshelper.remove();
+                },
+            _resizeFun = function () {
+                if (innerWidth < 800) {
+                    __close();
+                }
+                else {
+                    __open();
+                    $("#sys_workspace_container").css("opacity", 1);
+                }
+
+                if (innerWidth < 400) 
+                    $("#sys_ui_container").children().css("padding","0px");
+                else
+                    $("#sys_ui_container").children().css("padding", "20px");
+
+                $("#menubutton").isVisible(innerWidth < 800);
+            };
+
+            window.addEventListener("resize", _resizeFun);
+            $("body").animate({ opacity: 1 }, 300, _resizeFun);
+            $("#menubutton").click(function () { __open(); });
+            $("#sys_close_panel").click(function () { __close(); });
+
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

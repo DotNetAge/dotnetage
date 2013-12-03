@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Full" slug="default" xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" target="_self" dir="lrt">
+  <title>Home</title>
+  <layout><![CDATA[<div class="d-page" data-role="layout"><div data-role="layout" data-label="Header" class="d-page-part">
+        @Html.Zone("HeaderZone", "Header zone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.HeaderZone }).GetHtml()
+    
+</div><div data-role="layout" data-label="Navigation" class="d-page-part">
+        @Html.Zone("NavigationZone", "Navigator zone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.NavigationZone }).GetHtml()
+    
+</div><div data-role="layout" data-label="Content" class="d-page-part">
+        @Html.Zone("ContentZone", "Main zone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.ContentZone }).GetHtml()
+    
+</div><div data-role="layout" class="d-page-part" id="layout1">
+        @Html.Zone("Zone0").Attrs(new { @class = "d-widget-zone", data_label = "Zone0" }).GetHtml()
+    
+</div><div data-role="layout" data-label="Footer" class="d-page-part">
+      @Html.Zone("FooterZone", "FooterZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterZone }).GetHtml()
+    
+</div><div data-role="layout" class="d-page-part" id="layout2">
+        @Html.Zone("Zone1").Attrs(new { @class = "d-widget-zone", data_label = "Zone1" }).GetHtml()
+    
+</div><div data-role="layout" class="d-page-part" id="layout3">
+        @Html.Zone("Zone2").Attrs(new { @class = "d-widget-zone", data_label = "Zone2" }).GetHtml()
+    
+</div></div>]]></layout>
+  <widgets>
+    <w:widget pid="section" zone="ContentZone" showIn="parent">
+      <w:title><![CDATA[Animation section]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="align" value="'left'" />
+      <w:preference name="textalign" value="'left'" />
+      <w:preference name="tag" value="'h2'" />
+      <w:preference name="margin" value="0" />
+      <w:preference name="animation" value="'vertical'" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/img-pagemanager.png'" />
+      <w:preference name="title" value="'Pages'" />
+      <w:preference name="description" value="'Open the task pane to select &quot;Page properties&quot; to edit or &quot;Add page&quot; to create new. &#xD;&#xA;&lt;p&gt;If you want to manage all pages in the web you should try to use &quot;Website Settings-&gt;Pages&quot; to open the PageManager and start to organize the pages in your web.&lt;/p&gt;'" />
+    </w:widget>
+    <w:widget pid="section" zone="Zone0" showIn="parent">
+      <w:title><![CDATA[Animation section]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="align" value="'left'" />
+      <w:preference name="textalign" value="'left'" />
+      <w:preference name="tag" value="'h2'" />
+      <w:preference name="margin" value="0" />
+      <w:preference name="animation" value="'horizontal'" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/img-contents.png'" />
+      <w:preference name="title" value="'Contents'" />
+      <w:preference name="description" value="'Open Task pane -&gt;Website Settings -&gt; Contents to opend the content manager and add new data content to your web such as blog, product, poll and as show on.'" />
+    </w:widget>
+    <w:widget pid="section" zone="FooterZone" showIn="parent">
+      <w:title><![CDATA[Animation section]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="align" value="'right'" />
+      <w:preference name="textalign" value="'left'" />
+      <w:preference name="tag" value="'h2'" />
+      <w:preference name="margin" value="0" />
+      <w:preference name="animation" value="'horizontal'" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/img-files.png'" />
+      <w:preference name="title" value="'Files'" />
+      <w:preference name="description" value="'Open task pane and select Website settings -&gt; Netdrive to open the NetDrive manage and start to upload and manage  media files to your web. &lt;p&gt;And you can also try to drag and drop files from desktop to the page.&lt;/p&gt;'" />
+    </w:widget>
+    <w:widget pid="section" zone="Zone1" showIn="parent">
+      <w:title><![CDATA[Animation section]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="align" value="'left'" />
+      <w:preference name="textalign" value="'left'" />
+      <w:preference name="tag" value="'h2'" />
+      <w:preference name="margin" value="0" />
+      <w:preference name="animation" value="'vertical'" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/visual-studio.png'" />
+      <w:preference name="title" value="'For Developers'" />
+      <w:preference name="description" value="'If you are a developer you should go to &lt;a href=&quot;http://www.dotnetage.com/developers&quot;&gt;DotNetAge Developer Network&lt;/a&gt; to get more information and resources.'" />
+    </w:widget>
+    <w:widget pid="section" zone="Zone2" showIn="parent">
+      <w:title><![CDATA[Animation section]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="align" value="'left'" />
+      <w:preference name="textalign" value="'left'" />
+      <w:preference name="tag" value="'h2'" />
+      <w:preference name="margin" value="0" />
+      <w:preference name="animation" value="''" />
+      <w:preference name="src" value="''" />
+      <w:preference name="title" value="'Resources'" />
+      <w:preference name="description" value="'&lt;ul&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.dotnetage.com/downloads&quot;&gt;DotNetAge Download Center&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.dotnetage.com/developers&quot;&gt;DotNetAge Developer Network&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.dotnetage.com/supports&quot;&gt;DotNetAge Support Center&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.dotnetage.com/news&quot;&gt;DotNetAge News Center&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.facebook.com/dotnetage&quot;&gt;DotNetAge on Facebook&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.twitter.com/dotnetage&quot;&gt;DotNetAge on Twitter&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;https://plus.google.com/101394381159387063196&quot;&gt;DotNetAge on Google+&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;li&gt;&lt;a href=&quot;http://www.github.com/dotnetage&quot;&gt;DotNetAge on Github&lt;/a&gt;&lt;/li&gt;&#xD;&#xA;&lt;/ul&gt;'" />
+    </w:widget>
+    <w:widget pid="intro-content" zone="HeaderZone" showIn="parent" seq="1">
+      <w:title><![CDATA[Intro content]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/logo-sl-white.png'" />
+      <w:preference name="link" value="''" />
+      <w:preference name="alt" value="'logo-sl-white'" />
+      <w:preference name="target" value="'_self'" />
+      <w:preference name="pos" value="'top'" />
+      <w:preference name="title" value="'Welcome to DotNetAge'" />
+      <w:preference name="linkText" value="''" />
+      <w:preference name="summary" value="'You are using DotNetAge started web site template.Let's scroll down to learn how to start.&#xD;&#xA;&lt;p&gt;You can goto our website and watch the &lt;a href=&quot;http://www.dotnetage.com/home/en-US/quickstart.html&quot;&gt;quick start videos.&lt;/a&gt;&lt;/p&gt;'" />
+      <w:preference name="size" value="0" />
+      <w:preference name="width" value="400" />
+      <w:preference name="height" value="400" />
+    </w:widget>
+    <w:widget pid="section" zone="NavigationZone" showIn="parent">
+      <w:title><![CDATA[Animation section]]></w:title>
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showHeader" value="false" />
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="transparent" value="true" />
+      <w:preference name="align" value="'right'" />
+      <w:preference name="textalign" value="'right'" />
+      <w:preference name="tag" value="'h2'" />
+      <w:preference name="margin" value="0" />
+      <w:preference name="animation" value="'vertical'" />
+      <w:preference name="src" value="'{app_path}webshared/{web_name}/images/img-widgets.png'" />
+      <w:preference name="title" value="'Widgets'" />
+      <w:preference name="description" value="'Click the design button to enter the page design mode. Then you can drag and drop widgets where you want they goes.&#xD;&#xA;&lt;p&gt;You can also click the + button on the top of left to add other new widgets to your page.&lt;/p&gt;'" />
+    </w:widget>
+  </widgets>
+</page>

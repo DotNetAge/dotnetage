@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page target="_self"
+      anonymous="true"
+      showInMenu="true"
+      slug="photos"
+      xmlns="http://www.dotnetage.com/XML/Schema/page">
+  <title>Photos</title>
+  <description>Show the photos of the events or anything else.</description>
+  <icon src="icon_albums_24.png" />
+  <image src="icon_albums_48.png" />
+</page>

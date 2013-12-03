@@ -1,0 +1,34 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType; 
+}
+<ul class="d-view @Model.CssClass" style="border-color:transparent;">
+    @foreach (var dataItem in Model)
+    {
+        <li class="@dataItem.CssClass d-view-links" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                      {<text>itemtype="@itemtype"</text>}>
+            @foreach (var field in Model.View.FieldRefs)
+            {
+                if (!field.IsLinkToItem && !string.IsNullOrEmpty(field.ItemProp))
+                {
+                <meta itemprop="@field.ItemProp" content="@dataItem[field.Name]" />
+                }
+                else
+                { 
+                <div @field.GetMicroDataAttributes() class="@field.CssClass" id="@dataItem.ID">
+                    @if (dataItem.AllowEdit(Context))
+                    { 
+                        <a data-icon="edit" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" 
+                            onclick="$.loading()" title="@Resources.Commons.Edit" class="d-inline"></a>
+                        <a href="@dataItem.UrlComponent" itemprop="url" class="d-link d-inline">@dataItem[field.Name]</a>
+                    }
+                    else
+                    {
+                        <a href="@dataItem.UrlComponent" itemprop="url" class="d-link">@dataItem[field.Name]</a>
+                    }
+                </div>
+                }
+            }
+        </li>
+    }
+</ul>

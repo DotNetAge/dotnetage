@@ -1,0 +1,160 @@
+﻿@using Resources;
+@Html.Widget().Content(@<text>
+@{
+    var src = item.GetString("src");
+    var display = item.GetString("display");
+    if (string.IsNullOrEmpty(display))
+    {
+        display = "grid";
+    }
+}
+@if (display == "list")
+{
+    @_RenderFileList(src)
+}
+else
+{
+    @_RenderFileGrid(src)
+}
+
+</text>).AutoSave().UserPreferences(@<text>
+@{
+    var src = item.GetString("src");
+    var display = item.GetString("display");
+    if (string.IsNullOrEmpty(display))
+    {
+        display = "grid";
+    }
+}
+<input type="hidden" value="@src" name="src" id="@item.GetID("src")" />
+<input type="hidden" value="@display" name="display" id="@item.GetID("display")" />
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="divider">@Resources.Commons.Location</li>
+    <li data-readonly="true">
+        <div>
+            <span class="d-icon-hdd d-inline" style="margin-right: 10px;"></span>
+            <span data-inline="true" id="@item.GetID("")">@if (!string.IsNullOrEmpty(src))
+                                                          {
+                                                              var info = new WebResourceInfo(src); @info.Name  }
+            </span>
+        </div>
+    </li>
+    <li data-readonly="true">
+        <div style="padding: 0 5px;">
+            <a data-role="button" data-inline="false" href="javascript:void(0);" 
+                data-rel="folder" data-folder-title="@(string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.Folder))" data-folder-to="#@item.GetID("src")">@Resources.Commons.Change</a>
+        </div>
+    </li>
+    <li data-role="divider">@Resources.Designs.DisplayMode</li>
+    <li data-readonly="true">
+        <ul data-role="listview"
+            data-display="mobile-list"
+            data-inset="true"
+            data-selectable="true"
+            data-autohighlight="true"
+            data-select="$('#@item.GetID("display")').val(ui.item.data('val')).trigger('change');"
+            >
+            <li data-link-icon="no" @if (display != "list")
+                                    {<text>class="d-state-active"</text>} data-val="grid">
+                <a><span data-icon="table" data-size="large" data-inline="true"></span><span data-inline="true">@Resources.Designs.GridLayout</span></a>
+            </li>
+            <li data-link-icon="no"  @if (display == "list")
+                                     {<text>class="d-state-active"</text>} data-val="list">
+                <a><span data-icon="list-2" data-size="large" data-inline="true"></span><span data-inline="true">@Resources.Designs.TitleLayout</span></a>
+            </li>
+        </ul>
+    </li>
+</ul>
+</text>).Design(@<text>
+@{
+    var src = item.GetString("src");
+    var display = item.GetString("display");
+    if (string.IsNullOrEmpty(display))
+    {
+        display = "grid";
+    }
+}
+@if (string.IsNullOrEmpty(src))
+{
+    <div style="text-align: center;cursor:pointer;" 
+        onclick="event.preventDefault();event.stopPropagation(); $.folderDialog('@(string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.Folder))').done(function(folder){ $('#@item.ClientID').widget('prefs',{src:folder}); });" >
+        <div class="d-inline">
+            <img src="@Url.Content(item.IconUrl)" style="width:64px;height:64px;"/>
+            <div>@string.Format(Resources.Messages.SelectFormat, Resources.NetDrives.Folder)</div>
+        </div>
+    </div>
+}
+else
+{
+    if (display == "list")
+    {
+    @_RenderFileList(src, true)
+    }
+    else
+    {
+    @_RenderFileGrid(src, true)
+    }
+}
+</text>).GetHtml()
+
+@helper _RenderFileList(string src, bool design = false)
+{
+    if (!string.IsNullOrEmpty(src))
+    {
+        IEnumerable<WebResourceInfo> files = null;
+        var netdrive = AppModel.Get().NetDrive;
+        files = netdrive.GetFiles(new Uri(src)).Select(u => new WebResourceInfo(u));
+
+        if (files != null && files.Count() > 0)
+        { 
+        
+    <ul data-role="listview" data-display="mobile-list" data-inset="true" data-link-icon="d-icon-install">
+        @foreach (var f in files)
+        {
+            var file = new System.IO.FileInfo(netdrive.MapPath(f.Url));
+            var unit = "";
+            f.FileSize = file.Length;
+            var size = Math.Round(f.GetSize(out unit));
+            <li data-counter="@size @unit"><a @if (design)
+                                              {<text>href="javascript:void(0);" onclick="$(this).closest('.d-widget').click();"</text>}
+                                              else
+                                              {<text>href="@f.Url" target="_blank"</text>}>@f.Name </a></li>
+        }
+    </ul>
+        }
+    }
+}
+
+@helper _RenderFileGrid(string src, bool design = false)
+{
+    if (!string.IsNullOrEmpty(src))
+    {
+        IEnumerable<WebResourceInfo> files = null;
+        var netdrive = AppModel.Get().NetDrive;
+        files = netdrive.GetFiles(new Uri(src)).Select(u => new WebResourceInfo(u));
+        if (files != null && files.Count() > 0)
+        {
+    <div class="d-hbox" style="margin: 5px 0px;">
+        <div class="d-box1"><strong>@Resources.NetDrives.FileName</strong></div>
+        <div style="width: 180px;"><strong>@Resources.NetDrives.FileSize</strong></div>
+    </div>
+            foreach (var f in files)
+            {
+                var file = new System.IO.FileInfo(netdrive.MapPath(f.Url));
+                var unit = "";
+                f.FileSize = file.Length;
+                var size = f.GetSize(out unit);
+    <div class="d-hbox" style="margin: 5px 0px; font-size: 9pt;">
+        <div class="d-box1">@f.Name</div>
+        <div style="width: 100px; text-transform: uppercase; line-height: 33px;">@(unit.Equals("bytes", StringComparison.OrdinalIgnoreCase) ? size.ToString() : size.ToString("f2")) @unit</div>
+        <div style="width: 80px;"><a data-role="button" @if (!design)
+                                                        {<text>onclick="window.open('@f.Url');"</text>} href="javascript:void(0);" style="width:80px;text-transform:uppercase;">@Resources.Commons.Download</a></div>
+    </div>
+            }
+        }
+        else
+        {
+    <p style="text-align: center;">@Resources.NetDrives.NoFilesFound</p>
+        }
+    }
+}

@@ -1,0 +1,23 @@
+﻿.d-thread { clear: both; min-height: 150px; padding: 10px 0px; position: relative; border-bottom: 1px dashed #ccc; }
+
+.d-thread-states { width: 80px; }
+.d-thread-stat { background: none repeat scroll 0 0 #EFEFEF; float: left; font-size: 250%; padding: 15px; padding-top: 5px; text-align: center; text-transform: lowercase; }
+.d-triangle-right { border-color: transparent transparent transparent #EFEFEF; border-style: solid; border-width: 5px 10px; float: left; height: 0; margin-top: 15px; width: 0; }
+.d-thread-replies { font-size: 12pt; }
+.d-thread-stat-txt { font-size: 10pt; color: #808080; }
+
+.d-thread > section > header { font-size: 200%; }
+.d-thread .d-avatar { position: absolute; top: 10px; right: 0px; }
+
+.d-thread-info { margin: 5px 0px; }
+    .d-thread-info * { display: inline-block; vertical-align: middle; color: #808080; font-size: 9pt; }
+
+.d-thread-post { background-color: #fff; border: 1px solid #efefef; border-radius: 6px 6px 6px 6px; margin-bottom:5px;}
+.d-thread-post-date { font-size: 9pt; color: #808080; margin-bottom: 5px; }
+.d-thread-post-user { width: 135px; border-right: 1px solid #efefef; padding: 10px; position: relative; overflow: hidden; background: #fcfcfc; }
+    .d-thread-post-user::after { box-shadow: 0 0 10px 2px #CCCCCC; content: ""; height: 100%; position: absolute; right: 0; top: 0; width: 0; }
+.d-thread-post-buttons { text-align: right;position: relative; }
+.d-thread-post-body { padding: 10px; position: relative; z-index: 2; }
+.d-thread-post-bio { border-top:1px solid #efefef;}
+    .d-thread-post-bio:empty { border:none;}
+.d-thread-post-pos { position:absolute;top:5px;left:0px;}

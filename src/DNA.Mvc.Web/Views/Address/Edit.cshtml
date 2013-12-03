@@ -1,0 +1,24 @@
+﻿@model Address
+<form class="d-form" id="addressForm"
+    data-ajax="true"
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-success="$('body').trigger('@(Model == null ? "addressCreated" : "addressEdited")',data); $.closePanels();$('#addressForm').closest('.d-dialog-content').taoDialog('close');"
+    data-ajax-method="post"
+    data-ajax-url="@(Model == null ? Url.Action("New", "Address", new { format = "json" }) : Url.Action("Edit", "Address", new { id = Model.ID, format = "json" }))">
+    @{Html.RenderPartial("_Form", Model);}
+    @*    @if (Model != null)
+    {
+        <div class="d-field">
+            <a data-role="button" data-inline="false">View address on google</a>
+        </div>
+    }*@
+    <div class="d-field">
+        <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+        @if (Model != null && Model.ID > 0)
+        {
+            <a data-role="button" data-inline="false">@Resources.Commons.Delete</a>
+        }
+    </div>
+</form>
+

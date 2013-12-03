@@ -1,0 +1,64 @@
+﻿@model ContentQueryResult
+
+@{
+    var itemtype = Model.List.ItemType;
+    var imgFields = Model.View.FieldRefs.Where(f => f.FieldType == (int)ContentFieldTypes.Image).Select(f => (ImageField)f.Field);
+    ImageField imgField = null;
+    var width = 0;
+
+    if (imgFields != null && imgFields.Count() > 1)
+    {
+        foreach (var img in imgFields)
+        {
+            if (img.Width > width)
+            {
+                width = img.Width;
+                imgField = img;
+            }
+        }
+    }
+    else
+    {
+        imgField = imgFields.FirstOrDefault();
+    }
+    
+}
+
+@if (Model.Count() > 0)
+{
+    <div class="d-view d-view-slideshow @Model.CssClass"
+        data-role="content-slider"
+        data-autoplay="true"
+        data-buttons="true"
+        data-nav="bottom"
+        data-offset="0" style="height:400px;">
+        @foreach (var dataItem in Model)
+        {
+            var imageUrl = "";
+
+            if (imgField != null)
+            {
+                imageUrl = (string)dataItem[imgField.Name];
+            }
+            <div class="@dataItem.CssClass" id="@dataItem.ID"
+                style="@(!string.IsNullOrEmpty(imageUrl) ? "background-image:url(" + imageUrl + ");" : "")"
+                itemscope="itemscope" 
+                @if (!string.IsNullOrEmpty(itemtype))
+                {<text>itemtype="@itemtype"</text>}>
+                <div class="d-view-fields">
+                    @foreach (var field in Model.View.FieldRefs)
+                    {
+                        if (field.IsHidden || field.FieldType == (int)ContentFieldTypes.Image) { continue; }
+                        <div title="@field.Title" @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))">
+                            @{ Html.ForView(field.Name, dataItem); }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>@Resources.Messages.NoItemFound</div>
+}

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="3dlink" viewmodes="floating">
+  <name short="3Dlink">3D link</name>
+  <name short="3Dlink" xml:lang="zh-cn">3D 链接</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="cached" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="text" value="'3D link'" />
+  <preference name="url" value="''" />
+  <preference name="target" value="'_self'" />
+  <preference name="dir" value="'up'" />
+  <preference name="fontsize" value="24" />
+  <preference name="forecolor" value="'#ffffff'" />
+  <preference name="facecolor" value="'#2195de'" />
+  <preference name="backcolor" value="'#2195de'" />
+  <preference name="hovercolor" value="'#0965a0'" />
+  <preference name="h" value="'60'" />
+  <preference name="w" value="'250'" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

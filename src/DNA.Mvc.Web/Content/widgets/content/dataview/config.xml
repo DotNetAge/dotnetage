@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="dataview" version="1.0">
+  <name short="DataView">DataView</name>
+  <name xml:lang="zh-cn" short="DataView">数据视图</name>
+  <icon src="default.png" />
+  <preference name="listName" value="''" />
+  <preference name="viewName" value="''" />
+  <preference name="allowFiltering" value="false" />
+  <preference name="allowSorting" value="false" />
+  <preference name="allowPaging" value="false" />
+  <preference name="pagingInfo" value="false" />
+  <preference name="pageIndex" value="0" />
+  <preference name="pageSize" value="0" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

@@ -1,0 +1,52 @@
+﻿@*This page is use in links dialog and the "sys_selected_page" is reference from Pages.cshtml *@
+@{
+    var lists = AppModel.Get().CurrentWeb.Lists.Where(l => l.Locale.Equals(Culture, StringComparison.OrdinalIgnoreCase)).ToList();
+}
+<ul data-role="tree"
+    data-selected="$('#sys_selected_page').val(JSON.stringify({title:$(ui.node).attr('title'),url:$(ui.node).attr('data-url')})).trigger('change');"
+    style="overflow: auto;border:none;">
+    @foreach (var ls in lists)
+    {
+        var list = AppModel.Get().Wrap(ls);
+        var allows = true;
+
+        if (list.Roles.Count() > 0)
+        {
+            allows = AppModel.Get().User.IsInRoles(list.Roles);
+        }
+
+        if (allows)
+        {
+        <li data-url="@(!string.IsNullOrEmpty(list.DefaultUrl) ? Url.Content(list.DefaultUrl) : "")" 
+            title="@(list.DefaultView != null ? list.DefaultView.Title : list.Title)">@list.Title
+            <ul>
+                @if (list.DefaultView != null && list.DefaultView.HasFeed)
+                {
+                    var defView = list.DefaultView;
+                    <li data-url="@defView.RssUri" title="@defView.Title">@Resources.Commons.Rss:@defView.Title</li>
+                    <li data-url="@defView.AtomUri" title="@defView.Title">@Resources.Commons.Atom: @defView.Title</li>
+                }
+                @{ var newItemUrl = list.GetNewItemUrl();}
+                @if (!string.IsNullOrEmpty(newItemUrl) && list.NewForm != null)
+                {
+                    <li data-url="@Url.Content(newItemUrl)" title="@list.NewForm.Title">@list.NewForm.Title</li>
+                }
+                @foreach (var view in list.Views)
+                {
+                    if (view.IsDefault || string.IsNullOrEmpty(view.Url)) { continue; }
+                    <li data-url="@Url.Content(view.Url)" title="@view.Title">@view.Title
+                        @if (view.HasFeed)
+                        {
+                            <ul>
+                                <li data-url="@view.RssUri" title="@view.Title">@Resources.Commons.Rss:@view.Title</li>
+                                <li data-url="@view.AtomUri" title="@view.Title">@Resources.Commons.Atom: @view.Title</li>
+                            </ul> 
+                        }
+                    </li>
+                }
+            </ul>
+        </li>
+        }
+    }
+
+</ul>

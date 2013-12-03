@@ -1,0 +1,9 @@
+﻿/*#name#*/.d-menu { background-color: transparent; border: none; text-transform: uppercase; }
+    /*#name#*/.d-menu.horizontal > .d-separator { border-color: transparent; }
+    /*#name#*/.d-menu .d-item { border-top-width: 1px; border-bottom-width: 0px; border-left-width: 0px; border-right-width: 0px;border-top-color: #000000; }
+        /*#name#*/.d-menu .d-item > a { border-top: 2px solid transparent; text-indent: 10px; padding: 0px; }
+        /*#name#*/.d-menu .d-item.d-state-hover > a, .d-menu .d-item.d-state-active > a { border-top-color: #000000; }
+
+    /*#name#*/.d-menu .d-items-wrapper .d-item { padding: 0px; }
+    /*#name#*/.d-menu .d-items-wrapper { border-style: solid; border-width: 1px; background-color: #fafafa; border-radius: 10px; padding: 10px; }
+    /*#name#*/.d-menu.horizontal > .d-item { margin-right: 5px; }

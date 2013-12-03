@@ -1,0 +1,8 @@
+﻿@Html.Widget().Content(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    var linkback = Request.Url.ToString();
+    var title = string.IsNullOrEmpty(settings.linkbackTitle) ? ViewBag.Title : settings.linkbackTitle;
+}
+@SocialNetworks.ShareLinks(linkback, title)
+</text>).GetHtml()

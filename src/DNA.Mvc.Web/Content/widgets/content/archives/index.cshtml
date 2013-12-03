@@ -1,0 +1,29 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var m = item.GetUserPreferences();}
+<div id="@item.GetID("listSelector")">
+    <div>@(string.Format(Resources.Messages.SelectFormat, Resources.Contents.List))</div>
+    @item.Hidden("listName")
+    @UIHelper.ContentLists(item.GetString("listName"), "var n=ui.item.data('name');$('#" + item.GetID("listName") + "').val(n).trigger('change');")
+</div>
+</text>).Content(@<text>
+@{var m = item.GetUserPreferences();
+  var listname = item.GetString("listName");
+  ContentListDecorator list = !string.IsNullOrEmpty(listname) ? AppModel.Get().CurrentWeb.Lists[listname] : null;
+}
+@if (list != null && list.Archives.Count() > 0)
+{
+    <div class="d-archives" style="padding: 10px 0px;">
+        @foreach (var archive in list.Archives)
+        {
+            <div class="d-archive" style="position: relative;">
+                <a role="link" data-icon="d-icon-calendar-2" class="d-link"
+                href="@(Url.Content(archive.Url))" title="@archive.DisplayText">@archive.DisplayText (@archive.Count)</a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>( @Resources.Contents.Empty )</p>
+}
+</text>).GetHtml()

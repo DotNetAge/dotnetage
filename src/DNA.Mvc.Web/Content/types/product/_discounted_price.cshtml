@@ -1,0 +1,20 @@
+﻿@model ContentViewFieldValue
+@{
+    var price = (decimal)Model.Value;
+    var discount = (decimal)Model.Item["Discount"];
+    decimal saved = 0;
+    if (discount > 0)
+    {
+        saved = ((price - discount) / price);
+    }
+    var numFormat = new System.Globalization.CultureInfo(System.Globalization.CultureInfo.CurrentUICulture.Name, false).NumberFormat;
+    numFormat.PercentDecimalDigits = 0;
+}
+@if (discount > 0)
+{
+   <div style="font-size:18px;line-height:1em;text-decoration:line-through;">@(Model.Field.Field.Format(Model.Value))</div>
+   <div style="line-height:1.5em;color:#f00;">@(Model.Field.Field.Format(discount)) </div>
+   <div  style="line-height:1.5em;color:#f00;">@saved.ToString("P") <span style="font-size:16px;">@Model.Field.Parent.Package.Loc("Saved")</span></div>
+} else{
+@(Model.Field.Field.Format(Model.Value))
+}

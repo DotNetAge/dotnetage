@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" defaultLocale="en-US" name="blog" version="1.0.0" id="blog" base="blog" activity="true" itemtype="http://schema.org/Blog" allowCategoriesAndTags="true" allowResharing="true" versioning="true" allowAttachs="true" allowComments="true" allowVotes="true">
+  <title><![CDATA[Blog]]></title>
+  <fields>
+    <field name="name" required="true" slug="true" linkToItem="true" itemprop="name" type="Text">
+      <title>Title</title>
+      <placeHolder>Enter the post title</placeHolder>
+    </field>
+    <field name="references" type="Text">
+      <title>References</title>
+    </field>
+    <field name="image" itemprop="image" type="Image" thumbWidth="150" thumbHeight="100">
+      <title>Cover</title>
+      <description>The post cover image</description>
+    </field>
+    <field name="description" itemprop="description" type="Note" isHtml="false">
+      <title>Summary</title>
+    </field>
+    <field name="text" required="true" itemprop="text" type="Note" isHtml="true">
+      <title>Body</title>
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true" sort="created DESC" anonymous="true">
+      <paging allow="true" size="20" />
+      <title><![CDATA[All posts]]></title>
+      <description><![CDATA[All posts]]></description>
+      <body src="_timeline.cshtml" />
+      <fields>
+        <fieldRef name="image" />
+        <fieldRef name="name">
+          <tmpl src="_heading.cshtml" />
+        </fieldRef>
+        <fieldRef name="description" />
+      </fields>
+    </view>
+    <view name="features" sort="reads DESC,totalShares DESC" anonymous="true">
+      <paging allow="true" size="20" />
+      <title><![CDATA[Hot posts]]></title>
+      <fields>
+        <fieldRef name="image" />
+        <fieldRef name="name">
+          <tmpl src="_heading.cshtml" />
+        </fieldRef>
+        <fieldRef name="description" />
+      </fields>
+    </view>
+    <view name="recently" sort="published DESC" anonymous="true">
+      <paging allow="true" index="1" size="10" />
+      <title><![CDATA[Recently posts]]></title>
+      <description><![CDATA[Recently posts]]></description>
+      <body  src="_timeline.cshtml" />
+      <fields>
+        <fieldRef name="name">
+          <tmpl src="_heading.cshtml" />
+        </fieldRef>
+        <fieldRef name="description" />
+      </fields>
+    </view>
+  </views>
+  <forms>
+    <form type="New">
+      <title><![CDATA[New post]]></title>
+      <fields>
+        <field name="name" showLabel="true" />
+        <field name="references" showLabel="true" />
+        <field name="image" showLabel="true" />
+        <field name="description" showLabel="true" />
+        <field name="text" showLabel="true" />
+      </fields>
+    </form>
+    <form type="Edit">
+      <title><![CDATA[Edit post]]></title>
+      <fields>
+        <field name="name" showLabel="true" />
+        <field name="references" showLabel="true" />
+        <field name="image" showLabel="true" />
+        <field name="description" showLabel="true" />
+        <field name="text" showLabel="true" />
+      </fields>
+    </form>
+    <form type="Display" anonymous="true">
+      <title><![CDATA[Post detail]]></title>
+      <fields>
+        <field name="name" caption="true" hidden="true" showLabel="false" />
+        <field name="references" showLabel="true">
+          <tmpl src="_reference.cshtml" />
+        </field>
+        <field name="text" showLabel="false" />
+      </fields>
+    </form>
+    <form type="Activity" anonymous="true">
+      <title><![CDATA[Activity]]></title>
+      <fields>
+        <field name="name" caption="true" showLabel="false" />
+        <field name="references" showLabel="false">
+          <tmpl src="_reference.cshtml" />
+        </field>
+        <field name="text" showLabel="false" />
+      </fields>
+    </form>
+  </forms>
+  <rows>
+    <row id="32430578-8b39-456c-aa98-e02ab401b1b8" privacy="0" created="2013-06-19T18:07:26.403" state="2" isPublished="true" enableComments="true" slug="how-to-place-content-to-page" ratings="0" reads="0" path="32430578-8b39-456c-aa98-e02ab401b1b8" owner="administrator" pos="0" tags="Quick start" modified="2013-12-03T14:53:06.82" published="2013-12-03T14:53:06.82">
+      <data><![CDATA[<blog><name>How to place content view to page?</name><references></references><image></image><description>Open the Wiget exploer "Task Pane" -&gt; "Add content". In "Contents" tab you will find the views of the blog list then drag and drop the view on the page that's all.
+        </description><text>Open the Wiget exploer "Task Pane" -&gt; "Add content". In "Contents" tab you will find the views of the blog list then drag and drop the view on the page that's all.</text></blog>]]></data>
+    </row>
+    <row id="e1be4bce-6b58-476d-87cf-48874c4003df" privacy="0" created="2013-12-02T23:18:20.977" state="2" isPublished="true" enableComments="true" slug="how-to-create-this-content" ratings="0" reads="0" path="e1be4bce-6b58-476d-87cf-48874c4003df" owner="administrator" pos="1" modified="2013-12-03T14:50:35.72" published="2013-12-03T14:50:35.717">
+      <data><![CDATA[<blog><name>How to create this content</name><references></references><image></image><description>Open Task pane - &gt; Website settings -&gt; Contents then select "Add new list" button and select the "Blog" content type. After the "Blog" content list creation it will add the link on the top of the site menu.
+</description><text>&lt;p&gt;Open Task pane - &amp;gt; Website settings -&amp;gt; Contents then select "Add new list" button and select the "Blog" content type. After the "Blog" content list creation it will add the link on the top of the site menu.&lt;/p&gt;
+&lt;p&gt;
+  You also can go to the content list settings page and cusomize the fields,views, and forms that what you wants.
+&lt;/p&gt;</text></blog>]]></data>
+    </row>
+  </rows>
+</contentType>

@@ -1,0 +1,38 @@
+﻿@model ContentEditorField
+<form id="editorfield_form" 
+    data-ajax="true"
+    data-ajax-url="@Url.Content(string.Format("~/{0}/{1}/form/editfield?name={2}&type={3}&field={4}", AppModel.Get().CurrentWeb.Name, Culture, Model.Parent.Name, Model.ParentForm.FormTypeString, Model.Name))"
+    data-ajax-method="post"
+    data-ajax-success="$.closePanels();"
+    data-ajax-begin="$.loading();$('button[data-default=true]',this).isDisable(true)"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-error="$.err(error)">
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-inset="true">
+        <li data-readonly="true">
+            <div style="overflow: hidden;">@Html.CheckBoxFor(m => m.IsCaption, new { data_label = Resources.Contents.Caption })</div>
+        </li>
+        <li data-readonly="true">
+            <div style="overflow: hidden;">@Html.CheckBoxFor(m => m.ShowLabel, new { data_label = Resources.Contents.Form_ShowLabel })</div>
+        </li>
+        <li data-readonly="true">
+            <div style="overflow: hidden;">@Html.CheckBoxFor(m => m.IsHidden, new { data_label = Resources.Contents.IsHiddenField })</div>
+        </li>
+        <li data-role="divider">@Resources.Contents.Code</li>
+        <li data-readonly="true">
+            <textarea name="code" style="width:96%;height:200px;font-size:8pt;" placeholder="@if (Model.ParentForm.FormType == (int)ContentFormTypes.New)
+                                                                                             {<text>@@model @(Model.FieldTypeString + "Field")</text>}
+                                                                                             else
+                                                                                             {<text>@@model ContentFieldValue</text>}">@ViewBag.Code</textarea></li>
+    </ul>
+    <p style="padding: 0px 10px;">
+        <button data-inline="false" data-default="true" class="d-state-disable">@Resources.Commons.Save</button>
+    </p>
+</form>
+<p style="padding: 0px 10px;">
+    <a data-role="button" data-rel="close" data-inline="false">@Resources.Commons.Cancel</a>
+</p>
+<script type="text/javascript">
+    $(function () { $("#editorfield_form").bind("change", function () { $('button[data-default=true]', this).isDisable(false); }); });
+</script>

@@ -1,0 +1,57 @@
+﻿/*
+    Description: Contains all helper class for TaoUI
+*/
+
+/*
+    Animation helpers
+*/
+.d-tran { -moz-transition: all 0.3s ease-out; -o-transition: all 0.3s ease-out; -webkit-transition: all 0.3s ease-out; transition: all 0.3s ease-out; }
+.d-tran-fast { -moz-transition: all 0.2s ease-out; -o-transition: all 0.2s ease-out; -webkit-transition: all 0.2s ease-out; transition: all 0.2s ease-out; }
+.d-tran-slow { -moz-transition: all 0.5s ease-out; -o-transition: all 0.5s ease-out; -webkit-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
+
+/*Shadow hepers*/
+.d-shadow, .d-shadow-light, .d-shadow-around, .d-shadow-drop, .d-shadow-inner, .d-shadow-bevel { position: relative; z-index: 0; padding: 0; }
+.d-shadow-light { -moz-box-shadow: 0px 0px 5px #888; -webkit-box-shadow: 0px 0px 5px #888; box-shadow: 0px 0px 5px #888; }
+.d-shadow-around { -moz-box-shadow: 0px 0px 10px #888; -webkit-box-shadow: 0px 0px 10px #888; box-shadow: 0px 0px 10px #888; }
+.d-shadow-drop { -moz-box-shadow: 3px 3px 5px #AAA; -webkit-box-shadow: 3px 3px 5px #AAA; box-shadow: 3px 3px 5px #AAA; }
+.d-shadow-inner { -moz-box-shadow: 1px 1px 2px #888 inset; -webkit-box-shadow: 1px 1px 2px #888 inset; box-shadow: 1px 1px 2px #888 inset; }
+.d-shadow-bevel { -moz-box-shadow: -1px -1px 1px #888888 inset; -webkit-box-shadow: -1px -1px 1px #888888 inset; box-shadow: -1px -1px 1px #888888 inset; }
+
+.d-shadow:before, .d-shadow:after { position: absolute; z-index: -1; content: ""; }
+.d-shadow.popout:before { bottom: 4px; left: 5%; width: 90%; height: 10%; -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius: 1px; -moz-box-shadow: #555 0px 0px 30px, #444 0px 0px 20px, #333 0px 0px 10px; -webkit-box-shadow: #555 0px 0px 30px, #444 0px 0px 20px, #333 0px 0px 10px; box-shadow: #555 0px 0px 30px, #444 0px 0px 20px, #333 0px 0px 10px; content: ""; }
+.d-shadow.bend { margin-bottom: 20px; }
+    .d-shadow.bend:before, .d-shadow.bend:after { bottom: 20px; width: 80%; height: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; border-radius: 15px; -moz-box-shadow: #000 0px 0px 2.5em, #000 0px 0px 1.56em; -webkit-box-shadow: #000 0px 0px 55px, #000 0px 0px 25px; box-shadow: #000 0px 0px 2.5em, #000 0px 0px 1.56em; content: ""; }
+    .d-shadow.bend:before { right: 1.56em; }
+    .d-shadow.bend:after { left: 1.56em; }
+
+.d-shadow.peel-right:after,
+.d-shadow.peel-left:before,
+.d-shadow.peel:before,
+.d-shadow.peel:after { position: absolute; bottom: 15px; left: 2%; z-index: -1; max-width: 150px; width: 50%; height: 20%; -moz-box-shadow: 0 15px 10px rgba(125,125,125,0.8); -webkit-box-shadow: 0 15px 10px rgba(125,125,125,0.8); box-shadow: 0 15px 10px rgba(125,125,125,0.8); content: ""; -moz-transform: rotate(-8deg); -ms-transform: rotate(-8deg); -o-transform: rotate(-8deg); -webkit-transform: rotate(-8deg); transform: rotate(-8deg); /*add box-shadow*/ /*add css3 transform*/ }
+.d-shadow.peel-right:after, .d-shadow.peel:after { right: 2%; left: auto; -moz-transform: rotate(8deg); -ms-transform: rotate(8deg); -o-transform: rotate(8deg); -webkit-transform: rotate(8deg); transform: rotate(8deg); }
+.d-shadow.hover:before { bottom: 5px; left: 2%; width: 96%; height: 10px; -moz-border-radius: 100px 100px 0px 0px; -webkit-border-radius: 100px 100px 0px 0px; border-radius: 100px 100px 0px 0px; -moz-box-shadow: rgba(0,0,0,0.2) 0px 35px 15px, rgba(0,0,0,0.1) 0px 35px 25px, rgba(0,0,0,0.2) 0px 35px 35px; -webkit-box-shadow: rgba(0,0,0,0.2) 0px 35px 15px, rgba(0,0,0,0.1) 0px 35px 25px, rgba(0,0,0,0.2) 0px 35px 35px; box-shadow: rgba(0,0,0,0.2) 0px 35px 15px, rgba(0,0,0,0.1) 0px 35px 25px, rgba(0,0,0,0.2) 0px 35px 35px; content: ""; }
+
+/* Perspective */
+.d-shadow.perspective:before { bottom: 5px; left: 80px; max-width: 200px; max-height: 50px; width: 50%; height: 35%; -moz-box-shadow: -80px 0 8px rgba(0, 0, 0, 0.4); -webkit-box-shadow: -80px 0 8px rgba(0, 0, 0, 0.4); box-shadow: -80px 0 8px rgba(0, 0, 0, 0.4); -moz-transform: skew(50deg); -ms-transform: skew(50deg); -o-transform: skew(50deg); -webkit-transform: skew(50deg); transform: skew(50deg); -moz-transform-origin: 0 100%; -ms-transform-origin: 0 100%; -o-transform-origin: 0 100%; -webkit-transform-origin: 0 100%; transform-origin: 0 100%; }
+.d-shadow.perspective:after { display: none; }
+/* Raised shadow - no pseudo-elements needed */
+.d-shadow.raised { -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; }
+/* Curved shadows */
+.d-shadow.curved:before { top: 10px; right: 50%; bottom: 10px; left: 0; -moz-border-radius: 10px / 100px; border-radius: 10px / 100px; -moz-box-shadow: 0 0 15px rgba(0,0,0,0.6); -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.6); box-shadow: 0 0 15px rgba(0,0,0,0.6); }
+.d-shadow.curved-vt-2:before { right: 0; }
+.d-shadow.curved-hz-1:before { top: 50%; right: 10px; bottom: 0; left: 10px; -moz-border-radius: 100px / 10px; border-radius: 100px / 10px; }
+.d-shadow.curved-hz-2:before { top: 0; right: 10px; bottom: 0; left: 10px; -moz-border-radius: 100px / 10px; border-radius: 100px / 10px; }
+/* Rotated box */
+.d-shadow.rotated { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; -moz-transform: rotate(-3deg); -ms-transform: rotate(-3deg); -o-transform: rotate(-3deg); -webkit-transform: rotate(-3deg); transform: rotate(-3deg); }
+    .d-shadow.rotated > :first-child:before { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: -1; background: #fff; -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; content: ""; }
+
+
+/* Msic */
+.d-helper-clear:after { display: block; visibility: hidden; clear: both; height: 0; content: ""; }
+.d-loading { background: transparent url(data:image/gif;base64,R0lGODlhEAAQALMPAHp6evf394qKiry8vJOTk83NzYKCgubm5t7e3qysrMXFxe7u7pubm7S0tKOjo////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQJCAAPACwAAAAAEAAQAAAETPDJSau9NRDAgWxDYGmdZADCkQnlU7CCOA3oNgXsQG2FRhUAAoWDIU6MGeSDR0m4ghRa7JjIUXCogqQzpRxYhi2HILsOGuJxGcNuTyIAIfkECQgADwAsAAAAABAAEAAABGLwSXmMmjhLAQjSWDAYQHmAz8GVQPIESxZwggIYS0AIATYAvAdh8OIQJwRAQbJkdjAlUCA6KfU0VEmyGWgWnpNfcEAoAo6SmWtBUtCuk9gjwQKeQAeWYQAHIZICKBoKBncTEQAh+QQJCAAPACwAAAAAEAAQAAAEWvDJORejGCtQsgwDAQAGGWSHMK7jgAWq0CGj0VEDIJxPnvAU0a13eAQKrsnI81gqAZ6AUzIonA7JRwFAyAQSgCQsjCmUAIhjDEhlrQTFV+lMGLApWwUzw1jsIwAh+QQJCAAPACwAAAAAEAAQAAAETvDJSau9L4QaBgEAMWgEQh0CqALCZ0pBKhRSkYLvM7Ab/OGThoE2+QExyAdiuexhVglKwdCgqKKTGGBgBc00Np7VcVsJDpVo5ydyJt/wCAAh+QQJCAAPACwAAAAAEAAQAAAEWvDJSau9OAwCABnBtQhdCQjHlQhFWJBCOKWPLAXk8KQIkCwWBcAgMDw4Q5CkgOwohCVCYTIwdAgPolVhWSQAiN1jcLLVQrQbrBV4EcySA8l0Alo0yA8cw+9TIgAh+QQFCAAPACwAAAAAEAAQAAAEWvDJSau9WA4AyAhWMChPwXHCQRUGYARgKQBCzJxAQgXzIC2KFkc1MREoHMTAhwQ0Y5oBgkMhAAqUw8mgWGho0EcCx5DwaAUQrGXATg6zE7bwCQ2sAGZmz7dEAAA7) no-repeat center center; }
+.d-notifier { padding: 10px 20px; border-top: 2px solid red; border-radius: 5px; background: #222; -moz-box-shadow: 0 0 20px #000000; -o-box-shadow: 0 0 20px #000000; -webkit-box-shadow: 0 0 20px #000000; box-shadow: 0 0 20px #000000; color: #fff; }
+.d-animation-wrapper { position: absolute; }
+.d-editable > .d-editor { border: none; color: inherit; font-size: inherit; }
+.d-float-left { display: inline-block; float: left; }
+.d-inline { display: inline-block; vertical-align: middle; }
+.d-watermark { color: #6d6d6d; /*placeholder for ie*/ }

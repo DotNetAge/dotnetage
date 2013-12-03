@@ -1,0 +1,7 @@
+﻿/*#name#*/.d-menu { border: none; text-transform: uppercase; background:none;}
+    /*#name#*/ .d-menu .d-item,.d-menu .d-item.d-state-active { border-top-width: 1px; border-bottom-width: 1px; border-left-width: 0px; border-right-width: 0px; border-color:#000;}
+    /*#name#*/ .d-menu .d-items-wrapper > .d-item { border-top: none; }
+        /*#name#*/ .d-menu .d-items-wrapper > .d-item:last-child { border-bottom: none; }
+    /*#name#*/ .d-menu.vertical > .d-item { margin-top: 5px; }
+    /*#name#*/ .d-menu.vertical > .d-separator { display: none; }
+    /*#name#*/ .d-menu.horizontal > .d-separator { margin-right: 5px; border: none; }

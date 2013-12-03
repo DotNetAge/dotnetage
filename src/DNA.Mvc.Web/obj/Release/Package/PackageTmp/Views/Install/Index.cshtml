@@ -1,0 +1,355 @@
+﻿@using System.Web.Configuration
+@{
+    ViewBag.Title = "DotNetAge 3";
+    Layout = "~/Views/Install/_Layout.cshtml";
+    var cnn = WebConfigurationManager.ConnectionStrings["DNADB"];
+    if (cnn == null)
+    {
+        cnn = WebConfigurationManager.ConnectionStrings[0];
+    }
+    var cnnStr = cnn.ConnectionString;
+    var provider = cnn.ProviderName;
+    var licFile = Server.MapPath("~/license.txt");
+    if (File.Exists(Server.MapPath("~/license." + Culture + ".txt")))
+    {
+        licFile = Server.MapPath("~/license." + Culture + ".txt");
+    }
+}
+<div id="placeHolder">
+    <div id="welcome" style="display: block;">
+        <h2 style="text-align: center; line-height: 1.5em;">@Resources.Installations.Welcome</h2>
+        <p>@Resources.Installations.TrustLevel : @if (DnaConfig.IsFullTrust){<text>@Resources.Installations.FullTrust</text>}
+                         else
+                         {<text>@Resources.Installations.MediumTrust</text>}</p>
+        <p>@Resources.Commons.Version:@AppModel.Version</p>
+        <p>
+            <label>@Resources.Installations.Language :</label>
+            @Html.DropDownList("languageSelector",
+    AppModel.Get().SupportedCultures.Select(c => new SelectListItem()
+    {
+        Text = c.NativeName,
+        Value = c.Name,
+        Selected = c.Name.Equals(Culture, StringComparison.OrdinalIgnoreCase)
+    }),
+    new
+    {
+        data_role = "combobox",
+        data_input = "false",data_height=200,
+        data_select = "if (ui.dataItem.value!='" + Culture + "') {installed=true; window.location='" + Url.Content("~/install/index?lang=") + "'+ui.dataItem.value;}",
+        style = "width:200px;"
+    })
+        </p>
+        <p>@Resources.Installations.ReadBefore</p>
+        <textarea style="width: 98%; height: 320px;" readonly="readonly">@System.IO.File.ReadAllText(licFile)</textarea>
+        <p style="text-align: center;">
+            <button data-default="true" data-inline="false" onclick="$('#welcome').hide();$('#setup_db').show();$('body,html').animate({ scrollTop: '0px' },100);">@Resources.Installations.Accept</button>
+        </p>
+    </div>
+    <div id="setup_db" style="display: none;">
+        <h2>@Resources.Installations.SetupDB</h2>
+        <div class="d-form">
+            <div class="d-field">
+                <label>@Resources.Installations.DbEngine</label>
+                <select data-role="combobox"
+                    style="width: 70%;"
+                    data-drop-style="menu"
+                    id="dbengine"
+                    data-select="$('#dbholder').children().hide();$('#'+ui.dataItem.value).show();">
+                    <option value="db_sqlce">SQL Server Compact 4 (SQLCE4)</option>
+                    <option value="db_sqlsrv">SQL Server / SQL Express</option>
+                    <option value="db_mysql">MySQL 5.5</option>
+                </select>
+                @*             <div>
+                    Run MySQL under medium trust mode please read on<a href="http://dev.mysql.com/doc/refman/5.0/en/connector-net-medium-trust.html#connector-net-medium-trust-nongac">dev.mysql.com</a>
+                </div>*@
+            </div>
+            <div id="dbholder" class="d-field">
+                <div id="db_sqlce" class="d-fields" data-provider="System.Data.SqlServerCe.4.0" style="display: none;"></div>
+                <form id="db_sqlsrv"
+                    class="d-form"
+                    data-provider="System.Data.SqlClient"
+                    style="display: none;">
+                    <div class="d-field">
+                        <label for="serverName">@Resources.Installations.SrvName</label>
+                        <input type="text" id="serverName" 
+                        name="serverName" 
+                        data-speech="false" 
+                        placeholder="@Resources.Installations.SrvNameHolder" 
+                        value="localhost" 
+                        data-val="true" 
+                        data-val-required="@Resources.Installations.SrvRequired" />
+                        <div style="padding-top: 5px;">
+                            <span class="d-valmsg" data-valmsg-for="serverName" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="d-field">
+                        <label for="dataSource">@Resources.Installations.DBName</label>
+                        <input type="text" id="dataSource" 
+                        name="dataSource" 
+                        data-speech="false" 
+                        placeholder="@Resources.Installations.DbNameHolder" 
+                        value="dnadb" 
+                        data-val="true" 
+                        data-val-required="@Resources.Installations.DbNameRequired" />
+                        <small class="d-valmsg" data-valmsg-for="dataSource" data-valmsg-replace="true"></small>
+                    </div>
+                    <div id="authHolder" class="d-field">
+                        <label>@Resources.Installations.Authentication</label>
+                        <select data-role="combobox" data-drop-style="menu" id="selAuth" data-select="switchAuth(ui.index);" style="width: 50%;">
+                            <option value="win">@Resources.Installations.WinAuth</option>
+                            <option value="db">@Resources.Installations.DBAuth</option>
+                        </select>
+                    </div>
+                    <div style="margin-left: 10px;" class="d-field">
+                        <label for="dbuser">@Resources.Installations.Usr</label>
+                        <input type="text" 
+                        data-speech="false" 
+                        placeholder="@Resources.Installations.UsrHolder" 
+                        id="dbuser" 
+                        class="d-state-disable" 
+                        disabled="disabled" />
+                    </div>
+                    <div style="margin-left: 10px;" class="d-field">
+                        <label for="dbpwd">@Resources.Installations.Pwd</label>
+                        <input type="password" 
+                        data-speech="false" 
+                        placeholder="@Resources.Installations.PwdHolder" 
+                        id="dbpwd" 
+                        class="d-state-disable" 
+                        disabled="disabled" />
+                    </div>
+                </form>
+                <form id="db_mysql" class="d-form" data-provider="MySql.Data.MySqlClient" style="display: none;">
+                    <div class="d-field">
+                        <label for="mysql_srv">@Resources.Installations.SrvName</label>
+                        <input type="text" id="mysql_srv" name="mysql_srv" data-speech="false" placeholder="@Resources.Installations.SrvNameHolder" value="localhost" data-val="true" data-val-required="@Resources.Installations.SrvRequired" />
+                        <small class="d-valmsg" data-valmsg-for="mysql_srv" data-valmsg-replace="true"></small>
+                    </div>
+                    <div class="d-field">
+                        <label for="mysql_db">@Resources.Installations.DBName</label>
+                        <input type="text" id="mysql_db" name="mysql_db" data-speech="false" placeholder="@Resources.Installations.DbNameHolder" value="dnadb" data-val="true" data-val-required="@Resources.Installations.DbNameRequired" />
+                        <small class="d-valmsg" data-valmsg-for="mysql_db" data-valmsg-replace="true"></small>
+                    </div>
+                    <div class="d-field">
+                        <label for="mysql_user">@Resources.Installations.Usr</label>
+                        <input id="mysql_user" type="text" name="mysql_user" data-speech="false" onfocus="$(this).select();" placeholder="@Resources.Installations.UsrHolder" value="root" data-val="true" data-val-required="@Resources.Installations.UsrRequired" />
+                        <small class="d-valmsg" data-valmsg-for="mysql_user" data-valmsg-replace="true"></small>
+                    </div>
+                    <div class="d-field">
+                        <label for="mysql_pwd">@Resources.Installations.Pwd</label>
+                        <input id="mysql_pwd" name="mysql_pwd" type="password" data-speech="false" onfocus="$(this).select();" placeholder="@Resources.Installations.PwdHolder" data-val="true" data-val-required="@Resources.Installations.PwdRequired" />
+                        <small class="d-valmsg" data-valmsg-for="mysql_pwd" data-valmsg-replace="true"></small>
+                    </div>
+                </form>
+            </div>
+            <p>
+                <button data-default="true" onclick="createDB();" data-inline="false">@Resources.Installations.Continue</button>
+            </p>
+        </div>
+    </div>
+    <div id="setup_admin" style="display: none;">
+        <h2>@Resources.Installations.CreateAdmin</h2>
+        @{ Html.RenderPartial("Register");}
+    </div>
+    <div id="setup_web" style="display: none;">
+        <h2>@Resources.Installations.SetupFirstWeb</h2>
+        @using (Ajax.BeginForm("CreateWeb", "Install", null, new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            OnBegin = "$.loading('" + Resources.Installations.CreatingWeb + "');",
+            OnSuccess = "_doWebFormPostback(data);",
+            OnFailure = "$.err(error); ",
+            OnComplete = "$.loading('hide');"
+        }, new { id = "webform", @class = "d-form" }))
+        {
+            <input name="Web.Theme" type="hidden" value="Default" />
+            <input type="hidden" value="" name="Web.Owner" id="Web_Owner" />
+            <input type="hidden" value="@Culture" name="lang" />
+            <div class="d-field">
+                <label for="Web_Tilte">@Resources.Commons.Title</label>
+                <input required="required" name="Web.Title" id="Web_Title" 
+                    placeholder="@Resources.Installations.WebTitleHolder" 
+                    value="@Resources.Installations.MyWeb" 
+                    type="text" />
+                <div class="d-notes">@Resources.Installations.WebTitleNotes</div>
+            </div>
+            <div class="d-field">
+                <label for="Web_Description" style="vertical-align: top;">@Resources.Commons.Desc</label>
+                <textarea id="Web_Description" name="Web.Description" placeholder="@Resources.Installations.WebDescHolder"></textarea>
+                <small style="margin: 0px;">@Resources.Installations.WebDescNotes</small>
+            </div>
+            <h3>@Resources.Installations.InstallStartKit</h3>
+            @UIHelper.Solutions("$('#solName').val(ui.item.data('val'))")
+            <input type="hidden" name="solution" id="solName" value="core" />
+            <p>
+                <button data-default="true" data-inline="false">@Resources.Commons.Create</button>
+            </p>
+        }
+    </div>
+    <div id="finish" style="display: none;">
+        <h2>@Resources.Installations.Complete</h2>
+        <p>@Resources.Installations.Success</p>
+        <ul data-role="listview" data-display="mobile-list">
+            <li><a href="http://www.dotnetage.com/home/en-US/quickstart.html">@Resources.Installations.Quickstart</a></li>
+            <li><a href="http://www.dotnetage.com/home/en-us/FAQ.html">@Resources.Installations.FAQ</a></li>
+            <li><a href="http://www.dotnetage.com">@Resources.Installations.GoDNA</a></li>
+        </ul>
+        <p>
+            <a href="@Url.Action("Restart")" data-role="button" data-inline="false" data-default="true" onclick="$.loading()">@Resources.Installations.EnterWebsite</a>
+        </p>
+    </div>
+</div>
+<script type="text/javascript">
+    function switchAuth(index) {
+        if (index == 0) {
+            $("#dbuser").taoTextbox("disable");
+            $("#dbpwd").taoTextbox("disable");
+        }
+        else {
+            $("#dbuser").taoTextbox("enable");
+            $("#dbpwd").taoTextbox("enable");
+            $("#dbuser").focus();
+        }
+
+    }
+
+    function getConnectionString() {
+        var engine = $("#dbengine").val();
+        switch (engine) {
+            case "db_sqlce":
+                return "Data Source=|DataDirectory|dnadb.sdf";
+            case "db_sqlsrv":
+                var cnn = [], _usr = $("#dbuser").val(), _pwd = $("#dbpwd").val(), _srv = $("#serverName").val(),
+            _ds = $("#dataSource").val(), _selAuth = $("#selAuth").taoComboBox("option", "value");
+
+                if (_srv)
+                    cnn.push("Data Source=" + _srv);
+                cnn.push("Initial Catalog=" + _ds);
+
+                cnn.push("MultipleActiveResultSets=True");
+
+                if (_selAuth == "win")
+                    cnn.push("Integrated Security=True");
+                else {
+                    if (_usr) cnn.push("User ID=" + _usr);
+                    if (_pwd) cnn.push("Password=" + _pwd);
+                }
+
+                return cnn.join(";");
+
+            case "db_mysql":
+                var cnn = [], db = $("#mysql_db").val(), srv = $("#mysql_srv").val(), user = $("#mysql_user").val(), pwd = $("#mysql_pwd").val();
+                cnn.push("Data Source=" + srv);
+                cnn.push("Database=" + db);
+                cnn.push("User ID=" + user);
+                cnn.push("Password=" + pwd);
+                return cnn.join(";");
+        }
+    }
+
+    function createDB() {
+        var engine = $("#dbengine").val();
+        if ((engine == "db_sqlce") || (engine == "db_sqlsrv" && $("#db_sqlsrv").valid()) ||
+            (engine == "db_mysql" && $("#db_mysql").valid())) {
+            var dat = {
+                connectionString: getConnectionString(),
+                drop: true,
+                provider: $("#" + $('#dbengine').val()).attr("data-provider")
+            };
+
+            $.loading("@Resources.Installations.Restarting");
+
+            $.ajax("@Url.Content("~/install/restart")")
+                .done(function () {
+
+                $.loading("@Resources.Installations.ConnectingDb");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Content("~/install/tryconnect")",
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        handleError(errorThrown);
+                    },
+                    data: dat
+                }).done(function (response) {
+                    if (response.error) {
+                        $.loading("hide");
+                        handleError(response.error);
+                    }
+                    else {
+                        $.loading("@Resources.Installations.CreatingDB");
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Content("~/install/trycreate")",
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                $.loading("hide");
+                                handleError(errorThrown);
+                            },
+                            data: dat
+                        }).done(function (r) {
+                            $.loading("hide");
+                            if (r.error) {
+                                handleError(r.error);
+                            }
+                            else {
+                                //_go(2);
+                                $('body,html').animate({ scrollTop: '0px' }, 100);
+                                $("#setup_db").hide();
+                                $("#setup_admin").show();
+                            }
+                        });
+                    }
+                });
+            });
+        }
+    }
+
+    function handleError(error) {
+        $.err(error);
+        //$("#errortext").text(error);
+        //$("#placeHolder").blockUI($("#errorInfo"));
+    };
+
+    function _doFormPostback(data) {
+        $('body,html').animate({ scrollTop: '0px' }, 100);
+        $('#regform').replaceWith(data);
+        $('#regform').taoUI();
+        $.validator.unobtrusive.parse(document);
+        if ($("#regform .field-validation-error").length == 0) {
+            $("#setup_admin").hide();
+            $("#setup_web").show();
+            $("#Web_Owner").val($("#UserName").val());
+        }
+    }
+
+    function _doWebFormPostback(data) {
+        $('body,html').animate({ scrollTop: '0px' }, 100);
+
+        if (data.error)
+            handleError(data.error);
+        else {
+            $('#setup_web').hide();
+            installed = true;
+            $("#finish").show();
+        }
+    }
+    var installed = false;
+
+    $(window).bind("beforeunload", function () {
+        if (!installed)
+            return "The install is not complete are you sure exit the installation screen?";
+    });
+
+    $(function () {
+        $("body").animate({ opacity: 1 }, 500);
+
+        $("#db_sqlsrv").bind("change", function () { $('#db_sqlsrv').valid(); });
+        $("#db_mysql").bind("change", function () { $('#db_mysql').valid(); });
+        $("#regform").bind("change", function () {
+            var f = $('#regform');
+            $('button', f).isDisable(!f.valid());
+        });
+
+    });
+</script>

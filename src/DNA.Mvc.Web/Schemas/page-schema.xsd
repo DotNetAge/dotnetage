@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://www.dotnetage.com/XML/Schema/page"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:wd="http://www.dotnetage.com/XML/Schema/widget-data"
+    xmlns:s="http://www.dotnetage.com/XML/Schema/page"
+>
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:import namespace="http://www.dotnetage.com/XML/Schema/widget-data" />
+  <xs:element name="page">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="title">
+            <xs:complexType mixed="true">
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="resKey" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="description">
+            <xs:complexType mixed="true">
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="resKey" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="keywords" >
+            <xs:complexType mixed="true">
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="resKey" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="link" type="xs:string"  maxOccurs="1"  />
+          <xs:element name="icon" >
+            <xs:complexType>
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="src" type="xs:string"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="image">
+            <xs:complexType>
+              <xs:attribute ref="xml:lang" />
+              <xs:attribute name="src" type="xs:string"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="layout" maxOccurs="1">
+            <xs:complexType mixed="true">
+              <xs:attribute name="name" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="style">
+            <xs:complexType>
+              <xs:attribute name="src" type="xs:string"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="script">
+            <xs:complexType>
+              <xs:attribute name="src" type="xs:string"/>
+              <xs:attribute name="type">
+                <xs:simpleType>
+                  <xs:restriction base="xs:token">
+                    <xs:enumeration value="text/javascript"/>
+                    <xs:enumeration value="text/vbscript"/>
+                    <xs:enumeration value="text/x-jquery-tmpl"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="pages" maxOccurs="1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="s:page"  maxOccurs="unbounded" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="widgets" maxOccurs="1" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element ref="wd:widget"  maxOccurs="unbounded" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Identity the page name
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="target" type="s:targets" use="optional" />
+      <xs:attribute ref="xml:lang" />
+      <xs:attribute name="dir">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="ltr"/>
+            <xs:enumeration value="rtl"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="anonymous"  type="xs:boolean" default="true" use="optional"/>
+      <xs:attribute name="showInMenu"  type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="showInSitemap"  type="xs:boolean" use="optional" default="true"/>
+      <xs:attribute name="static"  type="xs:boolean" use="optional" default="false"/>
+      <xs:attribute name="shared"  type="xs:boolean" use="optional" default="false"/>
+      <xs:attribute name="viewmode">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="Center"/>
+            <xs:enumeration value="Full"/>
+            <xs:enumeration value="Left"/>
+            <xs:enumeration value="Right"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="slug"  type="xs:string" use="optional"/>
+      <xs:attribute name="roles"  type="xs:string" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="targets">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="_self" />
+      <xs:enumeration value="_blank" />
+      <xs:enumeration value="_top" />
+      <xs:enumeration value="_parent" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

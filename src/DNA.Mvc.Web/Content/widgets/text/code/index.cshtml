@@ -1,0 +1,72 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var lang = item.GetString("language");}
+<ul data-role="listview" data-display="mobile-list" data-inset="true">
+    <li data-role="fieldcontain">
+        <label>@Resources.Commons.Language</label>
+        <select data-role="combobox" name="language" style="width: 200px;" data-drop-style="menu">
+            <option value="html" @if (lang == "html")
+                                 {<text>selected="selected"</text>}>Html/Xml</option>
+            <option value="cs" @if (lang == "cs")
+                               {<text>selected="selected"</text>}>C#</option>
+            <option value="vb" @if (lang == "vb")
+                               {<text>selected="selected"</text>}>VB/VB Script</option>
+            <option value="javascript" @if (lang == "javascript")
+                                       {<text>selected="selected"</text>}>javascript</option>
+            <option value="sql" @if (lang == "sql")
+                                {<text>selected="selected"</text>}>sql</option>
+            <option value="msh" @if (lang == "msh")
+                                {<text>selected="selected"</text>}>msh</option>
+        </select>
+    </li>
+    <li data-readonly="true">
+        <input type="checkbox" 
+        name="alternate" 
+        data-label="@item.Loc("ShowAltRows")" 
+        value="@item.GetBool("alternate")" @if (item.GetBool("alternate"))
+                                           {<text>checked="checked" </text>} />
+    </li>
+    <li data-readonly="true">
+        <input type="checkbox" 
+        name="showLines" 
+        data-label="@item.Loc("ShowLines")"
+        value="@item.GetBool("showLines").ToString()" @if (item.GetBool("showLines"))
+                                                      {<text>checked="checked"</text>} />
+    </li>
+    <li data-role="fieldcontain">
+        <label>@Resources.Commons.Content</label>
+        <textarea name="content"
+            placeholder="@item.Loc("CodeHolder")"
+            style="height: 300px; width: 100%;">@item.GetString("content")</textarea>
+    </li>
+</ul>
+</text>).Content(@<text>
+@{
+    var lang = item.GetString("language");
+    var content = item.GetString("content");
+    var alternate = item.GetBool("alternate");
+    var showLines = item.GetBool("showLines");
+}
+@if (!string.IsNullOrEmpty(content))
+{
+    @TextEngine.Code(content, lang, alternate, false, showLines)
+}
+else
+{
+    <p style="text-align: center;">@item.Loc("NoContent")</p>
+}
+</text>).Design(@<text>
+@{
+    var lang = item.GetString("language");
+    var content = item.GetString("content");
+    var alternate = item.GetBool("alternate");
+    var showLines = item.GetBool("showLines");
+}
+@if (!string.IsNullOrEmpty(content))
+{
+    @TextEngine.Code(content, lang, alternate, false, showLines)
+}
+else
+{
+    @item.DesignModeHolder(Resources.Widgets.OpenSettings)
+}
+</text>).GetHtml()

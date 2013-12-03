@@ -1,0 +1,82 @@
+﻿@model DNA.Web.ServiceModel.UserDecorator
+<form data-ajax="true" 
+    data-ajax-url="@Url.Action("UserRoles", "Security", new { name = Model.UserName })"
+    data-ajax-method="post"
+    data-ajax-begin="$.loading()"
+    data-ajax-failure="$.err(error)"
+    data-ajax-success="var _form=$('#userRoles_form');_form.find('.d-button').isDisable(true);var _roleArgs=[]; _form.find(':checked').each(function(i,rn){ _roleArgs.push($(rn).attr('value')); }); $('#sys_user_@Model.UserName').find('.d-item-counter').text(_roleArgs.join(','));$.closePanels();"
+    data-ajax-complete="$.loading('hide');"
+    id="userRoles_form">
+    <div>
+        @SocialNetworks.UserAvatar(Model.UserName, 80)
+        <div class="d-inline" style="vertical-align: top;">
+            <div class="d-h5">
+                @(string.IsNullOrEmpty(Model.DefaultProfile.DisplayName) ? Model.UserName : Model.DefaultProfile.DisplayName)
+            </div>
+            <div>
+                @Model.DefaultProfile.Signature
+            </div>
+        </div>
+    </div>
+    <ul data-role="listview" data-display="mobile-list" class="d-ui-widget">
+        <li data-role="fieldcontain">
+            <div>@Resources.Security.CreationDate:@Model.CreationDate.ToShortDateString() </div>
+        </li>
+        <li data-role="fieldcontain">
+            <div>@Resources.Security.LastLogin:@Model.LastLoginDate.ToShortDateString() </div>
+        </li>
+        <li data-link-icon="d-icon-envelope">
+            <a href="mailto:@Model.Email">@Resources.Contacts.Email:@Model.Email</a>
+        </li>
+        @if (!Model.IsVaildMail) { 
+            <li data-role="fieldcontain">
+                <a data-role="button" data-inline="false"  id="BtnValEmail"
+                    data-ajax-method="post"
+                    data-ajax="true"
+                    data-ajax-url="@Url.Action("ValidateEmail", "Account", new { userName=Model.UserName})"
+                    data-ajax-begin="$('#BtnValEmail').isDisable(true);"
+                    data-ajax-failure="$.err('Send validate email fail!');$('#BtnValEmail').isDisable(false);"
+                    data-ajax-success="$.info('The validate mail has been sent.')">Validate email</a>
+            </li>
+        }
+        <li data-counter="@AppModel.Get().Roles.All.Count()" data-role="divider">@Resources.Commons.Roles</li>
+        @foreach (var role in AppModel.Get().Roles.All)
+        {
+            <li data-readonly="true" data-link-icon="no"><div>
+                <input type="checkbox" 
+                        data-label="@role" 
+                        data-bool="false" 
+                        id="@role" 
+                        @if (role == "guests")
+                        {
+                            <text>class="d-state-disable" disabled="disabled" checked="checked"</text>
+                        } else{
+                        if (Model.IsInRole(role))
+                        {<text>checked="checked"</text>}
+                        }
+                        name="roles" value="@role" /></div>
+            </li>
+        }
+    </ul>
+    <div style="padding: 0px 10px;">
+        <button data-default="true" data-inline="false" class="d-state-disable">@Resources.Commons.Save</button>
+    </div>
+</form>
+<div style="padding: 0px 10px;">
+    <a data-role="button" 
+        data-inline="false"
+        data-ajax="true"
+        data-ajax-url="@Url.Content("~/api/accounts/remove?id=" + Model.ID.ToString())"
+        data-ajax-confirm="@string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Commons.User)"
+        data-ajax-begin="$.loading()"
+        data-ajax-failure="$.err(error)"
+        data-ajax-success="$('#sys_user_@Model.UserName').remove();$.closePanels();"
+        data-ajax-complete="$.loading('hide')">@Resources.Commons.Delete</a>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#userRoles_form").bind("change", function () {
+            $("#userRoles_form").find(".d-button").isDisable(false);
+        });
+    });
+</script>

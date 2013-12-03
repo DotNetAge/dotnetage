@@ -1,0 +1,59 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{ 
+    var settings = item.GetUserPreferences();
+    var types = new SelectList(new List<SelectListItem>()
+    {
+        new SelectListItem() { Text ="Simple list", Value = "" },
+        new SelectListItem() { Text ="Menu", Value = "menu" },
+        new SelectListItem() { Text ="Menubar", Value = "menubar" },
+        new SelectListItem() { Text ="Mobile list", Value = "listview" }
+    }, "Value", "Text",item.GetString("type"));
+    var pages = AppModel.Get().CurrentWeb.Pages.Where(p => !p.IsShared && p.Locale.Equals(Culture, StringComparison.OrdinalIgnoreCase));
+}
+@item.Hidden("data")
+<div class="d-field">
+    <a data-role="button" onclick="$.editLinks('@(Resources.Widgets.OrganizeLinks)',eval($('#@item.GetID("data")').val()),function(lnks){  $('#@item.GetID("data")').val(JSON.stringify(lnks)).trigger('change'); } )" data-inline="false">@Resources.Widgets.OrganizeLinks</a>
+</div>
+<div class="d-field">
+    <label>@Resources.Commons.Type</label>
+    @Html.DropDownList("type", types, new { data_role = "combobox", data_drop_style = "menu", style = "width:100px;" })
+</div>
+</text>).AutoSave().Content(@<text>
+@{
+    var dataStr = item.GetString("data");
+    var type = item.GetString("type");
+    var links = !string.IsNullOrEmpty(dataStr) ? Json.Decode(dataStr) : null;
+}
+@if (links != null && links.Length > 0)
+{
+    <ul class="d-items" @if (!string.IsNullOrEmpty(type))
+                        { <text>data-role ="@type"</text>} @if (type == "listview")
+                                                           {<text>data-display="mobile-list"</text>}>
+        @foreach (var lnk in links)
+        {
+            <li class="d-item"><a href="@lnk.url" title="@lnk.title" target="@lnk.target">@lnk.text</a></li>
+        }
+    </ul>
+}
+</text>).Design(@<text>
+@{
+    var dataStr = item.GetString("data");
+    var type = item.GetString("type");
+    var links = !string.IsNullOrEmpty(dataStr) ? Json.Decode(dataStr) : null;
+}
+@if (links != null && links.Length > 0)
+{
+    <ul class="d-items" @if (!string.IsNullOrEmpty(type))
+                        { <text>data-role ="@type"</text>} @if (type == "listview")
+                                                           {<text>data-display="mobile-list"</text>}>
+        @foreach (var lnk in links)
+        {
+            <li class="d-item"><a href="javascript:void(0);" onclick="$(this).closest('.d-widget').click();" title="@lnk.title" target="@lnk.target">@lnk.text</a></li>
+        }
+    </ul>
+}
+else
+{
+    @item.DesignModeHolder(Resources.Widgets.OpenSettings)
+}
+</text>).GetHtml()

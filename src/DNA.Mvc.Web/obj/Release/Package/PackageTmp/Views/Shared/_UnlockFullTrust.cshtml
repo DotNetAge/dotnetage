@@ -1,0 +1,4 @@
+﻿@if (User.IsAdministrator() && !AppModel.IsFullTrust)
+{
+    <a href="javascript:void(0);" data-role="button" data-default="true" onclick="$.confirm('@Resources.Messages.TrustLevelWarnning','@Resources.Messages.SecurityWarnning').done(function(){ $.loading(); $.post('@Url.Action("UnlockFullTrust", "Sys")',function(){ location.reload();}); })">@Resources.Managements.UnlockFullTrust</a>
+}

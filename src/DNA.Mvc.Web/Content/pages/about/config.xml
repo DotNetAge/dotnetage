@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<page target="_self"
+      anonymous="true"
+      showInMenu="true"
+      static="false" 
+      shared="false"
+      slug="about"
+      xmlns="http://www.dotnetage.com/XML/Schema/page">
+  <title>About</title>
+  <description>Tell your customers something about you or your company </description>
+  <icon src="~/content/images/icon_support_24.png"></icon>
+  <image src="~/content/images/icon_support_48.png"></image>
+  </page>

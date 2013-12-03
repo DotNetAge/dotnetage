@@ -1,0 +1,26 @@
+<div class="d-page" data-role="layout">
+    <div data-role="layout" data-label="Header" class="d-page-header">@Html.Zone("HeaderZone", "HeaderZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.HeaderZone }).GetHtml()</div>
+    <div data-role="layout" data-label="Navigation" class="d-page-nav">@Html.Zone("NavigationZone", "NavigationZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.NavigationZone }).GetHtml()</div>
+    <div data-role="layout" data-label="Content" class="d-page-content">@Html.Zone("ContentZone", "ContentZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.ContentZone }).GetHtml()
+        <div id="layout13" data-role="layout" data-label="50% 50%" data-cols="2" class="d-page-part">
+            <div class="d-layout-columns d-layout-columns-2">
+                <div class="d-layout-column">@Html.Zone("LeftZone", "LeftZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.LeftZone }).GetHtml()</div>
+                <div class="d-layout-column">@Html.Zone("RightZone", "RightZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.RightZone }).GetHtml()</div>
+            </div>
+        </div>
+        <div id="layout_bottom" data-role="layout" data-label="100%" data-cols="1" data-class="full" class="d-page-part">
+            <div class="d-layout-columns d-layout-columns-full">
+                <div class="d-layout-column">@Html.Zone("BottomZone", "BottomZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.BottomZone }).GetHtml()</div>
+            </div>
+        </div>
+    </div>
+    <div data-role="layout" data-label="Footer" class="d-page-footer">
+        <div class="d-page-part" data-cols="3" data-label="33.3% 33.3% 33.3%" data-role="layout" id="footer-columns">
+            <div class="d-layout-columns d-layout-columns-3">
+                <div class="d-layout-column">@Html.Zone("FooterLeftZone", "FooterLeftZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterLeftZone }).GetHtml()</div>
+                <div class="d-layout-column">@Html.Zone("FooterCenterZone", "FooterCenterZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterCenterZone }).GetHtml()</div>
+                <div class="d-layout-column">@Html.Zone("FooterRightZone", "FooterRightZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterRightZone }).GetHtml()</div>
+            </div>
+        </div>@Html.Zone("FooterZone", "FooterZone").Attrs(new { @class = "d-widget-zone", data_label = Resources.Pages.FooterZone }).GetHtml()
+    </div>
+</div>

@@ -1,0 +1,15 @@
+﻿@{
+    Html.Widget()
+        .Content(@<text>
+    @{     
+        var name = item.GenerateFieldID("iframe");
+        var descriptor = item.Model.WidgetDescriptor;
+        var installedPath = descriptor.InstalledPath;
+        }
+    <iframe id="@name" name="@name" 
+        class="d-widget-frame" 
+        src="@Url.Content("~/content/widgets/"+installedPath.Replace("\\","/")+"/"+item.Model.ID.ToString()+".html")">
+    </iframe>
+    </text>)
+        .Render();
+}

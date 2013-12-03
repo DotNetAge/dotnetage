@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="section" version="1.0">
+  <name short="section">Animation section</name>
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="align" value="'left'" />
+  <preference name="textalign" value="'left'" />
+  <preference name="tag" value="'h1'" />
+  <preference name="margin" value="0"/>
+  <preference name="animation" value="''"/>
+  <preference name="src" value="''"/>
+  <preference name="title" value="'Title text'" />
+  <preference name="description" value="'Description text'" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

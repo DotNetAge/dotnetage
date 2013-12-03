@@ -1,0 +1,3 @@
+﻿.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover { background-color: #556366; background-image: none; }
+    .d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover, .ui-state-hover > a { color: #e3e7e8; }
+

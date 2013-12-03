@@ -1,0 +1,10 @@
+﻿.d-toolbar { padding: 2px; margin: 0px; }
+    .d-toolbar > li { list-style: none; }
+    .d-toolbar > .d-item, .d-toolbar, .d-toolbar * { vertical-align: middle; display: inline-block; }
+.d-toolbar-button { padding: 0px; }
+    .d-toolbar-button.d-state-hover { background-color: #fcfcfc; }
+.d-menu.toolbar { display: inline-block; margin-left: 1px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+    .d-menu.toolbar .d-item > a { /*line-height: 25px;*/ padding: 0px; }
+    .d-menu.toolbar .d-item { /*height: 34px;  min-height:20px;min-width:20px;*/ float: left; display: inline-block; vertical-align: middle; border-bottom: none; }
+    .d-menu.toolbar .d-picker > .d-content-text { min-height: 16px; font-size: 8pt; vertical-align: middle; line-height: 20px; }
+    .d-menu.toolbar .d-picker > input.d-content-text { height: 20px; vertical-align: middle; font-size: 8pt; }

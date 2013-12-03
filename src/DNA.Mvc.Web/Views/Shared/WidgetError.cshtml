@@ -1,0 +1,23 @@
+@model System.Web.Mvc.HandleErrorInfo
+@if (HttpContext.Current.Request.IsAuthenticated && (HttpContext.Current.User.IsAdministrator()))
+{
+    var errors = new List<string>();
+    var exception = Model.Exception;
+    while (exception != null)
+    {
+        errors.Add(exception.Message);
+        exception = exception.InnerException;
+    }
+    <div style="padding: 0pt 0.7em;" class="d-state-error">
+        <p>
+            <span style="float: left; margin-right: 0.3em;" class="d-icon-remove-circle d-inline" />
+            <strong>@Resources.Commons.Details :</strong>
+        </p>
+        <ol>
+            @foreach (var err in errors)
+            {
+                <li>@err</li>
+            }
+        </ol>
+    </div>
+}

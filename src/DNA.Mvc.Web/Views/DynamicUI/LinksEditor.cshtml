@@ -1,0 +1,98 @@
+﻿<input type="hidden" id="sys_links_object" value="@ViewBag.ObjectString"/>
+<div id="sys_links_source"></div>
+<div data-role="content-slider" style="height: 290px; width: 400px;" id="sys_link_slider" data-draggable="false">
+    <div>
+        <div style="padding: 10px; position: relative;">
+            <a data-role="button" style="width: 100px;" id="sys_lnks_result_button">@Resources.Commons.Done</a>
+            <a data-role="button" style="width: 100px; position: absolute; right: 10px; top: 10px;"
+                onclick="$('#sys_link_slider').taoContentSlider('go',1);$('#sys_edit_link_form').taoForm('option','mode','new');">@Resources.Commons.New</a>
+        </div>
+        <ul data-tmpl="sys_link_tmpl" style="padding: 10px; clear: right;" id="sys_link_list"
+            data-selectable="true"
+            data-inset="true"
+            data-source="sys_links_source"
+            data-role="listview"
+            data-item-created="$(ui.item).mobilelistItem();">
+        </ul>
+    </div>
+    <div>
+        <form class="d-form" data-source="sys_links_source" data-mode="new" id="sys_edit_link_form">
+            <div class="d-field">
+                <label for="sys_link_url">@Resources.Commons.Url</label>
+                <input type="text" value="" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Url)" name="url" id="sys_link_url" />
+            </div>
+            <div class="d-field">
+                <label></label>
+                <a style="width: 80px;" data-role="button" data-rel="link"
+                    data-link-to="#sys_link_url"
+                    data-link-select="$('#sys_link_url').val(data.url);$('#sys_link_text').val(data.title);$('#sys_link_title').val(data.desc);">@Resources.Commons.Add</a>
+            </div>
+            <div class="d-field">
+                <label for="sys_link_text">@Resources.Commons.Text</label>
+                <input type="text" value="" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Text)" name="text" id="sys_link_text" />
+            </div>
+            <div class="d-field">
+                <label for="sys_link_title">@Resources.Commons.Tooltips</label>
+                <input type="text" value="" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Tooltips)" name="title" id="" />
+            </div>
+            <div class="d-field">
+                <label for="sys_link_target">@Resources.Designs.Target</label>
+                <select name="target" id="sys_link_target" style="width: 200px;"
+                    data-role="combobox"
+                    data-drop-style="menu">
+                    <option value="_self">@Resources.Designs.Target_Self</option>
+                    <option value="_blank">@Resources.Designs.Target_Blank</option>
+                    <option value="_top">@Resources.Designs.Target_Top</option>
+                    <option value="_parent">@Resources.Designs.Target_Parent</option>
+                </select>
+            </div>
+            <div style="padding: 10px;">
+                <a data-role="button" style="width: 100px;" onclick="$('#sys_link_slider').taoContentSlider('go', 0);">@Resources.Commons.Cancel</a>
+                <a data-role="button" data-rel="update" data-default="true" style="width: 100px;">@Resources.Commons.Save</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/x-jquery-tmpl" id="sys_link_tmpl">
+    <li data-link-icon="no"><span class="d-inline d-icon-minus-3" style="margin-right: 5px;" onclick="event.preventDefault();event.stopPropagation();$('#sys_links_source').taoDataSource('remove');"></span><a>${text}</a><a data-icon="d-icon-resize-vertical" style="cursor: move;"></a></li>
+</script>
+<script type="text/javascript">
+    var _syncDataValues = function () {
+        $('#sys_links_object').val(JSON.stringify($('#sys_links_source').taoDataSource('option', 'data')));
+    };
+    var _data = $('#sys_links_object').val() ? eval($('#sys_links_object').val()) : [];
+
+    $("#sys_links_source").taoDataSource({
+        data: _data,
+        inserted: function () { _syncDataValues(); $('#sys_link_slider').taoContentSlider('go', 0); },
+        updated: function (event, data) {
+
+            _syncDataValues();
+            //console.log($("#sys_link_list").find("li.d-state-active"));
+            $('#sys_link_slider').taoContentSlider('go', 0);
+            window.setTimeout(function () { $("#sys_link_list").find("li.d-state-active").mobilelistItem(); }, 300);
+        },
+        removed: function () {
+            _syncDataValues();
+        },
+        position: function (event, dataItem) {
+            $("#sys_edit_link_form").taoForm("option", "mode", "edit");
+            $('#sys_link_slider').taoContentSlider('go', 1);
+        }
+    });
+
+    $("#sys_link_list").sortable({
+        handle: ".d-icon-resize-vertical",
+        update: function () {
+            var _array = [];
+            $("#sys_link_list").children().each(function (i, linkItem) {
+                _array.push($(linkItem).data("dataItem"));
+            });
+
+            $("#sys_links_source").taoDataSource("option", "data", _array);
+            _syncDataValues();
+            //console.log("change:"+$('#sys_links_object').val());
+        }
+    });
+</script>
+

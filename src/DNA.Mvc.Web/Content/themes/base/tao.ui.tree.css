@@ -1,0 +1,18 @@
+﻿/******************************************************tree****************************************************/
+.d-tree { margin: 0px; padding: 0px; list-style: none; opacity: 0; }
+.d-node { display: block; clear: left; overflow: hidden; white-space: nowrap; }
+    .d-node.d-state-disable { background: none; }
+.d-node-checkbox { display: inline-block; vertical-align: middle; }
+.d-node-button, .d-node-button > span { display: inline-block; width: 16px; vertical-align: middle; }
+    .d-node-button > span { text-align: center; cursor: pointer; }
+
+.d-node-content { display: inline-block; padding: 0px 5px; border: 1px solid transparent; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; vertical-align: middle; cursor: default; }
+    .d-node-content > span, .d-node-content > a { padding: 0px 3px; border: 1px solid transparent; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; line-height: 22px; }
+        .d-node-content > a > * { display: inline-block; vertical-align: middle; }
+.d-nodes-holder { padding-left: 20px; list-style: none; }
+    .d-nodes-holder > ul { padding: 0px; }
+
+.d-node-hasChildren.d-state-collapse > .d-nodes-holder { display: none; }
+.d-node-hasChildren.d-state-expand > .d-nodes-holder { display: block; }
+.d-node-img { margin-right: 2px; vertical-align: middle; }
+/***************************************************************************************************************/

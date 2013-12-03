@@ -1,0 +1,22 @@
+﻿@model ContentFieldValue
+@{
+    var field = Model.Field as DateField;
+    DateTime val = field.Parse(Model.Raw);    
+}
+@if (val != DateTime.MinValue)
+{ 
+    <span>
+        @if (field.ShowTime)
+        {
+            @val.ToString(System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat.FullDateTimePattern) 
+        }
+        else
+        {
+            @val.ToLongDateString()
+        }
+    </span>
+}
+else
+{
+    <span>-</span>
+}

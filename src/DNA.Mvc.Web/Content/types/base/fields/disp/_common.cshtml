@@ -1,0 +1,13 @@
+﻿@model ContentFieldValue
+@if (!string.IsNullOrEmpty(Model.Formatted))
+{
+    if (Model.Field.IsLinkToItem)
+    {
+    <a href="@Url.Content(Model.Link)">@Model.Formatted</a>
+    }
+    else
+    {
+    <span>@Model.Formatted</span>
+    }
+
+}

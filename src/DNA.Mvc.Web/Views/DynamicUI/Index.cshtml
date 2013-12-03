@@ -1,0 +1,73 @@
+﻿@{
+    var app = AppModel.Get();
+    var curPage = app.CurrentPage;
+    var masterLayout = app.CurrentWeb.GetMasterLayout(Context);
+    //var website = app.CurrentWeb.Name;
+    var parentLayoutView = "";
+    var layoutView = curPage.ViewName;
+
+    try
+    {
+        //Render parent layout view as master layout
+        if (string.IsNullOrEmpty(layoutView) && curPage.MasterID > 0)
+        {
+            parentLayoutView = curPage.Master.ViewName;
+            if (!string.IsNullOrEmpty(parentLayoutView))
+            {
+                curPage.Master.EnsureViewFile(Server);
+                Html.RenderPartial(parentLayoutView);
+            }
+            else
+            {
+                //If parent layout view is null render default master layout to protect this page.
+                Html.RenderPartial(masterLayout);
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(layoutView))
+            {
+                curPage.EnsureViewFile(Server);
+                ViewBag.ViewName = layoutView;
+                Html.RenderPartial(layoutView);
+            }
+            else
+            {
+                Html.RenderPartial(masterLayout);
+            }
+        }
+    }
+    catch (HttpCompileException ce)
+    {
+    <div style="padding: 30px;">
+        <h1>@Errors.PageTemplateCorrupted</h1>
+        <p>@Errors.PageTemplateCorruptedMsg</p>
+        <h2>@Resources.Commons.Details</h2>
+        <textarea readonly="readonly" style="width: 99%; height: 200px;">@Errors.Message \t\n @Errors.StackTrace</textarea>
+        <p style="text-align: center;">
+            <button data-default="true" onclick="$.loading();
+            $.post('@Url.Content("~/api/" + this.WebName + "/pages/reset/" + curPage.ID)', { includeLayout: true }, function () {
+                location.reload();
+            });">@Resources.Commons.Reset</button>
+        </p>
+    </div>
+    }
+    catch (Exception e)
+    {
+    <div style="padding: 30px;">
+        <h1>@Errors.UnknowError</h1>
+        <h2>Type: @e.GetType().ToString()</h2>
+        <p>@Errors.HandlingPageUncatchException</p>
+        <h2>@Resources.Commons.Details</h2>
+        <div style="padding: 20px; border: 1px solid #808080; overflow: auto; height: 200px;">
+            <h3>@Errors.Message</h3>
+            <p>@e.Message</p>
+            <h3>@Errors.StackTrace</h3>
+            <p>@e.StackTrace</p>
+        </div>
+        <p style="text-align: center;">
+            <a href="@Url.Content("~/")" data-default="true" data-role="button">@Resources.Commons.Back</a>
+        </p>
+    </div>
+    }
+}

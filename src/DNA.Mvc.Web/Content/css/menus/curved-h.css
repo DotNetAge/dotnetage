@@ -1,0 +1,6 @@
+﻿/*#name#*/.d-menu { background-color: inherit; z-index: 0; }
+/*#name#*/ .d-menu.horizontal { min-height: 52px; margin-bottom: 10px; border: none; }
+/*#name#*/ .d-menu > .d-item > a { line-height: 50px; }
+/*#name#*/ .d-menu .d-separator { border-color: transparent; }
+/*#name#*/ .d-menu:before, .d-menu:after { content: ""; position: absolute; z-index: -1; }
+/*#name#*/ .d-menu:before { top: 0; bottom: 0; left: 10px; right: 10px; -webkit-box-shadow: 0 0 12px rgba(0,0,0,0.6); -moz-box-shadow: 0 0 12px rgba(0,0,0,0.6); box-shadow: 0 0 12px rgba(0,0,0,0.6); -moz-border-radius: 10px / 100px; -moz-border-radius: 100px / 10px; border-radius: 100px / 10px; }

@@ -1,0 +1,37 @@
+﻿@model ContentPackage
+@{
+    var lines = AppModel.Get().NetDrive.ReadLines((Uri)ViewBag.FileUri);
+    var firstLine = lines.FirstOrDefault();
+    var columns = firstLine.Split(',');
+    var fields = Model.Locale(Culture).ReadFields();
+    var nameList = fields.Select(f => new SelectListItem() { Text = f.Title, Value = f.Name }).ToList();
+}
+<p>
+    <div class="d-ui-widget d-state-active d-inline" style="text-align: center; width: 150px;">
+        <h3>@columns.Length</h3>
+        <div style="padding: 5px;">Columns </div>
+    </div>
+    <div class="d-ui-widget d-state-active d-inline" style="text-align: center; width: 150px;">
+        <h3>@(lines.Count() - 1)</h3>
+        <div style="padding: 5px;">Rows </div>
+    </div>
+</p>
+    <p class="warn">对必填项则必须被Match，在此步骤可生成MapTable的Json对象上传</p>
+<ul class="d-items d-ui-widget">
+    <li class="d-item d-ui-widget-header">
+        <span class="d-inline" style="width: 33%">Columns</span>
+        <span class="d-inline" style="width: 200px;">@Resources.Contents.Fields</span>
+        <span class="d-inline" style="width: 250px;">@Resources.Contents.FieldType</span>
+    </li>
+    @foreach (var col in columns)
+    {
+        var colNames = nameList;
+        <li style="padding: 10px;">
+            <span class="d-inline" style="width: 33%">
+                <input type="checkbox" data-label="@col" name="columns" checked="checked" /></span>
+            <span class="d-inline" style="width: 200px;">@Html.DropDownList("fieldName", nameList, new { data_value=col,data_role="combobox" })</span>
+            <span class="d-inline" style="width: 250px;"></span>
+        </li>
+    }
+</ul>
+

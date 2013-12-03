@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.dotnetage.com/XML/Schema/widget-data"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xml="http://www.w3.org/XML/1998/namespace"
+           targetNamespace="http://www.dotnetage.com/XML/Schema/widget-data"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:attributeGroup name="global">
+    <xs:annotation>
+      <xs:documentation>attributes can be used on any element in a configuration document</xs:documentation>
+    </xs:annotation>
+    <xs:attribute ref="xml:lang"/>
+    <xs:attribute name="dir">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="ltr"/>
+          <xs:enumeration value="rtl"/>
+          <xs:enumeration value="lro"/>
+          <xs:enumeration value="rlo"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:element name="widget" >
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="title">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attributeGroup ref="global" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="icon" type="xs:string" maxOccurs="1" minOccurs="0"   />
+          <xs:element name="link">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attribute ref="xml:lang" />
+                  <xs:attribute name="target">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:token">
+                        <xs:enumeration value="_self"/>
+                        <xs:enumeration value="_blank"/>
+                        <xs:enumeration value="_parent"/>
+                        <xs:enumeration value="_top"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="title" use="optional" type="xs:string" />
+                  <xs:attribute name="rel" use="optional" type="xs:string" />
+                  <xs:attribute name="src" use="required" type="xs:string" />
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="style" maxOccurs="1" minOccurs="0">
+            <xs:complexType>
+              <xs:all>
+                <xs:element name="box" maxOccurs="1" minOccurs="0">
+                  <xs:complexType mixed="true">
+                    <xs:attribute name="class" type="xs:string" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="header" maxOccurs="1" minOccurs="0" >
+                  <xs:complexType mixed="true">
+                    <xs:attribute name="hidden" type="xs:boolean" use="optional" default="false"/>
+                    <xs:attribute name="class" type="xs:string" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+                <xs:element name="body" maxOccurs="1" minOccurs="0">
+                  <xs:complexType mixed="true">
+                    <xs:attribute name="class" type="xs:string" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:all>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="preference" >
+            <xs:complexType>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="value" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="pid" type="xs:string" use="required" />
+      <xs:attribute name="zone" type="xs:string" use="required"/>
+      <xs:attribute name="seq" type="xs:int" use="optional" default="0"/>
+      <xs:attribute name="roles" type="xs:string" use="optional" />
+      <xs:attribute name="action" type="xs:string" use="optional"/>
+      <xs:attribute name="controller" type="xs:string" use="optional"/>
+      <xs:attribute name="area" type="xs:string" use="optional" />
+      <xs:attribute name="static" type="xs:boolean" use="optional" />
+      <xs:attribute name="showIn">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="parent"/>
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="descendant"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="viewmode">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="maximized"/>
+            <xs:enumeration value="floating"/>
+            <xs:enumeration value="minimized"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

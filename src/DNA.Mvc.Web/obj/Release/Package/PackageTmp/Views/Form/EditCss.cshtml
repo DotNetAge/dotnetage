@@ -1,0 +1,48 @@
+﻿@model ContentFormDecorator
+@{var aliasName = ".d-form." + Model.Parent.Name + "." + Model.FormTypeString.ToLower();}
+<form data-ajax="true" 
+    data-ajax-url="@Url.Content(string.Format("~/{0}/{1}/form/editcss?name={2}&type={3}", AppModel.Get().CurrentWeb.Name, Culture, Model.Parent.Name, Model.FormTypeString))"
+    data-ajax-method="post"  
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-success="$(this).find('button[data-default=true]').isDisable(true);$(this).find('a[data-rel=close]').click();"
+    onchange="$(this).find('button[data-default=true]').isDisable(false)"
+    id="csseditform" style="width:100%;">
+    <div class="d-hbox">
+        <div data-role="panel" style="width: 180px; margin-right: 2px;" data-closable="false" data-collapsable="false">
+            <h3>@Resources.Contents.InsertCls</h3>
+            <div>
+                <ul data-role="listview"
+                    data-item-style="font-size:9pt;cursor:pointer;text-indent:5px;"
+                    data-selectable="true"
+                    style="height: 400px;"
+                    data-select="$('#csstext_editor').val($('#csstext_editor').val()+($('#csstext_editor').val()?'\t\n':'')+ui.item.data('class')+'{}')">
+                    <li data-class="@aliasName">@Resources.Contents.FormCls</li>
+                    <li data-class="@(aliasName) .d-field">@Resources.Contents.AllFieldsCls</li>
+                    @foreach (var f in Model.Fields)
+                    { 
+                        <li data-class="@(aliasName)>.d-field.@(f.Name)">@f.Title</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <textarea style="height: 300px; font-size: 9pt;" class="d-box1" id="csstext_editor" name="csstext" spellcheck="false">@ViewBag.CssText</textarea>
+    </div>
+    <div data-buttons-holder="true" style="padding: 0px 10px;">
+        <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+        <a data-role="button" data-rel="close" data-inline="false">@Resources.Commons.Cancel</a>
+    </div>
+</form>
+<script type="text/javascript">
+    $(function () {
+        var form = $('#csseditform'),
+            w = $(window).width(),
+            h = $(window).height() - 50;
+        form.width(w).height(h);
+        window.setTimeout(function () {
+            var btnsH = $("[data-buttons-holder=true]", form).outerHeight(true) + 50;
+            $("#csstext_editor").width(w - 182).height(h - btnsH);
+        }, 100);
+
+    });
+</script>

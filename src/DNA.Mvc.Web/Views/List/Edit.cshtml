@@ -1,0 +1,356 @@
+﻿@model ContentListDecorator
+@{
+    ViewBag.Title = Model.Title + " : " + Resources.Commons.Settings;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var fs = Model.Fields;
+    var forms = Model.Forms;
+    var views = Model.Views;
+    var icons = new Dictionary<ContentFieldTypes, string>();
+    icons.Add(ContentFieldTypes.Boolean, "checkbox-checked");
+    icons.Add(ContentFieldTypes.Choice, "radio-checked");
+    icons.Add(ContentFieldTypes.Computed, "sigma");
+    icons.Add(ContentFieldTypes.Currency, "money");
+    icons.Add(ContentFieldTypes.DateTime, "clock");
+    icons.Add(ContentFieldTypes.Image, "image");
+    icons.Add(ContentFieldTypes.Integer, "sort");
+    icons.Add(ContentFieldTypes.Number, "font");
+    icons.Add(ContentFieldTypes.Lookup, "search");
+    icons.Add(ContentFieldTypes.Note, "text-2");
+    icons.Add(ContentFieldTypes.Password, "key");
+    icons.Add(ContentFieldTypes.Text, "font-2");
+    icons.Add(ContentFieldTypes.User, "user");
+    icons.Add(ContentFieldTypes.Video, "video");
+    var currentWeb = AppModel.Get().CurrentWeb;
+    ViewBag.Title = Model.Title;
+    ViewBag.ReturnUrl = currentWeb.ContentsSettingUrl;
+}
+@section HeaderSection{
+    @Styles.Render("~/content/css/listsettings.css")
+}
+@section Navs{
+    <a data-role="button" 
+        data-icon-left="d-icon-trash"
+        onclick="$.confirm('@(string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Contents.List))','@(Resources.Commons.Confirm)','@Resources.Commons.OK','@Resources.Commons.Cancel')
+                             .done(function(){
+                                   $.loading();
+                                   $.post('@Url.Content("~/api/" + currentWeb.Name + "/lists/remove/" + Model.ID.ToString())')
+                                     .done(function() { location='@Url.Content(currentWeb.ContentsSettingUrl)'; }) 
+                                     .fail(function(jqXHR, textStatus, errorThrown){$.loading('hide'); $.err(errorThrown);})
+                             });"
+        title="@Resources.Commons.Delete"></a>
+    @*    <a data-ajax="true" 
+            data-ajax-url="@Url.Action("Export", "Contents", new { name = Model.Name, locale = Culture })" 
+            data-ajax-begin="$.loading('');" 
+            data-ajax-failure="$.loading('hide');$.err('@(Resources.Messages.BackupFail):'+error);" 
+            data-ajax-success="$.loading('hide');$.notify('The list is backup to : '+data)" 
+            data-role="button"
+            data-icon-left="d-icon-disk"
+            title="@Resources.Commons.Backup"></a>*@
+    <a data-role="button" href="#options_panel" data-rel="open" data-icon-left="d-icon-settings" title="@Resources.Commons.Settings"></a>
+    @if (User.IsAdministrator())
+    {
+@*Change to identity by permission*@
+        <a data-role="button" href="#save_as_panel" data-rel="open" data-icon-left="d-icon-save" title="Save as new type"></a>
+    }
+}
+
+@if (User.IsAdministrator())
+{
+    <div data-role="panel" data-pos="right" data-display="overlay" id="save_as_panel" style="position: fixed;" title="Save as new type">
+        <form class="d-form">
+            <div class="d-field">
+                @Html.Label("list_name", Resources.Commons.Name)
+                @Html.TextBox("list_name", Model.Name, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Name) })
+            </div>
+            <div class="d-field">
+                @Html.Label("list_title", Resources.Commons.Title)
+                @Html.TextBox("list_title", Model.Title, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Title) })
+            </div>
+            <div class="d-field">
+                @Html.Label("list_desc", Resources.Commons.Desc)
+                @Html.TextArea("list_desc", Model.Description, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Desc) })
+            </div>
+            <div class="d-field"></div>
+            <div style="padding: 10px;">
+                <button data-default="true" data-inline="false">@Resources.Commons.Save</button>
+            </div>
+        </form>
+    </div>
+}
+
+<div data-role="panel" data-pos="right" data-display="overlay" id="options_panel" style="position: fixed;">
+    <h3>@Resources.Commons.Settings</h3>
+    <div>
+        <form method="post" class="d-form"
+            data-ajax="true"
+            data-ajax-url="@Url.Content("~/api/" + currentWeb.Name + "/lists/save/" + Model.ID.ToString())"
+            data-ajax-begin="$.loading()"
+            data-ajax-complete="$.loading('hide')"
+            data-ajax-success="$('#sys_header_title').text($('#model_title_val').val());$.closePanels();">
+            <div class="d-field">
+                <label>@Resources.Commons.Title</label>
+                <input type="text" id="model_title_val" name="Title" value="@Model.Title" 
+                    data-val="true" 
+                    data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Title)" 
+                    placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Title)"/>
+                @Html.ValidationMessage("title")
+            </div>
+            <div class="d-field">
+                <label>@Resources.Commons.Desc</label>
+                <textarea name="Description" placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Desc)">@Model.Description</textarea>
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.AllowComments, new { data_label = Resources.Contents.AllowComments, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.AllowCategoriesAndTags, new { data_label = Resources.Contents.AllowCats, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.AllowAttachments, new { data_label = Resources.Contents.AllowAttachs, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.AllowVotes, new { data_label = Resources.Contents.AllowVotes, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.AllowResharing, new { data_label = Resources.Contents.AllowReshare, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.IsModerated, new { data_label = Resources.Contents.EnableModerate, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.EnableVersioning, new { data_label = Resources.Contents.EnableVersioning, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.IsActivity, new { data_label = Resources.Contents.PublishToActivityStream, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div class="d-field">
+                @Html.CheckBoxFor(m => m.IsHierarchy, new { data_label = Resources.Contents.IsHierarchyData, data_change = "$('#optionWrapper>form').submit();" })
+            </div>
+            <div style="padding: 10px;">
+                <button data-inline="false" data-icon-left="d-icon-disk">@Resources.Commons.Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(Model.DefaultUrl))
+{
+    <ul data-role="listview" data-display="mobile-list" data-inset="true" style="margin-bottom: 10px;" data-link-icon="no">
+
+        <li data-icon="d-icon-eye" data-counter="@Resources.Contents.Total @Model.TotalItems"><a href="@(Url.Content(Model.DefaultUrl))" target="_blank">@Resources.Contents.OpenDefView</a></li>
+
+        @if (Model.IsModerated)
+        {
+            <li data-icon="d-icon-clock" data-counter="@Model.PendingItemCount">
+                <a href="@Url.Content(Model.DefaultUrl)?filter=state~eq~0" target="_blank">@Resources.Contents.Pending</a>
+            </li>
+        }
+        <li data-icon="d-icon-file-3" data-counter="@Model.UnpublishItemCount">
+            <a href="@Url.Content(Model.DefaultUrl)?filter=ispublished~eq~false" target="_blank">@Resources.Contents.Draft</a>
+        </li>
+        @if (Model.NewForm != null)
+        {
+            <li data-icon="d-icon-add-to-list"><a href="@Url.Content(Model.GetNewItemUrl())@(!string.IsNullOrEmpty(Model.DefaultUrl) ? "?returnUrl=" + Url.Content(Model.DefaultUrl) : "")" target="_blank" title="@if (!string.IsNullOrEmpty(Model.NewForm.Title))
+                                                                                                                                                                                                                   { @Model.NewForm.Title }
+                                                                                                                                                                                                                   else
+                                                                                                                                                                                                                   {@Resources.Contents.NewItem }">@Model.NewForm.Title</a>
+            </li>
+        }
+    </ul>
+}
+<div data-role="accordion" data-collapsed="true">
+    <h3>@Resources.Contents.Fields</h3>
+    <div style="padding: 0px;">
+        <ul data-role="listview" data-display="mobile-list" id="field_list" data-tmpl="fieldTmpl">
+            <li id="add_field_button_holder"
+                data-icon="d-icon-plus-4"
+                data-link-icon="no">
+                <a href="@Url.Content("~/" + currentWeb.Name + "/" + Culture + "/list/newfield/" + Model.ID.ToString())"
+                    data-panel-title="@Resources.Contents.NewField"
+                    data-panel-pos="right"
+                    data-rel="panel"
+                    data-panel-auto-release="true"
+                    data-panel-display="overlay">@Resources.Contents.NewField</a>
+                @*                <a href="javascript:void(0);" 
+                        onclick="event.preventDefault();event.stopPropagation();$.ajaxDialog({title:'@List_cshtml.NewField',url:'@Url.Action("NewField", "List", new { id = Model.ID })',width:720});"></a>*@
+            </li>
+            @foreach (var f in fs)
+            { 
+                <li data-field="@f.Name"
+                    data-icon="d-icon-@icons[((ContentFieldTypes)f.FieldType)]"
+                    data-link-icon="d-icon-resize-vertical"
+                    data-counter="@(Html.Global("Contents", ((ContentFieldTypes)f.FieldType).ToString() + "Field")) | @if (f.IsRequired)
+                                                                                                                      {<text>@Resources.Contents.Required</text>}
+                                                                                                                      else
+                                                                                                                      {<text>@Resources.Contents.Optional</text>}">
+                    <a>
+                        <span class="d-inline title" style="margin-left: 5px;" 
+                            title="@(Html.Global("Contents", ((ContentFieldTypes)f.FieldType).ToString() + "Field"))">@f.Title [@f.Name] </span>
+                        @*<sup class="type">@(Html.Global("List_cshtml", ((ContentFieldTypes)f.FieldType).ToString() + "Field"))</sup>*@
+                    </a>
+                    <a href="@Url.Content("~/" + currentWeb.Name + "/" + Culture + "/list/EditField/" + Model.ID.ToString() + "?name=" + f.Name)"
+                        data-panel-title="@Resources.Commons.Edit"
+                        data-panel-pos="right"
+                        data-rel="panel"
+                        data-panel-display="overlay"></a>
+                    @*<a onclick="event.preventDefault();event.stopPropagation();$.ajaxDialog({title:'@Resources.Commons.Edit @(f.Title)',url:'@Url.Action("EditField", "List", new { id = Model.ID, name = f.Name })',width:720});"></a>*@
+                </li>
+            }
+        </ul>
+    </div>
+    <h3>@Resources.Contents.Views</h3>
+    <div style="padding: 0px;">
+        <ul data-role="listview" data-display="mobile-list">
+            <li data-icon="d-icon-plus-4" data-link-icon="no">
+                <a href="#newViewPanel" data-rel="open">@Resources.Contents.NewView</a></li>
+            @foreach (var v in views)
+            {
+                <li @if (v.IsDefault)
+                    { <text> data-counter="@Resources.Commons.Default" </text>}
+                    @if (v.Body.IsEmpty || (!v.Body.IsEmpty && !string.IsNullOrEmpty(v.Body.Source)))
+                    {
+                        var viewLayout = AppModel.Get().ContentViewLayouts.FirstOrDefault(l => l.Name.Equals(v.Body.Source, StringComparison.OrdinalIgnoreCase));
+                        if (viewLayout != null && !string.IsNullOrEmpty(viewLayout.Icon))
+                        {
+                         <text>data-icon="@viewLayout.Icon"</text>
+                        }
+                        else
+                        {
+                    <text>data-icon="d-icon-insert-template"</text>
+                        }
+                    }
+                    else
+                    {
+                    <text>data-icon="d-icon-insert-template"</text>
+                    }>
+                    <a href="@Url.Content(v.SettingUrl)">@v.Title</a>
+                    @if (!v.NoPage)
+                    {
+                        <a data-icon="d-icon-eye" target="_blank" href="@Url.Content(v.Url)"></a>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+    <h3>@Resources.Contents.Forms</h3>
+    <div style="padding: 0px;">
+        <ul data-role="listview" data-display="mobile-list">
+            @foreach (var form in forms)
+            {
+                var typeStr = ((ContentFormTypes)form.FormType).ToString();
+                <li data-counter="@typeStr">
+                    <a href="@Url.Content(form.SettingUrl)">
+                        @(string.IsNullOrEmpty(form.Title) ? Resources.Contents.NoName : form.Title)
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+    @*       <li><a href="@Url.Action("Admin", "Contents", new { id = Model.ID, locale = Culture })">Rows<span class="content-count">@Model.TotalItems</span></a></li>*@
+</div>
+
+<div data-role="panel" data-pos="right" data-display="overlay" style="position: fixed;" id="newViewPanel">
+    <h3>@Resources.Contents.NewView</h3>
+    <div>
+        @using (Html.BeginForm("NewView", "View", new { id = Model.ID, locale = Culture, website = AppModel.Get().CurrentWeb.Name }, FormMethod.Post, new { id = "nvForm" }))
+        {
+            <input name="locale" type="hidden" value="@Culture" />
+            <input name="id" value="@Model.ID" type="hidden" />
+            <input type="hidden" value="list" name="style" id="nv_style" />
+            <input type="hidden" value="server" name="mode" id="nv_mode" />
+            <ul data-role="listview" data-display="mobile-list">
+                <li data-role="divider">@Resources.Messages.ChoiceLayoutOfView</li>
+                <li data-readonly="true">
+                    <ul data-role="listview"
+                        data-select="$('#btnCreateView').isDisable(false);$('#nv_style').val($(ui.item).data('style'));"
+                        data-selectable="true"
+                        data-autohighlight="true"
+                        data-display="mobile-list" data-inset="true">
+                        @foreach (var v in AppModel.Get().ContentViewLayouts)
+                        {
+                            <li data-style="@v.Name" data-link-icon="no" data-icon="@v.Icon">
+                                <a title="@v.Description">@v.Title</a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+                <li data-role="divider">@Resources.Messages.SupplyViewTitleAndName</li>
+                <li data-role="fieldcontain">
+                    <label for="New_View_Name">@Resources.Commons.Name</label>
+                    <input type="text" value="@Model.GenerateViewName()" 
+                        name="Name" 
+                        id="New_View_Name"
+                        data-val="true"
+                        placeholder ="@string.Format(Resources.InputHolders.Format, Resources.Commons.Name)"
+                        data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Name)"
+                        data-val-remote="@string.Format(Resources.Validations.Exists_Format, Resources.Commons.Name)"
+                        data-val-remote-url = "@Url.Content("~/api/" + currentWeb.Name + "/views/validatename/" + Model.ID)"
+                        data-val-regex ="@string.Format(Resources.Validations.LetterAndNumRegex_Format, Resources.Commons.Name)"
+                        data-val-regex-pattern = "^[A-Za-z0-9_]+$" />
+                    <div data-valmsg-for="Name" class="d-valmsg" style="padding: 0px 0px 5px 0px; border: none; margin-left: 0px;"></div>
+                </li>
+                <li data-role="fieldcontain">
+                    <label for="New_View_Title">@Resources.Commons.Title</label>
+                    <input type="text" value="@Model.GenerateViewName()" 
+                        placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Name)" 
+                        name="Title" 
+                        id="New_View_Title" />
+                </li>
+                <li data-role="fieldcontain" style="border: none;">
+                    <div>
+                        <input type="checkbox" name="NoPage" data-label="@Resources.Contents.NoPage" />
+                    </div>
+                </li>
+            </ul>
+            <div style="padding: 10px;">
+                <button data-inline="false" id="btnSubmitView">@Resources.Commons.Submit</button>
+            </div>
+            <div style="padding: 0px 10px;"><a data-role="button" data-inline="false" data-rel="close" href="#newViewPanel">@Resources.Commons.Cancel</a></div>
+        }
+    </div>
+</div>
+
+<script type="text/x-jquery-tmpl" id="fieldTmpl">
+    <li data-field="${name}" data-icon="{{= _getFieldTypeIcon(type) }}" data-link-icon="d-icon-edit" data-counter="${type} | {{if required}}@Resources.Contents.Required{{else}}@Resources.Contents.Optional{{/if}}">
+        <a>${title}</a>
+        <a href="@Url.Content("~/" + currentWeb.Name + "/" + Culture + "/list/EditField/" + Model.ID.ToString() + "?name=")${name}"
+            data-panel-title="@Resources.Commons.Edit"
+            data-panel-pos="right"
+            data-rel="panel"
+            data-panel-display="overlay"></a>
+    </li>
+</script>
+
+<script type="text/javascript">
+    function _changeFieldType(val) {
+        $("#field_options").attr("class", "").addClass(val);
+    }
+    var icons=@(MvcHtmlString.Create(Json.Encode(icons.Select(i => new { name = i.Key.ToString(), value = "d-icon-" + i.Value.ToString() }).ToList())));
+    function _getFieldTypeIcon(val){
+        for (var i=0;i<icons.length;i++){
+            if (icons[i].name==val)
+                return icons[i].value;
+        }
+        return ""
+    }
+    $(function () {
+        $("#contents").addClass("d-state-active");
+
+        $("#field_list").sortable({
+            forceHelperSize: true,
+            forcePlaceholderSize: true,
+            placeholder: "placeholder",
+            cancel: "#add_field_button_holder",
+            opacity: .5,
+            update: function (ui) {
+                var eles = $("#field_list").children("[data-field]");
+                var fields = [];
+                eles.each(function (i, n) {
+                    fields.push($(n).data("field"));
+                });
+
+                $.post("@Url.Action("SortFields", "List")", {id:@Model.ID,locale:"@Culture",orders:fields.join(",")});
+            }
+
+        });
+    })
+</script>

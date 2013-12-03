@@ -1,0 +1,7 @@
+﻿.d-view.blog.features .d-view-item, .d-view.blog.features .d-view-item:nth-child(2n-1) { -moz-background-size: cover; -o-background-size: cover; -webkit-background-size: cover; background-size: cover; overflow: hidden; }
+    .d-view.blog.features .d-view-item .d-view-fields,
+    .d-view.blog.features .d-view-item:nth-child(2n-1) .d-view-fields { position: absolute; bottom: 0px; left: 0px; width: inherit; color: #fff; padding: 10px 0px; z-index: 1; top: auto; height: 80px; }
+        .d-view.blog.features .d-view-item .d-view-fields:before,
+        .d-view.blog.features .d-view-item:nth-child(2n-1) .d-view-fields:before { content: ""; position: absolute; bottom: 0px; left: 0px; width: inherit; background-color: #000; opacity: .6; z-index: -1; height: 100px; }
+    .d-view.blog.features .d-view-item h4.name { padding: 0px; color: #fff; font-weight: bold; text-align: left; }
+    .d-view.blog.features .d-view-item .name, .d-view.blog.features .d-view-item .description { font-size: 16px; opacity: 1; padding: 5px 10px; line-height: 1em; color: #fff; text-align: left; }

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" 
+             allowAttachs="true" 
+             allowCategoriesAndTags="true" 
+             name="base" 
+             defaultLocale="en-us" activity="true" 
+             id="base">
+  <title>Base list</title>
+  <fields />
+  <views>
+    <view name="default" default="true">
+      <title>All contents</title>
+      <title xml:lang="zh-cn">全部内容</title>
+      <body src="_grid.cshtml"></body>
+      <paging allow="true" index="1" size="20" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title>New content</title>
+      <title xml:lang="zh-cn">添加内容</title>
+    </form>
+    <form name="editForm" type="Edit">
+      <title>Edit content</title>
+      <title xml:lang="zh-cn">编辑内容</title>
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title>Content detail</title>
+      <title xml:lang="zh-cn">详细内容</title>
+    </form>
+    <form name="actForm" type="Activity" anonymous="true">
+      <title>Updates</title>
+      <title xml:lang="zh-cn">更新</title>
+    </form>
+  </forms>
+</contentType>

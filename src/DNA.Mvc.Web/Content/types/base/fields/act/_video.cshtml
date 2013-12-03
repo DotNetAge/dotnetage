@@ -1,0 +1,45 @@
+﻿@model ContentFieldValue
+@if (!string.IsNullOrEmpty((string)Model.Raw))
+{
+    var field = Model.Field as VideoField;
+    var src = Model.Raw.ToString();
+    var urls = src.Split(',');
+    var webFile = new DNA.Web.WebResourceInfo(urls[0]);
+    var isFlash = webFile.Url.ToString().StartsWith(".swf");
+    var isYoutube = webFile.Url.ToString().StartsWith("http://www.youtube.com");
+    var isWmv = webFile.ContentType.StartsWith("video/x-ms-");
+    var isSilverlight = webFile.Url.ToString().StartsWith(".xap");
+    var width = field.Width;
+    var height = field.Height;
+    if (width == 0) { width = 640; }
+    if (height == 0) { height = 390; }
+
+    <div class="d-video-player-wrapper">
+        @if (isYoutube || isFlash)
+        {
+            @Video.Flash(webFile.Url.ToString(), width: width + "px", height: height + "px", play: true, windowMode: "transparent", scale: "exactfit", quality: "medium");
+        }
+        else
+        {
+            if (isWmv)
+            { 
+            @Video.MediaPlayer(webFile.Url.ToString(), width: width + "px", height: height + "px")
+            }
+            else
+            {
+                if (isSilverlight)
+                { 
+            @Video.Silverlight(webFile.Url.ToString(), width: width + "px", height: height + "px")
+                }
+                else
+                {
+            <video controls="controls"
+                autoplay="autoplay"
+                preload="auto"
+                onloadedmetadata="if ($(this).width()>$(this).parent().width()) $(this).width($(this).parent().width()) ;">
+                <source type="@webFile.ContentType" src="@webFile.Url.ToString()" />
+            </video>}
+            }
+        }
+    </div>
+}

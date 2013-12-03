@@ -1,0 +1,90 @@
+﻿@model ContentQueryResult
+@{
+    var allowFiltering = (bool)ViewData["allowFiltering"];
+    var allowSorting = (bool)ViewData["allowSorting"];
+    var view = Model.View;
+    var list = Model.List;
+    var sorts = Model.Query.GetSortParams();
+    ContentField sortingField = null;
+    var fieldTitles = new Dictionary<string, string>();
+    fieldTitles.Add(DataNames.Pos, Resources.Contents.Position);
+    fieldTitles.Add(DataNames.State, Resources.Contents.ModerateState);
+    fieldTitles.Add(DataNames.Owner, Resources.Commons.Owner);
+    fieldTitles.Add(DataNames.Created, Resources.Contents.DateCreated);
+    fieldTitles.Add(DataNames.Modified, Resources.Commons.LastModified);
+
+    foreach (var f in view.FieldRefs)
+    {
+        fieldTitles.Add(f.Name, f.Title);
+    }
+
+    if (sorts != null)
+    {
+        sortingField = list.Fields[sorts[0].FieldName];
+    }
+    var filters = Request.QueryString["filter"] != null ? Request.QueryString["filter"].ToString() : "";
+    <div style="min-width: 100px; float: right; height: 50px;">
+        <ul data-role="menubar" data-open-onclick="true">
+            @if (allowSorting)
+            {
+                <li><a style="padding-right: 24px; padding-left: 5px;"><span class="d-icon d-icon-orders"></span><span>@Resources.Contents.Sortby:</span>@if (sorts != null)
+                                                                                                                                                         {<span>@(fieldTitles.ContainsKey(sorts[0].FieldName) ? fieldTitles[sorts[0].FieldName] : "")</span>}
+                                                                                                                                                         else
+                                                                                                                                                         {<span>@Resources.Contents.NotSet</span>}</a>
+                    <ul>
+                        @foreach (var f in view.FieldRefs)
+                        {
+                            <li @if (sorts != null && sorts[0].FieldName.Equals(f.Name))
+                                {<text>class="d-state-active"</text>}>
+                                <a href="@Url.MergeQueryParameters(new { sort = f.Name + (sorts != null ? ("~" + sorts[0].Direction.ToLower()) : "~asc") })">@f.Title</a>
+                            </li>
+                        }
+                        <li @if (sorts != null && sorts[0].FieldName.Equals(DataNames.Pos))
+                            {<text>class="d-state-active"</text>}>
+                            <a  href="@Url.MergeQueryParameters(new { sort = DataNames.Pos + (sorts != null ? ("~" + sorts[0].Direction.ToLower()) : "~asc") })">@Resources.Contents.Position</a>
+                        </li>
+                        <li @if (sorts != null && sorts[0].FieldName.Equals(DataNames.State))
+                            {<text>class="d-state-active"</text>}>
+                            <a href="@Url.MergeQueryParameters(new { sort = DataNames.State + (sorts != null ? ("~" + sorts[0].Direction.ToLower()) : "~asc") })">@Resources.Contents.ModerateState</a></li>
+                        <li @if (sorts != null && sorts[0].FieldName.Equals(DataNames.Owner))
+                            {<text>class="d-state-active"</text>}>
+                            <a href="@Url.MergeQueryParameters(new { sort = DataNames.Owner + (sorts != null ? ("~" + sorts[0].Direction.ToLower()) : "~asc") })">@Resources.Commons.Owner</a></li>
+                        <li @if (sorts != null && sorts[0].FieldName.Equals(DataNames.Created))
+                            {<text>class="d-state-active"</text>}>
+                            <a href="@Url.MergeQueryParameters(new { sort = DataNames.Created + (sorts != null ? ("~" + sorts[0].Direction.ToLower()) : "~asc") })">@Resources.Contents.DateCreated</a></li>
+                        <li @if (sorts != null && sorts[0].FieldName.Equals(DataNames.Modified))
+                            {<text>class="d-state-active"</text>}>
+                            <a href="@Url.MergeQueryParameters(new { sort = DataNames.Modified + (sorts != null ? ("~" + sorts[0].Direction.ToLower()) : "~asc") })">@Resources.Commons.LastModified</a></li>
+                        @if (sorts != null)
+                        {
+                            <li class="@if (sorts[0].Direction == "ASC")
+                                       {<text>d-state-active</text>}">
+                                <a href="@Url.MergeQueryParameters(new { sort = sorts[0].FieldName + "~asc" })">@Resources.Contents.Ascending</a></li>
+                            <li class="@if (sorts[0].Direction == "DESC")
+                                       {<text>d-state-active</text>}">
+                                <a href="@Url.MergeQueryParameters(new { sort = sorts[0].FieldName + "~desc" })">@Resources.Contents.Descending</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if (allowFiltering && Request.IsAuthenticated)
+            {
+                <li><a style="padding-right: 24px; padding-left: 5px;"><span class="d-icon d-icon-filter"></span><span>@Resources.Contents.Filter:@Resources.Contents.All</span></a>
+                    <ul>
+                        <li class="@if (string.IsNullOrEmpty(filters))
+                                   {<text>d-state-active</text>}"><a href="@Url.Content(view.Url)">@Resources.Contents.All</a></li>
+                        <li class="@if (filters.Equals("owner~eq~'" + User.Identity.Name + "'", StringComparison.OrdinalIgnoreCase))
+                                   {<text>d-state-active</text>}"><a href="@Url.MergeQueryParameters(new { filter = "owner~eq~'" + User.Identity.Name + "'" })">@Resources.Contents.MyItems</a></li>
+                        <li class="@if (filters.Contains("owner~eq~'" + User.Identity.Name + "'-and-ispublished~eq~true"))
+                                   {<text>d-state-active</text>}"><a href="@Url.MergeQueryParameters(new { filter = "owner~eq~'" + User.Identity.Name + "'-and-ispublished~eq~true" })">@Resources.Contents.MyPublishedItems</a></li>
+                        <li class="@if (filters.Contains("owner~eq~'" + User.Identity.Name + "'-and-ispublished~eq~false"))
+                                   {<text>d-state-active</text>}"><a href="@Url.MergeQueryParameters(new { filter = "owner~eq~'" + User.Identity.Name + "'-and-ispublished~eq~false" })">@Resources.Contents.MyDrafts</a></li>
+                        <li class="@if (filters.Contains("owner~eq~'" + User.Identity.Name + "'-and-state~eq~0"))
+                                   {<text>d-state-active</text>}"><a href="@Url.MergeQueryParameters(new { filter = "owner~eq~'" + User.Identity.Name + "'-and-state~eq~0" })">@Resources.Contents.MyPendings</a></li>
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="ui-helper-reset" style="clear: left; clear: right;"></div>
+}

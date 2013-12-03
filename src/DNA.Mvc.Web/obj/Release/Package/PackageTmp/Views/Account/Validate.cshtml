@@ -1,0 +1,43 @@
+﻿@model DNA.Web.User
+@{
+    var pwdLength = AppModel.Settings.PasswordLength;
+}
+@using (Html.BeginForm("Validate", "Account", new { @class = "d-fields", id = "changepwdForm", locale = Culture }))
+{
+    <input type="hidden" name="token" value="@Model.RetrievalToken" />
+    <div>
+        @Html.Label("pwd", Resources.Security.NewPwd)
+        @Html.Password("pwd", new
+   {
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Security.NewPwd),
+       data_speech = "false",
+       data_val_length = string.Format(Resources.Validations.PwdLen_Format, pwdLength),
+       data_val_length_max = 16,
+       data_val_length_min = pwdLength,
+       maxlength = 16,
+       placeholder = string.Format(Resources.Validations.PwdLen_Format, pwdLength)
+   })
+        <div style="padding-top: 5px;">@Html.ValidationMessage("pwd")</div>
+    </div>
+    <div>
+        @Html.Label("confirmPwd", Resources.Security.ConfirmPwd)
+        @Html.Password("confirmPwd", new
+   {
+       data_val = "true",
+       data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Security.ConfirmPwd),
+       data_speech = "false",
+       maxlength = 16,
+       placeholder = string.Format(Resources.InputHolders.Format, Resources.Security.ConfirmPwd),
+       data_val_length = string.Format(Resources.Validations.PwdLen_Format, pwdLength),
+       data_val_length_max = 16,
+       data_val_length_min = pwdLength,
+       data_val_equalto = Resources.Validations.Password_Equal,
+       data_val_equalto_other = "pwd"
+   })
+        <div style="padding-top: 5px;">@Html.ValidationMessage("confirmPwd")</div>
+    </div>
+    <div>
+        <button data-default="true">@Resources.Commons.Submit</button>
+    </div>
+}

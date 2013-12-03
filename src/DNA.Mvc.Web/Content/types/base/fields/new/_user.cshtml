@@ -1,0 +1,3 @@
+﻿@model UserField
+<input type="text" @Model.GetAttributes() @Model.GetValidationAttributes()/>
+@Html.ValidationMessage(Model)

@@ -1,0 +1,33 @@
+﻿.d-fileinfo { height: 110px; width: 165px; position: relative; margin: 5px; }
+    .d-fileinfo.d-state-hover { background: #ecf3fd; border: 1px solid #d6e7fc; }
+    .d-fileinfo.d-state-active { background: #c5defc; border: 1px solid #7da2ce; }
+#infolist { /*min-height: 500px;*/ overflow: visible; }
+.d-dir { position: relative; height: 90px; border: 1px solid #ECD8A2; border-radius: 4px 4px 0 0; background: #FAF5C7; background-image: url(/content/images/folder_gradient.png); -moz-box-shadow: 1px 1px 3px #CCCCCC; -webkit-box-shadow: 1px 1px 3px #CCCCCC; -o-box-shadow: 1px 1px 3px #CCCCCC; box-shadow: 1px 1px 3px #CCCCCC; }
+.t { position: absolute; right: 10px; top: 5px; display: none; }
+    .t .d-button { box-shadow: none; line-height:0px;}
+#infolist li:hover .t { display: block; }
+#infolist .d-editable > input { background: none; border: none; font-size: inherit; padding: 0px; margin: 0px; }
+
+/*.dt { position: absolute; font-size: 15pt; color: #808080; bottom: 0px; right: 5px; }
+.d-f { text-align: center; }
+    .d-f .dn { width: 165px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.di { width: 80px; background: #fff; border: 1px solid #ccc; margin: auto; height: 90px; position: relative; border-top-color: #fcfcfc; border-left-color: #fcfcfc; }
+    .di .dt { font-size: 100%; left: -3px; top: 10px; display: inline-block; height: 20px; color: #fff; font-weight: bold; background: #808080; line-height: 20px; vertical-align: middle; }
+    .di.xml .dt { background: #cb3fc4; }
+    .di.jpg .dt { background: #fe520a; }
+    .di.htm .dt { background: #e1eb34; color: #000; }
+    .di.gif .dt { background: #405f19; }
+    .di.pdf .dt { background: #c60f13; }
+    .di.doc .dt { background: #0049a8; }
+    .di.xls .dt { background: #00742e; }
+    .di.ppt .dt { background: #ef4814; }
+    .di.fla .dt { background: #d21018; }
+    .di.css .dt { background: #f6bed8; }
+.dp { width: 163px; height: 90px; -moz-box-shadow: 1px 1px 3px #CCCCCC; -webkit-box-shadow: 1px 1px 3px #CCCCCC; -o-box-shadow: 1px 1px 3px #CCCCCC; box-shadow: 1px 1px 3px #CCCCCC;  }
+.crumb { padding: 0px; margin: 0px; float: left; }
+    .crumb li { list-style: none; float: left; border: 1px solid transparent; cursor: pointer; }
+        .crumb li:hover { background: #ecf3fd; border: 1px solid #d6e7fc; }
+.curmb::after { content: ""; clear: left; display: block; height: 1px; }*/
+
+#fileselector { left: 0; height: 35px; position: absolute; top: 0; opacity: 0; }
+#infolist .d-button.d-small { padding: 0px; float: left; margin: 0px; }

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<DashboardGroup>
+@{
+    var noGroup = Model.FirstOrDefault(g => string.IsNullOrEmpty(g.Name));
+    var requestPath = (string)ViewBag.RequestPath;
+    var type = (int)ViewBag.MenuType;
+}
+<div style="padding: 10px;">
+    @if (type == 0 && (bool)ViewBag.Localized)
+    {
+        <ul data-role="listview" data-display="mobile-list" data-inset="true">
+            @if (Web != null)
+            {
+                var contentCulture = new System.Globalization.CultureInfo(Culture);
+                if (!UICulture.Equals(Culture, StringComparison.OrdinalIgnoreCase))
+                {
+                    var uiCulture = new System.Globalization.CultureInfo(UICulture);
+                <li data-icon="d-icon-user">
+                    <a  data-rel="panel"
+                            href="@Url.Action("Languages", "Sys", new { website = AppModel.Get().Context.Website, locale = Culture, returnUrl = Request.RawUrl })"
+                            data-panel-title="@Commons.Languages"
+                            data-panel-pos="right"
+                            data-panel-display="overlay">@uiCulture.NativeName</a>
+                </li>
+                }
+                <li data-icon="d-icon-earth">
+                    <a data-rel="panel" 
+                        data-panel-title="@Resources.Commons.Localization"
+                        data-panel-pos="right"
+                        data-panel-display="overlay"
+                        href="@Url.Action("Localize", "Sys", new { Area = "", website = AppModel.Get().CurrentWeb.Name, locale = Culture })">
+                        @contentCulture.NativeName</a>
+                </li>
+            }
+        </ul>
+    }
+    @if (type == 2)
+    {
+        <ul data-role="listview" data-display="mobile-list" data-inset="true">
+            <li data-icon="d-icon-user">
+                <a href="@Url.Content("~/mysite/profile")">@Resources.Contacts.Account</a></li>
+            @if (!IsAjax)
+            { 
+                <li data-icon="d-icon-paint-format" data-link-icon="no">
+                    <a data-rel="panel"
+                            href="@Url.Action("Personal", "Theme")"
+                            data-panel-title="@Resources.Pages.ChangeTheme"
+                            data-panel-pos="right"
+                            data-panel-display="overlay">@Resources.Pages.ChangeTheme</a></li>
+            }
+        </ul>
+    }
+    @{
+        var hasItem = noGroup != null && noGroup.Items.Count > 0;
+        if (!hasItem)
+        {
+            hasItem = Model.Count() > 0;
+        }
+    }
+    @if (hasItem) {
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        @if (noGroup != null && noGroup.Items.Count > 0)
+        {
+            <li data-role="divider">@Resources.Commons.Common</li>
+            foreach (var nav in noGroup.Items)
+            {
+            <li @if (nav.IsCurrent(Request.RequestContext))
+                {<text> class="d-state-active" </text> }
+                else
+                {<text> class="d-item"</text>} 
+                        @if (!string.IsNullOrEmpty(nav.Icon))
+                        {<text>data-icon="@nav.Icon"</text>}
+                        ><a href="@nav.NavigationUrl">
+                            @nav.Title</a>
+                @if (Request.Browser.Browser == "Chrome")
+                {
+                    <link  rel="prerender" href="@nav.NavigationUrl" />
+                }
+            </li>
+            }
+        }
+        @foreach (var g in Model)
+        {
+            if (string.IsNullOrEmpty(g.Name))
+            {
+                continue;
+            }
+            var orderedItems = g.Items.OrderBy(i => i.Order).ThenBy(i => i.Title).ToList();
+            <li data-role="divider">@(!string.IsNullOrEmpty(g.Title) ? g.Title : g.Name)</li>
+            foreach (var gi in orderedItems)
+            { 
+            <li @if (gi.IsCurrent(Request.RequestContext))
+                {<text> class="d-state-active" </text> }
+                else
+                {<text> class="d-item"</text>} @if (!string.IsNullOrEmpty(gi.Icon))
+                                               {<text>data-icon="@gi.Icon"</text>}><a href="@gi.NavigationUrl">@gi.Title</a></li>
+            }
+        }
+    </ul>
+    }
+</div>

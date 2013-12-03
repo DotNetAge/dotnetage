@@ -1,0 +1,242 @@
+﻿@model ContentFormDecorator
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    var list = Model.Parent;
+    var _type = AppModel.Get().ContentTypes.Packages.FirstOrDefault(t => t.Name.Equals(list.BaseType));
+    var _locType = _type.Locale(Culture);
+    var web = AppModel.Get().CurrentWeb.Name;
+    ViewBag.ReturnUrl =list.SettingUrl;
+    ViewBag.ReturnText = list.Title;
+}
+<div data-role="panel" id="options_panel" 
+    data-pos="right" 
+    data-display="overlay" 
+     style="position: fixed;">
+    <h3>@Resources.Contents.Details</h3>
+    <div>
+        @using (Ajax.BeginForm(new AjaxOptions()
+        {
+            Url = Url.Content("~/api/"+web+"/forms/save/" + Model.ID.ToString()),
+            OnBegin = "$.loading()",
+            OnComplete = "$.loading('hide');",
+            OnSuccess = "$('#sys_header_title').text($('#model_title_val').val());$.closePanels();"
+        }))
+        {
+            <ul data-role="listview" data-display="mobile-list" data-inset="true" >
+                <li data-role="fieldcontain">
+                    <label>@Resources.Commons.Title</label>
+                    <input type="text" id="model_title_val" name="title" value="@Model.Title" 
+                        data-val="true"
+                        data-val-required="@string.Format(Resources.Validations.Required_Format,Resources.Commons.Title )"
+                        placeholder="@string.Format(Resources.InputHolders.Format,Resources.Commons.Title )"/>
+                    @Html.ValidationMessage("title")
+                </li>
+                <li data-role="fieldcontain">
+                    <label>@Resources.Commons.Desc</label>
+                    <textarea name="desc" 
+                        placeholder="@string.Format(Resources.InputHolders.Format,Resources.Commons.Desc )">@Model.Description</textarea>
+                </li>
+                <li data-readonly="true">
+                    <button data-inline="false" data-icon-left="d-icon-disk">@Resources.Commons.Save</button>
+                </li>
+
+            </ul>
+        }
+    </div>
+</div>
+<form class="d-content" 
+    id="fields_form"
+    action="@Url.Content(string.Format("~/{0}/{1}/form/updatefields?name={2}&type={3}", web, Culture, Model.Parent.Name, Model.FormTypeString))"
+    method="post"
+    style="margin-bottom:10px;"
+    >
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-inset="true"
+        data-selectable="true"  
+        id="editorfields">
+        @*    <li><a href="#">@Form_Edit_cshtml.Template</a>
+        <div class="d-content">
+            <ul data-role="listview" class="d-mobi-list">
+                <li><a href="~/dashboard/@AppModel.Get().Context.Website/@Model.Parent.Name/design-form/@(((ContentFormTypes)Model.FormType).ToString())"><span class="d-mobi-icon d-mobi-icon-shadow d-mobi-icon-gear"></span><span class="d-inline" style="margin-left:5px;">@Form_Edit_cshtml.Body</span></a></li>
+            </ul>
+        </div>
+    </li>*@
+        <li data-role="divider" data-counter="@Model.Fields.Count">@Resources.Contents.Fields
+            <div id="d_btn_editfields" style="display: none;" data-inline="true">
+                <span class="d-inline">@Resources.Messages.Form_FieldsIsChanged</span>
+                <div data-role="button" data-inline="true" onclick="_submitChanges();" id="btnsave_viewfieds">@Resources.Commons.Save</div>
+            </div>
+        </li>
+        @foreach (var f in Model.Fields)
+        {
+            var editorField = Model.Fields[f.Name];
+            <li data-link-icon="d-icon-resize-vertical" data-name="@f.Name"  @if (editorField != null && editorField.IsCaption)
+                                     {
+                    <text>data-counter="@Resources.Contents.Caption"</text>
+                                     } else
+                                     {
+                                     if (editorField!=null && editorField.IsHidden){
+                                     <text>data-counter="hidden"</text>
+                                     }
+                                     }>
+                <a>
+                    <input type="checkbox"
+                            data-label="@f.Title"
+                            value="@f.Name"
+                            data-bool="false"
+                            name="Fields"
+                            checked ="checked"
+                            data-change = "_setFieldsChanged();$('[data-name=@f.Name]').isDisable(!ui.checked);"/>
+                </a>
+                <a data-rel="panel"
+                    href="@Url.Content(string.Format("~/{0}/{1}/form/editfield?name={2}&type={3}&field={4}", web, Culture, Model.Parent.Name,  ((ContentFormTypes)Model.FormType).ToString(),f.Name))"
+                    data-panel-pos="right"
+                    data-panel-display="overlay"
+                    data-panel-title="@Resources.Contents.FieldSettings"></a>
+            </li>
+        }
+        @{ 
+            var editorFields = Model.Fields.Select(f => f.Name);
+            var hiddenFields = Model.Parent.Fields.Where(f => !editorFields.Contains(f.Name)).ToList();
+        }
+        @if (hiddenFields != null && hiddenFields.Count > 0)
+        {
+            foreach (var f in hiddenFields)
+            { 
+            <li data-name="@f.Name" data-link-icon="d-icon-resize-vertical"><a>
+                <input type="checkbox"
+                            data-label="@f.Title"
+                            value="@f.Name"
+                            data-bool="false"
+                            name="Fields"
+                            data-change = "_setFieldsChanged();$('[data-name=@f.Name]').isDisable(!ui.checked);" /></a>
+            </li>
+            }
+        }
+    </ul>
+</form>
+<ul data-role="listview"
+    data-display="mobile-list"
+    data-inset="true"
+    data-selectable="true" data-link-icon="no">
+    <li data-icon="d-icon-settings">
+        <a href="#options_panel" data-rel="open">@Resources.Contents.FormSettings</a></li>
+    <li data-icon="d-icon-css3">
+        <a href="@Url.Content(string.Format("~/{0}/{1}/form/editcss?name={2}&type={3}", web, Culture, Model.Parent.Name, Model.FormTypeString))"
+            data-rel="dialog" 
+            data-dialog-fullscreen="true"
+            data-dialog-padding="0px"
+            data-dialog-title="@Resources.Designs.EditCss">@Resources.Designs.EditCss</a>
+    </li>
+    <li data-icon="d-icon-code">
+        <a href="@Url.Content(string.Format("~/{0}/{1}/form/code?name={2}&type={3}", web, Culture, Model.Parent.Name, Model.FormTypeString))" 
+            data-rel="dialog" 
+            data-dialog-fullscreen="true"
+            data-dialog-padding="0px"
+            data-dialog-title="@Resources.Contents.EditSrc">@Resources.Contents.Code</a>
+    </li>
+    <li data-icon="d-icon-users" id="roles_item" @if (Model.AllowAnonymous) 
+                                 {<text>data-counter="@Resources.Contents.All"</text>}
+                                 else
+                                 {<text>data-counter="@String.Join(",", Model.Roles)"</text>}>
+        <a href="#security_panel" data-rel="open">@Resources.Commons.Roles</a>
+    </li>
+</ul>
+<div data-role="panel"
+    data-pos="right"
+    data-display="overlay"
+    id="security_panel">
+    <h3>@Resources.Commons.Roles </h3>
+    <div>
+        <form id="roles_form"  style="padding:10px;" class="d-form"
+            data-ajax="true" 
+            data-ajax-method="post" 
+            data-ajax-url="@Url.Content("~/api/"+web+"/forms/setroles/" + Model.ID)"
+            data-ajax-success="if ($('#roles_form').find('[name=AllowAnonymous]:checked').length) {
+                $('#roles_item').find('.d-item-counter').text('@Resources.Contents.All'); } else {
+                var assigned=$('#roles_form').find('[name=Roles]:checked');
+                if (assigned.length){
+                    var _args=[];
+                    assigned.each(function(i,ar){
+                        _args.push( $(ar).val());
+                    });
+                    $('#roles_item').find('.d-item-counter').text(_args.join(','));
+                }}"
+            >
+            @{
+                var allRoles = AppModel.Get().Roles.GetAllRoles();
+            }
+            <div class="d-field">
+                <input type="checkbox" 
+                    name="AllowAnonymous" 
+                    @if (Model.AllowAnonymous){<text>checked="checked"</text>}
+                    value="@Model.AllowAnonymous.ToString()"
+                    data-label="@Resources.Security.AllowAnonymous"
+                    data-change="_toggle_anonymous(ui.checked);"
+                    />
+            </div>
+            <div  id="form_roles_holder" @if (Model.AllowAnonymous)
+                                         {<text> style="display:none;"</text>} class="d-form">
+                @foreach (var r in allRoles)
+                { 
+                    <div onclick="$(this).children('span').click();" style="margin-left: 30px;" class="d-field">
+                        <input type="checkbox"
+                            data-label="@r.Name" 
+                            value="@r.Name" 
+                            data-bool="false"
+                            name="Roles" @if (Model.Roles.Contains(r.Name))
+                                         {<text>checked="checked"</text>} 
+                            data-change="$(this).closest('form').find('.d-button').isDisable(false);"
+                             />
+                    </div>
+                }
+            </div>
+                        <div>
+                <a data-role="button" data-rel="close" href="javascript:void(0);" onclick="$('#roles_form').submit()" data-default="true" data-inline="false" class="d-state-disable">@Resources.Commons.Save</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var fieldsChanged = false;
+
+    function _toggle_anonymous(val) {
+        $("#form_roles_holder").isVisible(!val);
+        $("#roles_form").find(".d-button").isDisable(false);
+        //$('#roles_form').submit();
+    }
+
+    function _setFieldsChanged() {
+        if (!fieldsChanged) {
+            $('#d_btn_editfields').slideDown();
+            fieldsChanged = true;
+        }
+    }
+
+    function _submitChanges() {
+        fieldsChanged = false;
+        $.loading();
+        $('#fields_form').submit();
+    }
+
+    $(function () {
+        $("#editorfields").sortable({
+            forceHelperSize: true,
+            forcePlaceholderSize: true,
+            placeholder: "placeholder",
+            cancel: ".d-state-disable,.ui-state-highlight",
+            opacity: .5,
+            update: function (ui) {
+                _setFieldsChanged();
+            }
+        });
+
+        $(window).bind("beforeunload", function () {
+            if (fieldsChanged)
+                return "You have not save the settings yet,are you sure to leave?";
+        });
+    });
+</script>

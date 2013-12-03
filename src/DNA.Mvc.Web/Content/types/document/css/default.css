@@ -1,0 +1,19 @@
+﻿dl { }
+dt { display: block; background: #efefef; }
+    dt > * { display: inline-block; vertical-align: middle; padding: 5px; font-size: 1.5em; }
+    dt > code { background: #fff; color: #f00; font-weight: bold; padding: 5px 10px; -webkit-box-shadow: 0 0 5px #ccc; box-shadow: 0 0 5px #ccc; }
+    dt > em { color: #333; font-size: 1em; float: right; font-weight: bold; }
+dd { padding: 10px 0px; }
+    dd p.default { font-weight: bold; }
+
+blockquote { color: #6d6d6d; border-left: 3px solid #ccc; border-left-width: 3px; margin-left: 3px; padding-left: 40px; }
+    blockquote cite { float: right; }
+    blockquote::after { content: ""; clear: both; display: block; }
+
+.d-size-helper { position: absolute; top: 50px; right: -1px; width: 6px; background: #ccc; height: 80px; cursor: pointer; opacity: .3; }
+    .d-size-helper:hover { opacity: .8; }
+.d-sizable-pane { border-right: 3px solid #efefef; padding: 0px; width: 200px; position: relative; }
+.d-reader .right .d-size-helper, .d-reader.d-state-collapsed .left { display: none; }
+.d-reader .right { position: relative; min-height: 800px; }
+.d-reader.d-state-collapsed .right { border-left: 3px solid #efefef; }
+    .d-reader.d-state-collapsed .right .d-size-helper { left: -1px; right: auto; display: block; }

@@ -1,0 +1,6 @@
+﻿/*#name#*/.d-menu { background: none; box-shadow: none; border: none; }
+/*#name#*/.d-menu.horizontal > .d-separator { display: none; }
+/*#name#*/.d-menu.horizontal > .d-item { margin-right: 10px; }
+/*#name#*/.d-menu.horizontal > .d-item > a { line-height: 40px; }
+/*#name#*/.d-menu > .d-item { box-shadow: 1px 1px 3px 1px #ccc; -webkit-box-shadow: 1px 1px 3px 1px #ccc; -moz-box-shadow: 1px 1px 3px 1px #ccc; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; margin-right: 5px; }
+/*#name#*/.d-menu .d-items-wrapper { box-shadow: 1px 1px 3px 1px #ccc; -webkit-box-shadow: 1px 1px 3px 1px #ccc; -moz-box-shadow: 1px 1px 3px 1px #ccc; border-radius: 15px; -moz-border-radius: 15px; -webkit-border-radius: 15px; }

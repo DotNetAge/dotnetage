@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<emails>
+  <add name="pwd_changed" file="pwd_change.xslt" />
+  <add name="pwd_valid" file="pwd_valid.xslt" />
+  <add name="register" file="register.xslt" />
+  <add name="contact" file="contact.xslt" />
+</emails>

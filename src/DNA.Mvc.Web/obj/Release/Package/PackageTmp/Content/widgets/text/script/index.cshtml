@@ -1,0 +1,56 @@
+﻿@using Resources;
+@Html.Widget().Content(@<text>
+@{
+    var src = item.GetString("src");
+    var type = item.GetString("type");
+    var content = item.GetString("content");
+    if (!string.IsNullOrEmpty(src))
+    {
+    <script type="@type" src="@Url.Content(src)"></script>
+    }
+    else
+    {
+        if (!string.IsNullOrEmpty(content))
+        { 
+    <script type="@type">try{@MvcHtmlString.Create(content)}catch(e){}</script>
+        }
+    }
+}
+</text>).UserPreferences(@<text>
+@{
+    var src = item.GetString("src");
+    var fileName = !string.IsNullOrEmpty(src) ? System.IO.Path.GetFileName(src) : "custom.js";
+}
+<div>
+    <div style="padding: 50px; text-align: center;">
+        <img src="@Url.Content(item.ResovleUrl("default.png"))" />
+        <div>@fileName</div>
+        @item.Hidden("src")
+        <div>
+            @UIHelper.BrowseFor(item.GetID("src"), item.Loc("SelectDlgTitle"), ".js", inline: false)
+        </div>
+        <div>
+            <a data-role="button" 
+                data-default="true" 
+                data-inline="false" 
+                href="javascript:void(0);" 
+                onclick="event.stopPropagation(); $.editCode('@fileName',$('#@item.GetID("content")').val(),function(val){ $('#@item.GetID("content")').val(val); $('#@item.ClientID').widget('prefs', { content: val }); return true; }, 'javascript');">@Resources.Commons.Edit</a>
+            <input type="hidden" value="@item.GetString("content")" id="@item.GetID("content")" name="content" />
+        </div>
+    </div>
+</div>
+
+</text>).Design(@<text>
+@{var src = item.GetString("src");}
+@if (string.IsNullOrEmpty(src))
+{
+    @item.DesignModeHolder(Widgets.OpenSettings)
+}
+else
+{
+    <div style="text-align:center;cursor:pointer;" onclick="@item.OpenPrefs">
+        <img src="@Url.Content(item.ResovleUrl("default.png"))" />
+        <div>@System.IO.Path.GetFileName(src)</div>
+    </div>
+}
+</text>).GetHtml()

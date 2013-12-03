@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<page xmlns="http://www.dotnetage.com/XML/Schema/page" viewmode="Center" slug="contacts" xmlns:w="http://www.dotnetage.com/XML/Schema/widget-data" target="_self" dir="ltr">
+  <title>Contacts</title>
+  <layout><![CDATA[<div class="d-page" data-role="layout"><div data-role="layout" data-label="Content" class="d-page-part d-page-content">@Html.Zone("ContentZone", "ContentZone").Attrs(new {@class="d-widget-zone",data_label="Main zone",style=""}).GetHtml()
+<div data-role="layout" data-label="61.8% 39.2%" data-cols="2" data-class="sr" class="d-page-part"><div class="d-layout-columns d-layout-columns-sr"><div class="d-layout-column">@Html.Zone("zone0", "zone0").Attrs(new {@class="d-widget-zone",data_label="zone0"}).GetHtml()
+</div><div class="d-layout-column">@Html.Zone("zone1", "zone1").Attrs(new {@class="d-widget-zone",data_label="zone1"}).GetHtml()
+</div></div></div><div class="d-page-part" data-cols="2" data-label="50% 50%" data-role="layout" id="layout6"><div class="d-layout-columns d-layout-columns-2"><div class="d-layout-column">@Html.Zone("zone2", "zone2").Attrs(new {@class="d-widget-zone"}).GetHtml()
+</div><div class="d-layout-column">@Html.Zone("zone3", "zone3").Attrs(new {@class="d-widget-zone"}).GetHtml()
+</div></div></div></div></div>]]></layout>
+  <widgets>
+    <w:widget pid="contact-detail" zone="ContentZone" showIn="parent" seq="1">
+      <w:title><![CDATA[Contact detail]]></w:title>
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="company" value="'Your company name'" />
+      <w:preference name="address_line1" value="'Address line1'" />
+      <w:preference name="address_line2" value="'Address line2'" />
+      <w:preference name="telephone" value="'888-888-888'" />
+      <w:preference name="cellphone" value="'555-555-555'" />
+      <w:preference name="fax" value="'888-888-888'" />
+      <w:preference name="zipcode" value="'086-020'" />
+      <w:preference name="email" value="'sample@email.com'" />
+      <w:preference name="cached" value="true" />
+      <w:preference name="showBorder" value="false" />
+    </w:widget>
+    <w:widget pid="contact-us" zone="ContentZone" showIn="parent">
+      <w:title><![CDATA[Contact us]]></w:title>
+      <w:preference name="showBorder" value="false" />
+      <w:preference name="receiver" value="'receiver@email.com'" />
+      <w:preference name="subject" value="''" />
+      <w:preference name="postbackmsg" value="''" />
+      <w:preference name="showBorder" value="false" />
+    </w:widget>
+  </widgets>
+</page>

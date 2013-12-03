@@ -1,0 +1,8 @@
+﻿.d-radios { display: inline-block; }
+    .d-radios:after { display: block; visibility: hidden; clear: both; height: 0; content: ""; }
+.d-radio { margin-right: 3px; cursor: pointer; }
+div.d-radio { display: block; }
+span.d-radio { display: inline-block; overflow: hidden; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap; }
+.d-radio > label { font-size: 100%; cursor: pointer; }
+.d-radio > * { display: inline-block; vertical-align: middle; }
+.d-radio .d-radio-holder { margin-right: 5px; }

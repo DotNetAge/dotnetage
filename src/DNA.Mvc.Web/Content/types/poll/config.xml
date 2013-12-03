@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType name="poll" xmlns="http://www.dotnetage.com/XML/Schema/contents" allowComments="true" defaultLocale="en-us" activity="true" id="polls">
+  <title resKey="Polls"/>
+  <fields>
+    <field type="Text" name="title" linkToItem="true" required="true">
+      <title resKey="Title"/>
+      <placeHolder resKey="Title_Holder"/>
+    </field>
+    <field type="Image" name="photo" linkToItem="true" thumbHeight="80" thumbWidth="80" itemprop="image">
+      <title resKey="Photo"/>
+    </field>
+    <field type="DateTime" name="expired" required="true">
+      <title resKey="Expired"/>
+    </field>
+    <field type="Note" name="description">
+      <title resKey="Desc"/>
+      <placeHolder resKey="Desc_Holder"/>
+    </field>
+    <field type="Boolean" yesText="Multiple" noText="Single" name="multioption" default="true">
+      <title resKey="VoteType"/>
+    </field>
+    <field type="Text" name="options">
+      <title resKey="Options"/>
+    </field>
+    <field type="Integer" name="peoples">
+      <title resKey="Peoples"/>
+    </field>
+  </fields>
+  <views>
+    <view name="default" default="true" sort="peoples asc">
+      <title resKey="DefaultView"/>
+      <styleSheet src="default.css" />
+      <script src="poll.js" />
+      <fields>
+        <fieldRef name="photo" />
+        <fieldRef name="title" toFeed="title" />
+        <fieldRef name="description" toFeed="description" />
+        <fieldRef name="peoples" hidden="true"/>
+        <fieldRef name="expired" hidden="true"/>
+        <fieldRef name="multioption" hidden="true"/>
+        <fieldRef name="options" showLabel="false">
+          <tmpl contentType="application/x-ms-aspnet" src="fields/view/_options.cshtml" />
+        </fieldRef>
+      </fields>
+      <body src="_default.cshtml"></body>
+      <paging allow="true" index="1" size="20" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New"/>
+      <fields>
+        <field name="title" caption="true" />
+        <field name="photo" />
+        <field name="description" />
+        <field name="multioption" />
+        <field name="expired" />
+        <field name="peoples" hidden="true" />
+        <field name="options">
+          <tmpl contentType="application/x-ms-aspnet" src="fields/new/_options.cshtml" />
+        </field>
+      </fields>
+    </form>
+    <form name="editForm" type="Edit" anonymous="true">
+      <title resKey="Edit"/>
+      <fields>
+        <field name="title" />
+        <field name="description" />
+        <field name="expired" />
+        <field name="multioption" hidden="true" />
+        <field name="peoples" hidden="true" />
+        <field name="options">
+          <tmpl contentType="application/x-ms-aspnet" src="fields/edit/_options.cshtml" />
+        </field>
+      </fields>
+    </form>
+    <form name="dispForm" type="Display">
+      <title resKey="Details"/>
+      <styleSheet src="default.css" />
+      <script src="poll.js" />
+      <fields>
+        <field name="title" caption="true" hidden="true" />
+        <field name="photo" />
+        <field name="description" showLabel="false" />
+        <field name="expired" showLabel="false">
+          <tmpl contentType="application/x-ms-aspnet" src="fields/disp/_expired.cshtml" />
+        </field>
+        <field name="options" showLabel="false">
+          <tmpl contentType="application/x-ms-aspnet" src="fields/disp/_options.cshtml" />
+        </field>
+      </fields>
+    </form>
+  </forms>
+</contentType>

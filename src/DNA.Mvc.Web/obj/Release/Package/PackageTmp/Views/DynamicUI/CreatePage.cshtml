@@ -1,0 +1,47 @@
+﻿<form
+    data-ajax="true"
+    data-ajax-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/pages/add")" 
+    data-ajax-method="post"
+    data-ajax-begin="$.loading('@(Resources.Pages.CreatingPage) ...')"
+    data-ajax-error="$.err(error)"
+    data-ajax-success="$.loading('@(Resources.Pages.RedirectingToPage) ...');window.location=data.path;"
+    method="post">
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        <li data-role="fieldcontain">
+            <label for="_title">@Commons.Title</label>
+            <input type="text" name="title" id="_title" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Commons.Title)" 
+                data-val="true" 
+                data-val-required="@string.Format(Resources.Validations.Required_Format, Commons.Title)" /></li>
+        <li data-role="fieldcontain">
+            <label for="_desc">@Commons.Desc</label><textarea name="desc" id="_desc" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Commons.Desc)"></textarea></li>
+        <li data-role="fieldcontain">
+            <label for="_keywords">@Commons.Keywords</label><textarea name="keywords" id="_keywords" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Commons.Keywords)"></textarea></li>
+        <li data-readonly="true">
+            <div>
+                <input type="checkbox" data-label="@Resources.Pages.UnderCurrentPage" 
+                    data-change="$('#_parentId').val(ui.checked ? $('body').data('id') : 0)" />
+            </div>
+        </li>
+        @*        <li data-readonly="true">
+            <div>
+                <input type="checkbox" data-label="@Edit_cshtml.ShowInMenu"/>
+            </div>
+        </li>*@
+    </ul>
+    <input type="hidden" value="@Culture" name="locale" />
+    <input type="hidden" name="parentId" value="0" id="_parentId" />
+    <input type="hidden" name="tmpl" value="blank" id="_tmpl" />
+    <input type="hidden" name="layout" value="" id="_layout" />
+
+    <p style="padding: 0px 10px;">
+        <button data-inline="false" data-default="true" 
+          @*  class="d-state-disable"*@
+            >@Resources.Commons.Save</button>
+    </p>
+    <p style="padding: 0px 10px;">
+        <a data-role="button" data-inline="false" data-rel="close">@Resources.Commons.Cancel</a>
+    </p>
+</form>

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" itemtype="http://schema.org/Event" allowComments="true" allowVotes="true" allowCategoriesAndTags="true" name="event" defaultLocale="en-us" activity="true" version="1.0.0" id="events">
+  <title resKey="Events" />
+  <fields>
+    <field type="Text" name="title" linkToItem="true" required="true" itemprop="name">
+      <title resKey="Title"/>
+      <placeHolder resKey="Title_Holder"/>
+    </field>
+    <field type="Text" name="place" itemprop="location">
+      <title resKey="Place"/>
+      <placeHolder resKey="Place_Holder"/>
+    </field>
+    <field type="DateTime" name="startAt" showTime="true" itemprop="startDate">
+      <title resKey="StartAt"/>
+    </field>
+    <field type="DateTime" name="ending" showTime="true" itemprop="endDate">
+      <title resKey="EndDate"/>
+    </field>
+    <field type="Image" name="cover" thumbWidth="400" thumbHeight="225" itemprop="image">
+      <title resKey="Cover"/>
+      <description resKey="Cover_Desc"/>
+    </field>
+    <field type="Note" name="body" isHtml="true" itemprop="description">
+      <title resKey="Desc"/>
+      <description resKey="Desc_Desc"/>
+    </field>
+    <field type="Text" name="members" hidden="true" itemprop="attendees">
+      <title resKey="Members"/>
+    </field>
+    <field type="Text" name="photoPath">
+      <title resKey="Photos"/>
+      <description resKey="Photos_Desc"/>
+    </field>
+  </fields>
+  <views>
+    <view name="defaultview" default="true" anonymous="true">
+      <title resKey="DefaultView"/>
+      <fields>
+        <fieldRef name="cover" />
+        <fieldRef name="title" />
+        <fieldRef name="place" showLabel="true" />
+        <fieldRef name="startAt" showLabel="true" />
+      </fields>
+      <body src="_float.cshtml" />
+      <paging allow="true" index="1" size="50" />
+      <styleSheet><![CDATA[.d-view.event.defaultview>.d-view-item .d-view-item-footer{display:none;}	
+.d-view.event.defaultview>.d-view-item{width:400px;}]]></styleSheet>
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New">
+      <title resKey="New"/>
+      <fields>
+        <field name="title" caption="true" showLabel="false" />
+        <field name="place" showLabel="false" />
+        <field name="startAt" showLabel="false" />
+        <field name="ending" showLabel="false" />
+        <field name="cover" showLabel="false" />
+        <field name="body" showLabel="false" />
+        <field name="members" hidden="true" showLabel="false" />
+        <field name="photoPath" showLabel="false">
+          <tmpl src="fields/new/_photos.cshtml" />
+        </field>
+      </fields>
+    </form>
+    <form name="editForm" type="Edit">
+      <title resKey="Edit"/>
+      <fields>
+        <field name="title" caption="true" showLabel="false" />
+        <field name="place" showLabel="false" />
+        <field name="startAt" showLabel="false" />
+        <field name="ending" showLabel="false" />
+        <field name="cover" showLabel="false" />
+        <field name="body" showLabel="false" />
+        <field name="members" hidden="true" showLabel="false" />
+        <field name="photoPath" showLabel="false">
+          <tmpl src="fields/edit/_photos.cshtml" />
+        </field>
+      </fields>
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Disp"/>
+      <styleSheet><![CDATA[.d-form.event.display .d-field{padding:5px 0px;}
+.d-form.event.display .d-field>label{font-weight:bold;}
+.d-form.event.display .d-field>label::after{content:":";vertical-align:middle;display:inline-block;}]]></styleSheet>
+      <fields>
+        <field name="title" caption="true" hidden="true" showLabel="false" />
+        <field name="cover" showLabel="false" />
+        <field name="place" showLabel="true" />
+        <field name="startAt" showLabel="true" />
+        <field name="ending" showLabel="true" />
+        <field name="body" showLabel="false" />
+        <field name="members" hidden="true" showLabel="false">
+          <tmpl src="fields/disp/_members.cshtml" />
+        </field>
+        <field name="photoPath" showLabel="false">
+          <tmpl src="fields/disp/_photos.cshtml" />
+        </field>
+      </fields>
+    </form>
+  </forms>
+</contentType>

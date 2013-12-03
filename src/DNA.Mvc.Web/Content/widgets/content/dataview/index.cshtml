@@ -1,0 +1,299 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    var allowFiltering = (bool)settings.allowFiltering;
+    var allowPaging = (bool)settings.allowPaging;
+    var allowSorting = (bool)settings.allowSorting;
+    var pageIndex = (int)settings.pageIndex;
+    var pageSize = (int)settings.pageSize;
+    var pagingInfo = !string.IsNullOrEmpty(item.GetString("pageinfo")) ? item.GetBool("pagingInfo") : false;// (bool)settings.pagingInfo;
+    var listName = settings.listName;
+    ContentListDecorator list = null;
+    if (!string.IsNullOrEmpty(listName))
+    {
+        list = AppModel.Get().CurrentWeb.Lists[listName];
+    }
+    var lists = AppModel.Get().CurrentWeb.Lists;
+}
+@item.Hidden("listName")
+@item.Hidden("viewName")
+<div id="@item.GetID("listSelector")" style="@if (list != null)
+                                             {<text>display:none;</text>}">
+    <div style="margin: 5px 0px;">@string.Format(Resources.Messages.SelectFormat, Resources.Contents.List)</div>
+    <ul data-role="listview" 
+          data-selectable="true"
+          data-item-style="cursor:pointer;"
+          data-select="var n=ui.item.data('name');$('#@item.GetID("list_link")').text(ui.item.text()).attr('href',ui.item.data('link'));$('#@item.GetID("list_icon")').attr('src',ui.item.children('img').attr('src'));$('#@item.GetID("listName")').val(n);$('#@item.GetID("listSelector")').hide();$('#@item.GetID("viewsetting_detail")').show();var _src=$('#@item.GetID("viewsrc")');$('#@item.GetID("view_list_view")').taoListview('option','datasource',_src); _src.taoDataSource('read',{url:'@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/views")',data:{id:n}})"
+          data-display="mobile-list"
+        data-inset="true">
+        @foreach (var ls in lists)
+        {
+            <li data-name="@ls.Name" 
+                data-link="@Url.Content(ls.SettingUrl)"><a>
+                    <img src="@Url.Content((ls.Package!=null && !string.IsNullOrEmpty(ls.Package.Icon)) ? ls.Package.Icon : "~/content/images/list.png")" style="width:32px;" class="d-inline" data-size="32"/>
+                    <h4>@ls.Title</h4>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+@if (list != null)
+{
+    <div id="@item.GetID("viewsetting_detail")" style="@if (list == null)
+                                                       {<text>display:none;</text>}">
+        <div style="padding-bottom: 10px; margin-bottom: 10px;">
+            <img src="@Url.Content((list.Package!=null && !string.IsNullOrEmpty(list.Package.Icon)) ? list.Package.Icon : "~/content/images/list.png")" id="@item.GetID("list_icon")" style="width:48px;" class="d-inline"/>
+            <div class="d-inline" style="width: 215px;">
+                <div style="margin-bottom: 8px;">
+                    <a target="_blank"  
+                        id="@item.GetID("list_link")" 
+                        href="@Url.Content(list.SettingUrl)" 
+                        style="font-size:14pt;" class="d-link">@list.Title</a>
+                </div>
+                @if (item.Model.IsStatic)
+                {
+                    <small style="padding: 5px;">@item.Loc("CanNotModify")</small>
+                }
+                else
+                {
+                    <small><a data-role="button" style="width: 100px;" onclick="$('#@item.GetID("listSelector")').show();$('#@item.GetID("viewsetting_detail")').hide();">@Resources.Commons.Change</a></small>
+                }
+            </div>
+        </div>
+        <div>
+            @if (item.Model.IsStatic)
+            {
+                var view = list.Views[item.GetString("viewName")];
+                if (view != null)
+                {
+                <div style="margin: 10px 0px;">
+                    <span data-inline="true">@item.Loc("CurrentView")</span>:<a class="d-link d-inline" 
+                    href="@Url.Content(view.SettingUrl)" 
+                    target="_blank" title="@item.Loc("JumpToViewSetting")">@view.Title</a>
+                </div>
+                <div>@view.Description</div>
+                }
+                else
+                {
+                <div>@item.Loc("ViewNotFound")</div>
+                }
+            }
+            else
+            {
+                <div>@item.Loc("ChoiceView")</div>
+                <script type="text/x-jquery-tmpl">
+                    <span>${title}</span>
+                </script>
+                <ul data-role="listbox" id="@item.GetID("view_list_view")"
+                        data-select="var n=ui.dataItem ? ui.dataItem.name : ui.item.data('name');$('#@item.GetID("viewName")').val(n);"
+                        data-tmpl="prev"
+                        data-item-created="ui.item.attr('data-name',ui.data.name)"
+                        data-item-style="clear:left;"
+                        data-autobind="false"
+                        style="height: 200px; overflow: auto;">
+                    @foreach (var v in list.Views)
+                    {
+                        <li data-name="@v.Name" 
+                            @if (v.Name.Equals(item.GetString("viewName")))
+                            {<text>class="d-state-active"</text>}><span>@v.Title</span>
+                            @if (!v.AllowAnonymous)
+                            {
+                                <img style="float:right;" src="@Url.Content("~/content/images/user_16.gif")" title="@(string.Format(item.Loc("Limited"), string.Join(",", v.Roles)))" />
+                            }
+                        </li>
+                    }
+                </ul>
+                <div data-role="datasource" id="@item.GetID("viewsrc")"></div>
+            }
+            <div>
+                <div style="padding: 5px 0px;">@item.Loc("ViewOptions")</div>
+                <div>@item.Checkbox("allowFiltering", Resources.Contents.AllowFilter)</div>
+                <div>@item.Checkbox("allowSorting", Resources.Contents.AllowSorting)</div>
+                <div>@item.Checkbox("allowPaging", Resources.Contents.AllowPaging, new { data_change = "$('[data-container=paging]').isVisible(ui.checked)" })</div>
+                <div style="padding-left: 25px;">
+                    <div data-container="paging"  @if (!allowPaging)
+                                                  {<text>style="display:none;"</text>}>
+                        <label></label>
+                        <input type="checkbox" name="pagingInfo" value="@pagingInfo" @if (pagingInfo)
+                                                                                     {<text>checked="checked"</text>} data-label="@Resources.Contents.ShowPageInfo"/>
+                    </div>
+                    <div data-container="paging" style="margin:5px 0px;@if (!allowPaging)
+                                                                       {<text>display:none;</text>}">
+                        @item.Label("pageIndex", item.Loc("StartAt"), new { style = "width:80px;", @class = "d-inline" })
+                        @item.TextBox("pageIndex", new { data_val = "true", data_val_number = Resources.Validations.IntVal, data_width = "60", onfocus = "$(this).select();" })
+                        <div>@Html.ValidationMessage("pageIndex")</div>
+                    </div>
+                    <div data-container="paging"  @if (!allowPaging)
+                                                  {<text>style="display:none;"</text>}>
+                        <label style="width: 80px;" class="d-inline">@Resources.Contents.PageSize</label>
+                        @item.TextBox("pageSize", new { data_val = "true", data_val_number = Resources.Validations.IntVal, data_width = "60", onfocus = "$(this).select();" })<span class="d-inline" style="margin-left: 5px;">@Resources.Contents.Rows</span>
+                        <div>@Html.ValidationMessage("pageSize")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div id="@item.GetID("viewsetting_detail")" style="display:none;">
+        <div onclick="$('#@item.GetID("listSelector")').show();$('#@item.GetID("viewsetting_detail")').hide();" style="margin-bottom:10px;">
+            <span data-icon="arrow-left" data-icon-size="large" data-inline="true"></span>
+            <span data-inline="true" id="@item.GetID("list_link")" class="d-h4"></span>
+        </div>
+        <div>
+            <div style="padding: 5px 0px;">@item.Loc("ChoiceView")</div>
+            <script type="text/x-jquery-tmpl">
+                <span>${title}</span>
+            </script>
+            <ul data-role="listbox"
+                data-select="var n=ui.dataItem ? ui.dataItem.name : ui.item.data('name');$('#@item.GetID("viewName")').val(n);"
+                data-source="@item.GetID("viewsrc")"
+                data-tmpl="prev"
+                data-item-created="ui.item.attr('data-name',ui.data.name)"
+                data-item-style="clear:left;"
+                data-autobind="false"
+                style="height: 200px; overflow: auto;">
+            </ul>
+            <div data-role="datasource" id="@item.GetID("viewsrc")"></div>
+        </div>
+        <div>
+            <div style="padding: 5px 0px;">@item.Loc("ViewOptions")</div>
+            <div>@item.Checkbox("allowFiltering", Resources.Contents.AllowFilter)</div>
+            <div>@item.Checkbox("allowSorting", Resources.Contents.AllowSorting)</div>
+            <div>@item.Checkbox("allowPaging", Resources.Contents.AllowPaging, new { data_change = "$('[data-container=paging]').isVisible(ui.checked)" })</div>
+            <div>
+                <div data-container="paging"  @if (!allowPaging)
+                                              {<text>style="display:none;"</text>}>
+                    <label></label>
+                    <input type="checkbox" name="pagingInfo" value="@pagingInfo" @if (pagingInfo)
+                                                                                 {<text>checked="checked"</text>} data-label="@Resources.Contents.ShowPageInfo"/>
+                </div>
+                <div data-container="paging" style="margin:5px 0px;@if (!allowPaging)
+                                                                   {<text>display:none;</text>}">
+                    @item.Label("pageIndex", item.Loc("StartAt"), new { style = "width:80px;", @class = "d-inline" })
+                    @item.TextBox("pageIndex", new { data_val = "true", data_val_number = Resources.Validations.IntVal, data_width = "60", onfocus = "$(this).select();" })
+                    <div>@Html.ValidationMessage("pageIndex")</div>
+                </div>
+                <div data-container="paging"  @if (!allowPaging)
+                                              {<text>style="display:none;"</text>}>
+                    <label style="width: 80px;" class="d-inline">@Resources.Contents.PageSize</label>
+                    @item.TextBox("pageSize", new { data_val = "true", data_val_number = Resources.Validations.IntVal, data_width = "60", onfocus = "$(this).select();" })<span class="d-inline" style="margin-left: 5px;">@Resources.Contents.Rows</span>
+                    <div>@Html.ValidationMessage("pageSize")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</text>).Design(@<text>
+@{
+    var settings = item.GetUserPreferences();
+    ContentListDecorator list = null;
+    ContentViewDecorator view = null;
+    var listName = settings.listName;
+    var viewName = settings.viewName;
+    if (!string.IsNullOrEmpty(listName))
+    {
+        list = AppModel.Get().CurrentWeb.Lists[listName];
+    }
+
+    if (list != null && !string.IsNullOrEmpty(viewName))
+    {
+        view = list.Views[viewName];
+    }
+
+    if (view == null)
+    {
+    @item.DesignModeHolder(string.Format(Resources.Messages.SelectFormat, Resources.Contents.View))
+    }
+    else
+    {
+    @_RenderContentView(item)
+    }
+}
+
+
+</text>).Content(@<text>
+@_RenderContentView(item)
+</text>).GetHtml()
+
+@helper _RenderContentView(WidgetHelper item)
+{
+    var settings = item.GetUserPreferences();
+    ContentListDecorator list = null;
+    ContentViewDecorator view = null;
+    var listName = settings.listName;
+    var viewName = settings.viewName;
+    var allowFiltering = (bool)settings.allowFiltering;
+    var allowSorting = (bool)settings.allowSorting;
+
+    if (!string.IsNullOrEmpty(listName))
+    {
+        list = AppModel.Get().CurrentWeb.Lists[listName];
+    }
+
+    if (list != null && !string.IsNullOrEmpty(viewName))
+    {
+        view = list.Views[viewName];
+    }
+
+    if (view != null)
+    {
+        view.StyleSheets().WriteTo(Response.Output);
+    <div style="clear: left;"></div>
+        if (view.IsClientView)
+        {
+            Html.RenderPartial("~/Views/Contents/_ClientView.cshtml", view);
+        }
+        else
+        {
+            var allowPaging = (bool)settings.allowPaging;
+            var orgSize = view.PageSize;
+            var orgIndex = view.PageIndex;
+
+            if (allowPaging)
+            {
+                var pageSize = (int)settings.pageSize;
+                var pageIndex = (int)settings.pageIndex;
+
+
+                if (pageSize > 0 && string.IsNullOrEmpty(Request.QueryString["size"]))
+                {
+                    view.PageSize = pageSize;
+                }
+
+                if (pageIndex > 0 && string.IsNullOrEmpty(Request.QueryString["index"]))
+                {
+                    view.PageIndex = pageIndex;
+                }
+            }
+
+            var queryResults = view.Items(Context);
+            view.PageSize = orgSize;
+            view.PageIndex = orgIndex;
+
+            if (allowFiltering || allowSorting)
+            {
+                var partialViewData = new ViewDataDictionary();
+                partialViewData.Add("allowFiltering", allowFiltering);
+                partialViewData.Add("allowSorting", allowSorting);
+                Html.RenderPartial("~/Views/Contents/_ServerToolbar.cshtml", queryResults, partialViewData);
+            }
+            Html.RenderPartial("~/Views/Contents/_ServerView.cshtml", queryResults);
+
+            if (settings.allowPaging && queryResults.Query.Total > queryResults.Query.Size && queryResults.Query.TotalPages > 0)
+            {
+                if (settings.pagingInfo)
+                {
+    <span>@string.Format(item.Loc("ItemsFoundFormat"), queryResults.Query.Total) </span>
+    <span>@item.Loc("Page") </span>
+    <span>@(queryResults.Query.Index) / @queryResults.Query.TotalPages</span>
+    @Html.Pager(queryResults, new { style = settings.pagingInfo == true ? "display:inline-block;text-valign:center;margin-left:10px;" : "" })
+                }
+            }
+        }
+    @view.Scripts()
+    }
+}

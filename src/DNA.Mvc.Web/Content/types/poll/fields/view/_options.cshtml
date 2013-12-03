@@ -1,0 +1,21 @@
+﻿@model ContentViewFieldValue
+@{
+    var type = (bool)Model.Item["multioption"];
+    var isexpired = false;
+    if (!Model.Item.IsNull("expired"))
+    {
+        var expired = (DateTime)Model.Item["expired"];
+        isexpired = expired < DateTime.Now;
+    }
+    var anonymous = Model.Field.Parent.EditForm.AllowAnonymous;
+}
+<div data-role="poll" 
+    data-readonly="@(isexpired.ToString().ToLower())"
+    data-anonymous="@anonymous.ToString().ToLower()"
+    data-options='@Model.Value' 
+    data-field="@Model.Field.Name"
+    data-multi="@(type.ToString().ToLower())"
+    data-user="@(Request.IsAuthenticated ? User.Identity.Name : (Request.UserHostAddress == "::1" ? "127.0.0.1" : Request.UserHostAddress))"
+    data-post-data='{"id":"@Model.Field.Parent.ID","itemID":"@Model.Item.ID"}'
+    data-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/updateitem")">
+</div>

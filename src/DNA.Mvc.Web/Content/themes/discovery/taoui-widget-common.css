@@ -1,0 +1,4 @@
+﻿.d-ui-widget, .ui-widget { -moz-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; background-color: #cfe8e7; background-image: none; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #9cbbba; }
+.d-ui-widget, .ui-widget, .d-node-content > * { color: #3b3e3e; }
+    .d-ui-widget.d-panel-overlay { border-color: #525F62; -webkit-box-shadow: 0 0 10px #525F62; box-shadow: 0 0 10px #525F62; }

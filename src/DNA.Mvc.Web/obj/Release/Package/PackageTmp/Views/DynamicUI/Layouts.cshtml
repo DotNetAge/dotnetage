@@ -1,0 +1,61 @@
+﻿@model WebPageDecorator
+<form data-ajax="true"
+    data-ajax-url="@Url.Content("~/api/" + AppModel.Get().Context.Website + "/pages/ApplyLayout/" + Model.ID.ToString())"
+    data-ajax-method="post"
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-success="location.reload();"
+    data-ajax-failure="$.err(error);"
+    >
+    <input type="hidden" name="id" value="@Model.ID"/>
+    <input type="hidden" name="name" id="sys_page_viewname" value="@Model.ViewName"/>
+    <div style="padding: 10px;">
+        <p>@Resources.Pages.CurrentLayout</p>
+        @if (!string.IsNullOrEmpty(Model.ViewData))
+        {
+            <div class="d-inline" style="text-align: center;">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAAA4CAIAAAA6mpLSAAAAgElEQVRo3u3bsQ1AYBCG4b82CmFjG1DpDaBRsoJGo5Tg1nB5kre58um/K1W/duPeDFu+whW60o77cr3z+eQrXKEr9bDFMR13vsIVOkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkLCnwnzL9nTfyN80fqmoK3/2tYAAAAASUVORK5CYII=" />
+                <div>Custom</div>
+            </div>
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(Model.ViewName))
+            {
+                var l = AppModel.Get().PageLayouts.FirstOrDefault(la => Model.ViewName.EndsWith(la.Name + ".cshtml", StringComparison.OrdinalIgnoreCase));
+                if (l != null)
+                { 
+            <div class="d-inline" style="text-align: center;">
+                <img src="@l.Icon" /><div>@l.Title</div>
+            </div>
+
+                }
+            }
+            else
+            { 
+            <div class="d-inline" style="text-align: center;">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAAA4CAIAAAA6mpLSAAAAgElEQVRo3u3bsQ1AYBCG4b82CmFjG1DpDaBRsoJGo5Tg1nB5kre58um/K1W/duPeDFu+whW60o77cr3z+eQrXKEr9bDFMR13vsIVOkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkLCnwnzL9nTfyN80fqmoK3/2tYAAAAASUVORK5CYII=" />
+                <div>@Resources.Commons.Default</div>
+            </div>
+            }
+        }
+    </div>
+    <ul data-role="listview"
+        data-selectable="true"
+        data-item-style="margin:5px;width:120px;text-align:center;padding-top:10px;"
+        data-select="$('#sys_page_viewname').val(ui.item.data('name'));$(this).closest('form').find('.d-button').isDisable(false)"
+        data-inline="true">
+        @foreach (var layout in AppModel.Get().PageLayouts)
+        {
+            <li data-name="@(layout.Name)" 
+            @if (!string.IsNullOrEmpty(Model.ViewName) && (Model.ViewName.EndsWith(layout.Name + ".cshtml", StringComparison.OrdinalIgnoreCase)))
+            {<text>class="d-state-active"</text>}>
+                <img src="@(layout.Icon)" />
+                <div>@(layout.Title)</div>
+            </li>
+        }
+    </ul>
+    <div style="padding: 10px;">
+        <button class="d-state-disable" data-inline="false" data-default="true">@Resources.Commons.Save</button>
+    </div>
+</form>

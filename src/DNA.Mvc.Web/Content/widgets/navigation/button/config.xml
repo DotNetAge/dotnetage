@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="button" viewmodes="floating">
+  <name short="Button">Button</name>
+  <name short="Button" xml:lang="zh-cn">按钮</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="cached" readonly="true" value="false" />
+  <preference name="transparent" readonly="true" value="true" />
+  <preference name="text" value="'Button'" />
+  <preference name="onclick" value="''" />
+  <preference name="style" value="'3d'" />
+  <preference name="fontsize" value="3" />
+  <preference name="forecolor" value="'#ffffff'" />
+  <preference name="shadowcolor" value="'#3366cc'" />
+  <preference name="bgcolor" value="'#0099ff'" />
+  <preference name="radius" value="'15'" />
+  <preference name="h" value="'28'" />
+  <preference name="w" value="'150'" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

@@ -1,0 +1,50 @@
+﻿@{
+    var web = AppModel.Get().CurrentWeb;
+    var page = (WebPageDecorator)ViewBag.Page;
+    var theme = !string.IsNullOrEmpty(web.Theme) ? web.Theme : "default";
+}
+@Html.GoogleSiteVerificationMetaTag()
+@Html.BingSiteVerificationMetaTag()
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=0" />
+<meta name="description" content="@(!string.IsNullOrEmpty((string)ViewBag.Description) ? Html.Encode(ViewBag.Description) : "")" />
+<meta name="keywords" content="@(!string.IsNullOrEmpty((string)ViewBag.Keywords) ? Html.Encode(ViewBag.Keywords) : "")" />
+<meta name="generator" content="DotNetAge" />
+@if (Request.IsMobileRequest())
+{
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="”black”" />
+}
+@Html.AppleIcons()
+<link href="~/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+<link href="~/osd.@(Culture).xml" type="application/opensearchdescription+xml" rel="search" />
+
+@Html.GoogleAnalyticsTrackingScript()
+@Styles.Render("~/Content/themes/base/css", "~/Content/themes/" + theme + "/css")
+<!--[if IE]><link type="text/css" href="@Styles.Url("~/Content/Themes/base/css/ie-fallback.css")"  rel="stylesheet"/><![endif]-->
+@if (page != null)
+{
+    if (page.StyleSheets != null && page.StyleSheets.Count() > 0)
+    { 
+    @Styles.Render(page.StyleSheets)
+    }
+    if (!string.IsNullOrEmpty(page.CssText))
+    {
+    <style type="text/css" id="inpagestyle">@MvcHtmlString.Create(page.CssText)</style>
+    }
+    if (page.Scripts != null && page.Scripts.Count() > 0)
+    { 
+    @Scripts.Render(page.Scripts)
+    }
+}
+
+@if (AppModel.Get().Context.View != null)
+{
+    var view = AppModel.Get().Context.View;
+    if (view.HasFeed)
+    {
+    <link href="@view.RssUri.ToString()" rel="alternate" type="application/rss+xml" title="@view.Title" />
+    <link href="@view.AtomUri.ToString()" rel="alternate" type="application/atom+xml" title="@view.Title" />
+    }
+}

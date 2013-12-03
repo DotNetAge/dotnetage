@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="follow-us">
+  <name short="FollowUs">Follow us</name>
+  <name short="FollowUs" xml:lang="zh-cn">关注我们</name>
+  <description xml:lang="zh-cn"></description>
+  <icon src="default.png" />
+  <preference name="facebook" value="''" />
+  <preference name="twitter" value="''" />
+  <preference name="gplus" value="''" />
+  <preference name="dribbble" value="''" />
+  <preference name="github" value="''" />
+  <preference name="tumblr" value="''" />
+  <preference name="delicious" value="''" />
+  <preference name="cached" readonly="true" value="true" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

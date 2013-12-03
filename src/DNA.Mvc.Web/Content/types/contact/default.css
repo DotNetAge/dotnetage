@@ -1,0 +1,9 @@
+﻿.d-view.contact { border-width: 0px; }
+    .d-view.contact .image { top: 10px; }
+    .d-view.contact .fullName { line-height: 1.6em; font-size: 1.3em; }
+    .d-view.contact .d-view-item *:not(.image):before { margin-right: 5px; font-family: 'taoui'; speak: none; text-decoration: none!important; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; cursor: default; min-width: 1em; }
+    .d-view.contact .email:before { content: "\f003"; }
+    .d-view.contact .telephone:before { content: "\e01a"; }
+    .d-view.contact .faxNumber:before { content: "\f02f"; }
+    .d-view.contact .mobile:before { content: "\e036"; }
+    .d-view.contact .homePage:before { content: "\e059"; }

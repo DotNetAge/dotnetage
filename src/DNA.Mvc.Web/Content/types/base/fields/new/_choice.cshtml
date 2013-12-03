@@ -1,0 +1,52 @@
+﻿@model ChoiceField
+@{
+    var choices = Model.Choices;    
+}
+@if (choices == null)
+{
+    <input type="text" name="@Model.Name" id="@(Model.ClientID + "_val")"  />
+}
+else
+{
+    if (Model.AllowMultiChoice)
+    {
+    <input type="hidden" name="@Model.Name" id="@(Model.ClientID + "_val")" />
+    <select  id="@(Model.ClientID)" 
+        data-role="listbox" 
+        data-checkable="true"  
+        data-checkto="@(Model.ClientID + "_val")"
+        style="width:309px;max-height:220px; border:1px solid #ccc;display:inline-block;"
+    @if (Model.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+    >
+        @foreach (string val in Model.ChoiceValues)
+        {
+            <option value="@val" @if (Model.DefaultValue != null && ((string)Model.DefaultValue) == val)
+                                 {<text>selected="selected"</text>}>@val</option>
+        }
+    </select>
+    
+    }
+    else
+    {
+    <select  id="@(Model.ClientID)" 
+    name="@Model.Name" 
+    data-role="combobox"
+        style="width:70%;"
+    @if (Model.IsRequired)
+    { <text>required="required"</text>}
+    @if (Model.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+    @if (Model.ChoiceValues.Length > 50)
+    {<text>data-height=150</text>}
+    data-input="@Model.FillInChoice.ToString().ToLower()"
+    >
+        @foreach (string val in Model.ChoiceValues)
+        {
+            <option value="@val" @if (Model.DefaultValue != null && ((string)Model.DefaultValue) == val)
+                                 {<text>selected="selected"</text>}>@val</option>
+        }
+    </select>
+
+    }
+}

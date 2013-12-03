@@ -1,0 +1,64 @@
+﻿body, .d-ui-widget, .d-ui-widget-header, .d-ui-widget-content, .d-content-text, .ui-widget, .ui-widget-content, .d-input > input, .d-picker > input, .d-button, .d-pager, .d-checkbox, .d-radio, .d-rte textarea { font-family: 'Segoe UI Light',Segoe UI,Tahoma Light,Arial Light,Helvetica,sans-serif; }
+body { background-color: rgb(255, 255, 255); color: #fff; }
+.iconmenu.d-menu { border: none; background: none; }
+#simplysettings, #simplysettings > li { margin: 0px; padding: 0px; list-style: none; }
+#simplysettings { position: relative; }
+    #simplysettings > li { position: absolute; top: 100px; width: 300px; }
+        #simplysettings > li.d-state-active { top: 0px; }
+#colorpickers { margin-top: 10px; }
+    #colorpickers > span { display: inline-block; width: 17px; height: 24px; border-radius: 3px; background: #fff; background-image: url(/content/images/img_transparent.png); -webkit-box-shadow: 1px 1px 3px #ccc; box-shadow: 1px 1px 3px #ccc; vertical-align: middle; }
+.layout_pattern { width: 200px; border: 1px solid #000; background-color: #3d3d3d; text-align: center; font-size: 9pt; }
+.side-pane { position: fixed; top: 0px; left: -300px; z-index: 5; width: 300px; height: 100%; border-right: 1px solid #000; background: #3d3d3d; }
+.previewer { position: fixed; top: 0px; left: 900px; background: #fff; }
+    .previewer > iframe { z-index: 1; width: 100%; height: 100%; border: 0px; }
+.d-drivier { clear: left; margin: 3px 0; height: 0px; border-bottom: 1px solid #6D6D6D; }
+    .d-drivier:after { top: 0px; height: 1px; background: #000; content: ""; }
+.d-menu.toolbar .d-separator { margin-right: 0px 3px; }
+    .d-menu.toolbar .d-separator:after { top: 0px; right: 0px; width: 1px; background: #000; content: ""; }
+
+.section-nav > div { padding: 0px; width: 120px; }
+.section-full .section-nav > div { padding-left: 5px; width: auto; }
+.section-header > img { position: absolute; top: 2px; left: 3px; width: 15px; height: 15px; }
+.section-header > div { position: absolute; top: 7px; left: 24px; margin-top: 0px; width: 50px; height: 3px; background: #000000; }
+.section-center-layout .section-header > img { left: 67px; }
+.section-center-layout .section-header > div { left: 87px; }
+
+.section-footer > div { float: none; overflow: visible; margin: auto; width: 120px; height: 35px; }
+    .section-footer > div > div { float: left; padding: 5px; padding-top: 0px; width: 50px; height: 35px; }
+.section-full .section-footer > div { float: left; width: 250px; }
+    .section-full .section-footer > div > div { width: 40%; }
+
+.section-content .side-left { float: left; padding: 5px; width: 30px; height: 50px; }
+.section-content .side-right { float: left; padding: 5px; width: 66px; height: 50px; }
+.section-full .section-content .side-right { float: left; padding: 5px; width: 170px; height: 50px; }
+
+.section-full .section-page,
+.section-full .section-header,
+.section-full .section-nav,
+.section-full .section-content,
+.section-full .section-footer,
+.section-center-content .section-page,
+.section-center-content .section-footer,
+.section-center-layout .section-page,
+.section-center-layout .section-header,
+.section-center-layout .section-nav,
+.section-center-layout .section-footer,
+.section-center-middle .section-footer .section-center-middle .section-content { margin: 0px; width: auto; }
+
+.section-center-layout .section-content,
+.section-center-content .section-header,
+.section-center-content .section-nav,
+.section-center-content .section-content,
+.section-center-middle .section-page,
+.section-center-middle .section-header,
+.section-center-middle .section-nav { margin: auto; width: 120px; }
+
+.section-sitetools:hover,
+.section-header:hover,
+.section-nav:hover,
+.section-content:hover,
+.section-footer:hover { outline: 1px dashed #0092eb; outline-offset: -1px; }
+#uidesign_tools { position: fixed; top: 5%; right: 0px; z-index: 1000; padding: 10px; background: #3d3d3d; }
+.s-tr { display: inline-block; margin-top: 6px; margin-right: 5px; width: 15px; height: 2px; background: #000000; vertical-align: middle; vertical-align: top; }
+.s-tr-2 { margin: 2px; height: 2px; background: #000000; }
+#preview_frame { z-index: 1; width: 100%; height: 100%; border: 0px; background-position: top left; background-repeat: no-repeat; }

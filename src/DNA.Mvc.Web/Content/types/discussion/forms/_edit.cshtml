@@ -1,0 +1,10 @@
+﻿@model ContentDataItemDecorator
+
+@{ 
+        Html.RenderFields(Model.Parent.EditForm, Model);
+}
+<script type="text/javascript">
+    $(function () {
+        $("#parentHolder_@(Model.ParentItemID.ToString().Substring(0,8))").hide();
+    });
+</script>

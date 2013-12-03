@@ -1,0 +1,5 @@
+﻿.d-ui-widget, .ui-widget, .d-node-content > * { color: #000000; }
+.d-ui-widget, .ui-widget { background-color: #ffffff; background-image: none; }
+.d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #e3e3e3; }
+    .d-ui-widget.d-panel-overlay { -webkit-box-shadow: 0 0 10px #CCCCCC; box-shadow: 0 0 10px #CCCCCC; }
+

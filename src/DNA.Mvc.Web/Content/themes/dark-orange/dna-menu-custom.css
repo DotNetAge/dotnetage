@@ -1,0 +1,11 @@
+﻿.d-mainmenu.d-menu { min-height: 82px; border-color: #111; border-bottom-color: #3b3b3b; border-radius: 5px; background-color: #2e2e2e; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; text-transform: uppercase; font-size: 9pt; }
+    .d-mainmenu.d-menu .d-items-wrapper { border-color: #262626; background-color: #2e2e2e; }
+    .d-mainmenu.d-menu > .d-item:first-child { border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+    .d-mainmenu.d-menu > .d-item:last-child { border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
+    .d-mainmenu.d-menu > .d-item > a { line-height: 80px; }
+    .d-mainmenu.d-menu .d-separator { border-color: #3b3b3b; }
+    .d-mainmenu.d-menu .d-item { color: #787878; }
+        .d-mainmenu.d-menu .d-item.d-state-active,
+        .d-mainmenu.d-menu .d-item.d-state-hover { background-color: #df4927; }
+            .d-mainmenu.d-menu .d-item.d-state-active > a,
+            .d-mainmenu.d-menu .d-item.d-state-hover > a { color: #e6e6e6; }

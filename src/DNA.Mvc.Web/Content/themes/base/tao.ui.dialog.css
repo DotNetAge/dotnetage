@@ -1,0 +1,4 @@
+﻿.d-dialog { display: none; position: fixed; }
+.d-dialog-header { position: relative; padding-left: 10px;  border-top-left-radius: inherit; border-top-right-radius: inherit; }
+.d-dialog-close { position: absolute; right:0px;line-height:inherit;width:32px; cursor: pointer; }
+.d-dialog-content { padding: 20px; }

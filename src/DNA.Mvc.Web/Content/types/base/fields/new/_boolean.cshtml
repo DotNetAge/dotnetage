@@ -1,0 +1,23 @@
+﻿@model BooleanField
+@if (!string.IsNullOrEmpty(Model.YesText) && !string.IsNullOrEmpty(Model.NoText))
+{
+    <div id="@(Model.ClientID)" data-role="radios" data-inline="true"
+                @if (Model.IsReadOnly)
+                { <text>class="d-state-disable"</text>}
+                 data-value="@(Model.DefaultValue != null ? Model.DefaultValue : false)">
+        <input type="radio" value="True"  name="@Model.Name" data-label="@Model.YesText" />
+        <input type="radio" value="False"  name="@Model.Name" data-label="@Model.NoText" />
+    </div>
+}
+else
+{
+    <input  id="@(Model.ClientID)" 
+            name="@Model.Name" 
+            type="checkbox" 
+            data-label="@Model.Title"
+    @if (Model.DefaultValue != null)
+    {<text>value="@((string)Model.DefaultValue)"</text>}
+    @if (Model.IsReadOnly)
+    { <text>class="d-state-disable"</text>}
+      />
+}

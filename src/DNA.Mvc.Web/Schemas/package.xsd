@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.dotnetage.com/XML/Schema/package"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xml="http://www.w3.org/XML/1998/namespace"
+           targetNamespace="http://www.dotnetage.com/XML/Schema/package"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:element name="package">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="author" maxOccurs="1">
+            <xs:complexType>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="organzation" type="xs:string" use="optional" />
+              <xs:attribute name="href" type="xs:string" use="optional" />
+              <xs:attribute name="email" type="xs:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="dependence">
+            <xs:complexType>
+              <xs:attribute name="id" type="xs:string" use="required" />
+              <xs:attribute name="name" type="xs:string" use="optional" />
+              <xs:attribute name="src" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="title">
+            <xs:complexType  mixed="true">
+              <xs:attributeGroup ref="global"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="description">
+            <xs:complexType  mixed="true">
+              <xs:attributeGroup ref="global"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="license">
+            <xs:complexType mixed="true">
+              <xs:attributeGroup ref="global"/>
+              <xs:attribute name="name" type="xs:string" use="required" />
+              <xs:attribute name="href" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="img">
+            <xs:complexType>
+              <xs:attribute name="title" type="xs:string" use="optional" />
+              <xs:attribute name="src" type="xs:string" use="required" />
+              <xs:attribute name="default" type="xs:boolean" use="optional" />
+              <xs:attribute ref="xml:lang"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="link">
+            <xs:complexType mixed="true">
+              <xs:attribute name="title" type="xs:string" use="optional" />
+              <xs:attribute name="href" type="xs:string" use="required" />
+              <xs:attribute ref="xml:lang"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="version" />
+      <xs:attribute name="published" type="xs:dateTime" />
+      <xs:attribute name="platforms" />
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="global">
+    <xs:attribute ref="xml:lang"/>
+    <xs:attribute name="dir">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="ltr"/>
+          <xs:enumeration value="rtl"/>
+          <xs:enumeration value="lro"/>
+          <xs:enumeration value="rlo"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+</xs:schema>

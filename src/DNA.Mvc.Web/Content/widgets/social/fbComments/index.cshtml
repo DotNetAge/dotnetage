@@ -1,0 +1,86 @@
+﻿@Html.Widget().UserPreferences(@<text>
+@{var m = item.GetUserPreferences();
+    //var appID = ((DNA.OAuth.OAuth2Provider)AppModel.Get().OAuthProviders["facebook"]).ClientID;
+  var appID = System.Web.Configuration.WebConfigurationManager.AppSettings["fbAppID"];
+  if (string.IsNullOrEmpty(appID))
+  {
+      appID = item.GetString("appID");
+  }
+}
+@if (string.IsNullOrEmpty(appID))
+{
+    <div class="d-field">
+        @item.Label("appID", item.Loc("AppID"))
+        @item.TextBox("appID", new { placeholder = item.Loc("AppIDHolder") })
+    </div> 
+}
+else
+{
+    @item.Hidden("appID")
+}
+<div class="d-field">
+    @item.Label("returns", item.Loc("NumOfPosts"))
+    @item.TextBox("returns", new { placeholder = string.Format(Resources.InputHolders.Format, item.Loc("NumOfPosts")) })
+</div>
+<div class="d-field">
+    @item.Label("colorSchema", item.Loc("ColorSchema"))
+    <select name="colorSchema" id="colorSchema" data-role="combobox" data-drop-style="menu">
+        <option value="light" @if (item.GetString("colorSchema") == "light")
+                              {<text>selected="selected"</text>}>@item.Loc("Light")</option>
+        <option value="dark"  @if (item.GetString("colorSchema") == "dark")
+                              {<text>selected="selected"</text>}>@item.Loc("Dark")</option>
+    </select>
+</div>
+</text>).Content(@<text>
+@{
+    //var appID = ((DNA.OAuth.OAuth2Provider)AppModel.Get().OAuthProviders["facebook"]).ClientID;
+    var appID = System.Web.Configuration.WebConfigurationManager.AppSettings["fbAppID"];
+    if (string.IsNullOrEmpty(appID))
+    {
+        appID = item.GetString("appID");
+    }
+}
+@if (!string.IsNullOrEmpty(appID))
+{
+    <script type="text/javascript">
+        if (!document.getElementById("fb-root")) {
+            var _root = document.createElement("div");
+            _root.setAttribute("id", "fb-root");
+            document.body.appendChild(_root);
+        }
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=@appID";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <style>
+        #@item.GetID("fbcomments")>span,#@item.GetID("fbcomments")>span>iframe{width:inherit!important}
+    </style>
+    <div id="@item.GetID("fbcomments")" style="width:100%;" class="fb-comments" 
+        data-href="@Request.Url" data-num-posts="@item.GetInt("returns")"
+    @if (item.GetString("colorSchema") != "light")
+    {<text>data-colorscheme="dark"</text>}>
+    </div>
+}
+</text>).Design(@<text>
+@{
+   // var appID = ((DNA.OAuth.OAuth2Provider)AppModel.Get().OAuthProviders["facebook"]).ClientID;
+    var appID = System.Web.Configuration.WebConfigurationManager.AppSettings["fbAppID"];
+    if (string.IsNullOrEmpty(appID))
+    {
+        appID = item.GetString("appID");
+    }
+}
+@if (string.IsNullOrEmpty(appID))
+{
+    @item.DesignModeHolder(item.Loc("SetAppID"))
+}
+else
+{
+    <div style="line-height: 50px; text-align: center;">@item.Loc("DesignTimeHolder")</div>
+}
+</text>).GetHtml()

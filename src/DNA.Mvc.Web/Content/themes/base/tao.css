@@ -1,0 +1,145 @@
+﻿/*
+    TaoUI Common CSS Framework
+*/
+
+/*Fonts  for common font family and font size*/
+span.d-content-text:empty { content: "&nbsp;"; }
+.d-reset { margin: 0; padding: 0; outline: 0; border: 0 none; list-style: none; text-decoration: none; font-size: 100%; line-height: 1em; }
+
+/*The widgets which has borders*/
+.d-ui-widget, .ui-datepicker, .d-separator { border: 1px solid #ccc; }
+
+/*The widgets which as backgrounds Containers,Inputs and picker background*/
+.d-ui-widget, .ui-widget { }
+
+/*Cancal dropdown container radius*/
+.d-ui-widget-header, .ui-widget-header { border-color: inherit; background: inherit; font-size: 1.1em; }
+    .d-ui-widget-header > a { text-decoration: none; }
+
+.d-ui-widget-content, .ui-widget-content { background: inherit; color: inherit; }
+.d-ui-widget a, .d-ui-widget-header { color: inherit; -webkit-text-shadow: inherit; text-shadow: inherit; }
+
+    /*Inline style*/
+    .d-input, .d-input > input, .d-picker, .d-button, .d-button > *, .d-grid .d-sorter,
+    .d-listbox .d-item > a, .d-listbox .d-item > input, .d-ui-widget-header > *,
+    .d-menu.toolbar > .d-separator, .d-menu.horizontal > .d-separator, [data-role=menubar] > .d-separator,
+    .d-menu.horizontal > .d-item, .d-menu.toolbar > .d-item, [data-role=menubar] > li,
+    .d-menu .d-item > a > *,
+    .d-panel > .d-ui-widget-header > a > * { display: inline-block; vertical-align: middle; }
+
+        /*Radius*/
+        .d-input > input, .d-picker > input, .d-picker > .d-content-text { border: 1px solid transparent; -moz-border-radius: inherit; -webkit-border-radius: inherit; border-radius: inherit; -webkit-text-shadow: inherit; text-shadow: inherit; }
+
+/* Inputs */
+.d-input { position: relative; overflow: hidden; padding: 2px; }
+    .d-input > input { padding: 0px; border: none; }
+.d-content-text { -webkit-text-shadow: inherit; text-shadow: inherit; }
+
+/* Dropdowns */
+.d-picker { position: relative; overflow: visible; padding: 2px; }
+    .d-picker > .d-content-text { overflow: hidden; padding-right: 12px; padding-left: 5px; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap; cursor: default; }
+    .d-picker > div.d-content-text { border-width: inherit; border-style: solid; border-color: transparent; background: none; color: inherit; }
+        .d-picker > div.d-content-text:empty { height: 24px; }
+    /* readonly*/
+    .d-picker > span.d-ui-widget-content { background: none; }
+    .d-picker > .d-drop-button { position: absolute; top: 50%; right: 3px; margin-top: -5px; width: 16px; text-align: center; font-size: 0.7em; }
+
+.d-drop-container { position: absolute; z-index: 3100; }
+    .d-drop-container > ul, .d-drop-container > div { display: block; border: none; }
+    .d-drop-container > .d-listbox { display: block!important; -moz-border-radius: inherit; -webkit-border-radius: inherit; border-radius: inherit; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; box-shadow: none!important; }
+
+/* List items */
+.d-items { overflow: auto; margin: 0px; padding: 0px; list-style: none; }
+.d-item { position: relative; padding: 2px 5px; border: 1px solid transparent; list-style: none; }
+
+/*Cancel default link style in widgets*/
+a.d-button, .d-node-content > a, .d-menu .d-item > a, .d-pager > a { text-decoration: none; }
+.d-state-disable { pointer-events: none; }
+
+/*Set line-height*/
+.d-button-text, .d-textbox > input, .d-picker > .d-content-text, .d-item { line-height: 24px; }
+.d-button-text, .d-textbox > input, .d-picker > .d-content-text { padding: 0px; height: 24px; }
+.d-item .d-picker > .d-content-text { line-height: inherit; }
+
+.d-corner { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+.d-float-left { float: left; }
+.d-float-right { float: right; clear: left; }
+.d-float-none { float: none; clear: both; }
+
+/*Validation states*/
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error > input, .d-state-error, .input-validation-error { color: #cb0606; }
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error { border-color: #d10000; }
+    .input-validation-error, .d-ui-widget.d-state-error, .d-ui-widget.d-state-error > .d-ui-widget-content, .input-validation-error > .d-ui-widget-content { background-color: #fbe9e9; }
+
+/*Disable states*/
+/*Text*/
+.d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget.d-state-disable *, .d-ui-widget-content.d-state-disable, .d-ui-widget-content:disabled, .d-ui-widget-header.d-state-disable, .d-ui-widget-header.d-state-disable > a, .d-node.d-state-disable .d-node-content, .d-node.d-state-disable .d-node-content a, .d-checkbox.d-state-disable, .d-radio.d-state-disable { color: #8a8a8a; }
+/*Border*/
+.d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget-header.d-state-disable { border-color: #ccc; }
+    /*Background*/
+    .d-ui-widget.d-state-disable, .d-ui-widget:disabled, .d-ui-widget-header.d-state-disable, .d-ui-widget.d-state-disable .d-ui-widget-content, .d-ui-widget-content.d-state-disable { background-color: #eeeeee; }
+
+.d-overlay { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background-color: #000; opacity: .8; }
+
+.d-list-divider { border: none; }
+
+.d-page-navigator { bottom: 0px; margin: 0px; padding: 0px; height: 24px; text-align: center; }
+    .d-page-navigator > li { display: inline-block; margin: 2px; width: 10px; height: 10px; border: solid 1px #888; border-radius: 25px; background-color: #f2f2f2; vertical-align: middle; cursor: pointer; }
+        .d-page-navigator > li.d-state-active { background-color: #808080; }
+
+.d-button-list { }
+    .d-button-list > .d-item { border-radius: 0px; margin: 0px;line-height:2em; }
+    .d-button-list > .d-item:not(:first-child) { border-left:none;}
+        .d-button-list > .d-item:first-child { border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+        .d-button-list > .d-item:last-child { border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
+        .d-button-list > .d-item > a { text-decoration:none;}
+
+/*Mobile features : selectable list ul[data-display=mobile-list] */
+.d-mobile-list { overflow: visible; }
+    .d-mobile-list > .d-item > a:first-child,
+    .d-mobile-list > .d-item > div:only-child,
+    .d-mobile-list > .d-field-container,
+    .d-form > .d-field,
+    .d-form > div { display: block; padding: 9px 12px; text-decoration: none; }
+    .d-mobile-list ~ .d-mobile-list { margin-top: 10px; }
+    .d-mobile-list .d-field-container > label:first-child,
+    .d-field > label:first-child { display: inline-block; width: 25%; vertical-align: middle; }
+    .d-mobile-list .d-field-container > .d-textbox,
+    .d-field > .d-textbox { width: 70%; }
+    .d-mobile-list .d-field-container > .d-textarea,
+    .d-field > .d-textarea { width: 95%; }
+    .d-mobile-list .d-field-container > small,
+    .d-mobile-list .d-field-container > .field-validation-error,
+    .d-mobile-list .d-field-container > .d-val-msg,
+    .d-field > small,
+    .d-field > .d-val-msg,
+    .d-field > .field-validation-error { display: block; margin-left: 25%; }
+    .d-mobile-list .d-field-container > .d-textarea:only-child, .d-field > .d-textarea:only-child { width: 99%; }
+
+    .d-mobile-list .d-item:first-child { -moz-border-radius-topleft: inherit; -moz-border-radius-topright: inherit; -webkit-border-top-left-radius: inherit; border-top-left-radius: inherit; -webkit-border-top-right-radius: inherit; border-top-right-radius: inherit; }
+        .d-mobile-list .d-item:first-child .d-item-thumb { -moz-border-radius-topleft: inherit; -webkit-border-top-left-radius: inherit; border-top-left-radius: inherit; }
+    .d-mobile-list .d-item:last-child { -webkit-border-bottom-left-radius: inherit; -webkit-border-bottom-right-radius: inherit; -moz-border-radius-bottomleft: inherit; -moz-border-radius-topright: inherit; border-bottom-width: 0px; border-bottom-right-radius: inherit; border-bottom-left-radius: inherit; }
+        .d-mobile-list .d-item:last-child .d-item-thumb { -webkit-border-bottom-right-radius: inherit; -moz-border-radius-topright: inherit; border-bottom-right-radius: inherit; border-bottom-left-radius: inherit; }
+    .d-mobile-list .d-item .d-item-has-thumb { padding-left: 100px; min-height: 59px; }
+    .d-mobile-list .d-item, .d-field { border-bottom-width: 1px; border-bottom-style: inherit; border-bottom-color: inherit; }
+
+.d-ui-widget.d-collapse-list { border-right-color: transparent; border-left-color: transparent; }
+
+.d-notices { position: absolute; padding: 0px 15px; min-width: 300px; min-height: 100px; }
+.d-notices-icon { position: absolute; right: 10px; bottom: 10px; font-size: 2em; }
+.d-notices-image { float: left; margin: 20px 20px 20px 8px; width: 48px; height: 48px; }
+    .d-notices-image > img { width: 48px; }
+.d-notices .d-item-desc { margin-right: 38px; }
+
+.d-item-thumb { position: absolute; top: 50%; margin-top: -24px; margin-right: 10px; }
+    .d-item-thumb ~ .d-item-heading, .d-item-thumb ~ .d-item-desc { margin-left: 58px; }
+.d-link-icon { position: absolute; top: 50%; right: 10px; margin-top: -9px; width: 18px; height: 18px; text-align: center; }
+.d-item-counter { position: absolute; top: 50%; right: 40px; margin-top: -1em; padding: 2px 5px; border: 1px solid inherit; border-radius: 1em 1em 1em 1em; background: #6d6d6d; color: #FFFFFF; font-weight: bold; font-size: 10px; line-height: 1.2em; }
+.d-item-spliter { position: absolute; top: 0px; right: 0px; margin: 0px; padding: 0px; width: 40px; height: 100%; border: none; border-left-width: 1px; border-left-style: solid; border-left-color: #ccc; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; text-align: center; text-decoration: none; }
+    .d-item-spliter > span { position: absolute; top: 50%; right: 10px; margin-top: -9px; vertical-align: middle; }
+.d-list-divider .d-item-counter { /*right: 10px;*/ }
+
+.d-item-heading { display: block; overflow: hidden; margin: 0.6em 0; -ms-text-overflow: ellipsis; -o-text-overflow: ellipsis; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; }
+.d-item-desc { display: block; margin: -0.5em 0 0.6em; padding-right: 50px; font-weight: normal; font-size: 12px; white-space: normal; }
+
+.d-item-close { position: absolute; top: 5px; right: 5px; cursor: pointer; }

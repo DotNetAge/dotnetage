@@ -1,0 +1,70 @@
+﻿@model Address
+<div class="d-title">
+    @if (string.IsNullOrEmpty(Model.FirstName) && string.IsNullOrEmpty(Model.LastName))
+    { 
+        <span>(@Resources.Commons.None)</span>
+    }
+    else
+    {
+        <span style="margin-right: 5px;">@Html.DisplayFor(m => m.FirstName)</span> <span>@Html.DisplayFor(m => m.LastName)</span>
+    }
+</div>
+<div class="d-field">
+    @Html.LabelFor(m => m.Email, Resources.Contacts.Email):
+    @if (!string.IsNullOrEmpty(Model.Email))
+    {
+        @Html.DisplayFor(m => m.Email)
+    }
+    else
+    {
+        <span>(@Resources.Commons.None)</span>
+    }
+</div>
+<div class="d-field">
+    @Html.LabelFor(m => m.Tel, Resources.Contacts.Phone):
+   @if (!string.IsNullOrEmpty(Model.Tel))
+   {  
+       @Html.DisplayFor(m => m.Tel)
+   }
+   else
+   {
+       <span>(@Resources.Commons.None)</span>
+   }
+</div>
+
+
+<div class="d-field">
+    @Html.LabelFor(m => m.Mobile, Resources.Contacts.Mobile):
+    @if (!string.IsNullOrEmpty(Model.Mobile))
+    {
+        @Html.DisplayFor(m => m.Mobile)
+    }
+    else
+    {
+        <span>(@Resources.Commons.None)</span>
+    }
+</div>
+<div class="d-field">
+    @Html.LabelFor(m => m.Company, Resources.Contacts.Company):
+    @if (!string.IsNullOrEmpty(Model.Company))
+    {
+        @Html.DisplayFor(m => m.Company)
+    }
+    else
+    {
+        <span>(@Resources.Commons.None)</span>
+    }
+</div>
+<div class="d-field">
+    @if (Culture.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+    {
+        <span>@Model.Country</span>  <span>@Model.State</span> <span>@Model.City</span>
+    }
+    else
+    {
+        <span>@Model.City</span> <span>@Model.State</span> <span>@Model.Country</span>
+    }
+</div>
+<div class="d-field">
+    <span>@Model.Street</span> <span>@Model.Zip</span>
+</div>

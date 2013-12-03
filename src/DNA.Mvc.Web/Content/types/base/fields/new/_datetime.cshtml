@@ -1,0 +1,37 @@
+﻿@model DateField
+@{
+    var dtInfo = System.Threading.Thread.CurrentThread.CurrentUICulture.DateTimeFormat;
+}
+@if (Model.ShowTime)
+{ 
+    <input name="@Model.Name" id="@Model.Name" type="hidden"/>
+    <input data-role="datetime" id="@(Model.Name)_date" 
+        style="width:160px;" 
+        data-days="@(string.Join(",", dtInfo.DayNames))"
+        data-min-days="@(string.Join(",", dtInfo.ShortestDayNames))"
+        data-months="@(string.Join(",", dtInfo.MonthNames))"
+        data-short-months="@(string.Join(",", dtInfo.MonthGenitiveNames))"
+        data-change="$('#@(Model.Name)').val(ui.value+' '+$('#@(Model.Name)_time').val() )"
+        data-val="true" 
+        data-val-date="@string.Format(Resources.Validations.Valid_Format, Resources.Commons.Date)"
+         @if (Model.IsRequired){<text> data-val-required="@string.Format(Resources.Validations.Required_Format, Model.Title)" </text>} />
+    <input data-role="time" 
+        id="@(Model.Name)_time" 
+        style="width:90px;" 
+        data-select="$('#@(Model.Name)').val($('#@(Model.Name)_date').val()+' '+ ui.dataItem.value)"
+          @if (Model.IsRequired)
+             { <text>data-val="true" data-val-required="@string.Format(Resources.Validations.Required_Format, Model.Title)"</text>}
+        />
+}
+else
+{
+    <input data-role="datetime"
+        data-days="@(string.Join(",", dtInfo.DayNames))"
+        data-min-days="@(string.Join(",", dtInfo.ShortestDayNames))"
+        data-months="@(string.Join(",", dtInfo.MonthNames))"
+        data-short-months="@(string.Join(",", dtInfo.MonthGenitiveNames))" @Model.GetAttributes() 
+        data-val="true"
+        data-val-date="@string.Format(Resources.Validations.Valid_Format, Resources.Commons.Date)" 
+        @if (Model.IsRequired) { <text>data-val-required="@string.Format(Resources.Validations.Required_Format, Model.Title)"</text>}/>
+}
+@Html.ValidationMessage(Model)

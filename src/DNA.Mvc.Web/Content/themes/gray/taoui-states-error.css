@@ -1,0 +1,3 @@
+﻿.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error > input, .d-state-error, .input-validation-error { color: #c16767; }
+    .field-validation-error, .input-validation-error, .d-ui-widget.d-state-error, .d-ui-widget.d-state-error > .d-ui-widget-content, .input-validation-error > .d-ui-widget-content { background-color: #fbe9e9; background-image: none; }
+.field-validation-error, .d-ui-widget.d-state-error, .input-validation-error { border-color: #d57272; }

@@ -1,0 +1,11 @@
+﻿@model ContentDataItemDecorator
+@{ 
+    if (!Model.Parent.EditForm.Body.IsEmpty)
+    {
+        Html.RenderFormTemplate(Model.Parent.EditForm, Model);
+    }
+    else
+    {
+        Html.RenderFields(Model.Parent.EditForm, Model);
+    }
+}

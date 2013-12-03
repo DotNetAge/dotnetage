@@ -1,0 +1,3 @@
+﻿.d-video { position: relative; background-repeat: no-repeat; background-position: center center; border: 1px solid #e0dfdf; }
+.d-video-placeholder { cursor: pointer; position: absolute; background: #efefef url("/content/images/img_play.png") no-repeat center center; left: 0px; top: 0px; opacity: .5; }
+    .d-video-placeholder:hover { opacity: .3; }

@@ -1,0 +1,55 @@
+﻿@model ContentViewFieldValue
+@{
+    var field = Model.Field.Field as VideoField;
+    decimal ratio = (decimal)9 / (decimal)16;
+    var thumbW = field.ThumbnailWidth > 0 ? field.ThumbnailWidth : 200;
+    var thumbH = field.ThumbnailHeight > 0 ? field.ThumbnailHeight : (thumbW * ratio);
+    var defaultUrl = Url.Content("~/content/images/no-image.gif");
+    var srcUrl = "";
+    if (!string.IsNullOrEmpty((string)field.DefaultValue) && Model.IsNull)
+    {
+        defaultUrl = field.DefaultValue.ToString();
+        if (defaultUrl.StartsWith("/") || defaultUrl.StartsWith("~") || defaultUrl.StartsWith("http"))
+        {
+            defaultUrl = Url.Content(defaultUrl);
+        }
+        else
+        {
+            defaultUrl = Url.Content(Model.Item.List.ResolveUrl(defaultUrl));
+        }
+    }
+
+    if (!Model.IsNull)
+    {
+        var urls = Model.Value.ToString().Split(',');
+        if (urls.Length > 1 && !string.IsNullOrEmpty(urls[1]))
+        {
+            srcUrl = Url.Content(urls[1]);
+            if (Url.IsLocalUrl(srcUrl))
+            {
+                if (srcUrl.Contains("?"))
+                {
+                    srcUrl += "&";
+                }
+                else
+                {
+                    srcUrl += "?";
+                }
+                srcUrl += "w=" + thumbW.ToString() + "&h=" + thumbH;
+            }
+        }
+        else
+        {
+            srcUrl = defaultUrl;
+        }
+    }
+    else
+    {
+        srcUrl = defaultUrl;
+    }
+}
+<a href="@Url.Content(Model.Item.Url)" class="d-video-holder" style="width:@(thumbW)px;height:@(thumbH)px;">
+    <img src="@srcUrl" style="max-width:@(thumbW)px;max-height:@(thumbH)px;line-height:@(thumbH)px;" class="d-inline" />
+    <div class="d-video-holder-overlay" style="width:@(thumbW)px;height:@(thumbH)px;"></div>
+</a>
+

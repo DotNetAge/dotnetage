@@ -1,0 +1,4 @@
+﻿.d-mainmenu.d-menu { background-color: #d44946; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+    .d-mainmenu.d-menu .d-item { background-color: transparent; color: #f0f0f0; }
+        .d-mainmenu.d-menu .d-item.d-state-active { background-color: #f2ede3; }
+            .d-mainmenu.d-menu .d-item.d-state-active > a { color: #080707; }

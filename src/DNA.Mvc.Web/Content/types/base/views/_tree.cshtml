@@ -1,0 +1,38 @@
+﻿@model ContentQueryResult
+@{
+    var list = Model.List;
+    var defaultView = Model.View;
+    var urlformat = "~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items?name={0}&slug={1}&parentId=";
+    var popupUrl = Url.Content(string.Format(urlformat, list.Name, list.Views.Default.Name));
+    var prefix = list.Name + "_" + defaultView.Name;
+    var tmplName = prefix + "_tmpl";
+}
+    <div style="padding: 5px;">
+        @DNA.Web.ServiceModel.Contents.Tree(list.DefaultView.Items("parentId='00000000-0000-0000-0000-000000000000'"), "", new
+       {
+           data_source = string.Format("_list_{0}_datasrc", defaultView.Name.ToString()),
+           data_popup_attr = "popupurl",
+           data_autobind = "false",
+           data_tmpl = tmplName,
+           id = list.Name + "_tree",
+           @class="d-view d-view-tree"+Model.CssClass,
+           style = "overflow:auto;min-height:720px;margin:0px;border:none;"
+       })
+        <div data-role="datasource" id="@(string.Format("_list_{0}_datasrc", defaultView.Name.ToString()))">
+            <div data-action="read" data-url="@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/items?name=" + list.Name + "&slug=" + list.Views.Default.Name + "&sort=pos~desc")"></div>
+            <div data-role="mapper" 
+        data-convert="var target=[];  
+        $.each(data, function (i, dat) { 
+        var o=dat.object;
+        o.popupUrl='@popupUrl'+dat.id; 
+        o.parentId=dat.parentId; 
+        o.id=dat.id; 
+        o.links=dat.links; 
+        target.push(o); 
+        }); return target;">
+            </div>
+        </div>
+        <script type="text/x-jquery-tmpl" id="@tmplName">
+            <a href="${url}">${@(list.GetDefaultTitleField().Name)}</a>
+        </script>
+    </div>

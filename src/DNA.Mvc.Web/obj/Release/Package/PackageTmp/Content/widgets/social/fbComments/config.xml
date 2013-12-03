@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="fb-comments">
+  <name short="FBComments">Comments</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="appID" value="''" />
+  <preference name="returns" value="10" />
+  <preference name="colorSchema" value="'light'" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

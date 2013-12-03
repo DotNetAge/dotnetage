@@ -1,0 +1,5 @@
+﻿.d-overlay, .ui-overlay { background-color: #909a9d; }
+.d-input > .d-ui-widget-content, .d-picker > .d-ui-widget-content, .d-textarea.d-ui-widget-content, .d-ui-widget-content > .workspace > * { background-color: #e5f0ef; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a { color: #3e5b5a; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a, .ui-state-default { color: #3e5b5a; }
+.d-ui-widget-content, .ui-widget-content, .d-ui-widget-header.d-tabs-nav.d-state-active > a, .ui-state-default { color: #3b3e3b; }

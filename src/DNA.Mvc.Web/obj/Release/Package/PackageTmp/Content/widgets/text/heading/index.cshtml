@@ -1,0 +1,69 @@
+﻿@using Resources;
+@Html.Widget().UserPreferences(@<text>
+<div class="d-field">
+    @item.Label("title", Commons.Title)
+    @item.TextBox("title", new { placeholder = "Enter the heading text" })
+</div>
+<div class="d-field">
+    @item.Label("tag", TextFormats.Format)
+    <select data-role="combobox" style="width: 150px;" data-drop-style="menu" name="tag">
+        <option class="d-h1" value="h1" @if (item.GetString("tag") == "h1")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header1</option>
+        <option class="d-h2" value="h2" @if (item.GetString("tag") == "h2")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header2</option>
+        <option class="d-h3" value="h3" @if (item.GetString("tag") == "h3")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header3</option>
+        <option class="d-h4" value="h4" @if (item.GetString("tag") == "h4")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header4</option>
+        <option class="d-h5" value="h5" @if (item.GetString("tag") == "h5")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header5</option>
+        <option class="d-h6" value="h6" @if (item.GetString("tag") == "h6")
+                                        {<text>selected="selected"</text>}>@Resources.TextFormats.Header6</option>
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("align", Resources.Designs.Alignment)
+    <select data-role="combobox" style="width: 150px;" data-drop-style="menu" name="align">
+        <option value="left" @if (item.GetString("align") == "left")
+                             {<text>selected="selected"</text>}>@Resources.Designs.Left </option>
+        <option value="center" @if (item.GetString("align") == "center")
+                               {<text>selected="selected"</text>}>@Resources.Designs.Center</option>
+        <option value="right" @if (item.GetString("align") == "right")
+                              {<text>selected="selected"</text>}>@Resources.Designs.Right</option>
+    </select>
+</div>
+<div class="d-field">
+    @item.Label("description", Commons.Desc)
+    @item.TextArea("description", new { placeholder = string.Format(Resources.InputHolders.Format, Commons.Desc) ,style="height:250px;"})
+</div>
+</text>).Content(@<text>
+@{
+    var tagName = item.GetString("tag");
+    var tb = new TagBuilder(tagName);
+    tb.SetInnerText(item.GetString("title"));
+    tb.Attributes.Add("style", "text-align:" + item.GetString("align") + ";");
+}
+@MvcHtmlString.Create(tb.ToString())
+@if (!string.IsNullOrEmpty(item.GetString("description")))
+{
+    <p>@MvcHtmlString.Create(item.GetString("description"))</p>
+}
+</text>).Design(@<text>
+@{
+    var tagName = item.GetString("tag");
+    var tb = new TagBuilder(tagName);
+    tb.SetInnerText(item.GetString("title"));
+    tb.Attributes.Add("style", "text-align:" + item.GetString("align") + ";");
+    tb.Attributes.Add("contenteditable", "true");
+    tb.Attributes.Add("ondblclick", "event.stopPropagation();");
+    tb.Attributes.Add("onchange", "var txt=$(this).text();$('#" + item.ClientID + "').widget('prefs',{title:txt});");
+    tb.Attributes.Add("onkeydown", "if (event.keyCode==27) {$(this).text('" + item.GetString("title") + "');} if (event.keyCode==13) { event.preventDefault(); if ($(this).text()!='" + item.GetString("title") + "') $(this).trigger('change'); }");
+}
+<div style="padding: 10px 0px;">
+    @MvcHtmlString.Create(tb.ToString())
+</div>
+@if (!string.IsNullOrEmpty(item.GetString("description")))
+{
+    <p>@MvcHtmlString.Create(item.GetString("description"))</p>
+}
+</text>).GetHtml()

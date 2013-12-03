@@ -1,0 +1,6 @@
+﻿@model string
+@{
+    var summary =Model;
+    var formatted = !string.IsNullOrEmpty(summary) ? TextEngine.Text(summary) : "";
+}
+@Html.Cut(formatted, 300)

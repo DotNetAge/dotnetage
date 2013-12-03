@@ -1,0 +1,28 @@
+﻿@model IEnumerable<InboxMessage>
+@{
+    ViewBag.Title = "Inbox";
+    Layout = "~/Views/Shared/_MyDashboard.cshtml";
+}
+@section Navs{
+    <a data-role="button" data-icon-left="d-icon-plus-4" data-rel="dialog" data-padding="5px"
+        data-dialog-title="New message"
+        title="New message" href="@Url.Action("SendMail", "Account")"></a>
+}
+@if (Model == null || Model.Count() == 0)
+{ 
+    <p class="notes">You have no message now.</p>
+}
+else
+{
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        @foreach (var msg in Model)
+        { 
+            <li>
+                <a href="#">
+                    <h3>@msg.Subject</h3>
+                    <p>@msg.Body</p>
+                </a>
+            </li>
+        }
+    </ul>
+}

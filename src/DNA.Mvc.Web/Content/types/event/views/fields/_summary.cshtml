@@ -1,0 +1,6 @@
+﻿@model ContentFieldValue
+@{
+    var summary = Model.Formatted;
+    var formatted = !string.IsNullOrEmpty(summary) ? TextEngine.Text(summary) : "";
+}
+@Html.Cut(formatted, 150) <a href="@Url.Content(Model.Link)">READ MORE</a>

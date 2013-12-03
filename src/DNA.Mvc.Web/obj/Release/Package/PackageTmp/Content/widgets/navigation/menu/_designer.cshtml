@@ -1,0 +1,170 @@
+﻿@model WidgetHelper
+@{var baseUrl = Url.Content("~/content/images/menus/");
+  var stylesheet = Model.GetID("custom_style");
+  var prefix = "#" + Model.GetID("menu");
+}
+<p>Patterns</p>
+<ul data-role="listview"
+    data-inline="true"
+    data-selectable="true"
+    data-item-style="border:1px solid #efefef;border-radius:5px;margin:5px;cursor:pointer;"
+    data-select="@(Model.ClientID)_selectpattern(ui.item);"
+    style="height: 150px;">
+    <li data-separator="false" title="Text only" data-pattern="@Url.Content("~/content/css/menus/textonly.css")">
+        <img src="@(baseUrl)menutextonly.png" /></li>
+    <li data-separator="true" title="Text only with divider">
+        <img src="@(baseUrl)menudivider.png" /></li>
+    <li data-separator="false"  data-pattern="@Url.Content("~/content/css/menus/lines.css")" title="Line style menu">
+        <img src="@(baseUrl)menulines.png" /></li>
+    <li data-separator="true"  data-pattern="@Url.Content("~/content/css/menus/lines.css")" title="Line style with separator">
+        <img src="@(baseUrl)menuseperatelines.png" /></li>
+    <li data-separator="false"  data-pattern="@Url.Content("~/content/css/menus/overline.css")" title="Over line menu">
+        <img src="@(baseUrl)menuoverline.png" /></li>
+    <li data-separator="true"  data-pattern="@Url.Content("~/content/css/menus/solidcolor.css")" title="Solid menu">
+        <img src="@(baseUrl)menusolid.png" /></li>
+    <li data-separator="false" data-pattern="@Url.Content("~/content/css/menus/solidcolor-button.css")"  title="Solid button menu">
+        <img src="@(baseUrl)menubuttons.png" /></li>
+    <li data-separator="true"  data-pattern="@Url.Content("~/content/css/menus/glass.css")" title="Glass menu">
+        <img src="@(baseUrl)menusolidshiny.png" /></li>
+    <li data-separator="true"  data-pattern="@Url.Content("~/content/css/menus/glass-button.css")" title="Glass button">
+        <img src="@(baseUrl)menubuttonsshiny.png" /></li>
+    @*                <li data-separator="true" data-pattern="@Url.Content("~/content/css/menus/uribbons.css")">
+                    <img src="@(baseUrl)muenuribbons.png" /></li>*@
+    <li data-separator="true" data-class="d-shadow-inner" data-pattern="@Url.Content("~/content/css/menus/extra.css")" title="Bevel inner menu">
+        <img src="@(baseUrl)menuinnershadow.png" /></li>
+    <li data-separator="true" data-class="d-shadow peel"  data-pattern="@Url.Content("~/content/css/menus/extra.css")" title="">
+        <img src="@(baseUrl)menuliftedshadow.png" /></li>
+    <li data-separator="true" data-class="d-shadow peel-left"  data-pattern="@Url.Content("~/content/css/menus/extra.css")">
+        <img src="@(baseUrl)menushadowleft.png" /></li>
+    <li data-separator="true" data-class="d-shadow peel-right"  data-pattern="@Url.Content("~/content/css/menus/extra.css")">
+        <img src="@(baseUrl)menushadowright.png" /></li>
+    <li data-separator="true" data-class="d-shadow curved curved-vt-2"  data-pattern="@Url.Content("~/content/css/menus/extra.css")">
+        <img src="@(baseUrl)menucurved-h.png" /></li>
+    <li data-separator="true" data-class="d-shadow curved curved-hz-2"  data-pattern="@Url.Content("~/content/css/menus/extra.css")">
+        <img src="@(baseUrl)menucurved-v.png" /></li>
+</ul>
+<div style="height: 450px; overflow: auto; margin-top: 20px;">
+    <p>Colors</p>
+    <div class="dd-fieldset">
+        <div data-role="colors_editor"
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-item"
+            data-background="false"
+            data-border="false">
+        </div>
+        <div data-role="colors_editor"
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-item.d-state-hover>a"
+            data-text-color="Text moueover"
+            data-background="false"
+            data-border="false">
+        </div>
+        <div data-role="colors_editor"
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-item.d-state-active>a"
+            data-text-color="Text selected"
+            data-background="false"
+            data-border="false">
+        </div>
+        <div data-role="colors_editor"
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-item"
+            data-text="false"
+            data-border="false"
+            data-text-background="Background">
+        </div>
+        <div data-role="colors_editor" 
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-item.d-state-hover" 
+            data-text-background="Mouseover background" 
+            data-text="false" 
+            data-border="false">
+        </div>
+        <div data-role="colors_editor" 
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-item.d-state-active" 
+            data-text-background="Selected background" 
+            data-text="false" 
+            data-border="false">
+        </div>
+        <div data-role="colors_editor" 
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-items-wrapper" 
+            data-text-background="Dropdown background" 
+            data-text="false" 
+            data-border="false">
+        </div>
+        <div data-role="colors_editor" 
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu .d-separator" 
+            data-text-border="Separator" 
+            data-text="false" 
+            data-background="false">
+        </div>
+        <div data-role="colors_editor" 
+            data-stylesheet="@stylesheet"
+            data-target="@(prefix).d-menu,.d-menu .d-items-wrapper" 
+            data-text-border="Border" 
+            data-text="false" 
+            data-background="false">
+        </div>
+    </div>
+    @*            <p>Fonts & text</p>
+            <div data-role="textformat_toolbar" class="dd-fieldset" data-target=".d-menu"></div>*@
+    <p>Corner sizes</p>
+    <div data-role="corners_editor" 
+        data-stylesheet="@stylesheet"
+        class="dd-fieldset"
+        data-target="@(prefix).d-menu">
+    </div>
+    <p>Dropdown corner sizes</p>
+    <div data-role="corners_editor" 
+        data-stylesheet="@stylesheet"
+        class="dd-fieldset"
+        data-target="@(prefix).d-menu .d-items-wrapper">
+    </div>
+    <div data-role="border_editor" 
+        data-stylesheet="@stylesheet" class="dd-fieldset" data-target="@(prefix).d-menu,@(prefix).d-menu .d-items-wrapper">
+    </div>
+    <p>Drop shadow</p>
+    <div data-role="shadow_editor" 
+        data-stylesheet="@stylesheet" class="dd-fieldset" data-target="@(prefix).d-menu">
+    </div>
+</div>
+<p style="text-align: right;">
+    <a data-role="button" onclick="$('#@Model.ClientID').widget('prefs',{csstext:$('#@stylesheet').text()})">@Resources.Commons.Save</a>
+</p>
+<script type="text/javascript">
+    function @(Model.ClientID)_selectpattern(_item) {
+        var url = _item.data("pattern"),
+            _separators = _item.dataBool("separator");
+
+        $("#@(Model.ClientID)").taoMenu("option", "separators", _separators);
+        var triggerChanges = function () {
+            var t = $(".d-style-editor[data-css]:first");
+            if (t.length)
+                t.trigger("stylechange", { target: t.data("target") });
+        },
+        _classes = $(_item).attr("data-class");
+
+        if (_classes) {
+            $("#@(Model.ClientID)").each(function (i, n) {
+                var cls = $(n).attr("class").replace("d-items d-menu", "").replace("horizontal", "").replace("vertical", "");
+                if (cls)
+                    $(n).removeClass(cls);
+            });
+            $("#@(Model.ClientID)").addClass(_classes);
+        }
+
+        if (url) {
+            $.get(url, function (text) {
+                var styleText = text.replace(/\/\*#name#\*\//g, "@(prefix)");
+                $("#@stylesheet").text(styleText);
+                triggerChanges();
+            });
+        } else {
+            $("#@stylesheet").text("");
+            triggerChanges();
+        }
+    }
+</script>

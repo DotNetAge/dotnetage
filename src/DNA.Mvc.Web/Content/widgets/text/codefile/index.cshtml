@@ -1,0 +1,53 @@
+﻿@{
+    var getLanguage = new Func<string, string>(url =>
+    {
+        var ext = Path.GetExtension(url);
+
+        if (ext.Equals(".sql")) { return "sql"; }
+        if (ext.Equals(".vb")) { return "vb"; }
+        if (ext.Equals(".cs")) { return "cs"; }
+        if (ext.Equals(".c")) { return "msh"; }
+        if (ext.Equals(".js")) { return "javascript"; }
+        return "html";
+    });
+}
+@Html.Widget().AutoSave().UserPreferences(@<text>
+@{ var src = item.GetString("src"); }
+@item.Hidden("src")
+
+<div>
+    <label>@Resources.NetDrives.FileName</label>
+    <span id="@item.GetID("filenameholder")">@Path.GetFileName(src)</span>
+</div>
+<div>
+    @UIHelper.BrowseFor(item.GetID("src"), filter: "text", buttonText: Resources.Commons.Change, onselect: "$('#" + item.GetID("filenameholder") + "').text(file);", inline: false)
+</div>
+<div>
+    @item.Checkbox("alternate", item.Loc("ShowAltRows"))
+</div>
+<div>
+    @item.Checkbox("showLines", item.Loc("ShowLines"))
+</div>
+
+</text>).Content(@<text>
+@{
+    var src = item.GetString("src");
+    var alternate = item.GetBool("alternate");
+    var showLines = item.GetBool("showLines");
+}
+@if (!string.IsNullOrEmpty(src))
+{
+    var file = AppModel.Get().NetDrive.MapPath(new Uri(src));
+    @TextEngine.CodeFile(file, getLanguage(src), alternate, false, showLines)
+}
+</text>).Design(@<text>
+@if (string.IsNullOrEmpty(item.GetString("src")))
+{
+    @item.DesignModeHolder(string.Format(Resources.InputHolders.Format, item.Loc("CodeFile").ToLower()), "$.fileDialog('" + string.Format(Resources.InputHolders.Format, item.Loc("CodeFile").ToLower()) + "').done(function(file){if (file) {$('#" + item.ClientID + "').widget('prefs',{src:file});}})")
+}
+else
+{
+    var src = item.GetString("src");
+    @TextEngine.CodeFile(AppModel.Get().NetDrive.MapPath(new Uri(src)), getLanguage(src), item.GetBool("alternate"), false, item.GetBool("showLines"))
+}</text>).GetHtml()
+

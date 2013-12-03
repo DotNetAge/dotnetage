@@ -1,0 +1,40 @@
+﻿<form class="d-form"
+    data-ajax="true"
+    data-ajax-url="@Url.Content("~/api/accounts/mailto?locale=" + Culture)"
+    data-ajax-method="post"
+    data-ajax-begin="$.loading()"
+    data-ajax-failure="$.err(error)"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-success="$.notify('@Resources.Messages.EmailSent')">
+    @AntiForgery.GetHtml()
+    <input type="hidden" name="to" value="@Request.QueryString["to"]" />
+@*    <input type="hidden" name="name" @if (Request.IsAuthenticated) { <text>value="@AppModel.Get().Profile.DisplayName"</text>}/>*@
+    <input type="hidden" name="email" @if (Request.IsAuthenticated)
+                                      { <text>value="@(string.IsNullOrEmpty(AppModel.Get().Profile.Email) ? AppModel.Get().User.Email : AppModel.Get().Profile.Email)"</text>} />
+
+    <div class="d-field" style="padding-right: 0px; padding-left: 0px;">
+        <label for="sendbox_subject">@Resources.Commons.Subject</label>
+        <input type="text" name="subject" id="sendbox_subject"
+                data-val="true" 
+                data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Subject)" 
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Subject)"/>
+        @Html.ValidationMessage("subject")
+    </div>
+    @*    <div>
+        <label for="sendbox_message">@Resources.Commons.Message</label>
+    </div>*@
+    <div class="d-field" style="padding-right: 0px; padding-left: 0px;">
+        <textarea id="sendbox_message" name="message" rows="8"
+                placeholder="@string.Format(Resources.InputHolders.Format, Resources.Commons.Message)"
+                data-val="true" 
+                data-val-required="@string.Format(Resources.Validations.Required_Format, Resources.Commons.Message)"></textarea>
+        @Html.ValidationMessage("message")
+    </div>
+    <div style="padding: 10px;">
+        <button data-default="true" data-inline="false">@Resources.Commons.Send</button>
+    </div>
+</form>
+@if (Request.IsAjaxRequest())
+{ 
+    <script type="text/javascript" async="async"  src="@Scripts.Url("~/scripts/jquery.validate.unobtrusive.js")"></script>
+}

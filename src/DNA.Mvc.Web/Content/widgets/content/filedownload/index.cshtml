@@ -1,0 +1,90 @@
+﻿@using Resources;
+@Html.Widget().Content(@<text>
+@_RenderFileInfo(item.Model.ID, item.GetString("src"), item.GetInt("downloads"))
+</text>).Design(@<text>
+@{ 
+    var src = item.GetString("src");
+    if (!string.IsNullOrEmpty(src))
+    { 
+    @_RenderFileInfo(item.Model.ID, item.GetString("src"), item.GetInt("downloads"))
+    }
+    else
+    {
+    <div style="text-align: center;cursor:pointer;" 
+        onclick="$.fileDialog('@string.Format(Resources.Messages.SelectFormat,Resources.NetDrives.File)').done(function(file){if (file) {$('#@item.ClientID').widget('prefs',{src:file});}})" >
+        <div class="d-inline">
+            <img src="@Url.Content(item.IconUrl)" style="width:64px;height:64px;"/>
+            <div>@string.Format(Resources.Messages.SelectFormat,Resources.NetDrives.File)</div>
+        </div>
+    </div>
+    }
+}
+</text>).GetHtml()
+
+@helper _RenderFileInfo(int id, string src, int downloads)
+{
+    if (!string.IsNullOrEmpty(src))
+    {
+        var webInfo = new WebResourceInfo(src);
+        var realFile = AppModel.Get().NetDrive.MapPath(webInfo.Url);
+        var fileInfo = new FileInfo(realFile);
+        var lastModified = fileInfo.LastWriteTime;
+        webInfo.FileSize = fileInfo.Length;
+        //var downloads = item.GetInt("downloads");
+        //downloads++;
+        var unit = "M";
+        var size = Math.Round(webInfo.GetSize(out unit));
+    <h4>@webInfo.Name</h4>
+        if (Request.IsMobileRequest())
+        {
+    <ul data-role="listview" data-display="mobile-list" data-inset="true">
+        <li data-role="fieldcontain">
+            <label data-inline="true">@Resources.NetDrives.FileSize : </label>
+            <span data-inline="true">@size @unit</span>
+        </li>
+        <li data-role="fieldcontain">
+            <label data-inline="true">@Resources.NetDrives.FileType : </label>
+            <span data-inline="true">@webInfo.ContentType</span>
+        </li>
+        <li data-role="fieldcontain">
+            <label data-inline="true">@Resources.Commons.LastModified: </label>
+            <span data-inline="true">@Html.Global(lastModified)</span>
+        </li>
+        <li data-role="fieldcontain">
+            <label data-inline="true">@Resources.NetDrives.Downloads : </label>
+            <span data-inline="true">@Html.Global(downloads)</span>
+        </li>
+    </ul>
+    <p>
+        <a href="javascript:void(0);" 
+            onclick="event.preventDefault(); $.post('@Url.Content("~/api/"+AppModel.Get().CurrentWeb.Name+"/widgets/apply?locale=" + Culture)',{id:@id, downloads:@(++downloads)}); window.open('@src');"  
+            data-role="button" 
+            data-inline="false"
+            data-default="true">@Resources.Commons.Download</a>
+    </p>
+            
+        }
+        else
+        {
+    <p>
+        <strong>@Resources.NetDrives.FileSize : </strong><span>@size @unit</span>
+    </p>
+    <p>
+        <strong>@Resources.NetDrives.FileType : </strong><span>@webInfo.ContentType</span>
+    </p>
+    <p>
+        <strong>@Resources.Commons.LastModified : </strong><span>@Html.Global(lastModified)</span>
+    </p>
+    <p>
+        <strong>@Resources.NetDrives.Downloads : </strong><span>@Html.Global(downloads)</span>
+    </p>
+    <p>
+        <a href="javascript:void(0);" 
+            onclick="event.preventDefault(); $.post('@Url.Content("~/api/"+AppModel.Get().CurrentWeb.Name+"/widgets/apply?locale=" + Culture)',{id:@id, downloads:@(++downloads)}); window.open('@src');"  
+            data-role="button" 
+            data-inline="false"
+            data-default="true">@Resources.Commons.Download</a>
+    </p>
+        }
+    }
+}

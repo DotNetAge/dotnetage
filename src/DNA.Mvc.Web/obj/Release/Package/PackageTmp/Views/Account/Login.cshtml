@@ -1,0 +1,81 @@
+﻿@model DNA.Web.LogOnModel
+@{
+    ViewBag.Title = Resources.Commons.Login;
+    if (Request.IsAjaxRequest() || ViewContext.IsChildAction)
+    {
+        Layout = "";
+    }
+}
+@if (!Request.IsAjaxRequest() && !ViewContext.IsChildAction)
+{ <text> <div style="width:320px;margin:auto;"><h1 style="margin:0px;padding:20px 0px;">@Resources.Commons.Login</h1></text>}
+<div id="loginformwrapper">
+
+@if (Request.IsAjaxRequest())
+{ 
+    <text>
+<form data-ajax="true" 
+    data-ajax-url="@Url.Content("~/login")" 
+    data-ajax-method="post"
+    data-ajax-begin="$.loading('@Resources.Security.LoggingOn')"
+    data-ajax-success="if (xhr.getResponseHeader('content-type').contains('application/json')) { $('body').data('auth',true); $(document).trigger('login',data); } else { $.loading('hide'); $('#loginformwrapper').replaceWith(data); $('#loginformwrapper').taoUI(); }"
+    class="d-form">
+    </text>
+}
+else
+{
+<text><form method="post" class="d-form"  action="@Url.Content("~/login")"></text>
+}
+<div class="d-field">
+    <input type="hidden" value="@Request.QueryString["returnUrl"]" name="ReturnUrl" />
+    @Html.LabelFor(m => m.UserName, Resources.Commons.UserName)
+    <div>
+    @Html.TextBoxFor(m => m.UserName, new
+{
+    placeholder = Resources.InputHolders.UserName,
+    data_val = "true",
+    data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.UserName),
+    style = "width:98%;"
+})
+        </div>
+    @Html.ValidationMessageFor(m => m.UserName)
+</div>
+<div class="d-field">
+    @Html.LabelFor(m => m.Password, Commons.Password)
+    <div>
+    @Html.PasswordFor(m => m.Password, new
+{
+    placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Password),
+    data_val = "true",
+    data_val_required = string.Format(Resources.Validations.Required_Format, Resources.Commons.Password),
+    style = "width:98%;"
+})
+        </div>
+     @Html.ValidationMessageFor(m => m.Password)
+</div>
+<div>
+    <a class="d-link"
+        href="@Url.Action("Receive", "Account", new { Area = "", locale = Culture })" 
+        data-rel="dialog"
+        data-dialog-title="@Resources.Security.ReceivePwd">@Resources.Security.ForgetPwd</a>
+    <div style="padding:5px 0px;">
+        <input type="checkbox" name="RememberMe" checked="checked" value="True" data-label="@Resources.Security.RememberMe" /></div>
+ <button data-default="true" data-inline="false">@Resources.Commons.Login</button>
+    @if (AppModel.Settings.OpenRegister)
+    {
+    <a href="@Url.Content("~/register")?locale=@Culture" data-role="button" data-inline="false">@Resources.Commons.Register</a>
+    }
+    </div>
+</form>
+    </div>
+@if (!Request.IsAjaxRequest())
+{ 
+    @(MvcHtmlString.Create("</div>"))
+}
+else
+{
+    <script type="text/javascript">
+        $(function () {
+            $.validator.unobtrusive.parse(document);
+        });
+    </script>
+}

@@ -1,0 +1,173 @@
+@model Web
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = Resources.Managements.SiteSettings;
+}
+<form action="@Url.Action("SiteSettings", "Sys", new { Area = "" })"
+    onchange="$('#btnSave').isDisable(false)" 
+    method="post"
+    data-ajax-success="$.info('@Resources.Messages.AfterWebSiteSaved'); $('#btnSave').isDisable(true);"
+    data-ajax-method="POST"
+    data-ajax-failure="$.err(error)"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-begin="$.loading()"
+    data-ajax="true">
+    @Html.ValidationSummary()
+    <ul data-role="listview"
+        data-display="mobile-list"
+        data-inset="true">
+        <li data-role="divider">@Resources.Commons.Common</li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.DefaultLocale, Resources.Managements.DefLang)
+            @Html.DropDownListFor(m => m.DefaultLocale,
+            new SelectList(AppModel.Get().CurrentWeb.InstalledCultures, "Name", "DisplayName"),
+            new
+            {
+                data_role = "combobox",
+                data_input = "false",
+                data_height = AppModel.Get().CurrentWeb.InstalledCultures.Count > 8 ? "250" : "auto",
+                style = "width:70%;"
+            })
+        </li>
+        <li data-role="divider">@Resources.Commons.Settings</li>
+        <li data-readonly="true">
+            <div style="height: 120px; width: 100px; text-align: center; margin: auto;">
+                <div id="sys_weblogo_holder" style="height:80px;width:120px;border:1px dashed #ccc;background-repeat:no-repeat;background-position:center center;@if (!string.IsNullOrEmpty(Model.LogoImageUrl))
+                                                                                                                                                                 {<text>background-image:url('@Model.LogoImageUrl')</text>}" id="logoContainer">
+                </div>
+                <div style="text-align: center; padding: 10px 0px;">
+                    <a data-role="button"
+                        data-rel="file"
+                        data-file-to="LogoImageUrl"
+                        data-file-filter="image"
+                        data-file-select="$('#sys_weblogo_holder').css('background-image','url('+file+')')"
+                        style="position: relative; width: 110px;">@Resources.Commons.Browse</a>
+                </div>
+                @Html.HiddenFor(m => m.LogoImageUrl)
+            </div>
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Title, Resources.Commons.Title)
+            @Html.TextBoxFor(m => m.Title, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Title) })
+            <small>@Resources.Glossary.Web_Title</small>
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Description, Resources.Commons.Desc)
+            @Html.TextAreaFor(m => m.Description, new
+       {
+           placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Desc),
+           style = "width:70%;"
+       })
+            <small>@Resources.Glossary.Web_Desc</small>
+        </li>
+        <li data-role="fieldcontain">@Html.LabelFor(m => m.TimeZone, Resources.Commons.TimeZone)
+            @Html.DropDownListFor(m => m.TimeZone, new SelectList(AppModel.Get().TimeZones, "ID", "DisplayName"), new { data_role = "combobox", data_input = "false", data_height = "200", style = "width:70%;" })
+        </li>
+        <li data-role="divider">@Resources.Commons.Business</li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IOrganization)m).LegalName, Resources.Commons.LegalName)
+            @Html.TextBoxFor(m => ((IOrganization)m).LegalName, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.LegalName) })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IOrganization)m).TaxID, Resources.Commons.TaxID)
+            @Html.TextBoxFor(m => ((IOrganization)m).TaxID, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.TaxID) })
+        </li>
+        <li data-role="fieldcontain">
+            @{
+                var selectedCurrency = ((IOrganization)Model).CurrencyCode;
+                if (string.IsNullOrEmpty(selectedCurrency))
+                {
+                    var locale = Application.Profile.Locale;
+                    if (string.IsNullOrEmpty(locale))
+                    {
+                        locale = Culture;
+                    }
+                    var _culture = new System.Globalization.CultureInfo(locale);
+                    var _region = new System.Globalization.RegionInfo(_culture.LCID);
+                    selectedCurrency = _region.ISOCurrencySymbol;
+                }
+                var countries = Application.Countries;
+                var currencies = new List<SelectListItem>();
+                foreach (var country in countries)
+                {
+                    if (currencies.FirstOrDefault(c => c.Value.Equals(country.ISOCurrencySymbol)) == null)
+                    {
+                        currencies.Add(new SelectListItem() { Text = country.CurrencyEnglishName, Value = country.ISOCurrencySymbol });
+                    }
+                }
+            }
+            @Html.LabelFor(m => ((IOrganization)m).CurrencyCode, Resources.Commons.CurrencyCode)
+            @Html.DropDownListFor(m => ((IOrganization)m).CurrencyCode,
+            new SelectList(currencies.OrderBy(c => c.Text), "Value", "Text", selectedCurrency),
+                    new 
+                    { 
+                        data_role = "combobox", 
+                        style = "width:50%", 
+                        data_height = "200", 
+                        data_input = "false" ,
+                        data_select = "$('#currency_text').text(ui.value);"
+                    })
+         <span id="currency_text">@selectedCurrency</span>
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IOrganization)m).Brand, Resources.Commons.Brand)
+            @Html.TextBoxFor(m => ((IOrganization)m).Brand, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Commons.Brand) })
+        </li>
+        <li data-role="divider">@Resources.Commons.Contacts</li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).Email, Resources.Contacts.Email)
+            @Html.TextBoxFor(m => ((IAddress)m).Email, new { type = "email", data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Email) })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).Tel, Resources.Contacts.Phone)
+            @Html.TextBoxFor(m => ((IAddress)m).Tel, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Phone) })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).Mobile, Resources.Contacts.Mobile)
+            @Html.TextBoxFor(m => ((IAddress)m).Mobile, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Mobile) })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).Fax, Resources.Contacts.Fax)
+            @Html.TextBoxFor(m => ((IAddress)m).Fax, new { data_speech = false, placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Fax) })
+        </li>
+        <li data-role="fieldcontain">
+            @{
+                var _country=((IAddress)Model).Country;
+                if (string.IsNullOrEmpty(_country))
+                {
+                    _country="US";
+                }
+           }
+            @Html.LabelFor(m => ((IAddress)m).Country, Resources.Contacts.Country)
+            @Html.DropDownListFor(m => ((IAddress)m).Country,
+                    new SelectList(Application.Countries, "TwoLetterISORegionName", "NativeName", _country),
+                    new { 
+                        data_role = "combobox", 
+                        style = "width:60%;", 
+                        data_height = "200", 
+                        data_input = "false" ,
+                        data_select="$('#country_text').text(ui.value);"
+                    })
+            <span id="country_text">@_country</span>
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).State, Resources.Contacts.State)
+            @Html.TextBoxFor(m => ((IAddress)m).State, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.State) })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).City, Resources.Contacts.City)
+            @Html.TextBoxFor(m => ((IAddress)m).City, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.City) })
+        </li>
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => ((IAddress)m).Street, Resources.Contacts.Street)
+            @Html.TextBoxFor(m => ((IAddress)m).Street, new { placeholder = string.Format(Resources.InputHolders.Format, Resources.Contacts.Street) })
+        </li>
+@*        <li data-role="fieldcontain">
+            <label></label>
+            <a>View address on google</a>
+        </li>*@
+    </ul>
+    <p>
+        <button data-inline="false" class="d-state-disable" id="btnSave">@Resources.Commons.Save</button>
+    </p>
+</form>

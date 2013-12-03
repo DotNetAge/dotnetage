@@ -1,0 +1,26 @@
+﻿@model ContentViewFieldValue
+@{var field = Model.Field.Parent.Fields[Model.FieldName];}
+<h4 class="@Model.CssClass">
+    @if (field.FieldType == (int)ContentFieldTypes.Computed)
+    {
+        var f = field as ComputedField;
+        if (f != null)
+        {
+        @f.RenderPattern(Model.Item)
+        }
+    }
+    else
+    {
+        if (field.IsLinkToItem)
+        {
+        <a href="@Model.Item.UrlComponent">@Model.Value</a>
+        }
+        else
+        {
+        @Model.Value
+        }
+    }
+</h4>
+@*@if (Model.Item.IsPublished){
+<time datetime="@Model.Item.Published.ToString("yyyy-MM-ddThh:mm:ss")" itemprop="datePublished">@Model.Item.Published</time>
+}*@

@@ -1,0 +1,12 @@
+﻿@model TextField
+@{
+    var countries = AppModel.Get().Countries;
+}
+<select data-role="combobox" style="width:60%;"
+    data-input="false" 
+    data-height="200" @Model.GetAttributes() @Model.GetValidationAttributes()>
+    @foreach (var country in countries)
+    { 
+     <option value="@country.Name">@country.NativeName</option>
+    }
+</select>

@@ -1,0 +1,5 @@
+﻿.d-slider { position: relative; height: 5px; }
+.d-slider-handler { position: absolute; top: -6px; left: 0px; z-index: 2; margin: 0px -8px; background: inherit; }
+.d-slider-value { position: absolute; top: 0px; z-index: 1; width: 0px; height: 5px; }
+.d-slider-helper { position: absolute; padding: 2px 5px; }
+.d-slider-handler, .d-slider-helper { width: 16px; height: 16px; border: inherit; -moz-border-radius: inherit; -webkit-border-radius: inherit; border-radius: inherit; -moz-box-shadow: inherit; -webkit-box-shadow: inherit; box-shadow: inherit; }

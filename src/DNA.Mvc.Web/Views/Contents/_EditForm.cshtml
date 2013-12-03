@@ -1,0 +1,78 @@
+﻿@model ContentDataItemDecorator
+@{
+    var list = Model.Parent;
+    var form = list.EditForm;
+}
+
+<div class="d-field">
+    <label for="Reslug">@Resources.Commons.Url</label>
+    <div class="d-reset d-ui-widget d-input d-textbox">
+        <input data-role="none"  id="Reslug" class="d-ui-widget-content"
+            name="Reslug" 
+            value="@Model.Slug" 
+            data-val="true"
+            data-val-required = "@Resources.Contents.SlugIsRequired"
+            data-val-remote ="@Resources.Contents.SlugIsExists"
+            data-val-remote-url ="@Url.Action("ValidateSlug", "Contents", new { Area = "", locale = Culture, id = Model.ID, name = Model.Parent.Name })"
+            onfocus="$(this).select();"
+            />
+        <span style="position: absolute; right: 5px;">.html</span>
+    </div>
+</div>
+
+@if (Model.Parent.IsHierarchy)
+{
+@*<div class="d-field" id="parentHolder_@(Model.ParentItemID.ToString().Substring(0, 8))">
+        <label>@Resources.Common.ParentItem</label>
+        @EditForms.DataTreeCombobox(Model.Parent, Model.ParentItemID.ToString())
+    </div>*@
+    <input type="hidden" name="parentID" value="@Model.ParentItemID" />
+}
+else
+{
+    if (!string.IsNullOrEmpty(Request.QueryString["parentID"]))
+    { 
+    <input type="hidden" name="parentID" value="@Request.QueryString["parentID"]" />
+    }
+}
+@Html.ReturnUrlHolder()
+
+@Html.RenderForm(form, Model)
+
+@EditForms.Options(Model)
+<div>
+    @EditForms.CategoriesAndTags(Model, Url)
+</div>
+<div>
+    @EditForms.Attachements(Model)
+</div>
+<div>
+    <button data-default="true" data-inline="false" onclick="$.loading();$(this).closest('form').submit();">@Resources.Commons.Save</button>
+
+    @if (Request.IsAjaxRequest())
+    { 
+        <a data-role="button" data-inline="false" data-rel="close" 
+        onclick="$.confirm('@string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Contents.Form)','@Resources.Commons.Confirm').done(function(){ $.loading();$.post('@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/DeleteItem/" + Model.Parent.ID.ToString())',{itemID:'@Model.ID.ToString()'},function(){ $.loading('hide');$('body').trigger('contentItemDeleted',{id:'@Model.ID.ToString()'}); }) });">@Resources.Commons.Delete</a>
+    }
+    else
+    {
+        <a data-role="button" data-inline="false" 
+        onclick="$.confirm('@string.Format(Resources.Messages.ConfirmDelete_Format, Resources.Contents.Form)','@Resources.Commons.Confirm').done(function(){ $.loading();$.post('@Url.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/DeleteItem/" + Model.Parent.ID.ToString())',{itemID:'@Model.ID.ToString()'},function(){ window.location='@(string.IsNullOrEmpty(Request.QueryString["returnUrl"]) ? Url.Content(list.DefaultUrl) : Request.QueryString["returnUrl"])' }); });">@Resources.Commons.Delete</a>
+    }
+
+    @if (!Request.IsAjaxRequest())
+    {
+        if (!string.IsNullOrEmpty(Request.QueryString["returnUrl"]))
+        {
+        <a href="@Request.QueryString["returnUrl"]" onclick="$.loading()" data-role="button" data-inline="false">@Resources.Commons.Cancel</a>
+        }
+        else
+        {
+        <a href="@Url.Content(Model.Url)"  onclick="$.loading()" data-role="button" data-inline="false">@Resources.Commons.Cancel</a>
+        }
+    }
+</div>
+@if (Request.IsAjaxRequest())
+{ 
+    <script type="text/javascript" async="async"  src="@Scripts.Url("~/scripts/jquery.validate.unobtrusive.js")"></script>
+}

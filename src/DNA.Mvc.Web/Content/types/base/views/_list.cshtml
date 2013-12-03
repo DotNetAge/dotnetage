@@ -1,0 +1,40 @@
+﻿@model ContentQueryResult
+@{
+    var itemtype = Model.List.ItemType;
+    var fieldCount = Model.View.FieldRefs.Count;
+}
+<ul class="d-view d-view-list @Model.CssClass">
+    @foreach (var dataItem in Model)
+    {
+        <li class="@dataItem.CssClass" itemscope="itemscope" @if (!string.IsNullOrEmpty(itemtype))
+                                                      {<text>itemtype="@itemtype"</text>}>
+            @foreach (var field in Model.View.FieldRefs)
+            {
+                if (!field.IsLinkToItem && !string.IsNullOrEmpty(field.ItemProp) && field.IsHidden)
+                {
+                <meta itemprop="@field.ItemProp" content="@dataItem[field.Name]" />
+                }
+                else
+                {
+                    <div @field.GetMicroDataAttributes() class="@(field.GetCssClass(dataItem))" id="@dataItem.ID">
+                        @{ Html.ForView(field.Name, dataItem); }
+                    </div>
+                    if (field.Name.Equals(Model.View.Parent.GetDefaultTitleField().Name) && fieldCount>1)
+                    {
+                        <div class="d-view-field published "><time itemprop="datePublished" datetime="@dataItem.Published.ToString("yyyy-MM-ddThh:mm:ss")">@Html.Global(dataItem.Published)</time></div>
+                    }
+                }
+                if (dataItem.AllowEdit(Context))
+                { 
+                    <a class="d-view-item-edit-link" data-icon-left="d-icon-edit" data-role="button" href="@Url.Content(dataItem.UrlForEdit)?returnUrl=@Request.Path" onclick="$.loading()" title="@Resources.Commons.Edit"></a>
+                }
+                //var cultureInfo = new System.Globalization.CultureInfo(Culture);
+                
+                //if (Model.List.IsHierarchy)
+                //{
+                //    var subQuery = Model.View.DefaultQuery;
+                //}
+            }
+        </li>
+    }
+</ul>

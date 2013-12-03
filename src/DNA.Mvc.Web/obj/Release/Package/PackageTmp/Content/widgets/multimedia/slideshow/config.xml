@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="slideshow" height="350">
+  <name short="Slideshow">Slideshow</name>
+  <name short="Slideshow" xml:lang="zh-cn">幻灯片</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="data" value="''" />
+  <preference name="autoPlay" value="false" />
+  <preference name="buttons" value="false" />
+  <preference name="navigator" value="'bottom'" />
+  <preference name="dir" value="'left'" />
+  <preference name="offset" value="0" />
+  <preference name="interval" value="5" />
+  <preference name="layout" value="0" />
+  <preference name="width" value="0" />
+  <preference name="height" value="300" />
+  <preference name="color" value="''" />
+  <preference name="bgPos" value="'left center'" />
+  <preference name="scaling" value="'normal'" />
+  <preference name="clickAction" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

@@ -1,0 +1,5 @@
+﻿.d-ui-widget-content, .ui-widget-content, .d-tabs-nav.d-state-active { background-color: #ffffff; background-image: none; }
+.d-ui-widget-content, .ui-widget-content, .d-ui-widget-header.d-tabs-nav.d-state-active > a, .d-checkbox, .d-radio, .d-rating, a.d-button.link { color: #000000; }
+.d-ui-widget.d-tooltip, .d-state-info, .d-item-counter { border-color: #d94317; background-color: #f3d8d3; color: #5d2e0e; }
+.d-radio, .d-checkbox, .d-rating, a.d-button.link, .ui-state-default > a, .ui-state-default { color: #81240e; }
+.d-overlay, .ui-overlay { background-color: #fbebe4; background-image: none; }

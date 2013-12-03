@@ -1,0 +1,391 @@
+﻿@using DNA.Web.ServiceModel
+@using System.Web.Mvc
+@using Resources
+@using DNA.Web
+@using DNA.Web.UI
+
+@helper Comments(ContentDataItemDecorator item, UrlHelper urlHelper)
+{
+    if (item.Parent.AllowComments)
+    {
+    <div class="d-form-section d-form-section-comments">
+        @if (item.EnableComments)
+        {
+            <div class="d-h4" id="comments">@Resources.Social.Comments  (<span id="@(item.ID.ToString())_totalComm">@(item.Comments.Count())</span>)</div>
+        }
+        @SocialNetworks.Comments(item.ID.ToString(), item.UrlComponent, !item.EnableComments)
+    </div>
+    }
+}
+@helper Attachments(ContentDataItemDecorator item)
+{
+    var urlhelper = DNA.Utility.UrlUtility.CreateUrlHelper();
+    if (item.HasAttachments)
+    {
+    <div class="d-form-section d-form-section-attachs">
+        <div id="attachments" class="d-h4">@Commons.Attachments (@item.Attachments.Count)</div>
+        <ul data-role="listview" data-display="mobile-list">
+            @foreach (var attach in item.Attachments)
+            {
+                <li @if (attach.Downloads > 0)
+                    {<text>data-coutner="downloads:@attach.Downloads"</text>}><a target="_blank" href="@urlhelper.Action("download", "contents", new { id = attach.ID })">@Path.GetFileName(attach.Uri)
+                    </a></li>
+            }
+        </ul>
+    </div>
+    }
+}
+@helper AuthorInfo(ContentDataItemDecorator item)
+{
+    var author = AppModel.Get().Users[item.Owner];
+    <div class="d-form-section d-form-section-author" title="@Commons.Author">
+        <img src="@author.DefaultProfile.Avatar" />
+        <div class="d-h4">@UIHelper.PersonLink(item.Owner)</div>
+        <div>@author.DefaultProfile.Signature</div>
+    </div>
+}
+
+@helper Tags(ContentDataItemDecorator item)
+{
+    if (item.Tags != null && item.Tags.Count() > 0)
+    {
+        var Url = DNA.Utility.UrlUtility.CreateUrlHelper();
+    <div class="d-form-section d-form-section-tags">
+        <span class="d-inline">@Commons.Tags :</span>
+        <input data-role="tags" data-onitemclick="window.open('@(Url.Content(item.Parent.DefaultUrl))' + '?filter=tags~contains~'+value);" value="@String.Join(",", item.Tags)" readonly="true" data-inline="true" />
+    </div>    
+    }
+}
+@helper Categories(ContentDataItemDecorator item)
+{
+    var Url = DNA.Utility.UrlUtility.CreateUrlHelper();
+    if (item.Categories != null)
+    {
+        foreach (var cat in item.Categories)
+        {
+    <a class="d-link" target="_blank" href="@Url.Content(item.Parent.DefaultUrl + string.Format("?filter=categories~contains~{0}", cat.Name))">@cat.Name</a>
+        }
+    }
+    else
+    {
+    <span>@Commons.Uncategoried</span>
+    }
+}
+@helper Tools(ContentDataItemDecorator item, UrlHelper urlHelper)
+{
+    var list = item.Parent;
+    var _isModerated = list.IsModerated && item.IsPublished && item.ModerateState != (int)ModerateStates.Approved && (!item.IsOwner(Context) || User.IsAdministrator());
+    <div class="d-form-section-tools">
+        <a title="@Resources.Contents.Catalog" style="position:absolute;left:0px;top:5px;"
+            href="@urlHelper.Action("Catalog", "Contents", new { Area = "", name = list.Name, website = list.Web.Name, locale = list.Locale, id = item.ID })" 
+            data-role="button" 
+            data-rel="panel"
+            data-panel-fill="true"
+            data-panel-display="push"
+            data-panel-title="@list.Title"
+            data-icon-left="d-icon-reorder"></a>
+        @if (list.EnableVersioning && item.Versions().Count() > 0)
+        {
+            <a data-role="button" 
+                data-icon-left="d-icon-clock"
+                data-panel-pos="right"
+                data-panel-display="overlay"
+                data-rel="panel"
+                data-panel-title="@Resources.Contents.VersionHistory"
+                href="@urlHelper.Action("Versions", "contents", new { name = list.Name, id = item.ID, website = AppModel.Get().CurrentWeb.Name, locale = AppModel.Get().CurrentWeb.Culture })" 
+                title="@Resources.Contents.VersionHistory"></a>
+        }
+        @if (item.IsOwner(Context) || _isModerated)
+        {
+            if (list.IsHierarchy)
+            {
+            <a href="@(urlHelper.Content(item.Parent.GetNewItemUrl()))?parentId=@(item.ID)" data-role="button" data-icon-left="d-icon-add-to-list" title="@Resources.Commons.New"></a>
+            }
+            <a  href="@urlHelper.Content(list.GetEditItemUrl(item))" data-role="button" data-icon-left="d-icon-edit" title="@Resources.Commons.Edit"></a>
+            @*<a href="#@(item.Slug + "option_panel")" data-role="button"data-icon-left="d-icon-cog"data-rel="open" title="@Resources.Commons.Settings"></a>*@
+            if ((list.EditForm.IsAuthorized(Context) && item.IsOwner(Context)) || list.IsOwner(Context))
+            {        
+            <a data-icon-left="d-icon-cross-3" data-role="button" href="javascript:void(0);" 
+                title="@Commons.Delete"
+                onclick="$.confirm('@(string.Format(Messages.ConfirmDelete_Format, Resources.Contents.DataItem.ToString().ToLower()))','@Commons.Confirm').done(function(){ $.loading(); $('#delitemform').submit(); });"></a>
+            <form method="post" action="@urlHelper.Action("Delete", "Contents", new { id = item.ID, name = list.Name })" id="delitemform" style="display:none;"></form>
+            }
+            if (_isModerated)
+            {
+            <a data-icon-left="d-icon-legal" data-role="button" href="#audit_panel" data-rel="open" title="@Commons.Approve"></a>
+            }
+            if (!item.IsPublished && item.IsOwner(Context))
+            {
+            <a data-icon-left="d-icon-check" data-role="button" href="javascript:void(0);" 
+                title="@Commons.Publish"
+                onclick="$.post('@urlHelper.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/publish")',{id:'@item.ID'},function(){ location.reload(); });"></a>
+            }
+            if (list.AllowComments && item.IsOwner(Context))
+            {
+            <a data-icon-left="@if (item.EnableComments)
+                { <text>d-icon-bubbles-2</text> }
+                else
+                {<text>d-icon-bubbles</text>}" 
+                data-role="button" href="javascript:void(0);" 
+                title="@if (item.EnableComments)
+                { <text>@Resources.Contents.DisableComments</text> }
+                else
+                {<text>@Resources.Contents.EnableComments</text>}"
+                onclick="$.post('@urlHelper.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/disablecomments")',{id:'@item.ID',value:@((item.EnableComments).ToString().ToLower())},function(){ location.reload(); });">
+            </a>
+            }
+            if (list.EditForm.IsAuthorized(Context) && list.IsOwner(Context))
+            { 
+            <a data-icon-left="d-icon-settings" data-role="button" title="@Commons.Settings"
+                href="@urlHelper.Content(list.DetailForm.SettingUrl)"></a>
+            }            
+        }
+    </div>
+    if (_isModerated)
+    { 
+    <div id="audit_panel"
+        data-role="panel"
+        data-display="overlay"
+        data-pos="right"
+        data-position="fixed">
+        <h3>@Resources.Contents.Audit</h3>
+        <div>
+            <form data-ajax="true"
+            data-ajax-method="post" 
+            data-ajax-url="@urlHelper.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/audit")" 
+            data-ajax-begin="$.loading();"
+            data-ajax-success="location.reload();"
+            class="d-form">
+                <div>
+                    <textarea id="msg" name="remarks" style="width: 98%;" placeholder="Leave the message for this reviewing"></textarea>
+                </div>
+                <input type="hidden" value="@item.ID" name="id"/>
+                <input type="hidden" value="2" name="state" id="moderate_state" />
+                <div style="padding: 10px;">
+                    <button data-default="true" data-inline="false">@Commons.Approve</button>
+                </div>
+                <div style="padding: 0px 10px;">
+                    <a data-role="button" data-inline="false" onclick="$('#moderate_state').val(1);$(this).closest('form').submit();">@Commons.Reject</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+}
+@helper Votes(ContentDataItemDecorator item, UrlHelper urlHelper)
+{
+    var list = item.Parent;
+    if (list.AllowVotes)
+    {
+        var vote1 = item.Votes.Count(v => v.Value == 1);
+        var vote2 = item.Votes.Count(v => v.Value == 2);
+        var vote3 = item.Votes.Count(v => v.Value == 3);
+        var vote4 = item.Votes.Count(v => v.Value == 4);
+        var vote5 = item.Votes.Count(v => v.Value == 5);
+        var maxVal = item.TotalVotes > 0 ? item.TotalVotes : 5; 
+    <div class="d-form-section d-form-section-ratings">
+        <div class="d-h4">@Commons.Rating</div>
+        <div class="d-form-section-ratings-average">
+            <div>@Commons.Average</div>
+            <div class="d-h1" id="@(item.ID.ToString().Replace("-", "_") + "average")">@item.AverageVotes</div>
+            <div>
+                <input data-role="rating" 
+                value="@item.Ratings" 
+                data-to="@(item.ID.ToString().Replace("-", "_") + "average")"
+                @if (!Request.IsAuthenticated || !item.CanVote(User.Identity.Name))
+                {<text>readonly="readonly"</text>}
+                else
+                {<text>
+                data-url="@urlHelper.Content("~/api/" + AppModel.Get().CurrentWeb.Name + "/contents/vote/" + item.ID.ToString() + "?list=" + list.Name)"  
+                </text>}
+                />
+            </div>
+        </div>
+        <div class="d-form-section-ratings-votes">
+            <div>
+                <span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span>
+                <div class="d-inline" style="width: 150px;" data-role="progressbar" data-value="@vote5" data-max="@maxVal"></div>
+                <span class="d-inline" style="margin-left: 5px; '">@vote5</span>
+            </div>
+            <div>
+                <span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-inline" style="width: 16px;"></span>
+                <div class="d-inline" style="width: 150px;" data-role="progressbar" data-value="@vote4" data-max="@maxVal"></div>
+                <span class="d-inline" style="margin-left: 5px; '">@vote4</span>
+            </div>
+            <div>
+                <span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-inline" style="width: 16px;"></span><span class="d-inline" style="width: 16px;"></span>
+                <div class="d-inline" style="width: 150px;" data-role="progressbar" data-value="@vote3" data-max="@maxVal"></div>
+                <span class="d-inline" style="margin-left: 5px; '">@vote3</span>
+            </div>
+            <div>
+                <span class="d-icon-star"></span><span class="d-icon-star"></span><span class="d-inline" style="width: 16px;"></span><span class="d-inline" style="width: 16px;"></span><span class="d-inline" style="width: 16px;"></span>
+                <div class="d-inline" style="width: 150px;" data-role="progressbar" data-value="@vote2" data-max="@maxVal"></div>
+                <span class="d-inline" style="margin-left: 5px; '">@vote2</span>
+            </div>
+            <div>
+                <span class="d-icon-star"></span><span class="d-inline" style="width: 16px;"></span><span class="d-inline" style="width: 16px;"></span><span class="d-inline" style="width: 16px;"></span><span class="d-inline" style="width: 16px;"></span>
+                <div class="d-inline" style="width: 150px;" data-role="progressbar" data-value="@vote1" data-max="@maxVal"></div>
+                <span class="d-inline" style="margin-left: 5px; '">@vote1</span>
+            </div>
+        </div>
+    </div>
+    }
+}
+@helper VersionControl(ContentDataItemDecorator item, UrlHelper url)
+{
+    var versions = item.Versions();
+    if (versions.Count() == 0)
+    {
+        return;
+    }
+    <div class="d-form-section d-form-section-versions">
+        <a data-role="button" 
+            data-inline="false" 
+            data-panel-pos="right"
+            data-panel-display="overlay"
+            data-rel="panel"
+            data-panel-title="@Resources.Contents.VersionHistory"
+            href="@url.Action("Versions", "contents", new { name = item.Parent.Name, id = item.ID, website = AppModel.Get().CurrentWeb.Name, locale = AppModel.Get().CurrentWeb.Culture })">@Resources.Contents.VersionHistory</a>
+    </div>
+}
+
+@helper Caption(ContentDataItemDecorator dataItem, UrlHelper Url)
+{
+    if (dataItem == null) { return; }
+    var list = dataItem.Parent;
+    var form = dataItem.Parent.DetailForm;
+    DNA.Web.ContentField captionField = null;
+    captionField = form.Fields.FirstOrDefault(f => f.IsCaption);
+    if (captionField == null)
+    {
+        captionField = list.GetDefaultTitleField();
+    }
+
+    var titleVal = dataItem.Value(captionField.Name);
+
+    if (titleVal != null || (captionField != null && captionField.FieldType == (int)ContentFieldTypes.Computed))
+    { 
+    <h2 style="position: relative;">@if (!string.IsNullOrEmpty(Request.QueryString["returnUrl"]))
+                                    {
+        <a title="@Resources.Commons.Back" data-preload="true" href="@(Server.UrlDecode(Request.QueryString["returnUrl"]))"><span data-icon="d-icon-arrow-left-2"></span></a>
+                                    }
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(list.DefaultUrl))
+                                        {
+        <a  title="@Resources.Commons.Back" data-preload="true"  href="@Url.Content(list.DefaultUrl)"><span data-icon="d-icon-arrow-left-2"></span></a>}
+                                    }<span class="d-inline" data-caption-holder="true">@if (captionField.FieldType == (int)ContentFieldTypes.Computed)
+                                                                                       {
+                                                                                           var f = list.Fields[captionField.Name] as ComputedField;
+                                                                                           if (f != null)
+                                                                                           {
+                                        @f.RenderPattern(dataItem)
+                                                                                           }
+                                                                                       }
+                                                                                       else
+                                                                                       {
+                                        @titleVal.Formatted } @if (!dataItem.IsCurrentVersion)
+                                                              {<text>Rev.@dataItem.Version</text>}</span>
+    </h2>
+    }
+}
+
+@helper Info(ContentListDecorator list, ContentDataItemDecorator item)
+{
+    <div class="d-form-section d-form-section-iteminfo">
+        <div>
+            <a href="javascript:void(0);" role="link" data-icon-left="d-icon-grid-alt" title="@Resources.Commons.Category">@Resources.Commons.Category</a>
+            @if (item.Categories != null && item.Categories.Count() > 0)
+            {<text> @Categories(item) </text>}
+            else
+            {
+                <span data-inline="true">Uncategoried</span>
+            }
+        </div>
+        @if (item.EnableComments || item.TotalComments > 0)
+        {
+            <div itemprop="discussionUrl">
+                <a href="#comments" role="link" data-icon-left="d-icon-bubbles-2">@Resources.Social.Comments:</a>
+                <span class="d-inline">@item.TotalComments</span>
+            </div>
+        }
+        <div>
+            <a role="link" data-icon-left="d-icon-eye">@Resources.Commons.Reads</a>
+            <span class="d-inline">@item.Reads</span>
+        </div>
+        @if (list.AllowVotes || item.TotalVotes > 0)
+        {
+            <div>
+                <a href="javascript:void(0);" role="link" data-icon-left="d-icon-star" title="@Resources.Commons.Rating" itemprop="aggregateRating" itemscope="itemscope" itemtype="http://scheam.org/AggregateRating">
+                    <meta itemprop="bestRating" content="5" />
+                    <meta itemprop="ratingValue" content="@item.Ratings" />
+                    <meta itemprop="ratingCount" content="@item.AverageVotes" />@Resources.Commons.Rating</a>
+                <span class="d-inline">@item.Ratings</span>
+            </div>
+        }
+        <div itemprop="author">
+            <a href="javascript:void(0);" role="link" data-icon-left="d-icon-user" title="@Resources.Commons.Author">@Resources.Commons.Author</a>
+            @UIHelper.PersonLink(item.Owner)
+        </div>
+        @if (item.IsPublished)
+        {
+            <div>
+                <a role="link" data-icon-left="d-icon-calendar" href="javascript:void(0);">@Resources.Contents.PublishDate</a>
+                @if (item.Published.HasValue)
+                { 
+                    <time itemprop="dataPublished" datetime="@item.Published.Value.ToString("yyyy-MM-ddThh:mm:ss")" class="d-inline">@item.Published.Value</time>
+                }
+                else
+                {
+                    <time itemprop="dataPublished" datetime="@item.Created.ToString("yyyy-MM-ddThh:mm:ss")" class="d-inline">@item.Created</time>
+                }
+            </div>
+                if (list.IsModerated)
+                {
+            <div>
+                <a role="link" 
+                    @if (Request.IsAuthenticated && item.ModerateState != (int)ModerateStates.Approved && (list.IsModerator(User.Identity.Name) || User.IsAdministrator()))
+                    {
+                        <text>href="#audit_panel" data-rel="open" title="Audit"</text>
+                    }
+                    else
+                    {
+                    <text>href="javascript:void(0);" title="Moderate state"</text>
+                    }
+                    data-icon-left="d-icon-legal">State</a>
+                <span>@((ModerateStates)item.ModerateState)</span>
+            </div>
+                }
+        }
+        else
+        {
+            <div>
+                @if (item.IsOwner(Context))
+                {
+                    <a data-icon-left="d-icon-share" data-ajax="true">@Resources.Contents.Published</a>
+                }
+                else
+                { 
+                    <a href="javascript:void(0);" role="link" data-icon-left="d-icon-legal">@Resources.Contents.State:@Resources.Contents.Draft</a>
+                }
+            </div>
+        }
+        @if (list.EnableVersioning)
+        {
+            <div>
+                <a role="link" data-icon-left="d-icon-calendar" href="javascript:void(0);">@Resources.Commons.LastModified</a>
+                @if (item.Modified.HasValue)
+                { 
+                    <time itemprop="dateModified" datetime="@item.Modified.Value.ToString("yyyy-MM-ddThh:mm:ss")" class="d-inline">@item.Modified.Value</time>
+                }
+                else
+                {
+                    <time itemprop="dateModified" datetime="@item.Created.ToString("yyyy-MM-ddThh:mm:ss")" class="d-inline">@item.Created</time>
+                }
+            </div>
+@*<div>
+                    <a role="link" data-icon-left=" d-icon-stack" href="javascript:void(0);">@Resources.Common.Version:@item.Version</a>
+                </div>*@
+        }
+    </div>
+}

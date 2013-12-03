@@ -1,0 +1,77 @@
+﻿@model ContentQueryResult
+@{
+    var items = Model.Items;
+    var viewFields = Model.View.FieldRefs;
+}
+<table data-role="grid" data-sortable="true">
+    <thead>
+        <tr>
+            @foreach (var vf in viewFields)
+            {
+                if (vf.FieldType == (int)ContentFieldTypes.File || vf.IsHidden)
+                {
+                    continue;
+                } 
+                <th @if (vf.FieldType == (int)ContentFieldTypes.DateTime)
+                    {<text>data-width="180"</text>}
+                    @if (vf.FieldType == (int)ContentFieldTypes.Image)
+                    {<text>data-width="100" data-align="center"</text>}
+                           @if (vf.FieldType == (int)ContentFieldTypes.Note)
+                           {<text>data-width="90" data-align="center"</text>}
+                    @if (vf.FieldType == (int)ContentFieldTypes.Number || vf.FieldType == (int)ContentFieldTypes.Currency || vf.FieldType == (int)ContentFieldTypes.Integer)
+                    {
+                        <text>data-align="right" data-type="number" data-width="130"</text>
+                    }
+                    >@GE.GetContent(vf.Title)</th>
+            }
+            @*            <th data-width="180">Published</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in items)
+        {
+            <tr>
+                @foreach (var v in viewFields)
+                {
+                    if (v.FieldType == (int)ContentFieldTypes.File || v.IsHidden)
+                    {
+                        continue;
+                    } 
+                    <td>
+                        @if (v.FieldType == (int)ContentFieldTypes.Note)
+                        {
+                            if (r[v.Name] is DBNull)
+                            {
+                            <span>-</span>
+                            }
+                            else
+                            {
+                            <span><a data-role="button" 
+                                data-rel="dialog" 
+                                href="#noteDialog" 
+                                onclick="$('#noteContent').html($(this).data('text'))" data-text="@r[v.Name]">...</a></span>
+                            }
+                        }
+                        else
+                        {
+                            if (v.FieldType == (int)ContentFieldTypes.Image)
+                            {
+                                var href = r[v.Name] is DBNull ? "" : (string)r[v.Name];
+                                if (string.IsNullOrEmpty(href)) { href = Url.Content("~/content/images/image_holder.png"); }
+                            <img src="@href" style="max-width:100px;height:50px;"/>
+                            }
+                            else
+                            {
+                            <span>@{Html.ForView(v.Name, r);}</span>
+                            }
+                        }
+                    </td>
+                }
+                @*<td><span>@if ((DateTime)r[DataNames.Published] == DateTime.MinValue) { <text>-</text>}else{<text>@r[DataNames.Published]</text>}</span></td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+<div data-role="dialog" id="noteDialog" title="Detail" data-opened="false">
+    <p id="noteContent"></p>
+</div>

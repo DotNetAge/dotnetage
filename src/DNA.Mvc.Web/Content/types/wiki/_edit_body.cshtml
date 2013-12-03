@@ -1,0 +1,14 @@
+﻿@model ContentFieldValue
+@{
+    var field = (NoteField)Model.Field;
+}
+
+<textarea  id="@(field.ClientID)" 
+    name="@field.Name" 
+    placeholder="@field.Placeholder" 
+  @field.GetValidationAttributes() 
+            @if (field.NumLines > 0)
+            {<text>rows="@field.NumLines" style="height:@(field.NumLines * 20)px;width:100%;"</text>}else {<text>rows="20"</text>}
+            >@(Server.HtmlDecode((string)Model.Raw)) 
+        </textarea>
+

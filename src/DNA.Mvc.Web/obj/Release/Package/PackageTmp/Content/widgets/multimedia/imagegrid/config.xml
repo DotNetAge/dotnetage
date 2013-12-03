@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="imagegrid">
+  <name short="ImageGrid">Image Grid</name>
+  <name short="ImageGrid" xml:lang="zh-cn">图格</name>
+  <icon src="default.png" />
+  <preference name="showHeader" readonly="true" value="false" />
+  <preference name="showBorder" readonly="true" value="false" />
+  <preference name="tranparent" readonly="true" value="true" />
+  <preference name="cached" readonly="true" value="true" />
+  <preference name="data" value="''" />
+  <preference name="margin" value="5" />
+  <preference name="width" value="200" />
+  <preference name="height" value="300" />
+  <preference name="scaling" value="'normal'" />
+  <preference name="clickAction" value="''" />
+  <content type="application/x-ms-aspnet" src="index.cshtml"></content>
+</widget>

@@ -1,0 +1,4 @@
+﻿@model NumberField
+<input type="number"  data-speech="false" @Model.GetAttributes() @Model.GetValidationAttributes()/>@if (Model.ShowAsPercentage)
+                                                                                                   {<text><span>@Model.PercentSymbol</span></text>}
+@Html.ValidationMessage(Model)

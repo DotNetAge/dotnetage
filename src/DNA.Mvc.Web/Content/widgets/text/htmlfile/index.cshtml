@@ -1,0 +1,97 @@
+﻿@using System.Net.Http;
+@using Resources;
+
+@Html.Widget().Content(@<text>
+@{
+    var src = item.GetString("src");
+    if (!string.IsNullOrEmpty(src))
+    {
+        if (Url.IsLocal(src))
+        {
+            if (src.EndsWith(".cshtml") || src.EndsWith(".vbhtml"))
+            {
+                try
+                {
+                    //We need to limit the user can execute the server page file
+                    Html.RenderPartial(src);
+                }
+                catch (Exception e)
+                {
+    <p>@Resources.Errors.LoadFileFail</p>
+    <p>@e.Message</p>
+                }
+            }
+            else
+            {
+    <div id="@item.GetID("wrapper")"></div>
+    <script type="text/javascript">
+        $(function () {
+            $('#@item.GetID("wrapper")').load("@src");
+        });
+    </script> 
+            }
+        }
+        else
+        {
+            ///TODO:Here we need to use the item.Width and item Height to set the iframe size
+    <div data-resizable="true" style="border:2px solid #0067b2; padding: 2px; height: 300px;"
+         data-also-resize="#@item.GetID("frame")" data-handles="n,s">
+        <iframe src="@src" style="width:100%;border:none;height:300px;" id="@item.GetID("frame")"></iframe>
+    </div>
+        }
+    }
+}
+</text>).AutoSave().UserPreferences(@<text>
+
+<div class="d-field">
+    @item.Label("src",Resources.Commons.Url)
+</div>
+<div>@item.TextBox("src", new { placeholder =string.Format(Resources.InputHolders.Format,Resources.Commons.Html) ,style="width:100%;"})</div>
+<div>
+    @UIHelper.BrowseFor(item.GetID("src"), string.Format(Resources.Messages.SelectFormat,Resources.Commons.Html ), "text/html",inline:false)
+</div>
+
+</text>).Design(@<text>
+@{var src = item.GetString("src");}
+@if (string.IsNullOrEmpty(src))
+{
+    @item.DesignModeHolder(string.Format(Resources.Messages.SelectFormat,Resources.Commons.Html ))
+}
+else
+{
+    if (Url.IsLocal(src))
+    {
+        if (src.EndsWith(".cshtml") || src.EndsWith(".vbhtml"))
+        {
+            try
+            {
+                //We need to limit the user can execute the server page file
+                Html.RenderPartial(src);
+            }
+            catch (Exception e)
+            {
+    <p>@Resources.Errors.LoadFileFail</p>
+    <p>@e.Message</p>
+            }
+        }
+        else
+        {
+    <div id="@item.GetID("wrapper")" style="min-height:50px;">
+        <small>Html file holder</small>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#@item.GetID("wrapper")').load("@src");
+        });
+    </script> 
+        }
+    }
+    else
+    {
+        ///TODO:Here we need to use the item.Width and item Height to set the iframe size
+    <div data-resizable="true" style="border:2px solid #0067b2; padding: 2px; height: 300px;"
+         data-also-resize="#@item.GetID("frame")" data-handles="n,s">
+        <iframe src="@src" style="width:100%;border:none;height:300px;" id="@item.GetID("frame")"></iframe>
+    </div>
+    }
+}</text>).GetHtml()

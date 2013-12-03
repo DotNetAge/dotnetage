@@ -1,0 +1,2 @@
+﻿.d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-item.d-state-hover, .d-node-content > .d-state-hover { background-color: #fafafa; background-image: none; }
+    .d-ui-widget.d-state-hover, .d-ui-widget-header.d-state-hover, .d-ui-widget-header.d-state-hover > a, .d-item.d-state-hover, .d-node-content > .d-state-hover, .ui-state-hover { -moz-box-shadow: 0px 0px 3px #919191 inset; -webkit-box-shadow: 0px 0px 3px #919191 inset; box-shadow: 0px 0px 3px #919191 inset; -webkit-text-shadow: none; text-shadow: none; }

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="tags">
+  <name short="Tags">Tags</name>
+  <name short="Tags" xml:lang="zh-cn">标签</name>
+  <description xml:lang="zh-cn"></description>
+  <icon src="default.png" />
+  <preference name="listName" value="''" />
+  <preference name="rows" value="30" />
+  <content type="application/x-ms-aspnet" src="index.cshtml" />
+</widget>

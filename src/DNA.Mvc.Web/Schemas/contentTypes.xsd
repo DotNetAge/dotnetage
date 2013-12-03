@@ -1,0 +1,686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+      xmlns="http://www.dotnetage.com/XML/Schema/contents"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      xmlns:xml="http://www.w3.org/XML/1998/namespace"
+      targetNamespace="http://www.dotnetage.com/XML/Schema/contents"
+      elementFormDefault="qualified"
+      attributeFormDefault="unqualified"
+>
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xs:element name="contentType">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+          <xs:element name="title" type="localizable" />
+          <xs:element name="description" type="localizable" />
+          <xs:element name="fields" maxOccurs="1" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="title" type="localizable" />
+                        <xs:element name="description"  type="localizable" />
+                        <xs:element name="placeHolder" type="localizable" />
+                        <xs:element name="choices">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element maxOccurs="unbounded" minOccurs="0" name="option">
+                                <xs:complexType>
+                                  <xs:attribute name="value" />
+                                  <xs:attribute name="selected"  type="xs:boolean"/>
+                                </xs:complexType>
+                              </xs:element>
+                            </xs:sequence>
+                            <xs:attribute name="multiple" type="xs:boolean" />
+                            <xs:attribute name="fill" type="xs:boolean" />
+                            <xs:attribute name="format">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="DropDownList" />
+                                  <xs:enumeration value="RadioButtons" />
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="fieldRef" minOccurs="0" maxOccurs="unbounded">
+                          <xs:complexType>
+                            <xs:attribute name="name" />
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element type="pattern" name="dispPattern" maxOccurs="1" />
+                        <xs:element name="numberFormat">
+                          <xs:complexType>
+                            <xs:attribute name="symbol" />
+                            <xs:attribute name="digits" type="xs:int" />
+                            <xs:attribute name="positivePattern" >
+                              <xs:annotation>
+                                <xs:documentation>
+                                  <![CDATA[
+                          Gets or sets the format pattern for positive currency/percent/number values.
+                          0:$n
+                          1:n$
+                          2:$ n
+                          3:n $
+                          ]]>
+                                </xs:documentation>
+                              </xs:annotation>
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="0"/>
+                                  <xs:enumeration value="1"/>
+                                  <xs:enumeration value="2"/>
+                                  <xs:enumeration value="3"/>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                            <xs:attribute name="decimalSeparator">
+                              <xs:annotation>
+                                <xs:documentation>
+                                  Gets or sets the string to use as the decimal separator in currency/percent/number values.
+                                </xs:documentation>
+                              </xs:annotation>
+                            </xs:attribute>
+                            <xs:attribute name="groupSeparator">
+                              <xs:annotation>
+                                <xs:documentation>
+                                  Gets or sets the string that separates groups of digits to the left of the decimal in currency/percent/number values.
+                                </xs:documentation>
+                              </xs:annotation>
+                            </xs:attribute>
+                            <xs:attribute name="showAsPercentage" type="xs:boolean" />
+                            <xs:attribute ref="xml:lang"/>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:choice>
+                    </xs:sequence>
+                    <xs:attribute name="type">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:token">
+                          <xs:enumeration value="Text"></xs:enumeration>
+                          <xs:enumeration value="Note"></xs:enumeration>
+                          <xs:enumeration value="Password"></xs:enumeration>
+                          <xs:enumeration value="Choice"></xs:enumeration>
+                          <xs:enumeration value="Integer"></xs:enumeration>
+                          <xs:enumeration value="Number"></xs:enumeration>
+                          <xs:enumeration value="Currency"></xs:enumeration>
+                          <xs:enumeration value="Boolean"></xs:enumeration>
+                          <xs:enumeration value="DateTime"></xs:enumeration>
+                          <xs:enumeration value="Extension"></xs:enumeration>
+                          <xs:enumeration value="User"></xs:enumeration>
+                          <xs:enumeration value="File"></xs:enumeration>
+                          <xs:enumeration value="Image"></xs:enumeration>
+                          <xs:enumeration value="Computed"></xs:enumeration>
+                          <xs:enumeration value="Lookup"></xs:enumeration>
+                          <xs:enumeration value="Video"></xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="name"/>
+                    <xs:attribute name="itemtype" type="xs:string" />
+                    <xs:attribute name="itemprop" type="xs:string" />
+                    <xs:attribute name="readonly" type="xs:boolean"/>
+                    <xs:attribute name="hidden" type="xs:boolean"/>
+                    <xs:attribute name="hideInDispForm" type="xs:boolean"/>
+                    <xs:attribute name="hideInNewForm" type="xs:boolean"/>
+                    <xs:attribute name="hideInEditForm" type="xs:boolean"/>
+                    <xs:attribute name="hideInActForm" type="xs:boolean"/>
+                    <xs:attribute name="dispTmpl" type="xs:string"/>
+                    <xs:attribute name="viewTmpl" type="xs:string"/>
+                    <xs:attribute name="editTmpl" type="xs:string"/>
+                    <xs:attribute name="newTmpl" type="xs:string"/>
+                    <xs:attribute name="actTmpl" type="xs:string"/>
+                    <xs:attribute name="required" type="xs:boolean"/>
+                    <xs:attribute name="linkToItem" type="xs:boolean"/>
+                    <xs:attribute name="sortable" type="xs:boolean" />
+                    <xs:attribute name="filterable" type="xs:boolean"/>
+                    <xs:attribute name="default"/>
+                    <xs:attribute name="yesText" >
+                      <xs:annotation>
+                        <xs:documentation>Specified the Boolean field's "Yes" text</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="noText" >
+                      <xs:annotation>
+                        <xs:documentation>Specified the Boolean field's "No" text</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <!--<xs:attribute name="allowMultiChoices" type="xs:boolean"/>-->
+                    <xs:attribute name="showTime" type="xs:boolean" />
+                    <xs:attribute name="format" />
+                    <xs:attribute name="lenLimit" type="xs:int">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the number of letters that the NoteField can be displayed in view
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="thumbHeight" type="xs:int">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the thumbnail height in pixels for ImageField or VideoField in view
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="thumbWidth" type="xs:int">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the thumbnail width in pixels for ImageField or VideoField in view
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="width"  type="xs:int">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the width in pixels for ImageField or VideoField in form
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="height"  type="xs:int">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the height in pixels for ImageField or VideoField in form
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <!--<xs:attribute name="player">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:token">
+                          <xs:enumeration value="Flash"></xs:enumeration>
+                          <xs:enumeration value="MediaPlayer"></xs:enumeration>
+                          <xs:enumeration value="Silverlight"></xs:enumeration>
+                          <xs:enumeration value="Html5"></xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>-->
+                    <xs:attribute name="minimum"  />
+                    <xs:attribute name="maximum"  />
+                    <xs:attribute name="list">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the list name where this field to lookup values. This property only use for Lookup field
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="view">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the view name where this field to lookup values. This property only use for Lookup field
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="rel">
+                      <xs:annotation>
+                        <xs:documentation>
+                          Specified the field name which value to display. This property only use for Lookup field
+                        </xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="dispAs">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:token">
+                          <xs:enumeration value="PhotoAndName"></xs:enumeration>
+                          <xs:enumeration value="PhotoOnly"></xs:enumeration>
+                          <xs:enumeration value="NameOnly"></xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="numlines" type="xs:int" />
+                    <xs:attribute name="minlength"  type="xs:int" />
+                    <xs:attribute name="maxlength" type="xs:int" />
+                    <xs:attribute name="isHtml" type="xs:boolean"  />
+                    <xs:attribute name="slug" type="xs:boolean" />
+                    <xs:attribute name="dataType">
+                      <xs:annotation>
+                        <xs:documentation>This attribute only used when the field type specified "extension"</xs:documentation>
+                      </xs:annotation>
+                    </xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="views" maxOccurs="1" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="view" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element name="title" type="localizable" />
+                        <xs:element name="description" type="localizable" />
+                        <xs:element name="paging" >
+                          <xs:complexType>
+                            <xs:attribute name="allow"></xs:attribute>
+                            <xs:attribute name="index"></xs:attribute>
+                            <xs:attribute name="size"></xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="fields">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element name="fieldRef" maxOccurs="unbounded" minOccurs="0">
+                                <xs:complexType>
+                                  <xs:sequence>
+                                    <xs:choice maxOccurs="1" minOccurs="0" >
+                                      <xs:element name="tmpl">
+                                        <xs:complexType mixed="true">
+                                          <xs:attribute name="src" />
+                                          <xs:attribute name="contentType">
+                                            <xs:simpleType>
+                                              <xs:restriction base="xs:token">
+                                                <xs:enumeration value="text/xml"/>
+                                                <xs:enumeration value="text/xslt"/>
+                                                <xs:enumeration value="text/x-jquery-tmpl" />
+                                                <xs:enumeration value="application/x-ms-aspnet"/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:attribute>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:choice>
+                                  </xs:sequence>
+                                  <xs:attribute name="name" />
+                                  <xs:attribute name="hidden" type="xs:boolean" />
+                                  <xs:attribute name="showLabel" type="xs:boolean"/>
+                                  <xs:attribute name="toFeed">
+                                    <xs:simpleType>
+                                      <xs:restriction base ="xs:token">
+                                        <xs:enumeration value="title" />
+                                        <xs:enumeration value="description" />
+                                        <xs:enumeration value="image" />
+                                        <xs:enumeration value="thumbnail" />
+                                        <xs:enumeration value="video" />
+                                      </xs:restriction>
+                                    </xs:simpleType>
+                                  </xs:attribute>
+                                </xs:complexType>
+                              </xs:element>
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="body">
+                          <xs:complexType mixed="true">
+                            <xs:sequence>
+                              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="html" />
+                                <xs:element name="col" type="column"/>
+                                <xs:element name="rows" maxOccurs="1">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                        <xs:element name="html" />
+                                        <xs:element name="col" type="column"/>
+                                        <xs:element name="url">
+                                          <xs:complexType>
+                                            <xs:attribute name="rel" >
+                                              <xs:simpleType>
+                                                <xs:restriction base ="xs:token">
+                                                  <xs:enumeration value="edit" />
+                                                  <xs:enumeration value="del" />
+                                                  <xs:enumeration value="disp" />
+                                                </xs:restriction>
+                                              </xs:simpleType>
+                                            </xs:attribute>
+                                          </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="val">
+                                          <xs:complexType>
+                                            <xs:attribute name="name" />
+                                            <xs:attribute name="output">
+                                              <xs:simpleType>
+                                                <xs:restriction base ="xs:token">
+                                                  <xs:enumeration value="raw" />
+                                                  <xs:enumeration value="formatted" />
+                                                </xs:restriction>
+                                              </xs:simpleType>
+                                            </xs:attribute>
+                                          </xs:complexType>
+                                        </xs:element>
+                                      </xs:choice>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:choice>
+                            </xs:sequence>
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                            <xs:attribute name="contentType">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="text/xml"/>
+                                  <xs:enumeration value="text/xslt"/>
+                                  <xs:enumeration value="text/x-jquery-tmpl" />
+                                  <xs:enumeration value="application/x-ms-aspnet"/>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                            <xs:attribute name="style">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="list"/>
+                                  <xs:enumeration value="floating"/>
+                                  <xs:enumeration value="tree"/>
+                                  <xs:enumeration value="grid" />
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="emptyPattern" maxOccurs="1">
+                          <xs:complexType mixed="true">
+                            <xs:sequence>
+                              <xs:choice minOccurs="0" maxOccurs="unbounded">
+                                <xs:element name="html" />
+                                <xs:element name="url">
+                                  <xs:complexType>
+                                    <xs:attribute name="type">
+                                      <xs:simpleType>
+                                        <xs:restriction base ="xs:token">
+                                          <xs:enumeration value="new" />
+                                          <xs:enumeration value="request" />
+                                        </xs:restriction>
+                                      </xs:simpleType>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:choice>
+                            </xs:sequence>
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                            <xs:attribute name="contentType">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="text/html"/>
+                                  <xs:enumeration value="text/xml"/>
+                                  <xs:enumeration value="text/xslt"/>
+                                  <xs:enumeration value="text/x-jquery-tmpl" />
+                                  <xs:enumeration value="application/x-ms-aspnet"/>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="styleSheet">
+                          <xs:complexType mixed="true">
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="script">
+                          <xs:complexType mixed="true">
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                            <xs:attribute name="type">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="text/javascript"></xs:enumeration>
+                                  <xs:enumeration value="text/vbscript"></xs:enumeration>
+                                  <xs:enumeration value="text/x-jquery-tmpl"></xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:choice>
+                    </xs:sequence>
+                    <xs:attribute name="name" type="xs:string" use="required"/>
+                    <xs:attribute name="default" type="xs:boolean"/>
+                    <xs:attribute name="nopage" type="xs:boolean"/>
+                    <xs:attribute name="icon" />
+                    <xs:attribute name="hierarchy" type="xs:boolean"/>
+                    <!--<xs:attribute name="hideToolbar" type="xs:boolean" />-->
+                    <xs:attribute name="filter" />
+                    <xs:attribute name="sort" />
+                    <xs:attribute name="accessRoles"/>
+                    <xs:attribute name="anonymous"  type="xs:boolean" default="true" use="optional"/>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="forms">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="form" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element name="title" type="localizable" />
+                        <xs:element name="description" type="localizable" />
+                        <xs:element name="fields">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                                <xs:complexType>
+                                  <xs:sequence>
+                                    <xs:choice maxOccurs="1" minOccurs="0" >
+                                      <xs:element name="tmpl">
+                                        <xs:complexType mixed="true">
+                                          <xs:attribute name="src" />
+                                          <xs:attribute name="contentType">
+                                            <xs:simpleType>
+                                              <xs:restriction base="xs:token">
+                                                <xs:enumeration value="text/xml"/>
+                                                <xs:enumeration value="text/xslt"/>
+                                                <xs:enumeration value="text/x-jquery-tmpl" />
+                                                <xs:enumeration value="application/x-ms-aspnet"/>
+                                              </xs:restriction>
+                                            </xs:simpleType>
+                                          </xs:attribute>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:choice>
+                                  </xs:sequence>
+                                  <xs:attribute name="name" use="required" />
+                                  <xs:attribute name="showLabel" type="xs:boolean"/>
+                                  <xs:attribute name="hidden" type="xs:boolean" />
+                                  <xs:attribute name="caption" type="xs:boolean" />
+                                </xs:complexType>
+                              </xs:element>
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="body">
+                          <xs:complexType mixed="true">
+                            <xs:sequence>
+                              <xs:choice maxOccurs="unbounded" minOccurs="0">
+                                <xs:element name="html" />
+                                <xs:element name="label">
+                                  <xs:complexType>
+                                    <xs:attribute name="name"/>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="notes">
+                                  <xs:complexType>
+                                    <xs:attribute name="name"/>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="col" >
+                                  <xs:complexType>
+                                    <xs:attribute name="name" />
+                                    <xs:attribute name="hasLabel" type="xs:boolean"/>
+                                    <xs:attribute name="hasNotes" type="xs:boolean"/>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:choice>
+                            </xs:sequence>
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                            <xs:attribute name="contentType">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="text/html"/>
+                                  <xs:enumeration value="text/xml"/>
+                                  <xs:enumeration value="text/xslt"/>
+                                  <xs:enumeration value="text/x-jquery-tmpl" />
+                                  <xs:enumeration value="application/x-ms-aspnet"/>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="styleSheet" maxOccurs="1">
+                          <xs:complexType mixed="true">
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                          </xs:complexType>
+                        </xs:element>
+                        <xs:element name="script">
+                          <xs:complexType mixed="true">
+                            <xs:attribute ref="xml:lang"/>
+                            <xs:attribute name="src" />
+                            <xs:attribute name="type">
+                              <xs:simpleType>
+                                <xs:restriction base="xs:token">
+                                  <xs:enumeration value="text/javascript"></xs:enumeration>
+                                  <xs:enumeration value="text/vbscript"></xs:enumeration>
+                                  <xs:enumeration value="text/x-jquery-tmpl"></xs:enumeration>
+                                </xs:restriction>
+                              </xs:simpleType>
+                            </xs:attribute>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:choice>
+                    </xs:sequence>
+                    <xs:attribute name="type">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:token">
+                          <xs:enumeration value="Display"></xs:enumeration>
+                          <xs:enumeration value="Edit"></xs:enumeration>
+                          <xs:enumeration value="New"></xs:enumeration>
+                          <xs:enumeration value="Activity"></xs:enumeration>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="ajax" type="xs:boolean" />
+                    <xs:attribute name="name" />
+                    <xs:attribute name="accessRoles"/>
+                    <xs:attribute name="anonymous"  type="xs:boolean" default="true" use="optional"/>
+                    <xs:attribute name="nopage" type="xs:boolean"/>
+                    <!--<xs:attribute name="captionField" />
+                    <xs:attribute name="hideCaption" type="xs:boolean" />
+                    <xs:attribute name="showAuthor" type="xs:boolean" />-->
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rows">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element name="data" minOccurs="1" maxOccurs="1"/>
+                        <xs:element name="attach">
+                          <xs:complexType>
+                            <xs:attribute name="name" />
+                            <xs:attribute name="href" />
+                            <xs:attribute name="contentType" />
+                            <xs:attribute name="extension" />
+                            <xs:attribute name="privacy" type="xs:integer"/>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:choice>
+                    </xs:sequence>
+                    <xs:attribute name="id" />
+                    <xs:attribute name="parentId" />
+                    <xs:attribute name="privacy" />
+                    <xs:attribute name="created" type="xs:dateTime" />
+                    <xs:attribute name="modified" type="xs:dateTime" />
+                    <xs:attribute name="published" type="xs:dateTime" />
+                    <xs:attribute ref="xml:lang"/>
+                    <xs:attribute name="state" type="xs:integer" />
+                    <xs:attribute name="isPublished" type="xs:boolean" />
+                    <xs:attribute name="enableComments" type="xs:boolean" />
+                    <xs:attribute name="slug" />
+                    <xs:attribute name="tags" />
+                    <xs:attribute name="categories" />
+                    <xs:attribute name="path" />
+                    <xs:attribute name="pos" type="xs:integer" />
+                    <xs:attribute name="ratings" type="xs:decimal" />
+                    <xs:attribute name="reads" type="xs:integer" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="activity" type="xs:boolean"/>
+      <xs:attribute name="itemtype" type="xs:string" />
+      <xs:attribute name="defaultLocale" type="xs:language"/>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="versioning" type="xs:boolean" />
+      <xs:attribute name="allowComments" type="xs:boolean"/>
+      <xs:attribute name="allowAttachs" type="xs:boolean"/>
+      <xs:attribute name="allowVotes" type="xs:boolean"/>
+      <xs:attribute name="allowResharing" type="xs:boolean"/>
+      <xs:attribute name="allowCategoriesAndTags" type="xs:boolean"/>
+      <xs:attribute name="hierarchy" type="xs:boolean"/>
+      <xs:attribute name="moderated" type="xs:boolean"/>
+      <xs:attribute name="sys" type="xs:boolean"/>
+      <xs:attribute name="single" type="xs:boolean"/>
+      <xs:attribute name="base" type="xs:string" use="optional"/>
+      <xs:attribute name="id" type="xs:string" />
+      <xs:attribute name="version" type="xs:string" />
+      <xs:attribute name="master" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="pattern">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="html" />
+        <xs:element name="col" >
+          <xs:complexType>
+            <xs:attribute name="name" />
+            <xs:attribute name="output">
+              <xs:simpleType>
+                <xs:restriction base ="xs:token">
+                  <xs:enumeration value="raw" />
+                  <xs:enumeration value="formatted" />
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="column" >
+    <xs:attribute name="name" />
+    <xs:attribute name="prop">
+      <xs:simpleType>
+        <xs:restriction base ="xs:token">
+          <xs:enumeration value="title" />
+          <xs:enumeration value="description" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType mixed="true" name="localizable">
+    <xs:attributeGroup ref="global"/>
+    <xs:attribute type="xs:string" name="resKey" use="optional" />
+  </xs:complexType>
+  <xs:attributeGroup name="global">
+    <xs:annotation>
+      <xs:documentation>attributes can be used on any element in a configuration document</xs:documentation>
+    </xs:annotation>
+    <xs:attribute ref="xml:lang"/>
+    <xs:attribute name="dir">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="ltr"/>
+          <xs:enumeration value="rtl"/>
+          <xs:enumeration value="lro"/>
+          <xs:enumeration value="rlo"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+</xs:schema>

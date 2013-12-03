@@ -1,0 +1,71 @@
+﻿@model ContentViewDecorator
+@{var aliasName = ".d-view." + Model.Parent.Name + "." + Model.Name;}
+<form data-ajax="true" 
+     data-ajax-url="@Url.Content(string.Format("~/{0}/{1}/view/EditCss?name={2}&slug={3}", AppModel.Get().CurrentWeb.Name, Culture, Model.Parent.Name, Model.Name))"
+    data-ajax-method="post" 
+    data-ajax-begin="$.loading()"
+    data-ajax-complete="$.loading('hide')"
+    data-ajax-success="$(this).find('button[data-default=true]').isDisable(true);$('#csseditform').find('a[data-rel=close]').click();"
+    onchange="$(this).find('button[data-default=true]').isDisable(false)"
+    id="csseditform" 
+    style="width:100%;position:relative;">
+    <div style="padding:5px;" id="style_tools">
+         <label>@Resources.Contents.InsertCls</label>:
+          <ul data-role="combobox"
+              data-selectable="true"
+              style="width:200px;"
+              data-input="false"
+              data-select="var _val=window.cssEditor.getValue();window.cssEditor.setValue(_val+(_val?'\t\n':'')+ui.item.data('class')+'{}')">
+                    <li data-class="@aliasName">@Resources.Contents.ViewCls</li>
+                    <li data-class="@(aliasName)>.d-view-item">@Resources.Contents.ItemsCls</li>
+                    <li data-class="@(aliasName)>.d-view-item .d-view-item-footer">@Resources.Contents.ItemFooterCls</li>
+                    @foreach (var f in Model.FieldRefs)
+                    { 
+                        <li data-class="@(aliasName)>.d-view-item .@(f.Name)">@f.Title</li>
+                    }
+           </ul>
+    </div>
+        <textarea
+            class="d-box1" id="csstext_editor" 
+            name="csstext" 
+            spellcheck="false">@ViewBag.CssText</textarea>
+    <div data-buttons-holder="true" style="padding: 0px 10px;">
+        <a data-default="true" data-inline="false" data-role="button"
+            onclick="$('#csstext_editor').val(window.cssEditor.getValue());$('#csseditform').submit();"
+            >@Resources.Commons.Save</a>
+        <a data-role="button" data-rel="close" data-inline="false">@Resources.Commons.Cancel</a>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(function () {
+        var css_ace_editor = null;
+        //  if (window.ace) {
+            $("#csstext_editor").hide();
+            css_ace_editor = $("<div id='ace_css_editor'/>").css({ position: "relative" });
+            $("#csstext_editor").after(css_ace_editor);
+            var editor = ace.edit("ace_css_editor");
+            editor.setTheme("ace/theme/chrome");
+            editor.getSession().setUseWorker(false);
+            var editMode = require("ace/mode/css").Mode;
+            editor.getSession().setMode(new editMode());
+            window.cssEditor = editor;
+            window.cssEditor.setValue($("#csstext_editor").val());
+      //  }
+
+        var form = $('#csseditform'),
+            w = $(window).width(),
+            h = $(window).height() - 70 ;
+
+        form.height(h);
+
+        window.setTimeout(function () {
+            var btnsH = $("[data-buttons-holder=true]", form).outerHeight(true) + 50;
+           // if (window.ace)
+            $("#ace_css_editor").width(w).height(h - btnsH);
+            //else
+              //  $("#csstext_editor").width(w - 182).height(h - btnsH);
+        }, 100);
+
+    });
+</script>

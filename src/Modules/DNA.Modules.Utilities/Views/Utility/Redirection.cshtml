@@ -1,0 +1,11 @@
+﻿@model IEnumerable<MovedUrl>
+
+@{
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+    ViewBag.Title = "Renamed resources";
+}
+<ul>
+    @foreach (var url in Model) {
+    <li>@url.OriginalUrl  - > @url.Url</li>
+    }
+</ul>

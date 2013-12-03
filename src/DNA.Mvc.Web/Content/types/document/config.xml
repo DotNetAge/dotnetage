@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentType xmlns="http://www.dotnetage.com/XML/Schema/contents" allowComments="true" allowAttachs="true" allowVotes="true" allowCategoriesAndTags="true" allowResharing="true" moderated="true" hierarchy="true" name="document" defaultLocale="en-us" version="1.0.0" id="document" itemtype="http://schema.org/Article">
+  <title resKey="Document"/>
+  <fields>
+    <field type="Text" name="title" linkToItem="true" required="true" slug="true" itemprop="name">
+      <title resKey="Title" />
+      <placeHolder resKey="Title_Holder"/>
+    </field>
+    <field type="Note" name="body" required="true" numlines="10" isHtml="true" itemprop="text">
+      <title resKey="Content" />
+    </field>
+  </fields>
+  <views>
+    <view name="default" hierarchy="true">
+      <title resKey="DefaultView"/>
+      <body contentType="application/x-ms-aspnet" style="tree" />
+    </view>
+  </views>
+  <forms>
+    <form name="newForm" type="New" ajax="true" accessRoles="administrators,guests">
+      <title resKey="New"/>
+    </form>
+    <form name="editForm" type="Edit" accessRoles="administrators">
+      <title resKey="Edit"/>
+    </form>
+    <form name="dispForm" type="Display" anonymous="true">
+      <title resKey="Disp"/>
+      <fields>
+        <field name="title" caption="true" showLabel="false" />
+        <field name="body" showLabel="false"></field>
+      </fields>
+    </form>
+    <form name="activityForm" type="Activity" anonymous="true">
+      <title resKey="Activity"/>
+      <fields>
+        <field name="title" caption="true" showLabel="true" />
+        <field name="body" showLabel="false"></field>
+      </fields>
+    </form>
+  </forms>
+</contentType>
