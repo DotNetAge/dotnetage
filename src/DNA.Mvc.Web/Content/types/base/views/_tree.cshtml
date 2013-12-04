@@ -8,7 +8,7 @@
     var tmplName = prefix + "_tmpl";
 }
     <div style="padding: 5px;">
-        @DNA.Web.ServiceModel.Contents.Tree(list.DefaultView.Items("parentId='00000000-0000-0000-0000-000000000000'"), "", new
+        @DNA.Web.UI.Contents.Tree(list.DefaultView.GetItems("parentId='00000000-0000-0000-0000-000000000000'"), "", new
        {
            data_source = string.Format("_list_{0}_datasrc", defaultView.Name.ToString()),
            data_popup_attr = "popupurl",
