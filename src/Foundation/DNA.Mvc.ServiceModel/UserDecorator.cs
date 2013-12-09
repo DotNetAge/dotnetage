@@ -648,6 +648,9 @@ namespace DNA.Web.ServiceModel
             }
         }
 
+        /// <summary>
+        /// Gets user default profile 
+        /// </summary>
         public override UserProfile DefaultProfile
         {
             get
@@ -665,7 +668,12 @@ namespace DNA.Web.ServiceModel
         {
             get
             {
-                return (this.DefaultProfile as IAddress).ConvertTo<Address>();
+                var _addr = this.DefaultProfile as IAddress;
+                 var addr=_addr.ConvertTo<Address>();
+                 addr.Tel = _addr.Tel;
+                 addr.Zip = _addr.Zip;
+                 addr.Street = _addr.Street;
+                 return addr;
             }
         }
 
