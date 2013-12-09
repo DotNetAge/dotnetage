@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DotNetAge Log viewer")]
+[assembly: AssemblyProduct("DotNetAge")]
 [assembly: AssemblyCopyright("Copyright ©  2013 DotNetAge")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
