@@ -48,6 +48,7 @@ namespace DNA.Web.ServiceModel
             this.CopyTo(this.Model, "User");
             DataContext.Update(this.Model);
             DataContext.SaveChanges();
+            addresses = null;
         }
 
         /// <summary>
@@ -92,8 +93,14 @@ namespace DNA.Web.ServiceModel
                 if (addresses == null)
                 {
                     var _addresses = DataContext.Where<Address>(a => a.Name.Equals(this.UserName)).ToList();
-                    var defAddr = (this.DefaultAddress as IAddress).ConvertTo<Address>();
+                    var _defAddr=this.DefaultAddress;
+                    var defAddr = _defAddr.ConvertTo<Address>();
                     defAddr.ID = 0;
+
+                    defAddr.Tel = _defAddr.Tel;
+                    defAddr.Street = _defAddr.Street;
+                    defAddr.Zip = _defAddr.Zip;
+
                     _addresses.Insert(0, defAddr);
                     addresses = _addresses;
                 }
