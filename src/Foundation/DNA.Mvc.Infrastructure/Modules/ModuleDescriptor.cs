@@ -135,15 +135,26 @@ namespace DNA.Web
         /// </summary>
         public string Icon
         {
-            get {
+            get
+            {
                 if (string.IsNullOrEmpty(icon))
                 {
-                    var iconName = AssemblyFullName + ".dna-module-icon.png";
+                    var iconName = "favicon.ico";
                     var iconData = GetResourceData(iconName);
                     if (iconData != null)
                     {
-                        var prefix = "data:image/png;base64,";
-                        icon=prefix+Convert.ToBase64String(iconData);
+                        var prefix = "data:image/x-icon;base64,";
+                        icon = prefix + Convert.ToBase64String(iconData);
+                    }
+                    else
+                    {
+                        iconName = "dna-module-icon.png";
+                        iconData = GetResourceData(iconName);
+                        if (iconData != null)
+                        {
+                            var prefix = "data:image/png;base64,";
+                            icon = prefix + Convert.ToBase64String(iconData);
+                        }
                     }
                 }
                 return icon;
@@ -197,7 +208,7 @@ namespace DNA.Web
             if (stream != null)
             {
                 byte[] bytes = new byte[stream.Length];
-                stream.Read(bytes, 0, bytes.Length); 
+                stream.Read(bytes, 0, bytes.Length);
                 stream.Close();
                 return bytes;
             }
