@@ -13,8 +13,12 @@
 <ul data-role="listview" data-display="mobile-list" data-selectable="false" data-inset="true">
     @foreach (var sol in Model)
     { 
-        <li data-link-icon="no"><a>
-            <h4><span>@(string.IsNullOrEmpty(sol.Title) ? sol.Name : sol.Title)</span> <small>v@(sol.Version)</small></h4>
+        <li data-link-icon="no" data-counter="v@(sol.Version)"><a>
+            @if (!string.IsNullOrEmpty(sol.Icon))
+            { 
+                <img src="@sol.Icon" style="width:48px;height:48px;"/>
+            }
+            <h4><span>@(string.IsNullOrEmpty(sol.Title) ? sol.Name : sol.Title)</span> </h4>
             <p>@sol.Description</p>
         </a>
         </li>

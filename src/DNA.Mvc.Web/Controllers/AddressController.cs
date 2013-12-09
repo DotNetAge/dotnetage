@@ -18,7 +18,8 @@ namespace DNA.Web.Controllers
         public ActionResult List(string userName)
         {
             var profile = new ProfileDecorator(AppContext.DataContext, AppContext.Users[userName].DefaultProfile);
-            return PartialView(profile.Addresses);
+            var address = profile.Addresses;
+            return PartialView(address);
         }
 
         public ActionResult Edit(int id)
@@ -31,9 +32,10 @@ namespace DNA.Web.Controllers
         {
             if (address.ID == 0)
             {
-                address.CopyTo((IAddress)AppContext.Profile, "ID");
-                AppContext.Profile.Address = address.Street;
-                AppContext.Profile.Save();
+                var profile=AppContext.Profile;
+                var addr=(IAddress)profile;
+                address.CopyTo(addr, "ID");
+               profile.Save();
             }
             else
             {
@@ -82,8 +84,12 @@ namespace DNA.Web.Controllers
 
             if (id == 0)
             {
-                var addr = (AppContext.Profile.DefaultAddress as IAddress).ConvertTo<Address>();
+                var _address=AppContext.Profile.DefaultAddress as IAddress;
+                var addr = _address.ConvertTo<Address>();
                 addr.ID = 0;
+                addr.Zip = _address.Zip;
+                addr.Tel = _address.Tel;
+                addr.Street = _address.Street; 
                 return addr;
             }
             else

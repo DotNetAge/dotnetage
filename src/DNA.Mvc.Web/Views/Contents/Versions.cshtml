@@ -5,7 +5,7 @@
                 <li @if (ver.IsCurrentVersion)
                     {<text>data-counter="latest"</text>}
                     @if (!string.IsNullOrEmpty(Request.QueryString["ver"]) && Request.QueryString["ver"] == ver.Version.ToString())
-                    {<text>data-counter="@Resources.Commons.Versions.ToLower() @ver.Version"</text>}>
+                    {<text>data-counter="@Resources.Commons.Version.ToLower() @ver.Version"</text>}>
                     <a @if (!ver.IsCurrentVersion) {<text>href="@(ver.UrlComponent)?ver=@(ver.Version)"</text>}>
                         <span class="d-inline">Rev @ver.Version</span>
                         <div class="d-item-desc d-content-s">

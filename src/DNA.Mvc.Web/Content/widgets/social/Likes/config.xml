@@ -7,5 +7,6 @@
   <preference name="showHeader" readonly="true" value="false" />
   <preference name="showBorder" readonly="true" value="false" />
   <preference name="transparent" readonly="true" value="true" />
+  <preference name="appID" value="''" />
   <content type="application/x-ms-aspnet" src="index.cshtml" />
 </widget>

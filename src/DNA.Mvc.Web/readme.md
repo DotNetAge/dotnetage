@@ -50,6 +50,7 @@ DotNetAge 3.1 provides a multi-threaded and time trigger task mechanism. Using t
 * Enhance Syndication feeds to support Medias. 
 * Enhance Dashboards Programmability. 
 * Email Queue - Prevent emails from being sent too frequently identified as spam. 
+* Websites manager - Manage webs and export to template.
 
 [More ...](http://www.dotnetage.com/downloads)
 

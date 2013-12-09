@@ -10,8 +10,11 @@
         title = app.Context.DataItem.GetDefaultTitleValue();
         url = app.Context.DataItem.UrlComponent;
     }
-    var fbApp = ((DNA.OAuth.OAuth2Provider)app.OAuthProviders["facebook"]).ClientID;
-}
+    var fbApp = System.Web.Configuration.WebConfigurationManager.AppSettings["fbAppID"];
+    if (string.IsNullOrEmpty(fbApp))
+    {
+        fbApp = item.GetString("appID");
+    }}
 @if (!string.IsNullOrEmpty(fbApp))
 {
     <script>

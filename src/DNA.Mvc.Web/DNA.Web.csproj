@@ -1637,12 +1637,6 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
@@ -1737,7 +1731,6 @@
     <Content Include="Views\Widget\Designer.cshtml" />
     <Content Include="Views\WebFiles\Files.cshtml" />
     <Content Include="Views\DynamicUI\CreatePage.cshtml" />
-    <Content Include="Views\Contents\MyContents.cshtml" />
     <Content Include="Views\Account\SendMail.cshtml">
       <SubType>Code</SubType>
     </Content>

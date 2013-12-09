@@ -2,16 +2,24 @@
     ViewBag.Title = Resources.Commons.Widgets;
     Layout = "~/Views/Shared/_Dashboard.cshtml";
     var roles = AppModel.Get().Roles.All;
+    
 }
 <div id="tab_installed">
     <ul data-role="listview" data-display="mobile-list" class="d-ui-widget" data-selectable="true" data-inset="true">
-        @{var cats = AppModel.Get().Widgets.Categories;}
+        @{
+            var cats = AppModel.Get().Widgets.Categories;
+            
+          }
         @foreach (var cat in cats)
         {
             var widgets = AppModel.Get().Widgets.Packages.Where(p => p.Category.Equals(cat, StringComparison.OrdinalIgnoreCase));
-
+            var categoryName = AppModel.GetResourceString("Commons", cat);
+            if (string.IsNullOrEmpty(categoryName))
+            {
+                categoryName = cat;
+            }
             if (widgets.Count() == 0) { continue; }
-            <li data-role="divider">@AppModel.GetResourceString("Commons",cat)</li>
+            <li data-role="divider">@categoryName</li>
             foreach (var pkg in widgets)
             {
                 var widget = pkg.Locale(UICulture);

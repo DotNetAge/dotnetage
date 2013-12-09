@@ -19,16 +19,23 @@
             data-rel="panel" 
             data-panel-title="Edit address"
             data-panel-pos="right"
-            data-panel-display="overlay"
-             
-            >
-            @if (addr.IsValid)
-            { @addr.ToString(Culture) }
-            else
-            {
-                <span>(Empty)</span>
-            }
-        </a>
+            data-panel-display="overlay">
+                                       @if (addr.IsValid)
+                                       { 
+                                           @addr.ToString(Culture) 
+                                       }
+                                       else
+                                       {
+                                           if (addr.IsEmpty)
+                                           {
+                                           <span>(@Resources.Contents.Empty)</span>
+                                           }
+                                           else
+                                           {
+                                           @addr.ToString(Culture) 
+                                           }
+                                       }
+                                   </a>
         </li>
     }
 </ul>

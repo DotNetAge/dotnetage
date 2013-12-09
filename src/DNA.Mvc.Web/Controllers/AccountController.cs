@@ -272,7 +272,6 @@ namespace DNA.Web.Controllers
         {
             if (App.Settings.EnableReCaptchaValidation)
             {
-
                 if (!ReCaptcha.Validate(App.Settings.ReCaptchaPrivateKey))
                 {
                     ModelState.AddModelError("", Resources.Validations.reCapticha_UnvalidKey);
