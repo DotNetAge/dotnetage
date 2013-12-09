@@ -143,7 +143,13 @@ namespace DNA.Web
             var typeList = new List<Type>();
             foreach (var asm in Assemblies)
             {
-                typeList.AddRange(asm.GetTypes().Where(t => t.IsDefined(attributeType, inherit)));
+                //try
+                //{
+                    typeList.AddRange(asm.GetTypes().Where(t => t.IsDefined(attributeType, inherit)));
+                //}
+                //catch {
+                //    continue;
+                //}
             }
             return typeList;
         }

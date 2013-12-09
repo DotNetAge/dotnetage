@@ -37,12 +37,26 @@ namespace DNA.Web
             }
         }
 
+        /// <summary>
+        /// Copy property values between same types
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src"></param>
+        /// <param name="dest"></param>
+        /// <param name="excludes"></param>
         public static void CopyTo<T>(this T src, T dest, params string[] excludes)
             where T : class
         {
             Copy(src, dest, excludes);
         }
 
+        /// <summary>
+        /// Convert the type to specified type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src"></param>
+        /// <param name="excludes"></param>
+        /// <returns></returns>
         public static T ConvertTo<T>(this object src, params string[] excludes)
             where T:class 
         {
@@ -55,7 +69,7 @@ namespace DNA.Web
             var fromType = src.GetType();
             var toType = typeof(T);
 
-            var fromProps = fromType.GetProperties(attr).Where(t=>t.CanRead && t.CanWrite);
+            var fromProps = fromType.GetProperties(attr).Where(t => t.CanRead && t.CanWrite);
             var toProps = toType.GetProperties(attr).Where(t => t.CanWrite && t.CanWrite);
 
             foreach (var pro in fromProps)
