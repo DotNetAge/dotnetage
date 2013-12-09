@@ -11,6 +11,27 @@ namespace DNA.Web
     /// </summary>
     public class Address : IAddress
     {
+        public Address() { }
+
+        public Address(IAddress addr)
+        {
+            City = addr.City;
+            Company = addr.Company;
+            Country = addr.Country;
+            Email = addr.Email;
+            Fax = addr.Fax;
+            FirstName = addr.FirstName;
+            LastName = addr.LastName;
+            Latitude = addr.Latitude;
+            Longitude = addr.Longitude;
+            Mobile = addr.Mobile;
+            Name = addr.Name;
+            State = addr.State;
+            Street = addr.Street;
+            Tel = addr.Tel;
+            Zip = addr.Zip;
+        }
+
         /// <summary>
         /// Gets/Sets ID
         /// </summary>
@@ -96,6 +117,9 @@ namespace DNA.Web
         /// </summary>
         public double Latitude { get; set; }
 
+        /// <summary>
+        /// Indicates the address is valid.
+        /// </summary>
         public bool IsValid
         {
             get
@@ -104,17 +128,36 @@ namespace DNA.Web
             }
         }
 
+        /// <summary>
+        /// Indicates the address is empty.
+        /// </summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                return string.IsNullOrEmpty(FirstName) &&
+                    string.IsNullOrEmpty(LastName) &&
+                    string.IsNullOrEmpty(Mobile) &&
+                    string.IsNullOrEmpty(Tel) &&
+                    string.IsNullOrEmpty(Street) &&
+                    string.IsNullOrEmpty(City) &&
+                    string.IsNullOrEmpty(State) &&
+                    string.IsNullOrEmpty(Country) &&
+                    string.IsNullOrEmpty(Zip);
+            }
+        }
+
         public override string ToString()
         {
             //if (IsValid)
-            return string.Format("{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", Guard(FirstName), Guard(LastName),Guard(Mobile), Guard(Tel),Guard(Street), Guard(City), Guard(State), Guard(Country),Guard(Zip));
+            return string.Format("{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}", Guard(FirstName), Guard(LastName), Guard(Mobile), Guard(Tel), Guard(Street), Guard(City), Guard(State), Guard(Country), Guard(Zip));
             //            return "";
         }
 
         public string ToString(string culture)
         {
             if (culture.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
-                return string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}", Guard(FirstName), Guard(LastName), Guard(Country), Guard(State), Guard(City), Guard(Street),Guard(Zip));
+                return string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}", Guard(FirstName), Guard(LastName), Guard(Country), Guard(State), Guard(City), Guard(Street), Guard(Zip));
             else
                 return ToString();
         }
