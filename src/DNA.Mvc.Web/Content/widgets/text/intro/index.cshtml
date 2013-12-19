@@ -22,7 +22,8 @@
                 }
                 <article>
                     <h3 itemprop="name">@uf.title</h3>
-                    <p itemprop="description">@uf.summary</p>
+                    <p itemprop="description">@if (item.IsNotEmpty("summary"))
+                    {@MvcHtmlString.Create(uf.summary)}</p>
                     @if (!string.IsNullOrEmpty(item.GetString("linkText")))
                     {
                         <span class="d-title">@uf.linkText<span class="d-icon-arrow-right" style="margin-left: 10px;"></span></span>}

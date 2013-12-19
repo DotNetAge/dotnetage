@@ -224,7 +224,7 @@ namespace DNA.Web
             mimes.Add(".vcs", "text/plain");
             mimes.Add(".xdr", "text/plain");
             mimes.Add(".rtx", "text/richtext");
-            mimes.Add(".css", "text/plain");
+            mimes.Add(".css", "text/css");
             mimes.Add(".sgml", "text/sgml");
             mimes.Add(".vbs", "text/vbscript");
             mimes.Add(".js", "text/javascript");

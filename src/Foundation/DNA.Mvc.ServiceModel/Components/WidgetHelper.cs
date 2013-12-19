@@ -81,7 +81,16 @@ namespace DNA.Web.UI
         /// <returns></returns>
         public string Loc(string key)
         {
-            return this.ResourceManager.GetString(key, System.Threading.Thread.CurrentThread.CurrentUICulture);
+            if (string.IsNullOrEmpty(key))
+                return "";
+
+            try
+            {
+                return this.ResourceManager.GetString(key, System.Threading.Thread.CurrentThread.CurrentUICulture);
+            }
+            catch {
+                return key;
+            }
         }
 
         /// <summary>
