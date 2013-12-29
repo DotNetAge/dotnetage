@@ -1,3 +1,6 @@
 ﻿.d-ui-widget, .ui-widget { background-color: #fcfcfc; background-image: none; }
 .d-ui-widget, .ui-widget, .d-separator, .d-tooltip:before, .d-tooltip:after, .d-grid th, .d-grid td, .d-item-spliter { border-color: #e8e8e8; }
-.d-ui-widget.d-panel-overlay { -webkit-box-shadow: 0 0 10px #CCCCCC; box-shadow: 0 0 10px #CCCCCC; }
+    .d-ui-widget.d-panel-overlay { -webkit-box-shadow: 0 0 10px #CCCCCC; box-shadow: 0 0 10px #CCCCCC; }
+
+    .d-ui-widget.d-menu.vertical { background-color: #008CD7; border-color: #006BA4; }
+        .d-ui-widget.d-menu.vertical .d-separator { border-color: #006BA4; }

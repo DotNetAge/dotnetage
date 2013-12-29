@@ -34,4 +34,12 @@ namespace DNA.Web.Data.Entity.Migrations
             //
         }
     }
+
+    //public sealed class NoneMigrationConfiguration : DbMigrationsConfiguration<DNA.Web.Data.CoreDbContext>
+    //{
+    //    public NoneMigrationConfiguration()
+    //    {
+    //        AutomaticMigrationsEnabled = false;
+    //    }
+    //}
 }

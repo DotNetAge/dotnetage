@@ -86,6 +86,7 @@
 <body lang="@Culture.ToLower()" 
     data-loading="@Resources.Commons.Working" 
     data-web="@AppModel.Get().CurrentWeb.Name"
+    @if (ViewBag.ScrollHelper != null && false==(bool)ViewBag.ScrollHelper ){<text>data-scroll-helper="false"</text>}
     @if (page != null)
     {<text> class="d-viewmode-@(((PageViewModes)page.ViewMode).ToString().ToLower())"</text>}
     else

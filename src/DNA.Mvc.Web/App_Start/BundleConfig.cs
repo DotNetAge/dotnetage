@@ -15,7 +15,7 @@ namespace DNA.Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include("~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery")
-                .Include("~/Scripts/jquery-1.*")
+                .Include("~/Scripts/jquery.js")
                 .Include("~/Scripts/jquery-ui*")
                 .Include("~/Scripts/jquery.tmpl*")
                 .Include("~/Scripts/jquery.mousewheel.js"));
@@ -93,7 +93,8 @@ namespace DNA.Web
                 "~/scripts/dna/zone.js",
                 //"~/scripts/dna/widget.js",
                 "~/scripts/dna/comments.js",
-                "~/scripts/dna/followbutton.js", "~/scripts/dna/app.js"));
+                //"~/scripts/dna/followbutton.js",
+                "~/scripts/dna/app.js"));
             //.Include("~/scripts/dna/unobtrusive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/design").Include("~/scripts/jquery.farbtastic.mini.js", "~/scripts/dna/designers.js"));

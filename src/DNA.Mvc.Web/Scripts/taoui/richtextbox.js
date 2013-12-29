@@ -230,9 +230,13 @@
                     if (self.curMode == "html") {
                         var htmlText = self.getEditor().html();
                         if (opts.autoEncode)
-                            $.browser.msie ? el.val(self.htmlEncode(htmlText)) : el.text(self.htmlEncode(htmlText));
+                            el.val(self.htmlEncode(htmlText));
                         else
-                            $.browser.msie ? el.val(htmlText) : el.text(htmlText);
+                            el.val(htmlText);
+
+                        //    $.browser.msie ? el.val(self.htmlEncode(htmlText)) : el.text(self.htmlEncode(htmlText));
+                        //else
+                        //    $.browser.msie ? el.val(htmlText) : el.text(htmlText);
                     }
                 });
             }

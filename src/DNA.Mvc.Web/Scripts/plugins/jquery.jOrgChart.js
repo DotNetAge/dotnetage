@@ -49,14 +49,14 @@
             });
 
             // Drag start event handler for nodes
-            $('div.node').bind("dragstart", function handleDragStart(event, ui) {
+            //$('div.node').bind("dragstart", function handleDragStart(event, ui) {
 
-                var sourceNode = $(this);
-                sourceNode.parentsUntil('.node-container')
-                           .find('*')
-                           .filter('.node')
-                           .droppable('disable');
-            });
+            //    var sourceNode = $(this);
+            //    sourceNode.parentsUntil('.node-container')
+            //               .find('*')
+            //               .filter('.node')
+            //               .droppable('disable');
+            //});
 
             // Drag stop event handler for nodes
             $('div.node').bind("dragstop", function handleDragStop(event, ui) {

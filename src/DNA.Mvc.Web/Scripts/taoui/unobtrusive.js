@@ -483,7 +483,7 @@
             }
         });
 
-        $("input[data-auto-select=true],input[data-auto-select=true]", this).live("focus", function () { $(this).select(); });
+        $("input[data-auto-select=true],input[data-auto-select=true]", this).on("focus", function () { $(this).select(); });
 
         if ($.fn.taoPhotoViewer) {
             $("[data-viewer=true]").each(function (i, _pv) {

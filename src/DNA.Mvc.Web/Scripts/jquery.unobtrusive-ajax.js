@@ -1,14 +1,30 @@
-﻿/*!
+﻿/* NUGET: BEGIN LICENSE TEXT
+ *
+ * Microsoft grants you the right to use these script files for the sole
+ * purpose of either: (i) interacting through your browser with the Microsoft
+ * website or online service, subject to the applicable licensing or use
+ * terms; or (ii) using the files as included with a Microsoft product subject
+ * to that product's license terms. Microsoft reserves all other rights to the
+ * files not expressly granted by Microsoft, whether by implication, estoppel
+ * or otherwise. Insofar as a script file is dual licensed under GPL,
+ * Microsoft neither took the code under GPL nor distributes it thereunder but
+ * under the terms set out in this paragraph. All notices and licenses
+ * below are for informational purposes only.
+ *
+ * NUGET: END LICENSE TEXT */
+/*!
 ** Unobtrusive Ajax support library for jQuery
 ** Copyright (C) Microsoft Corporation. All rights reserved.
 */
 
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, strict: false */
 /*global window: false, jQuery: false */
+/*Version:2.0.20710*/
 
 (function ($) {
     var data_click = "unobtrusiveAjaxClick",
-        data_validation = "unobtrusiveValidation";
+        data_target = "unobtrusiveAjaxClickTarget"
+    data_validation = "unobtrusiveValidation";
 
     function getFunction(code, argNames) {
         var fn = window, parts = (code || "").split(".");
@@ -112,58 +128,57 @@
         return !validationInfo || !validationInfo.validate || validationInfo.validate();
     }
 
-    $.fn.unobtrusive_ajax = function () {
-        $("a[data-ajax=true]", this).on("click", function (evt) {
-            evt.preventDefault();
-            asyncRequest(this, {
-                url: this.href,
-                type: "GET",
-                data: []
-            });
+    $(document).on("click", "a[data-ajax=true]", function (evt) {
+        evt.preventDefault();
+        asyncRequest(this, {
+            url: this.href,
+            type: "GET",
+            data: []
         });
+    });
 
-        $("form[data-ajax=true] input[type=image]", this).on("click", function (evt) {
-            var name = evt.target.name,
-                $target = $(evt.target),
-                form = $target.parents("form")[0],
-                offset = $target.offset();
+    $(document).on("click", "form[data-ajax=true] input[type=image]", function (evt) {
+        var name = evt.target.name,
+            target = $(evt.target),
+            form = $(target.parents("form")[0]),
+            offset = target.offset();
 
-            $(form).data(data_click, [
-                { name: name + ".x", value: Math.round(evt.pageX - offset.left) },
-                { name: name + ".y", value: Math.round(evt.pageY - offset.top) }
-            ]);
+        form.data(data_click, [
+            { name: name + ".x", value: Math.round(evt.pageX - offset.left) },
+            { name: name + ".y", value: Math.round(evt.pageY - offset.top) }
+        ]);
 
-            setTimeout(function () {
-                $(form).removeData(data_click);
-            }, 0);
+        setTimeout(function () {
+            form.removeData(data_click);
+        }, 0);
+    });
+
+    $(document).on("click", "form[data-ajax=true] :submit", function (evt) {
+        var name = evt.currentTarget.name,
+            target = $(evt.target),
+            form = $(target.parents("form")[0]);
+
+        form.data(data_click, name ? [{ name: name, value: evt.currentTarget.value }] : []);
+        form.data(data_target, target);
+
+        setTimeout(function () {
+            form.removeData(data_click);
+            form.removeData(data_target);
+        }, 0);
+    });
+
+    $(document).on("submit", "form[data-ajax=true]", function (evt) {
+        var clickInfo = $(this).data(data_click) || [],
+            clickTarget = $(this).data(data_target),
+            isCancel = clickTarget && clickTarget.hasClass("cancel");
+        evt.preventDefault();
+        if (!isCancel && !validate(this)) {
+            return;
+        }
+        asyncRequest(this, {
+            url: this.action,
+            type: this.method || "GET",
+            data: clickInfo.concat($(this).serializeArray())
         });
-
-        $("form[data-ajax=true] :submit", this).on("click", function (evt) {
-            var name = evt.target.name,
-                form = $(evt.target).parents("form")[0];
-
-            $(form).data(data_click, name ? [{ name: name, value: evt.target.value }] : []);
-
-            setTimeout(function () {
-                $(form).removeData(data_click);
-            }, 0);
-        });
-
-        $("form[data-ajax=true]", this).on("submit", function (evt) {
-            var clickInfo = $(this).data(data_click) || [];
-            evt.preventDefault();
-            if (!validate(this)) {
-                return;
-            }
-            asyncRequest(this, {
-                url: this.action,
-                type: this.method || "GET",
-                data: clickInfo.concat($(this).serializeArray())
-            });
-        });
-        return this;
-    }
-
-    $("body").unobtrusive_ajax();
-
+    });
 }(jQuery));

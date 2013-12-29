@@ -293,7 +293,7 @@
         _bindCellEvents: function () {
             var self = this, opts = this.options, cells = $(">.d-grid-content>table>tbody>tr>td", this.widget());
             cells.each(function (i, n) {
-                $(n).bind("click",function () {
+                $(n).bind("click", function () {
                     var activeCells = $(">.d-grid-content>table>tbody>tr>td.d-state-active", self.widget());
                     if (activeCells.length) activeCells.removeClass("d-state-active");
                     if (opts.selection && (opts.selection == "cell" || opts.selection == "both"))
@@ -611,7 +611,8 @@
 
             } else {
                 $(">.d-grid-group", this.widget()).hide();
-                $(">.d-grid-header th", this.widget()).draggable("destory");
+                if ($(">.d-grid-header th", this.widget()).hasClass("ui-draggable"))
+                    $(">.d-grid-header th", this.widget()).draggable("destory");
             }
             return this;
         },

@@ -43,7 +43,11 @@ namespace DNA.Web
 
         protected void Application_Start()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<CoreDbContext, DNA.Web.Data.Entity.Migrations.Configuration>());
+            if (App.Settings.AutomaticMigrationsEnabled)
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<CoreDbContext, DNA.Web.Data.Entity.Migrations.Configuration>());
+            else
+                Database.SetInitializer(new CreateDatabaseIfNotExists<CoreDbContext>());
+
             System.Web.Mvc.ViewEngines.Engines.Clear();
             System.Web.Mvc.ViewEngines.Engines.Add(new RazorViewEngine());
 

@@ -44,6 +44,7 @@
             //if (el.width())
             //    input.addClass("d-inline");
             //.css({ "width": el.width() - 20 });
+
             if (el.attr("style") != undefined) {
                 wrapper.attr("style", el.attr("style")).show();
                 if (opts.inputable) {
@@ -75,10 +76,10 @@
 
             if (opts.iconImg) {
                 _dbtn.width(20)
-                         .height(input.outerHeight(true))
-                         .css({
-                             "background": "url(" + opts.iconImg + ") center center"
-                         });
+                     .height(input.outerHeight(true))
+                     .css({
+                         "background": "url(" + opts.iconImg + ") center center"
+                     });
             }
             else {
                 if (opts.iconClass)
@@ -268,9 +269,10 @@
         _play: function (act, animation) {
             var wrapper = this.animationWrapper;
             var dfd = $.Deferred(function () {
-                wrapper.css("zIndex", $.topMostIndex() + 1).stop(false, true)[act](animation.effect, animation.options, animation.duration, function () {
-                    dfd.resolve();
-                });
+                wrapper.css("zIndex", $.topMostIndex() + 1)
+                       .stop(false, true)[act](animation.effect, animation.options, animation.duration, function () {
+                           if (dfd) dfd.resolve();
+                       });
             });
             return dfd;
         },
@@ -409,25 +411,34 @@
                     animationWrapper.css({
                         "min-width": el.innerWidth(),
                         "z-index": $.topMostIndex() + 1,
-                        "opacity": 1
-                    }).show().position({ of: this.wrapper, at: _at, my: _my });
+                        "opacity": 0,
+                        "display": "block"
+                    }).position({ of: this.wrapper, at: _at, my: _my }).hide();
 
-                    animationWrapper.show(opts.show.effect, opts.show.options, opts.show.duration);
-                    self._triggerEvent("open");
+                    animationWrapper.css("opacity", 1).show(opts.show.effect, opts.show.options, opts.show.duration, function () {
+                        self._triggerEvent("open");
+                    });
+
                 }
             }
 
             return this.element;
         },
         close: function () {
-            var self = this;
+            var self = this, opts = this.options;
             if (this.animationWrapper) {
                 if (this.animationWrapper.isVisible())
                     this.widget().isActive(false);
 
-                this._play("hide", this.options.hide).done(function () {
-                    self._triggerEvent("close");
-                });
+                this.animationWrapper
+                    .stop(false, true)
+                    .hide(opts.hide.effect, opts.hide.options, opts.hide.duration, function () {
+                        self._triggerEvent("close");
+                    });
+
+                // this._play("hide", this.options.hide).done(function () {
+
+                // });
             }
             return this.element;
         },

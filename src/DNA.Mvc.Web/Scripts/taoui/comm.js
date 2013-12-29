@@ -993,7 +993,7 @@
 
     $.topMostIndex = function () {
         var maxZ = Math.max.apply(null, $.map($('body > *'), function (e, n) {
-            return parseInt($(e).css("zIndex")) || 1;
+            return parseInt($(e).css("z-Index")) || 1;
         })
         );
         return maxZ;
@@ -1269,8 +1269,10 @@
 
         dlg.load($("body").data("root") + "theme/design?locale=" + $("body").attr("lang") + "&name=" + name + "&element=" + selector,
             function () {
-                $("body").unblockUI();
-                dlg.unobtrusive_ajax().taoUI();
+                //$("body").unblockUI();
+                $.loading();
+                dlg.taoUI();
+                //dlg.unobtrusive_ajax().taoUI();
                 //dlg.enableComments();
                 dlg.dialog({
                     title: title ? title : "Change style",

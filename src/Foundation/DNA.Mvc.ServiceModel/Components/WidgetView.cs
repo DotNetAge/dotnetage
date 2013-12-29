@@ -202,8 +202,8 @@ namespace DNA.Web.UI
                     else
                         if (!ContentTemplate.IsEmpty)
                             ContentTemplate.WriteTo(widgetHelper, writer);
-
-                    writer.Write("<script type=\"text/javascript\">$(function(){ $('#widget_" + this.Model.ID.ToString() + "').unobtrusive_ajax().taoUI(); });</script>");
+                    writer.Write("<script type=\"text/javascript\">$(function(){ $('#widget_" + this.Model.ID.ToString() + "').taoUI(); });</script>");
+                    //writer.Write("<script type=\"text/javascript\">$(function(){ $('#widget_" + this.Model.ID.ToString() + "').unobtrusive_ajax().taoUI(); });</script>");
                 }
                 else
                 {

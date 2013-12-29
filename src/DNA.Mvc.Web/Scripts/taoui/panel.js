@@ -262,7 +262,7 @@
                 $.ajax(opts.contentUrl)
                   .done(function (htm) {
                       _body.html(htm);
-                      _body.unobtrusive_ajax();
+                      //_body.unobtrusive_ajax();
                       _body.taoUI();
                       _body.show();
 

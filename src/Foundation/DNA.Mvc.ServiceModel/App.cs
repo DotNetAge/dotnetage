@@ -1355,6 +1355,18 @@ namespace DNA.Web.ServiceModel
         }
 
         /// <summary>
+        /// Gets whether auto migration database
+        /// </summary>
+        public bool AutomaticMigrationsEnabled
+        {
+            get {
+                var autoMigration = WebConfigurationManager.AppSettings.AllKeys.Contains("AutoMigration") ? WebConfigurationManager.AppSettings["AutoMigration"] : "True";
+                return Boolean.Parse(autoMigration);
+            }
+        }
+
+
+        /// <summary>
         /// Gets the scheduler frequency in seconds.
         /// </summary>
         public int SchedulerFrequency

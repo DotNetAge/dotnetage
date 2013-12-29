@@ -80,10 +80,10 @@
                                                                          {<text>class="d-state-disable"</text>}>@Resources.Commons.Test</a>
     </p>
 }
-
-<script type="text/javascript">
-    $(function () {
-        _useDefaultCredentials(@Model.DefaultCredentials.ToString().ToLower());
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            _useDefaultCredentials(@Model.DefaultCredentials.ToString().ToLower());
     });
 
     function _useDefaultCredentials(val) {
@@ -122,4 +122,5 @@
             $.err(errorThrow);
         });
     }
-</script>
+    </script>
+}

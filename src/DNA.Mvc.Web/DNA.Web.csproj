@@ -1116,10 +1116,10 @@
     <Content Include="Scripts\dna.mini.js" />
     <Content Include="Scripts\knockout-3.0.0.debug.js" />
     <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\modernizr-2.7.1.js" />
     <Content Include="Scripts\plugins\CFInstall.min.js" />
     <Content Include="Scripts\plugins\json2.js" />
     <Content Include="Scripts\plugins\localStorage.js" />
-    <Content Include="Scripts\taoui.mini.js" />
     <Content Include="Scripts\taoui\dialog.js" />
     <Content Include="Scripts\taoui\contentSlider.js" />
     <Content Include="Views\DynamicUI\InstallSolution.cshtml" />
@@ -1476,8 +1476,8 @@
     <Content Include="Scripts\dna\unobtrusive.js" />
     <Content Include="Scripts\dna\widget.js" />
     <Content Include="Scripts\doctor.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.mousewheel.js" />
     <Content Include="Scripts\jquery.tmpl.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -1487,7 +1487,6 @@
     </Content>
     <Content Include="Scripts\knockout-2.0.0.debug.js" />
     <Content Include="Scripts\knockout-2.0.0.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\plugins\jquery.jOrgChart.js" />
     <Content Include="Scripts\taoui\autocomplete.js" />
     <Content Include="Scripts\taoui\base.js" />
@@ -1614,7 +1613,6 @@
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\modernizr.min.js" />
     <Content Include="Scripts\plugins\easing.1.3.js" />
     <Content Include="Scripts\plugins\easing.js" />
     <Content Include="Scripts\plugins\jsdiff.js" />
@@ -1737,6 +1735,9 @@
     <Content Include="Views\Theme\Personal.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Address\_Form.cshtml" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js.map">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </Content>
     <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.Configuration.dll" />
     <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.dll" />
     <None Include="_bin_deployableAssemblies\Entlib\Microsoft.Practices.Unity.Interception.Configuration.dll" />

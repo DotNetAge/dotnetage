@@ -129,7 +129,7 @@
                   .done(function (htm) {
                       el.css("opacity", "0");
                       el.html(htm);
-                      el.unobtrusive_ajax();
+                      //el.unobtrusive_ajax();
                       el.taoUI();
                       self._setsize();
                       self._setposition();

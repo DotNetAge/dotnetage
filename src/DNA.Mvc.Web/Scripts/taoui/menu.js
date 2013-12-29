@@ -45,7 +45,7 @@
 
             var _items = $(".d-item:not('.d-state-disable')", el);
 
-            _items.live("mouseenter", function () {
+            _items.on("mouseenter", function () {
                 $(this).addClass("d-state-hover");
                 var _children = $(this).children("ul")
 
@@ -74,7 +74,7 @@
                     }
                 }
             })
-                       .live("mouseleave", function () {
+                       .on("mouseleave", function () {
                            $(this).removeClass("d-state-hover");
                        });
 

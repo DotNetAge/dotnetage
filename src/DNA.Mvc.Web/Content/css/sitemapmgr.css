@@ -19,7 +19,7 @@
     .d-t .title { color: #fff; text-align: left; }
     .d-t .content { height: 80px; }
         .d-t .content img { margin-top: 10px; }
-.d-cb { position: relative; z-index: 2; background: rgb(255,255,255); text-align: center; cursor: pointer; top: 3px; left: 36px; visibility: hidden; opacity: 0; }
+.d-cb { position: relative;  background: rgb(255,255,255); text-align: center; cursor: pointer; top: 3px; left: 36px; visibility: hidden; opacity: 0; }
     .d-cb:before { position: absolute; top: 5px; left: 5px; font-size: 1.2em; }
     .d-cb, .d-cb:after { position: absolute; display: inline-block; width: 24px; height: 24px; border-radius: 80px; }
         .d-cb:after { position: absolute; top: -1px; left: -1px; z-index: 1; border: 1px solid #939393; content: ""; }
